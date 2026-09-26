@@ -25,7 +25,7 @@
 **遗留**（全部为用户侧或等待项）：
 1. 🔴 **用户建 GitHub 私有仓 `YHLLXY/pm-forge`** → 然后 `git remote add origin git@github.com:YHLLXY/pm-forge.git && git push -u origin main`
 2. 🔴 **用户从天池 dataset 649 下载 UserBehavior.csv.zip** 解压至 `analysis/data/raw/UserBehavior.csv`
-3. Quarto winget 安装进行中（exec 后台任务），装完后跑 `bash analysis/scripts/run_case1.sh` 完成渲染验证（当前可用夹具数据先行验证管线）
+3. Quarto：winget 1603 失败（InstallScript 安装器无法在非交互会话运行）→ 改走「MSI 下载 + `msiexec /a /qn TARGETDIR=...` 免管理员提取」：MSI 已在 /tmp/quarto.msi 后台慢速下载（gh-proxy，约 8KB/s，支持断点续传 `-C -`）；下载完成后：① 提取到 `E:	ools\quarto\` ② `export PATH` 后 `quarto --version` 验证 ③ 用夹具生成 `analysis/data/processed/userbehavior_100k.parquet`（sample_events 夹具跑一遍）④ `quarto render analysis/reports/case1-userbehavior.qmd --to html` 完成渲染验证（qmd 引擎需 jupyter，已装 analysis/.venv）
 4. vault 仓库 push 时偶发 multi-pack-index 权限警告（commit/push 本身成功，疑似 Obsidian 文件锁，持续观察）
 
 ## 下一步（按序）
