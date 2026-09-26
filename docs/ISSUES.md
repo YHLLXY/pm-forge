@@ -6,7 +6,6 @@
 
 | # | 现象 | 原因 | 影响 | 严重度 | 状态 |
 |---|---|---|---|---|---|
-| 4 | Quarto 安装受阻：winget 报 1603（InstallScript server not responding），改走 MSI 下载+`msiexec /a` 免管理员提取 | 沙箱/非交互会话起不了 InstallScript 安装器；镜像下载速度仅约 8KB/s | Task 9 渲染验证挂起 | 低 | 下载中（/tmp/quarto.msi，断点续传） |
 | # | 现象 | 原因 | 影响 | 严重度 | 状态 |
 |---|---|---|---|---|---|
 | 1 | 远端未配置 | 等待用户在 GitHub 建仓 YHLLXY/pm-forge | 本地 commit 无法 push | 中 | 待用户操作 |
@@ -15,4 +14,7 @@
 
 ## 已修复
 
-（暂无）
+| # | 问题 | 解决方案 | commit |
+|---|---|---|---|
+| 4 | winget 装 Quarto 报 1603（InstallScript 无法在非交互会话运行） | 下载 MSI 后 `msiexec /a /qn TARGETDIR=E:	ools\quarto_ext` 免管理员提取，归位 `E:	ools\quarto\`，PATH 写入 ~/.bashrc，`QUARTO_PYTHON` 指向 venv（固化进 run_case1.sh） | Task 9 完成 commit |
+

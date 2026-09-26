@@ -5,7 +5,7 @@
 ## 当前任务卡
 
 - 计划：docs/plans/2026-09-26-pm-forge-m0-m1-实施计划.md
-- 进度：Task 1-8 ✅（Task 1/7 的真实远端/真实数据步骤挂起）· Task 9 代码就绪、渲染验证待 Quarto 安装完成 · Task 10 脚本就绪、真实跑通待数据
+- 进度：Task 1-9 ✅（Task 1 远端推送、Task 7/10 真实数据步骤挂起待用户）· Task 10 脚本就绪、真实跑通待数据
 
 ## 上次会话（2026-09-26 · 第一次实施会话）
 
@@ -25,7 +25,7 @@
 **遗留**（全部为用户侧或等待项）：
 1. 🔴 **用户建 GitHub 私有仓 `YHLLXY/pm-forge`** → 然后 `git remote add origin git@github.com:YHLLXY/pm-forge.git && git push -u origin main`
 2. 🔴 **用户从天池 dataset 649 下载 UserBehavior.csv.zip** 解压至 `analysis/data/raw/UserBehavior.csv`
-3. Quarto：winget 1603 失败（InstallScript 安装器无法在非交互会话运行）→ 改走「MSI 下载 + `msiexec /a /qn TARGETDIR=...` 免管理员提取」：MSI 已在 /tmp/quarto.msi 后台慢速下载（gh-proxy，约 8KB/s，支持断点续传 `-C -`）；下载完成后：① 提取到 `E:	ools\quarto\` ② `export PATH` 后 `quarto --version` 验证 ③ 用夹具生成 `analysis/data/processed/userbehavior_100k.parquet`（sample_events 夹具跑一遍）④ `quarto render analysis/reports/case1-userbehavior.qmd --to html` 完成渲染验证（qmd 引擎需 jupyter，已装 analysis/.venv）
+3. ✅ Quarto 已解决：`msiexec /a` 免管理员提取至 `E:	ools\quarto\`（v1.10.18 实测可运行）；PATH 已写入 ~/.bashrc；渲染验证通过——**case1-userbehavior.html 产出（30KB，内容关键词齐全）**；关键配置：`QUARTO_PYTHON` 指向 analysis/.venv/Scripts/python.exe（已固化进 run_case1.sh）
 4. vault 仓库 push 时偶发 multi-pack-index 权限警告（commit/push 本身成功，疑似 Obsidian 文件锁，持续观察）
 
 ## 下一步（按序）
