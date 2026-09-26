@@ -17,3 +17,6 @@ analysis/reports/_site/
 # OS
 Thumbs.db
 .DS_Store
+
+# quarto 渲染产物（可由 run_case1.sh 重建）
+analysis/reports/*.html

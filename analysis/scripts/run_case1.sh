@@ -42,6 +42,9 @@ print(rfm["segment"].value_counts().to_string())
 PY
 
 echo "[3/4] Quarto 渲染报告"
+# QUARTO_PYTHON 指向 venv 解释器（内含 jupyter）；quarto.exe 由 ~/.bashrc 或系统 PATH 提供
+export QUARTO_PYTHON="$REPO_ROOT/analysis/.venv/Scripts/python.exe"
+export PATH="$(dirname "$(command -v quarto)" 2>/dev/null || echo /e/tools/quarto/bin):$PATH"
 quarto render reports/case1-userbehavior.qmd --to html
 
 echo "[4/4] 产物拷贝到 site/content/analysis/"

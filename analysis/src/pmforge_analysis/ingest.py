@@ -3,6 +3,8 @@
 数据纪律（仓库 AGENTS.md 规则 6）：原始数据只读，数据文件不入 git。
 """
 
+from pathlib import Path
+
 import duckdb
 import pandas as pd
 
@@ -47,6 +49,7 @@ def sample_events(
         ).df()
     except (duckdb.Error, pd.errors.EmptyDataError):
         df = rel.df().sample(n=n, random_state=seed)
+    Path(dst_parquet).parent.mkdir(parents=True, exist_ok=True)
     df.to_parquet(dst_parquet, index=False)
     return len(df)
 
