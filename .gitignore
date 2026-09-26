@@ -1,0 +1,19 @@
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+# node
+node_modules/
+.next/
+dist/
+# 数据与密钥（spec 4.4：永不入库）
+data/
+.env
+.env.*
+# quarto / 报告构建产物
+analysis/reports/_site/
+# OS
+Thumbs.db
+.DS_Store
