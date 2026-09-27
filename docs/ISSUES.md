@@ -6,7 +6,7 @@
 
 | # | 现象 | 原因 | 影响 | 严重度 | 状态 |
 |---|---|---|---|---|---|
-| 7 | toolkit 验收②挂起：本机无 LLM_API_KEY | 用户尚未注册 DeepSeek/GLM key | 每工具 1 份真实报告无法产出（smoke:real 就绪） | 中 | 待用户操作 |
+| 7 | ~~toolkit 验收②挂起：本机无 LLM_API_KEY~~ | 用户已配置 DeepSeek key，`smoke:real` 三份报告通过（约 6.6k tokens） | 剩余：精选发布进 site/content/（随 M3） | 低 | 基本完成 |
 | 8 | toolkit 验收④挂起：未注册自定义域名 | Vercel 分配的 *.vercel.app 国内被墙 | 工具箱与作品集无法国内直连访问 | 中 | 待用户操作 |
 | 9 | `next build --turbopack` 在 Windows 报 EISDIR readlink（styled-jsx） | turbopack 构建在 Windows 的解析问题；webpack 构建正常 | 无（构建脚本已固定用 webpack；dev 用 turbopack 不受影响） | 低 | 已绕过（README 注明） |
 | 2 | vault 仓库 push 时报 multi-pack-index 权限拒绝（commit/push 本身成功） | 疑似 Obsidian 文件锁或 .git 权限 | 后续 vault 提交可能间歇报错 | 低 | 观察 |

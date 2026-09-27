@@ -31,10 +31,10 @@
 - v1 无数据库（localStorage 缓存层），Supabase 列 P2；反馈 CSV 列映射与 GBK 自动转码列 P2
 
 **遗留**：
-1. **验收②（每工具真实输入产出 1 份报告并发布进作品集）**：等用户在 toolkit/.env 配 LLM_API_KEY → `npm run smoke:real` → 产物精选进 site/content/
+1. **验收②剩余半步（精选发布进作品集）**：2026-09-27 用户已配置 DeepSeek key，`npm run smoke:real` 三份报告全部通过（合计约 6.6k tokens），产物在 `toolkit/artifacts/`（gitignored，含真实输入输出不入库）；"精选发布进 site/content/"随 M3 站点建设执行
 2. **验收④（Vercel + 自定义域名）**：等用户注册域名；部署步骤已写 README
 3. P2 清单见 docs/ISSUES.md
-4. vault 门户口.md 内的旧路径（E:\homework\开发\pm-forge）待更新为 C:\dev\pm-forge
+4. ~~vault 门户口旧路径~~ 已更新（2026-09-27 vault 8a176e708）
 
 ## 下一步
 
