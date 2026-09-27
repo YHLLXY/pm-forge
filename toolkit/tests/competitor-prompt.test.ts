@@ -25,12 +25,12 @@ describe("竞品分析提示词", () => {
     expect(sys).toContain("0-4");
   });
 
-  it("user 含输入插值与六章模板骨架", () => {
-    const user = buildCompetitorMessages(sample)[1].content;
-    expect(user).toContain("为记账 App Q4 迭代选择差异化方向");
-    expect(user).toContain("钱迹");
+  it("user 含输入插值；system 含六章模板骨架", () => {
+    const [sys, user] = buildCompetitorMessages(sample);
+    expect(user.content).toContain("为记账 App Q4 迭代选择差异化方向");
+    expect(user.content).toContain("钱迹");
     for (const h of ["一、分析目的", "三、竞品画像", "五、差异化与机会点", "六、信息来源"]) {
-      expect(user).toContain(h);
+      expect(sys.content).toContain(h);
     }
   });
 
