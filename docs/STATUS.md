@@ -5,7 +5,7 @@
 ## 当前任务卡
 
 - 计划：docs/plans/2026-09-26-pm-forge-m0-m1-实施计划.md
-- 进度：Task 1-9 ✅（Task 1 远端推送、Task 7/10 真实数据步骤挂起待用户）· Task 10 脚本就绪、真实跑通待数据
+- 进度：Task 1-9 ✅（远端已配置并首推，2026-09-27）· Task 10 真实数据步骤挂起待用户下载
 
 ## 上次会话（2026-09-26 · 第一次实施会话）
 
@@ -23,8 +23,8 @@
 3. Quarto 安装：winget 包 ID 实际为 **Posit.Quarto**（计划中 Quarto.Quarto 不存在），安装中（网络慢）
 
 **遗留**（全部为用户侧或等待项）：
-1. 🔴 **用户建 GitHub 私有仓 `YHLLXY/pm-forge`** → 然后 `git remote add origin git@github.com:YHLLXY/pm-forge.git && git push -u origin main`
-2. 🔴 **用户从天池 dataset 649 下载 UserBehavior.csv.zip** 解压至 `analysis/data/raw/UserBehavior.csv`
+1. ✅ ~~用户建仓~~ 已完成：远端 git@github.com:YHLLXY/pm-forge.git，main 已推送并建立追踪
+2. 🔴 **用户从天池 dataset 649 下载 UserBehavior.csv.zip** 解压至 `analysis/data/raw/UserBehavior.csv`（目录已建好，E 盘余 17G 空间充足）
 3. ✅ Quarto 已解决：`msiexec /a` 免管理员提取至 `E:	ools\quarto\`（v1.10.18 实测可运行）；PATH 已写入 ~/.bashrc；渲染验证通过——**case1-userbehavior.html 产出（30KB，内容关键词齐全）**；关键配置：`QUARTO_PYTHON` 指向 analysis/.venv/Scripts/python.exe（已固化进 run_case1.sh）
 4. vault 仓库 push 时偶发 multi-pack-index 权限警告（commit/push 本身成功，疑似 Obsidian 文件锁，持续观察）
 
