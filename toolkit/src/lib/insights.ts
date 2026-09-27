@@ -1,0 +1,41 @@
+import { z } from "zod";
+
+export const SentimentEnum = z.enum(["positive", "negative", "mixed"]);
+
+export const ThemeSchema = z.object({
+  name: z.string().min(1).max(20),
+  summary: z.string().min(1),
+  sentiment: SentimentEnum,
+  count: z.number().int().min(1),
+  quotes: z.array(z.string()).max(3),
+  impact: z.number().int().min(1).max(5),
+  severity: z.number().int().min(1).max(5),
+  opportunities: z.array(z.string()),
+});
+
+export const InsightsReportSchema = z.object({
+  themes: z.array(ThemeSchema).min(1).max(8),
+  overallSentiment: SentimentEnum,
+  notableOutliers: z.array(z.string()),
+});
+export type InsightsReport = z.infer<typeof InsightsReportSchema>;
+
+export function parseInsightsReport(
+  text: string,
+): { ok: true; report: InsightsReport } | { ok: false; error: string } {
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  if (start === -1 || end <= start) return { ok: false, error: "模型输出中未找到 JSON" };
+  let raw: unknown;
+  try {
+    raw = JSON.parse(text.slice(start, end + 1));
+  } catch {
+    return { ok: false, error: "JSON 解析失败（输出被截断或格式错误）" };
+  }
+  const parsed = InsightsReportSchema.safeParse(raw);
+  if (!parsed.success) {
+    const first = parsed.error.issues[0];
+    return { ok: false, error: `输出结构不符合约定：${first?.path.join(".")} ${first?.message}` };
+  }
+  return { ok: true, report: parsed.data };
+}
