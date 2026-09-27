@@ -1,5 +1,6 @@
 import pandas as pd
 import pytest
+
 from pmforge_analysis.funnel import compute_funnel
 
 

@@ -20,3 +20,7 @@ Thumbs.db
 
 # quarto 渲染产物（可由 run_case1.sh 重建）
 analysis/reports/*.html
+
+# quarto 渲染产物（含配图目录，可重建）
+analysis/reports/*.html
+analysis/reports/*_files/

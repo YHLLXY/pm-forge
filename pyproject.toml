@@ -1,0 +1,4 @@
+[tool.ruff]
+# monorepo 根配置：让任意 cwd 下运行 ruff 得到一致判定
+src = ["analysis/src"]
+line-length = 100
