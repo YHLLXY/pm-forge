@@ -4,36 +4,38 @@
 
 ## 当前任务卡
 
-- 计划：docs/plans/2026-09-26-pm-forge-m0-m1-实施计划.md
-- 进度：Task 1-9 ✅（远端已配置并首推，2026-09-27）· Task 10 真实数据步骤挂起待用户下载
+- M0+M1 计划（docs/plans/2026-09-26-pm-forge-m0-m1-实施计划.md）**全部完成**（2026-09-27）
+- 下一张卡：**M2 计划编写**（Next.js AI PM 工具箱，选型依据见余粮工作区资料库 08 号调研）
 
-## 上次会话（2026-09-26 · 第一次实施会话）
+## 上次会话（2026-09-27 · 数据日）
 
 **做了什么**：
-- Task 1-4（M0 全部本地部分）：仓库骨架、AGENTS.md、8 份模板（6 自建 + 2 克隆自 tianma-if/awesome_product_design）、STATUS/ISSUES/lessons 交接协议；vault 侧门户口 + 索引 + 操作日志已推送（ca6d8ceab）
-- Task 5：analysis uv 包（pmforge-analysis 0.1.0）冒烟测试绿
-- Task 6：pre-commit + ruff v0.16.9（tag 经 ls-remote 镜像查证）；GitHub HTTPS 被墙 → **仓库级 insteadOf 镜像重写**（gh-proxy），经验双写 vault `40-经验教训/开发环境/`
-- Task 7：ingest TDD（validate/sample/to_datetime_cn）——夹具 6 行红灯→实现→`FILTER (WHERE …)`、`.aggregate()` 两处修正→绿灯；**Step 4b 验证结论：duckdb `reservoir(n ROWS) REPEATABLE(seed)` 语法可用且同 seed 确定性成立**
-- Task 8：metrics 口径注册表（12 条）+ funnel（conv_rate 整体/step_rate 逐层）+ rfm（中位数二分、8 群、M 代理口径）——9 测试全绿
-- Task 9：qmd 报告骨架 + run_case1.sh 管线脚本 + jupyterlab dev 依赖
+- 远端首推完成（git@github.com:YHLLXY/pm-forge.git，main 建立追踪）
+- 用户下载天池 UserBehavior（3.67GB）就位；全链路首次跑通
+- **抓到三个真实数据问题并全部修复（TDD）**：
+  1. 脏时间戳（最远 2030 年）→ clean_window 按官方窗口剔除 566 行（0.06%）
+  2. 行级抽样稀释用户级指标 → sample_users 用户级抽样（1 万用户全量 102 万行）
+  3. duckdb 并行 reservoir 同 seed 漂移 → 单线程连接，实测两次完全一致
+- 测试 10 → 13 全绿；案例一报告定稿并渲染（case1-userbehavior.html，含 DAU 图表与四个数据支撑的结论）
+- 根因治理：monorepo 根 pyproject.toml 统一 ruff 判定（终结 pre-commit 与本地 ruff 的 isort 拉锯）
+
+**关键发现（报告核心结论）**：
+1. 加购意愿 ≈ 收藏的 1.9 倍（75.2% vs 39.6%），加购是主转化锚点
+2. 加购未购 2,103 人（占加购 28.0%）——最大的可运营流失人群
+3. 尾段 DAU 跳升 +34.4% 但与周末/窗口尾部混杂，**先归因再决策**（开头周末无跳升）
+4. 进入中间层后逐层转化 77.7%，优化重点是"浏览→加购"（流失 12.4%）
 
 **关键决策**：
-1. funnel 的 step_rate 语义定为：基准层=1.0、空层=0.0、上层 0 人=NaN（测试驱动澄清）
-2. RFM 打分用中位数二分（rank 百分位）而非五分位——小样本与真实数据都确定可用；分群只用 R/F
-3. Quarto 安装：winget 包 ID 实际为 **Posit.Quarto**（计划中 Quarto.Quarto 不存在），安装中（网络慢）
+- 漏斗采用宽松口径（窗口内发生过即计），严格有序漏斗列入迭代项
+- RFM 分层仅覆盖购买用户（6,788），M 为代理口径并在报告三处注明
 
-**遗留**（全部为用户侧或等待项）：
-1. ✅ ~~用户建仓~~ 已完成：远端 git@github.com:YHLLXY/pm-forge.git，main 已推送并建立追踪
-2. 🔴 **用户从天池 dataset 649 下载 UserBehavior.csv.zip** 解压至 `analysis/data/raw/UserBehavior.csv`（目录已建好，E 盘余 17G 空间充足）
-3. ✅ Quarto 已解决：`msiexec /a` 免管理员提取至 `E:	ools\quarto\`（v1.10.18 实测可运行）；PATH 已写入 ~/.bashrc；渲染验证通过——**case1-userbehavior.html 产出（30KB，内容关键词齐全）**；关键配置：`QUARTO_PYTHON` 指向 analysis/.venv/Scripts/python.exe（已固化进 run_case1.sh）
-4. vault 仓库 push 时偶发 multi-pack-index 权限警告（commit/push 本身成功，疑似 Obsidian 文件锁，持续观察）
+**遗留**：
+1. 用户侧无阻塞项；下一步 M2 计划编写（等用户发令）
+2. 域名注册（M3 上线前需要，非阻塞）
 
-## 下一步（按序）
+## 下一步
 
-1. Quarto 装好 → 用夹具 parquet 验证 `quarto render`（Task 9 收尾）
-2. 远端 push（Task 1 收尾）
-3. 真实数据到位 → Task 10 全链路真实跑通 + 报告结论撰写
-4. 写 M2 计划（Next.js 工具箱，选型依据见 资料库/08 调研）
+M2 计划（writing-plans）→ toolkit 实装 → 2027 寒假站点第一版上线。
 
 ## 可作战状态
 
