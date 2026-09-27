@@ -33,6 +33,7 @@ npm run smoke:real     # 真实 LLM 冒烟：三工具各产 1 份报告到 tool
 - 浏览器安装（仅 e2e 首次）：`PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright/ npx playwright install chromium`
 
 ## 更新日志
+- 2026-09-27 v0.6: **M2 v1 完成**——三工具全链路（竞品分析/反馈洞察/PRD 草稿），52 vitest + 3 Playwright e2e 全绿；token 守卫、演示模式、证据链标注、优先级矩阵；真实 LLM 冒烟脚本就绪（等 key）
 - 2026-09-27 v0.5: M2 启动——仓库迁移 exFAT→NTFS（C:\dev\pm-forge）；toolkit 脚手架（Next 15.5.26 + React 19 + vitest 5），字体改 geist 本地包规避 Google Fonts 被墙
 - 2026-09-27 v0.4: 案例一真实数据跑通定稿——脏数据清洗+用户级采样+采样可复现修复（13 测试），报告含 4 条数据支撑结论
 - 2026-09-27 v0.3: Quarto 1.10.18 免管理员安装（msiexec /a 提取）；案例一渲染验证通过（HTML 30KB）；sample_events 自动建父目录，10 测试全绿
