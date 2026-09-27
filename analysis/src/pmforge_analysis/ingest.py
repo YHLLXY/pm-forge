@@ -85,24 +85,33 @@ def sample_users(
     为什么不用 sample_events（行级）：行级抽样会把每条行为摊到不同用户，
     稀释用户级指标（漏斗 UV、复购率）。用户级抽样保留完整行为序列。
     返回 (用户数, 行数)。
+
+    确定性说明：reservoir REPEATABLE 仅在单线程扫描下可复现（并行 CSV 扫描
+    的行序受线程竞争影响，同 seed 两次结果会漂移，实测见 ISSUES #6），
+    因此采样全程使用独立单线程连接。
     """
-    rel = _read_events(src)
+    con = duckdb.connect()
     try:
+        con.sql("SET threads TO 1")
+        rel = con.read_csv(src, header=False, columns=COLS)
         rel.create_view("t")
-        df = duckdb.sql(
-            f"""
-            WITH sampled AS (
-                SELECT user_id FROM (SELECT DISTINCT user_id FROM t)
-                USING SAMPLE reservoir({n_users} ROWS) REPEATABLE ({seed})
-            )
-            SELECT t.* FROM t JOIN sampled USING (user_id)
-            """
-        ).df()
-    except duckdb.Error:
-        # 兜底：按 hash(user_id) 取模的系统抽样（确定性；步长由实际用户总数决定）
-        total_users = duckdb.sql("SELECT count(DISTINCT user_id) FROM t").fetchone()[0]
-        stride = max(1, total_users // n_users) if n_users else 1
-        df = duckdb.sql(f"SELECT * FROM t WHERE hash(user_id) % {stride} = 0").df()
+        try:
+            df = con.sql(
+                f"""
+                WITH sampled AS (
+                    SELECT user_id FROM (SELECT DISTINCT user_id FROM t)
+                    USING SAMPLE reservoir({n_users} ROWS) REPEATABLE ({seed})
+                )
+                SELECT t.* FROM t JOIN sampled USING (user_id)
+                """
+            ).df()
+        except duckdb.Error:
+            # 兜底：按 hash(user_id) 取模的系统抽样（确定性；步长由实际用户总数决定）
+            total_users = con.sql("SELECT count(DISTINCT user_id) FROM t").fetchone()[0]
+            stride = max(1, total_users // n_users) if n_users else 1
+            df = con.sql(f"SELECT * FROM t WHERE hash(user_id) % {stride} = 0").df()
+    finally:
+        con.close()
     Path(dst_parquet).parent.mkdir(parents=True, exist_ok=True)
     df.to_parquet(dst_parquet, index=False)
     return df["user_id"].nunique(), len(df)
