@@ -4,58 +4,43 @@
 
 ## 当前任务卡
 
-- M2 计划（docs/plans/2026-09-27-pm-forge-m2-实施计划.md）Task 1-12 **全部完成**（2026-09-27）
-- **验收①-④全部达成**：三工具可用+e2e ✓ / 真实报告 ✓ / token 守卫 ✓ / **自定义域名上线 ✓（https://toolbox.yuhailinlxy.com）**
-- 下一张卡：**M3 计划编写**（Astro 作品集站点，选型见余粮工作区资料库 08 号调研）
+- M3 计划（docs/plans/2026-09-28-pm-forge-m3-实施计划.md）Task 1-13 + T15 **全部完成**（2026-09-28）
+- **验收①达成**：Lighthouse 移动端六页全部 performance 100 / 四类 ≥95（npm run lh 可复验）
+- **验收②达成**：四篇案例全过四段式+量化检查（构建期强制）；三份工具精选报告已发布
+- **验收③待收尾**：代码就绪，等用户完成 Vercel 建站 + 域名解析（步骤见本文件「下一步」）
 
-## 上线记录（2026-09-27 · 部署日，接上条同会话）
+## 上次会话（2026-09-28 · M3 实施日）
 
 **做了什么**：
-- Vercel 部署完成：Root Directory = toolkit、环境变量 LLM_API_KEY（真实模式 /api/health 返回 live+deepseek-chat）、域名 `toolbox.yuhailinlxy.com`
-- **GFW 排障（关键）**：域名 CNAME 指向 vercel-dns-017.com 随机解析到两台 IP——`216.198.79.65` 被 IP 级封锁（443 端口 TLS 握手被重置，80 通；换无关 SNI 同样失败，确认非关键字封锁）；`64.29.17.65` 与 Vercel 官方 IP `76.76.21.21` 均稳定
-- **修复**：阿里云解析弃用 CNAME，改两条 A 记录钉死可用 IP（76.76.21.21 + 64.29.17.65）→ 实测 20/20 全通 + 分 IP 6/6
-- 验证：三工具页 200、首页 200、API live 模式、证书正常
+- 计划编写（15 卡，基于 AstroPaper v6.1.0 实测结构，上游 commit 35cfa7f）→ 0a96495
+- **T1 基座**：AstroPaper 复制进 site/（非 fork，留 LICENSE），拆除三个国内构建雷：Google Fonts（fontProviders.google → 系统 CJK 栈）、动态 OG（satori+sharp 依赖该字体 → 删，静态 og-default.png）、pagefind 搜索 → 5e8716e
+- **T2 架构**：posts 集合 → caseStudies/analysis/toolkitReports 三集合（zod schema 含 projectRole/stack/metrics/resultsNote）；路由五板块；i18n 加 zh.ts；Header 五导航；Card 泛化 → e179c6c
+- **T3 模板**：三张详情页（案例带角色/技术栈卡+量化指标卡；分析带数据集卡+Quarto iframe；工具报告带来源横幅）+ 完整首页 → 3dacc39
+- **T4 检查机制**：check-case-studies.mjs（四段式 H2 + 量化结果强制）与 check-links.mjs（dist 死链）串进 build → 7e64e4b（fileURLToPath 修 Windows 路径）
+- **T5-T8 四篇案例**（事实全部来自 vault 素材，文书口径/实测数据分账）：①个人工作台（featured）②情侣心愿 App（featured；技术形态经阶段笔记核实为 Vue 3 Web 应用，非门户口所写"小程序"）③AgriAgent（获奖证书归属待用户核实，正文标【待补充】）④红岩群面复盘（featured，隐私匿名化）
+- **T9-T11**：M1 报告迁 site/public/reports/ + 分析条目；工具箱页 + 三份精选报告（competitor 原文/feedback JSON→md+5×5矩阵/prd 原文）；关于页（隐私过滤：只用专业/项目/方法论素材，档案中家庭情感成绩一概不引用）
+- **T12 品牌**：og-template.html + toolkit Playwright 截图生成 og-default.png；favicon 换"余"字标
+- **T13 验收**：lighthouse + scripts/lh.mjs（自起 preview、每页两跑取高分）；首轮 a11y 87 → 修复三项真实问题（muted 文字对比度、dl 结构、标题锚链无可辨识名称）+ 过滤零权重 insight 项 → 六页全绿
+- **目检修复**：Datetime 中文日期（YYYY年M月D日 按 locale 分支）；首页精选报告改列表
+- 死链检查两次抓到真问题（tags 链接、构建管线），全部修复
 
 **关键决策**：
-- 用 A 记录钉 IP 而非 CNAME：牺牲 Vercel 官方推荐接法（面板可能报 Invalid Configuration，功能无影响），换国内 100% 可达
-- 后手：若这批 IP 也被封，切 Cloudflare 代理（已实测国内可达）
-- 域名 typo 插曲：排查早期一直查 `yuhanlinlxy.com`（少个 i）导致误判"注册局未提交"，真域名 `yuhailinlxy.com` 一切正常
+- AstroPaper **复制改造**而非 fork（spec 未决 #3 落定）：保留上游 LICENSE，改造清单写进 site/README.md
+- 案例质量纪律：只写 vault 素材可支撑的事实；BP 文书数据标注"文书口径"；工作台诚实标注 N=1 与 *.vercel.app 需代理
+- 标签 v1 不做列表页（Card 内标签为纯文本徽标）；无分页（条目少，YAGNI）
+- 日期等 UI 层中文直出；集合内容中文（站点即中文站，i18n 仅单 locale）
 
-**遗留**：
-1. **验收②剩余半步（精选报告发布进 site/content/）**：三份真实报告在 `toolkit/artifacts/`（gitignored），随 M3 站点建设精选发布
-2. 用户侧验收：手机流量打开 https://toolbox.yuhailinlxy.com 确认国内直连（待用户确认）
-3. P2 清单见 docs/ISSUES.md
+**遗留（用户侧）**：
+1. **Vercel 建站**：Import pm-forge 仓库 → Root Directory = `site` → Deploy
+2. **域名**：Vercel 加 yuhailinlxy.com + www；阿里云加 4 条 A 记录（@ 与 www × 76.76.21.21 / 64.29.17.65，同 M2 方案）
+3. **内容终审**：关于页、红岩复盘、三份工具报告通读确认（隐私门）
+4. 小挑"二等"证书归属核实后回填 AgriAgent 案例的【待补充】
 
 ## 下一步
 
-用户手机流量验收 → **M3 计划（Astro 作品集站，2027-02 第一版上线）**。
-
-## 上次会话（2026-09-27 · M2 实施日）
-
-**做了什么**：
-- M1 收尾遗留提交（ingest.py 单线程修复 + site/content 报告副本）→ b9a327c
-- M2 计划编写（12 张任务卡，提示词与代码全文落盘）→ e00a809
-- **仓库迁移：E:\homework\开发\pm-forge（exFAT）→ C:\dev\pm-forge（NTFS）**
-  - 根因：exFAT 不支持 reparse point，`fs.readlink` 对普通文件返回 EISDIR(-4068)（NTFS 对照组为 EINVAL），Next 构建必然失败；E 盘仅剩 8.3GB 也是隐患
-  - 数据完整性验证后才清理旧位置（git 完好 + UserBehavior.csv 3,672,347,465 字节一致 + 13 pytest 绿 + build 成功）；E 盘旧位置留指针 README
-- **toolkit 三工具全链路实现（Next 15.5.26 + React 19 + TS + Tailwind 4）**：
-  - lib：config / token-estimate（0.7 token/字符保守估算）/ llm（OpenAI 兼容 + mock 演示模式）/ stream-client / history（localStorage 最近 10 次）/ insights（JSON 契约解析）
-  - prompts：三个版本化提示词（PROMPT_VERSION 1.0.0），骨架内嵌自有模板（03-PRD-精简版 / 04-竞品分析），证据链标注铁律（【依据输入】/【行业常识】/【推断】+ 禁编数字）
-  - API：POST /api/tools/[tool]（zod 校验 → token 预算守卫（超限 400 TOKEN_BUDGET 需 force）→ 流式响应 + X-PMForge-Mode 头）；GET /api/health
-  - UI：工作台（流式渲染 / token 确认卡 / 复制与 .md/.json 下载 / 历史面板 / 5×5 优先级矩阵）+ 首页 + /tools/[tool] SSG 页
-  - e2e：Playwright 3 条（MOCK_LLM=1 确定性），浏览器下载走 npmmirror
-- 测试：**52 vitest 全绿 + 3 e2e 全绿**；`next build` 通过（webpack；turbopack build 在 Windows 有 styled-jsx readlink 问题，dev 仍用 turbopack）
-- 字体改 `geist` npm 本地包：`next/font/google` 在国内拉不到 Google Fonts 导致 build 失败
-- 真实 LLM 冒烟脚本 `npm run smoke:real`（无 key 时退出并给指引——本机当前无 key，验收②挂起等用户）
-
-**关键决策**：
-- pm-skills 对标（spec §8 遗留项）：v1 三工具对标 `create-prd` / `competitor-analysis` / `sentiment-analysis` 三技能
-- 提示词骨架内嵌 TS 常量（不运行时读盘）；smoke 脚本同构复制文本并注明"改动需两侧同步"
-- v1 无数据库（localStorage 缓存层），Supabase 列 P2；反馈 CSV 列映射与 GBK 自动转码列 P2
-
-**遗留**（已并入上方「上线记录」章节，此处保留 M2 实施日的原始记录供追溯）：
-- ~~验收②报告产出~~ 已完成（见上线记录遗留 1）；~~验收④域名~~ 已完成（同上）
+用户完成部署三步 → 我做连通性验证（20×2 循环 + 三页 curl）→ 手机流量终验（验收③）→ M3 全收口。
+之后：每月迭代节奏（1 案例/月），2027-06 决策门，2027-08-31 定稿。
 
 ## 可作战状态
 
-❌ 未达成（作品集站点未开始；预计 2027-02 第一版上线后转 ✅）
+🟡 半达成（站点代码与验收①②就绪；域名解析完成后转 ✅）

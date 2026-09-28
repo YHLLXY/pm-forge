@@ -6,12 +6,29 @@
 > 其 readlink 语义异常会导致 Next/Astro 构建失败，已整体迁移；E 盘仅留本说明的指针文件。
 
 ## 文件结构
-- site/ 作品集站点（M3，Astro）
+- site/ 作品集站点（M3，Astro 7 · AstroPaper 基座）
 - toolkit/ AI PM 工具箱（M2，Next.js）
 - analysis/ 数据分析（M1，uv + DuckDB + Quarto）
 - vault-tools/ Obsidian 自动化（M4，只读巡检）
 - shared/templates/ 共享模板
 - docs/ 设计（specs）、任务卡（plans）、状态（STATUS.md）
+
+## site · 作品集站点（M3）
+
+Astro 7 + Tailwind 4（AstroPaper v6.1.0 基座，上游 35cfa7f）。五板块：**首页**（定位语+精选）、**案例研究**（四篇四段式案例，构建期强制结构检查）、**数据分析**（M1 报告 + Quarto 全文内嵌）、**工具箱**（M2 介绍 + 三份真实模型精选报告）、**关于**。
+
+```bash
+cd site
+npm install        # npmmirror 源
+npm run dev        # http://localhost:4321
+npm run build      # astro check + 构建 + 四段式检查 + 死链检查
+npm run lh         # Lighthouse 移动端验收（四类 ≥90）
+```
+
+- **写一篇案例**：在 `site/src/content/case-studies/` 新建 md，frontmatter 带 projectRole/stack/metrics（或 resultsNote），正文四段式 H2；结构不合规构建直接失败。
+- **国内适配**：无 Google Fonts（系统 CJK 栈）、无动态 OG（静态 og-default.png）、无 pagefind。
+- **部署**：Vercel Root Directory = site，域名 `yuhailinlxy.com`（A 记录钉 IP，同 toolkit 方案）。
+- 改造清单见 `site/README.md`。
 
 ## toolkit · AI PM 工具箱（M2）
 
@@ -33,6 +50,7 @@ npm run smoke:real     # 真实 LLM 冒烟：三工具各产 1 份报告到 tool
 - 浏览器安装（仅 e2e 首次）：`PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright/ npx playwright install chromium`
 
 ## 更新日志
+- 2026-09-28 v0.8: **M3 完成**——作品集站建成（AstroPaper 基座 + 三内容集合 + 五板块），四篇案例（工作台/情侣 App/AgriAgent/红岩群面复盘）、M1 报告接入、三份工具精选报告发布（验收②收尾）；Lighthouse 移动端性能全 100、四类 ≥95；四段式与死链检查入构建
 - 2026-09-27 v0.7: **M2 验收全部达成**——三份真实 LLM 报告产出（DeepSeek）；工具箱上线 https://toolbox.yuhailinlxy.com（GFW 排障：CNAME 随机命中被墙 IP → 改 A 记录钉死可用 IP，实测 20/20 全通）
 - 2026-09-27 v0.6: **M2 v1 完成**——三工具全链路（竞品分析/反馈洞察/PRD 草稿），52 vitest + 3 Playwright e2e 全绿；token 守卫、演示模式、证据链标注、优先级矩阵；真实 LLM 冒烟脚本就绪（等 key）
 - 2026-09-27 v0.5: M2 启动——仓库迁移 exFAT→NTFS（C:\dev\pm-forge）；toolkit 脚手架（Next 15.5.26 + React 19 + vitest 5），字体改 geist 本地包规避 Google Fonts 被墙

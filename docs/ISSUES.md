@@ -6,7 +6,7 @@
 
 | # | 现象 | 原因 | 影响 | 严重度 | 状态 |
 |---|---|---|---|---|---|
-| 10 | 若 Vercel 钉住的两个 IP（76.76.21.21 / 64.29.17.65）未来也被 GFW 封锁 | 国内直连 Vercel 天然受墙影响 | 网站国内不可达 | 中 | 监控；后手=Cloudflare 代理（已实测国内可达） |
+| 10 | 若 Vercel 钉住的两个 IP（76.76.21.21 / 64.29.17.65）未来也被 GFW 封锁 | 国内直连 Vercel 天然受墙影响 | 网站国内不可达（toolkit 与 site 同方案） | 中 | 监控；后手=Cloudflare 代理（已实测国内可达） |
 | 9 | `next build --turbopack` 在 Windows 报 EISDIR readlink（styled-jsx） | turbopack 构建在 Windows 的解析问题；webpack 构建正常 | 无（构建脚本已固定用 webpack；dev 用 turbopack 不受影响） | 低 | 已绕过（README 注明） |
 | 2 | vault 仓库 push 时报 multi-pack-index 权限拒绝（commit/push 本身成功） | 疑似 Obsidian 文件锁或 .git 权限 | 后续 vault 提交可能间歇报错 | 低 | 观察 |
 
@@ -18,14 +18,19 @@
 | Supabase 持久化 | 运行历史目前仅 localStorage（每工具 10 条）；云端同步待用户量需求 |
 | 反馈工具上传/导出图表 | 优先级矩阵为 CSS 网格，ECharts 可视化待 v2 |
 | 演示模式样例可配置 | fixtures 目前写死在代码中 |
+| site 标签列表页/分页 | 标签现为纯文本徽标；案例超 10 篇后再做分页 |
+| site 工具真截图 | 工具箱三工具卡暂为文字卡，可用 Playwright 截工具工作台配图 |
+| AgriAgent 获奖【待补充】 | vault 有"小挑二等"证书，归属届次待用户核实后回填案例 |
 | vault-tools（M4） | 独立里程碑，未开工 |
 
 ## 已修复
 
 | # | 问题 | 解决方案 | commit |
 |---|---|---|---|
-| 8 | 验收④：Vercel 默认域名国内被墙；且 CNAME 随机解析到被 GFW 封锁的 IP（216.198.79.65，443 TLS 被重置、换无关 SNI 同样失败=IP 级封锁） | 阿里云解析弃 CNAME 改两条 A 记录钉死可用 IP（76.76.21.21 + 64.29.17.65），实测 20/20 全通；域名 https://toolbox.yuhailinlxy.com 上线，API live 模式（Vercel 环境变量已配 key） | 本日部署 |
-| 7 | 验收②：本机无 LLM_API_KEY 无法产出真实报告 | 用户配置 DeepSeek key → `npm run smoke:real` 三份报告通过（约 6.6k tokens），产物在 toolkit/artifacts/（gitignored）；精选发布进 site/content/ 随 M3 | 本日 |
+| 7 | 验收②：本机无 LLM_API_KEY 无法产出真实报告 | 用户配置 DeepSeek key → `npm run smoke:real` 三份报告通过（约 6.6k tokens）；2026-09-28 三份报告已精选发布进 site/src/content/toolkit-reports/（含来源横幅与演示样例声明），M3 构建（581bd2c） | 581bd2c |
+| 11 | AstroPaper 基座三个国内构建雷：Google Fonts（fontProviders.google 构建期拉取）、动态 OG（satori 依赖该字体且 CJK 缺字）、pagefind | T1 一次性拆除：系统 CJK 字体栈、静态 og-default.png（Playwright 截图生成）、search:false 并删依赖 | 5e8716e |
+| 12 | Lighthouse 首轮 a11y 87（agriagent 页）：muted 小字对比度不足、dl 内结构不合规、文章标题锚链无可辨识名称 | 自定义组件文字改 text-foreground/75；MetricCards 改 ul/li；锚链加 aria-label；另过滤零权重 insight 审计避免误报 | 6422082 |
+| 8 | 验收④：Vercel 默认域名国内被墙；且 CNAME 随机解析到被 GFW 封锁的 IP（216.198.79.65，443 TLS 被重置、换无关 SNI 同样失败=IP 级封锁） | 阿里云解析弃 CNAME 改两条 A 记录钉死可用 IP（76.76.21.21 + 64.29.17.65），实测 20/20 全通；域名 https://toolbox.yuhailinlxy.com 上线，API live 模式（Vercel 环境变量已配 key）；site 域名同方案（T14 用户操作项） | 本日部署 |
 | 6 | duckdb reservoir 采样在并行扫描下同 seed 两次结果漂移（100.9 万 vs 101.7 万行） | 采样改独立单线程连接（`SET threads TO 1`），实测两次完全一致（1,021,043 行） | 5909509 |
 | 5 | 抽样数据出现 2030 年时间戳等窗外脏数据；行级抽样稀释用户级指标 | clean_window 按官方窗口剔除 566 行；改用户级抽样 1 万用户全量行为 | 2d5b38d |
 | 4 | winget 装 Quarto 报 1603（InstallScript 无法非交互运行） | MSI 下载后 `msiexec /a` 免管理员提取至 E:\tools\quarto，PATH 写入 ~/.bashrc | 56de970 |
