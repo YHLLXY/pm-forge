@@ -6,6 +6,7 @@
 
 | # | 现象 | 原因 | 影响 | 严重度 | 状态 |
 |---|---|---|---|---|---|
+| 13 | toolkit 的 next 内嵌 postcss ≤8.5.22 报 2 漏洞（1 高 1 中：CSS stringify XSS / sourceMappingURL 文件读取系列，GHSA-qx2v-qp2m-jg93 等） | next 15.5.26 的构建期传递依赖；官方修复需升 next@16.3.6（破坏性大版本） | 实际可利用性低——攻击面需攻击者可控 CSS 输入，toolkit 的 CSS 全部自有 | 中（专项处理） | 延后：升 Next 16 时全量回归（52 vitest + 3 e2e + 线上冒烟）；`npm audit` 须加 `--registry=https://registry.npmjs.org`（npmmirror 无 audit 接口） |
 | 10 | 若 Vercel 钉住的两个 IP（76.76.21.21 / 64.29.17.65）未来也被 GFW 封锁 | 国内直连 Vercel 天然受墙影响 | 网站国内不可达（toolkit 与 site 同方案） | 中 | 监控；后手=Cloudflare 代理（已实测国内可达） |
 | 9 | `next build --turbopack` 在 Windows 报 EISDIR readlink（styled-jsx） | turbopack 构建在 Windows 的解析问题；webpack 构建正常 | 无（构建脚本已固定用 webpack；dev 用 turbopack 不受影响） | 低 | 已绕过（README 注明） |
 | 2 | vault 仓库 push 时报 multi-pack-index 权限拒绝（commit/push 本身成功） | 疑似 Obsidian 文件锁或 .git 权限 | 后续 vault 提交可能间歇报错 | 低 | 观察 |

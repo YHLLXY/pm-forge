@@ -8,6 +8,14 @@
 - **验收①达成**：Lighthouse 移动端六页全部 performance 100 / 四类 ≥95（npm run lh 可复验）
 - **验收②达成**：四篇案例全过四段式+量化检查（构建期强制）；三份工具精选报告已发布
 - **验收③待收尾**：代码就绪，等用户完成 Vercel 建站 + 域名解析（步骤见本文件「下一步」）
+- **全面检查完成**（2026-09-28 下午）：10 维度全过——方法论与结果两份报告见 docs/reviews/；3 项当场修复（RSS 尾斜杠 / Quarto CDN 本地化 / 死代码），postcss 漏洞挂 ISSUES #13 专项
+
+## 全面检查记录（2026-09-28 · 接 M3 实施同日）
+
+- 方法论：GitHub 四来源（Front-End-Checklist ~73k★ / mgreiler 评审清单 / OWASP CheatSheetSeries ~33k★ / Lighthouse）+ 两个适配维度（国内可访问性、内容隐私诚实性），落盘 docs/reviews/2026-09-28-工程检查方法论.md
+- 结果：docs/reviews/2026-09-28-M3-工程检查结果.md。修复：F1 RSS 链接尾斜杠 404（getRelativeLocaleUrl 副作用）、F2 Quarto 报告 jsdelivr CDN ×2 → 本地化 + 持久化补丁脚本 analysis/scripts/patch_report_cdn.py、F3 死代码 ×2 删除
+- 延后：postcss/Next 漏洞（#13）、npm audit 需官方源、上游 demo 图占 git 历史约 4MB（不改写历史）、check-links 相对路径局限
+- 回归：site 构建链全绿 + Lighthouse 复验全绿；toolkit 52 / analysis 13 测试通过
 
 ## 上次会话（2026-09-28 · M3 实施日）
 

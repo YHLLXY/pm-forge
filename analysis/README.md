@@ -14,4 +14,4 @@ uv run ruff check .
 - src/pmforge_analysis/ 库代码（ingest/metrics/funnel/rfm）
 - tests/ 测试（fixtures/ 含小样夹具）
 - data/raw 原始数据（只读，不入库）、data/processed 加工产物（不入库）
-- reports/ Quarto 报告源与产物
+- reports/ Quarto 报告源与产物（重渲染后执行 `uv run --project analysis python analysis/scripts/patch_report_cdn.py` 把 jsdelivr CDN 替换为本地库，再同步到 site/public/reports/——见 scripts/patch_report_cdn.py 头注释）
