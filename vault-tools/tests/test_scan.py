@@ -81,3 +81,11 @@ def test_media_embed_not_in_unresolved(tmp_path):
 def test_inbound_self_anchor_ignored(scan):
     # [[#自身锚点]] 不产生链接
     assert not [l for l in scan.links if l.target == ""]
+
+
+def test_external_file_scheme_links_skipped(tmp_path):
+    # file:/// 指向 vault 外磁盘文件，不属图谱，不算悬空
+    (tmp_path / "a.md").write_text("[试卷](file:///D:/homework/x.docx)", encoding="utf-8")
+    scan = scan_vault(ScanConfig(vault_root=tmp_path))
+    assert scan.links == []
+    assert scan.unresolved == []

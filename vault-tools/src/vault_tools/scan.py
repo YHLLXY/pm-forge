@@ -112,8 +112,8 @@ def scan_vault(config: ScanConfig) -> ScanResult:
                 result.unresolved.append(lk)
         for m in MDLINK_RE.finditer(text):
             raw_t = m.group(1)
-            if raw_t.startswith(("http://", "https://", "mailto:", "tel:", "#")):
-                continue
+            if raw_t.startswith(("http://", "https://", "file:", "mailto:", "tel:", "#")):
+                continue  # 外部协议链接（file: 指向 vault 外磁盘文件）不属图谱
             t = unquote(raw_t).split("#", 1)[0]
             t = t.removesuffix(".md")
             if not t:
