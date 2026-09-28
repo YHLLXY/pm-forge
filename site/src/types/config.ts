@@ -21,18 +21,6 @@ interface SiteConfig {
   googleVerification?: string;
 }
 
-interface PostsConfig {
-  /** Posts per page on paginated listing pages */
-  perPage?: number;
-  /** Posts shown on the index/home page */
-  perIndex?: number;
-  /**
-   * Scheduled posts within this window (ms) of their pubDatetime
-   * are shown as published. Defaults to 15 minutes.
-   */
-  scheduledPostMargin?: number;
-}
-
 interface FeaturesConfig {
   /** Enable light/dark mode toggle. Defaults to true. */
   lightAndDarkMode?: boolean;
@@ -94,7 +82,6 @@ interface ShareLink {
 
 interface AstroPaperConfig {
   site: SiteConfig;
-  posts?: PostsConfig;
   features?: FeaturesConfig;
   /** Social profile links shown in header/footer */
   socials?: SocialLink[];
@@ -119,7 +106,6 @@ type ResolvedSiteConfig = Required<
 
 export interface ResolvedAstroPaperConfig {
   site: ResolvedSiteConfig;
-  posts: Required<PostsConfig>;
   features: Required<FeaturesConfig>;
   socials: SocialLink[];
   shareLinks: ShareLink[];

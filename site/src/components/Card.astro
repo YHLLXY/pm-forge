@@ -1,31 +1,47 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { getPostUrl } from "@/utils/getPostPaths";
-import { toTransitionName } from "@/utils/toTransitionName";
 import Datetime from "./Datetime.astro";
+import Tag from "./Tag.astro";
+import { slugifyStr } from "@/utils/slugify";
 
 type Props = {
+  href: string;
+  title: string;
+  description: string;
+  pubDatetime: Date;
+  modDatetime?: Date | null;
+  tags?: string[];
   variant?: "h2" | "h3";
-} & CollectionEntry<"posts">;
+};
 
-const { variant: Heading = "h2", id, data, filePath } = Astro.props;
-
-const { title, description, ...props } = data;
+const {
+  href,
+  title,
+  description,
+  pubDatetime,
+  modDatetime,
+  tags = [],
+  variant: Heading = "h2",
+} = Astro.props;
 ---
 
 <li class="my-6">
   <a
-    href={getPostUrl(id, filePath, Astro.currentLocale)}
+    href={href}
     class:list={[
       "text-accent inline-block text-lg font-medium",
       "decoration-dashed underline-offset-4 hover:underline",
       "focus-visible:no-underline focus-visible:underline-offset-0",
     ]}
   >
-    <Heading transition:name={toTransitionName(id)}>
-      {title}
-    </Heading>
+    <Heading>{title}</Heading>
   </a>
-  <Datetime {...props} />
+  <Datetime {pubDatetime} {modDatetime} />
   <p>{description}</p>
+  {
+    tags.length > 0 && (
+      <ul class="mt-2 flex flex-wrap gap-2">
+        {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />)}
+      </ul>
+    )
+  }
 </li>

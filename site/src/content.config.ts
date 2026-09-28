@@ -1,27 +1,66 @@
 import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
 import { glob } from "astro/loaders";
-import config from "@/config";
 
-export const BLOG_PATH = "src/content/posts";
+const caseStudies = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/case-studies" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDatetime: z.date(),
+    modDatetime: z.date().optional().nullable(),
+    featured: z.boolean().optional(),
+    draft: z.boolean().optional(),
+    tags: z.array(z.string()).default([]),
+    projectRole: z.string(),
+    stack: z.array(z.string()).default([]),
+    links: z
+      .object({
+        live: z.string().url().optional(),
+        repo: z.string().url().optional(),
+      })
+      .default({}),
+    metrics: z
+      .array(
+        z.object({
+          label: z.string(),
+          value: z.string(),
+          note: z.string().optional(),
+        })
+      )
+      .default([]),
+    resultsNote: z.string().optional(),
+    ogImage: z.string().optional(),
+  }),
+});
 
-const posts = defineCollection({
-  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: `./${BLOG_PATH}` }),
-  schema: ({ image }) =>
-    z.object({
-      author: z.string().default(config.site.author),
-      pubDatetime: z.date(),
-      modDatetime: z.date().optional().nullable(),
-      title: z.string(),
-      featured: z.boolean().optional(),
-      draft: z.boolean().optional(),
-      tags: z.array(z.string()).default(["others"]),
-      ogImage: image().or(z.string()).optional(),
-      description: z.string(),
-      canonicalURL: z.string().optional(),
-      hideEditPost: z.boolean().optional(),
-      timezone: z.string().optional(),
-    }),
+const analysis = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/analysis" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDatetime: z.date(),
+    modDatetime: z.date().optional().nullable(),
+    draft: z.boolean().optional(),
+    tags: z.array(z.string()).default([]),
+    dataset: z.string(),
+    reportUrl: z.string().optional(),
+  }),
+});
+
+const toolkitReports = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/toolkit-reports" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDatetime: z.date(),
+    draft: z.boolean().optional(),
+    toolId: z.enum(["competitor-analysis", "feedback-insights", "prd-draft"]),
+    toolName: z.string(),
+    promptVersion: z.string(),
+    inputSummary: z.string(),
+    generatedBy: z.string(),
+  }),
 });
 
 const pages = defineCollection({
@@ -34,4 +73,4 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { posts, pages };
+export const collections = { caseStudies, analysis, toolkitReports, pages };
