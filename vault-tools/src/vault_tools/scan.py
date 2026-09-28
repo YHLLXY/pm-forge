@@ -66,12 +66,19 @@ def scan_vault(config: ScanConfig) -> ScanResult:
         return None
 
     def resolve_wiki(target: str, source: str) -> tuple[str, ...]:
-        """wikilink：裸名 → 全部同名 stem（顶包安全方向）；路径式 → 根路径与相对并集。"""
+        """wikilink：裸名 → 全部同名 stem；路径式 → 根路径/相对/Obsidian 式子路径，命中即收。
+
+        子路径匹配可能命中多篇（路径以 target 结尾）——全部计入，保持顶包安全方向。
+        """
         if "/" not in target:
             return tuple(sorted(by_stem.get(target.casefold(), ())))
         rel = posixpath.normpath(posixpath.join(posixpath.dirname(source), target)) \
             if posixpath.dirname(source) else posixpath.normpath(target)
         cands = {h for h in (_hit(target), _hit(rel)) if h}
+        if not cands:
+            fold = target.casefold()
+            cands.update(n2 for n2 in result.notes
+                         if n2[:-3].casefold().endswith("/" + fold))
         return tuple(sorted(cands))
 
     def resolve_md(target: str, source: str) -> tuple[str, ...]:
