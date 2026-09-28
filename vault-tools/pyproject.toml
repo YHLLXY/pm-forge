@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vault-tools"
+version = "0.1.0"
+description = "pm-forge M4：Obsidian vault 只读巡检三件套（孤立节点 / 索引双向 diff / 体检报告）"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+crosscheck = ["obsidiantools==0.11.0", "pandas<3"]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
