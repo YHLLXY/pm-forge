@@ -24,6 +24,12 @@
 
 **commits**：计划 1462648 → 脚手架 9f07ba2 → 扫描核心 659fc77 → orphans a758146 → index_diff 157ca00 → report 590b27a → cli eeff19d → crosscheck 7e6968a → README 8258e70 → fix file: d79fa62 → fix folder 3e46060 → fix 排除目录悬空 29a3b5e；vault：报告落库 c009a9830
 
+**M4 后记（2026-09-28 晚 · 用户侧验收实跑出真价值）**：
+- 用户把首跑报告交给 **Obsidian 内置 agent** 执行第一轮修复：新建 5 个 `_Index`（个人工作台/docs、superpowers plans/specs、前端架构、数据库开发）+ 11 处补挂 + 门户口改指最新版经验总结；该 agent 反向抓到 vault-tools 一个真 bug——**报告自我污染**（报告里反引号包裹的孤儿路径被解析器当真链接，报告会"自动治好"它报告的孤儿）→ 已修（scan.py 剥围栏块/行内码后再解析，37 测试全绿，commit 508192a）
+- 修复后复扫：真孤儿 0 / 漏收 147（30-项目 135 系"门户口制 vs 逐篇制"判据差异）/ 悬空 15（MOC 页×5、CUMCM×5、零散×5——agent 刻意未擅动的存量）
+- 第二轮修复任务书（剩余项全量，绝对路径）落 vault `91-MOC/2026-09-28-vault体检-修复任务书.md`（vault b594eae0e），交 Obsidian agent 执行；完成后 vault-tools 复扫验收（预期悬空 0）
+- 经验：Agent 协作闭环成立——我的工具找问题、Obsidian agent 修问题、它又反过来抓到我工具的 bug；双向校验比单方正确更值钱
+
 **遗留（用户侧）**：
 1. **验收②**：Obsidian 图谱/搜索对照体检报告（抽 3-5 项核对观感一致即收）
 2. 3 篇真孤儿处置：挂 _Index / 门户口，或删除重复拷贝（经验总结-审查核实 那篇是同名双拷贝）
