@@ -18,6 +18,17 @@ from .model import Link, ScanResult
 
 WIKILINK_RE = re.compile(r"(!?)\[\[([^\[\]]+?)\]\]")
 MDLINK_RE = re.compile(r"\[[^\[\]]*\]\(([^()\s]+)\)")
+FENCE_RE = re.compile(r"```.*?```", re.DOTALL)
+CODESPAN_RE = re.compile(r"`[^`\n]*`")
+
+
+def _strip_code(text: str) -> str:
+    """剥掉围栏代码块与行内代码——反引号里的 [[...]] 不是链接（AGENTS.md 十八节）。
+
+    否则体检报告里反引号包裹的孤儿路径会被当成真链接，报告"自我治愈"它报告的问题。
+    仅用于链接提取；texts 里保留原文供声明核对（刻意不连声明常写在反引号里）。
+    """
+    return CODESPAN_RE.sub("", FENCE_RE.sub("", text))
 
 
 def _norm_wikilink_target(inner: str) -> tuple[str, bool]:
@@ -114,7 +125,8 @@ def scan_vault(config: ScanConfig) -> ScanResult:
     for n in result.notes:
         text = (root / Path(*n.split("/"))).read_text(encoding="utf-8", errors="replace")
         result.texts[n] = text
-        for m in WIKILINK_RE.finditer(text):
+        clean = _strip_code(text)
+        for m in WIKILINK_RE.finditer(clean):
             raw, inner, embed = m.group(0), m.group(2), m.group(1) == "!"
             target, is_self = _norm_wikilink_target(inner)
             if is_self:
@@ -142,7 +154,7 @@ def scan_vault(config: ScanConfig) -> ScanResult:
             result.links.append(lk)
             if not resolved and Path(target).suffix.lower() not in MEDIA_EXTS:
                 result.unresolved.append(lk)
-        for m in MDLINK_RE.finditer(text):
+        for m in MDLINK_RE.finditer(clean):
             raw_t = m.group(1)
             if raw_t.startswith(("http://", "https://", "file:", "mailto:", "tel:", "#")):
                 continue  # 外部协议链接（file: 指向 vault 外磁盘文件）不属图谱

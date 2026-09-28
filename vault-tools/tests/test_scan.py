@@ -112,3 +112,15 @@ def test_excluded_dir_notes_resolve_for_dangling(tmp_path):
     resolved_targets = {l.target for l in scan.links if l.resolved}
     assert resolved_targets == {"90-模板/t-每日日志", "t-每日日志"}
     assert [l.target for l in scan.unresolved] == ["真不存在"]
+
+
+def test_code_spans_and_fences_not_links(tmp_path):
+    # 反引号与围栏代码块里的 [[...]] 不是链接（体检报告自我污染 bug 的回归测试）
+    (tmp_path / "a.md").write_text(
+        "报告里写过 `[[假孤儿]]` 别当真\n"
+        "```\n[[围栏里的链接]]\n```\n"
+        "- [[真链接]]\n", encoding="utf-8")
+    (tmp_path / "真链接.md").write_text("x", encoding="utf-8")
+    scan = scan_vault(ScanConfig(vault_root=tmp_path))
+    assert {l.target for l in scan.links} == {"真链接"}
+    assert scan.unresolved == []
