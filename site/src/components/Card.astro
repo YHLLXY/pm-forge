@@ -1,7 +1,5 @@
 ---
 import Datetime from "./Datetime.astro";
-import Tag from "./Tag.astro";
-import { slugifyStr } from "@/utils/slugify";
 
 type Props = {
   href: string;
@@ -40,7 +38,11 @@ const {
   {
     tags.length > 0 && (
       <ul class="mt-2 flex flex-wrap gap-2">
-        {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />)}
+        {tags.map(tag => (
+          <li class="rounded border border-border bg-muted/40 px-2 py-0.5 text-xs text-muted-foreground">
+            {tag}
+          </li>
+        ))}
       </ul>
     )
   }
