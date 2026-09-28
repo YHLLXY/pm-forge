@@ -89,3 +89,14 @@ def test_external_file_scheme_links_skipped(tmp_path):
     scan = scan_vault(ScanConfig(vault_root=tmp_path))
     assert scan.links == []
     assert scan.unresolved == []
+
+
+def test_folder_link_root_form(tmp_path):
+    # [[A/]] 根目录式 folder 链接：目录存在即连上，不再误判悬空
+    (tmp_path / "A").mkdir()
+    (tmp_path / "A" / "a.md").write_text("x", encoding="utf-8")
+    (tmp_path / "B").mkdir()
+    (tmp_path / "B" / "_Index.md").write_text("- [[A/]]\n- [[B/]]\n- [[不存在/]]\n", encoding="utf-8")
+    scan = scan_vault(ScanConfig(vault_root=tmp_path))
+    fol = {l.target: bool(l.resolved) for l in scan.links if l.kind == "folder"}
+    assert fol == {"A/": True, "B/": True, "不存在/": False}

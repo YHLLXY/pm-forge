@@ -98,10 +98,20 @@ def scan_vault(config: ScanConfig) -> ScanResult:
             if is_self:
                 continue
             if target.endswith("/"):
-                d = posixpath.normpath(posixpath.join(posixpath.dirname(n), target))
-                if not d.startswith(".."):
-                    result.links.append(Link(
-                        n, target, raw, "folder", (d,) if d in dirs else ()))
+                # folder 链接：相对 → vault 根式 → 子路径式，命中任何已知目录即算连上
+                tt = target.rstrip("/")
+                cand_dirs = []
+                d_rel = posixpath.normpath(posixpath.join(posixpath.dirname(n), tt))
+                if not d_rel.startswith(".."):
+                    cand_dirs.append(d_rel)
+                cand_dirs.append(posixpath.normpath(tt))
+                fold = tt.casefold()
+                d_hit = next((d for d in cand_dirs if d in dirs), None)
+                if d_hit is None:
+                    d_hit = next((d2 for d2 in dirs
+                                  if d2.casefold().endswith("/" + fold)), None)
+                result.links.append(Link(n, target, raw, "folder",
+                                         (d_hit,) if d_hit else ()))
                 continue
             if not target:
                 continue
