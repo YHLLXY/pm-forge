@@ -139,20 +139,21 @@ const toolboxTools = [
       </div>
       {
         latestReports.length > 0 && (
-          <p class="text-sm text-muted-foreground">
-            最新工具实跑报告：
-            {latestReports.map((r, i) => (
-              <span>
-                {i > 0 && " · "}
-                <a
-                  class="text-accent underline decoration-dashed"
-                  href={`/toolbox/reports/${r.id}/`}
-                >
-                  {r.data.title}
-                </a>
-              </span>
-            ))}
-          </p>
+          <div class="mt-6 text-sm">
+            <p class="text-muted-foreground">最新工具实跑报告：</p>
+            <ul class="mt-2 space-y-1">
+              {latestReports.map(r => (
+                <li>
+                  <a
+                    class="text-accent underline decoration-dashed"
+                    href={`/toolbox/reports/${r.id}/`}
+                  >
+                    {r.data.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         )
       }
     </section>
