@@ -16,7 +16,8 @@
     "astro": "astro",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lh": "node scripts/lh.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.0",
@@ -39,6 +40,7 @@
     "@typescript-eslint/parser": "^8.62.0",
     "eslint": "^10.6.0",
     "eslint-plugin-astro": "^2.1.1",
+    "lighthouse": "^13.5.0",
     "prettier": "3.9.3",
     "prettier-plugin-astro": "0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.0",

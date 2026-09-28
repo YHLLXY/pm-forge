@@ -57,11 +57,11 @@ const { Content } = await render(entry);
 
     <div class="not-prose my-4 grid gap-3 sm:grid-cols-2">
       <div class="rounded-lg border border-border bg-muted/40 p-3 text-sm">
-        <p class="text-xs text-muted-foreground">我的角色</p>
+        <p class="text-xs text-foreground/75">我的角色</p>
         <p class="mt-1 font-medium">{projectRole}</p>
       </div>
       <div class="rounded-lg border border-border bg-muted/40 p-3 text-sm">
-        <p class="text-xs text-muted-foreground">技术栈</p>
+        <p class="text-xs text-foreground/75">技术栈</p>
         <p class="mt-1 font-medium">{stack.join(" · ") || "—"}</p>
       </div>
     </div>
@@ -114,7 +114,7 @@ const { Content } = await render(entry);
       tags.length > 0 && (
         <ul class="mt-4 mb-8 flex flex-wrap gap-2">
           {tags.map(tag => (
-            <li class="rounded border border-border bg-muted/40 px-2 py-0.5 text-xs text-muted-foreground">
+            <li class="rounded border border-border bg-muted/40 px-2 py-0.5 text-xs text-foreground/75">
               {tag}
             </li>
           ))}

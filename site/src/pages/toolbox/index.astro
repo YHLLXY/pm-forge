@@ -54,7 +54,7 @@ const tools = [
           tools.map(tool => (
             <li class="flex flex-col rounded-lg border border-border bg-muted/40 p-4">
               <p class="font-semibold">{tool.name}</p>
-              <p class="mt-2 flex-1 text-sm text-muted-foreground">{tool.desc}</p>
+              <p class="mt-2 flex-1 text-sm text-foreground/75">{tool.desc}</p>
               <a
                 class="mt-3 text-sm text-accent underline decoration-dashed"
                 href={`https://toolbox.yuhailinlxy.com/tools/${tool.id}`}
@@ -100,7 +100,7 @@ const tools = [
       reports.length > 0 && (
         <section class="mt-10">
           <h2 class="text-2xl font-semibold tracking-wide">工具实跑精选报告</h2>
-          <p class="mt-2 text-sm text-muted-foreground">
+          <p class="mt-2 text-sm text-foreground/75">
             以下报告由工具箱真实调用大模型生成（输入为演示样例，非真实业务数据），原文未作人工删改。
           </p>
           <ul class="mt-4">
@@ -112,7 +112,7 @@ const tools = [
                 >
                   {r.data.title}
                 </a>
-                <p class="mt-1 text-sm text-muted-foreground">{r.data.description}</p>
+                <p class="mt-1 text-sm text-foreground/75">{r.data.description}</p>
               </li>
             ))}
           </ul>
