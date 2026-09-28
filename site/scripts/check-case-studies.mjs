@@ -1,8 +1,9 @@
 // 验收②：每篇案例必须四段式 + 量化结果（metrics 或 resultsNote 二者其一）
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const DIR = new URL("../src/content/case-studies/", import.meta.url);
+const DIR = fileURLToPath(new URL("../src/content/case-studies/", import.meta.url));
 const REQUIRED = ["背景与问题", "我的角色", "过程与关键取舍", "结果与量化"];
 
 let files = [];
@@ -16,7 +17,7 @@ try {
 const errors = [];
 
 for (const file of files) {
-  const text = readFileSync(join(decodeURIComponent(DIR.pathname), file), "utf8");
+  const text = readFileSync(join(DIR, file), "utf8");
   const fm = text.split(/^---$/m)[1] ?? "";
   const h2s = [...text.matchAll(/^##\s+(.+)$/gm)].map(m => m[1]);
 

@@ -1,8 +1,9 @@
 // 构建产物死链检查：dist 内 HTML 引用的站内 href/src 必须有落点
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const DIST = decodeURIComponent(new URL("../dist/", import.meta.url).pathname);
+const DIST = fileURLToPath(new URL("../dist/", import.meta.url));
 const SKIP = /^(https?:|mailto:|tel:|data:|#|javascript:)/;
 
 function* walk(dir) {
@@ -20,7 +21,7 @@ for (const p of walk(DIST)) {
 
 function resolves(link) {
   const clean = link.split("#")[0].split("?")[0];
-  if (clean === "") return true;
+  if (clean === "" || clean === "/") return true;
   const target = clean.replace(/^\//, "");
   if (distFiles.has(target)) return true; // 命中文件
   if (distFiles.has(target.replace(/\/$/, "") + "/index.html")) return true; // 目录页
