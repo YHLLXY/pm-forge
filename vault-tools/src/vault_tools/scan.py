@@ -1,0 +1,129 @@
+"""扫描核心：walk vault、解析 wikilink/md 链接/嵌入、全路径消歧。
+
+消歧规则（顶包安全方向，AGENTS.md 十八节）：
+- 裸名 [[X]] 计入所有同名 X 的入链（宁可漏报孤儿，不冤枉已挂链笔记）；
+- 命中多个同名 stem 的裸名链接记入 duplicate_stems 供报告警示。
+"""
+
+from __future__ import annotations
+
+import fnmatch
+import posixpath
+import re
+from pathlib import Path, PurePosixPath
+from urllib.parse import unquote
+
+from .config import MEDIA_EXTS, ScanConfig
+from .model import Link, ScanResult
+
+WIKILINK_RE = re.compile(r"(!?)\[\[([^\[\]]+?)\]\]")
+MDLINK_RE = re.compile(r"\[[^\[\]]*\]\(([^()\s]+)\)")
+
+
+def _norm_wikilink_target(inner: str) -> tuple[str, bool]:
+    """返回 (规范化目标, 是否自引用)。去别名/锚点/.md。"""
+    if inner.startswith("#"):
+        return "", True
+    target = inner.split("|", 1)[0]
+    target = target.split("#", 1)[0]
+    target = target.removesuffix(".md")
+    return target.strip(), False
+
+
+def scan_vault(config: ScanConfig) -> ScanResult:
+    root = config.vault_root
+    result = ScanResult(vault_root=root)
+
+    # 1. 收集笔记（排除目录）
+    for p in sorted(root.rglob("*.md")):
+        rel = p.relative_to(root)
+        if any(part in config.exclude_dirs for part in rel.parts):
+            continue
+        result.notes.append(rel.as_posix())
+
+    by_path = {n.casefold(): n for n in result.notes}
+    by_stem: dict[str, list[str]] = {}
+    for n in result.notes:
+        by_stem.setdefault(PurePosixPath(n).stem.casefold(), []).append(n)
+    result.duplicate_stems = {
+        PurePosixPath(paths[0]).stem: paths
+        for paths in by_stem.values() if len(paths) > 1
+    }
+
+    # 目录集合（folder 链接解析用）
+    dirs: set[str] = set()
+    for n in result.notes:
+        parts = PurePosixPath(n).parts[:-1]
+        for i in range(1, len(parts) + 1):
+            dirs.add("/".join(parts[:i]))
+
+    def _hit(cand: str) -> str | None:
+        key = (cand + ".md").casefold()
+        if key in by_path:
+            return by_path[key]
+        if cand.casefold() in by_path:
+            return by_path[cand.casefold()]
+        return None
+
+    def resolve_wiki(target: str, source: str) -> tuple[str, ...]:
+        """wikilink：裸名 → 全部同名 stem（顶包安全方向）；路径式 → 根路径与相对并集。"""
+        if "/" not in target:
+            return tuple(sorted(by_stem.get(target.casefold(), ())))
+        rel = posixpath.normpath(posixpath.join(posixpath.dirname(source), target)) \
+            if posixpath.dirname(source) else posixpath.normpath(target)
+        cands = {h for h in (_hit(target), _hit(rel)) if h}
+        return tuple(sorted(cands))
+
+    def resolve_md(target: str, source: str) -> tuple[str, ...]:
+        """md 链接是显式文件路径：相对源目录优先，回退 vault 根路径式；不向同名扩散。"""
+        rel = posixpath.normpath(posixpath.join(posixpath.dirname(source), target)) \
+            if posixpath.dirname(source) else posixpath.normpath(target)
+        cands = {h for h in (_hit(rel), _hit(target)) if h}
+        return tuple(sorted(cands))
+
+    # 2. 解析链接
+    for n in result.notes:
+        text = (root / Path(*n.split("/"))).read_text(encoding="utf-8", errors="replace")
+        result.texts[n] = text
+        for m in WIKILINK_RE.finditer(text):
+            raw, inner, embed = m.group(0), m.group(2), m.group(1) == "!"
+            target, is_self = _norm_wikilink_target(inner)
+            if is_self:
+                continue
+            if target.endswith("/"):
+                d = posixpath.normpath(posixpath.join(posixpath.dirname(n), target))
+                if not d.startswith(".."):
+                    result.links.append(Link(
+                        n, target, raw, "folder", (d,) if d in dirs else ()))
+                continue
+            if not target:
+                continue
+            resolved = resolve_wiki(target, n)
+            lk = Link(n, target, raw, "embed" if embed else "wikilink", resolved)
+            result.links.append(lk)
+            if not resolved and Path(target).suffix.lower() not in MEDIA_EXTS:
+                result.unresolved.append(lk)
+        for m in MDLINK_RE.finditer(text):
+            raw_t = m.group(1)
+            if raw_t.startswith(("http://", "https://", "mailto:", "tel:", "#")):
+                continue
+            t = unquote(raw_t).split("#", 1)[0]
+            t = t.removesuffix(".md")
+            if not t:
+                continue
+            resolved = resolve_md(t, n)
+            lk = Link(n, t, m.group(0), "mdlink", resolved)
+            result.links.append(lk)
+            if not resolved and Path(t).suffix.lower() not in MEDIA_EXTS:
+                result.unresolved.append(lk)
+
+    # 3. 入链表
+    for lk in result.links:
+        for r in lk.resolved:
+            result.inbound.setdefault(r, []).append(lk)
+
+    return result
+
+
+def is_exempt(path: str, config: ScanConfig) -> bool:
+    return any(fnmatch.fnmatch(path, g) for g in config.exempt_globs)
