@@ -100,3 +100,15 @@ def test_folder_link_root_form(tmp_path):
     scan = scan_vault(ScanConfig(vault_root=tmp_path))
     fol = {l.target: bool(l.resolved) for l in scan.links if l.kind == "folder"}
     assert fol == {"A/": True, "B/": True, "不存在/": False}
+
+
+def test_excluded_dir_notes_resolve_for_dangling(tmp_path):
+    # 90-模板 被排除扫描，但模板文件真实存在——链接指向它不算悬空
+    tpl = tmp_path / "90-模板"
+    tpl.mkdir()
+    (tpl / "t-每日日志.md").write_text("模板", encoding="utf-8")
+    (tmp_path / "_Index.md").write_text("- [[90-模板/t-每日日志]]\n- [[t-每日日志]]\n- [[真不存在]]\n", encoding="utf-8")
+    scan = scan_vault(ScanConfig(vault_root=tmp_path))
+    resolved_targets = {l.target for l in scan.links if l.resolved}
+    assert resolved_targets == {"90-模板/t-每日日志", "t-每日日志"}
+    assert [l.target for l in scan.unresolved] == ["真不存在"]

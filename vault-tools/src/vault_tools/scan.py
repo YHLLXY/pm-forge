@@ -50,10 +50,24 @@ def scan_vault(config: ScanConfig) -> ScanResult:
         for paths in by_stem.values() if len(paths) > 1
     }
 
+    # 排除目录里的 md（如 90-模板）：不扫描内容，但文件真实存在——
+    # 悬空判定须认账，否则 [[90-模板/t-xxx]] 会被误报
+    excluded_by_path: dict[str, str] = {}
+    for p in sorted(root.rglob("*.md")):
+        rel = p.relative_to(root)
+        if any(part in config.exclude_dirs for part in rel.parts):
+            excluded_by_path[rel.as_posix().casefold()] = rel.as_posix()
+    excluded_stems = {PurePosixPath(v).stem.casefold(): v
+                      for v in excluded_by_path.values()}
+
     # 目录集合（folder 链接解析用）
     dirs: set[str] = set()
     for n in result.notes:
         parts = PurePosixPath(n).parts[:-1]
+        for i in range(1, len(parts) + 1):
+            dirs.add("/".join(parts[:i]))
+    for v in excluded_by_path.values():
+        parts = PurePosixPath(v).parts[:-1]
         for i in range(1, len(parts) + 1):
             dirs.add("/".join(parts[:i]))
 
@@ -63,6 +77,10 @@ def scan_vault(config: ScanConfig) -> ScanResult:
             return by_path[key]
         if cand.casefold() in by_path:
             return by_path[cand.casefold()]
+        if key in excluded_by_path:
+            return excluded_by_path[key]
+        if cand.casefold() in excluded_by_path:
+            return excluded_by_path[cand.casefold()]
         return None
 
     def resolve_wiki(target: str, source: str) -> tuple[str, ...]:
@@ -71,7 +89,11 @@ def scan_vault(config: ScanConfig) -> ScanResult:
         子路径匹配可能命中多篇（路径以 target 结尾）——全部计入，保持顶包安全方向。
         """
         if "/" not in target:
-            return tuple(sorted(by_stem.get(target.casefold(), ())))
+            hits = tuple(sorted(by_stem.get(target.casefold(), ())))
+            if hits:
+                return hits
+            ex = excluded_stems.get(target.casefold())
+            return (ex,) if ex else ()
         rel = posixpath.normpath(posixpath.join(posixpath.dirname(source), target)) \
             if posixpath.dirname(source) else posixpath.normpath(target)
         cands = {h for h in (_hit(target), _hit(rel)) if h}
