@@ -1,14 +1,135 @@
 ---
+import { getCollection } from "astro:content";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import { sortEntries } from "@/utils/sortEntries";
+import { toolkitReportUrl } from "@/utils/entryUrl";
+
+const reports = sortEntries(await getCollection("toolkitReports"));
+const tools = [
+  {
+    id: "competitor-analysis",
+    name: "竞品分析",
+    desc: "输入我方与竞品材料，产出六章结构化报告：市场选择、竞品画像、功能矩阵、机会点优先级，全部结论带证据链标注。",
+  },
+  {
+    id: "feedback-insights",
+    name: "用户反馈洞察",
+    desc: "粘贴或上传用户反馈，LLM 主题聚类 + 情感判定 + 影响度/严重度评分，自动落进 5×5 优先级矩阵。",
+  },
+  {
+    id: "prd-draft",
+    name: "PRD 草稿",
+    desc: "模板驱动的 PRD 起草：用户故事、验收标准、埋点事件一次生成，信息缺口统一标【待补充】并指明拍板人。",
+  },
+];
 ---
 
-<Layout title="工具箱 | 余翰林的作品集" description="自研 AI PM 工具箱：竞品分析、用户反馈洞察、PRD 草稿。">
+<Layout
+  title="工具箱 | 余翰林的作品集"
+  description="自研 AI PM 工具箱：竞品分析、用户反馈洞察、PRD 草稿——证据链提示词、token 预算守卫、演示模式。"
+>
   <Header />
   <main id="main-content" class="app-layout my-8">
-    <h1 class="text-3xl font-bold">工具箱</h1>
-    <p class="mt-4">施工中。</p>
+    <h1 class="text-3xl font-bold">AI PM 工具箱</h1>
+    <p class="mt-4">
+      我自己设计并实现的 AI 产品分析工具站（Next.js 15 + React 19 +
+      TypeScript），已部署上线：
+      <a
+        class="text-accent underline decoration-dashed"
+        href="https://toolbox.yuhailinlxy.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >toolbox.yuhailinlxy.com ↗</a
+      >
+    </p>
+
+    <section class="mt-8">
+      <h2 class="text-2xl font-semibold tracking-wide">三个工具</h2>
+      <ul class="not-prose mt-4 grid gap-4 sm:grid-cols-3">
+        {
+          tools.map(tool => (
+            <li class="flex flex-col rounded-lg border border-border bg-muted/40 p-4">
+              <p class="font-semibold">{tool.name}</p>
+              <p class="mt-2 flex-1 text-sm text-muted-foreground">{tool.desc}</p>
+              <a
+                class="mt-3 text-sm text-accent underline decoration-dashed"
+                href={`https://toolbox.yuhailinlxy.com/tools/${tool.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                在线使用 ↗
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="mt-10">
+      <h2 class="text-2xl font-semibold tracking-wide">设计与工程决策</h2>
+      <article class="mt-4">
+        <p>
+          <strong>五层模式</strong>：采集 → 缓存（localStorage 最近 10
+          次）→ LLM 分析 → 证据链 → 产出（Markdown/JSON 导出）。
+        </p>
+        <p>
+          <strong>证据链铁律</strong>：三个工具的提示词（版本化
+          PROMPT_VERSION 1.0.0）都强制要求结论标注【依据输入】【行业常识】【推断】，禁止编造数字，缺信息一律写【待补充】并指明"需要谁拍板"。
+        </p>
+        <p>
+          <strong>token 预算守卫</strong>：按 0.7 token/字符保守估算输入，超过
+          8,000 token 直接拒绝请求，用户显式确认后才放行——这是把我自己烧过
+          50 元 token 的教训做成了产品机制。
+        </p>
+        <p>
+          <strong>演示模式</strong>：未配置 API Key
+          时自动切换到固定样例输出的 mock provider，评审与教学场景零门槛演示。
+        </p>
+        <p>
+          <strong>质量门禁</strong>：52 个 vitest 单元/组件测试 + 3 条
+          Playwright 端到端用例（演示模式保证确定性）。
+        </p>
+      </article>
+    </section>
+
+    {
+      reports.length > 0 && (
+        <section class="mt-10">
+          <h2 class="text-2xl font-semibold tracking-wide">工具实跑精选报告</h2>
+          <p class="mt-2 text-sm text-muted-foreground">
+            以下报告由工具箱真实调用大模型生成（输入为演示样例，非真实业务数据），原文未作人工删改。
+          </p>
+          <ul class="mt-4">
+            {reports.map(r => (
+              <li class="my-4">
+                <a
+                  class="text-accent inline-block text-lg font-medium underline decoration-dashed underline-offset-4"
+                  href={toolkitReportUrl(r.id)}
+                >
+                  {r.data.title}
+                </a>
+                <p class="mt-1 text-sm text-muted-foreground">{r.data.description}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <div class="my-8">
+      <LinkButton
+        href="https://toolbox.yuhailinlxy.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        打开工具箱亲手试 ↗
+        <IconArrowRight class="inline-block" />
+      </LinkButton>
+    </div>
   </main>
   <Footer />
 </Layout>
