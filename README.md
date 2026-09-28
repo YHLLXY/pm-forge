@@ -29,10 +29,11 @@ npm run smoke:real     # 真实 LLM 冒烟：三工具各产 1 份报告到 tool
 
 - **演示模式**：未配 Key 或 `MOCK_LLM=1` 时自动启用（固定样例输出），用于开发/测试/无 Key 演示。
 - **Token 守卫**：估算输入超上限（默认 8000）时服务端拒绝，需用户在页面显式确认才继续。
-- **部署（Vercel）**：新建项目时 Root Directory 选 `toolkit`；环境变量配 `LLM_API_KEY` 等（见 .env.example）；`*.vercel.app` 国内被墙，需绑定自定义域名（用户操作项）。
+- **已上线**：https://toolbox.yuhailinlxy.com （Vercel 部署，Root Directory = toolkit；环境变量 LLM_API_KEY）。国内直连要点：CNAME 会被随机解析到被 GFW 封锁的 Vercel IP，故解析层用**两条 A 记录**钉死可用 IP（76.76.21.21 + 64.29.17.65）；若这批 IP 也被封，后手是 Cloudflare 代理。Vercel 面板可能因非 CNAME 接法显示 Invalid Configuration，功能无影响。
 - 浏览器安装（仅 e2e 首次）：`PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright/ npx playwright install chromium`
 
 ## 更新日志
+- 2026-09-27 v0.7: **M2 验收全部达成**——三份真实 LLM 报告产出（DeepSeek）；工具箱上线 https://toolbox.yuhailinlxy.com（GFW 排障：CNAME 随机命中被墙 IP → 改 A 记录钉死可用 IP，实测 20/20 全通）
 - 2026-09-27 v0.6: **M2 v1 完成**——三工具全链路（竞品分析/反馈洞察/PRD 草稿），52 vitest + 3 Playwright e2e 全绿；token 守卫、演示模式、证据链标注、优先级矩阵；真实 LLM 冒烟脚本就绪（等 key）
 - 2026-09-27 v0.5: M2 启动——仓库迁移 exFAT→NTFS（C:\dev\pm-forge）；toolkit 脚手架（Next 15.5.26 + React 19 + vitest 5），字体改 geist 本地包规避 Google Fonts 被墙
 - 2026-09-27 v0.4: 案例一真实数据跑通定稿——脏数据清洗+用户级采样+采样可复现修复（13 测试），报告含 4 条数据支撑结论

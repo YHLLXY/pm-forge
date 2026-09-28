@@ -6,8 +6,7 @@
 
 | # | 现象 | 原因 | 影响 | 严重度 | 状态 |
 |---|---|---|---|---|---|
-| 7 | ~~toolkit 验收②挂起：本机无 LLM_API_KEY~~ | 用户已配置 DeepSeek key，`smoke:real` 三份报告通过（约 6.6k tokens） | 剩余：精选发布进 site/content/（随 M3） | 低 | 基本完成 |
-| 8 | toolkit 验收④挂起：未注册自定义域名 | Vercel 分配的 *.vercel.app 国内被墙 | 工具箱与作品集无法国内直连访问 | 中 | 待用户操作 |
+| 10 | 若 Vercel 钉住的两个 IP（76.76.21.21 / 64.29.17.65）未来也被 GFW 封锁 | 国内直连 Vercel 天然受墙影响 | 网站国内不可达 | 中 | 监控；后手=Cloudflare 代理（已实测国内可达） |
 | 9 | `next build --turbopack` 在 Windows 报 EISDIR readlink（styled-jsx） | turbopack 构建在 Windows 的解析问题；webpack 构建正常 | 无（构建脚本已固定用 webpack；dev 用 turbopack 不受影响） | 低 | 已绕过（README 注明） |
 | 2 | vault 仓库 push 时报 multi-pack-index 权限拒绝（commit/push 本身成功） | 疑似 Obsidian 文件锁或 .git 权限 | 后续 vault 提交可能间歇报错 | 低 | 观察 |
 
@@ -25,6 +24,8 @@
 
 | # | 问题 | 解决方案 | commit |
 |---|---|---|---|
+| 8 | 验收④：Vercel 默认域名国内被墙；且 CNAME 随机解析到被 GFW 封锁的 IP（216.198.79.65，443 TLS 被重置、换无关 SNI 同样失败=IP 级封锁） | 阿里云解析弃 CNAME 改两条 A 记录钉死可用 IP（76.76.21.21 + 64.29.17.65），实测 20/20 全通；域名 https://toolbox.yuhailinlxy.com 上线，API live 模式（Vercel 环境变量已配 key） | 本日部署 |
+| 7 | 验收②：本机无 LLM_API_KEY 无法产出真实报告 | 用户配置 DeepSeek key → `npm run smoke:real` 三份报告通过（约 6.6k tokens），产物在 toolkit/artifacts/（gitignored）；精选发布进 site/content/ 随 M3 | 本日 |
 | 6 | duckdb reservoir 采样在并行扫描下同 seed 两次结果漂移（100.9 万 vs 101.7 万行） | 采样改独立单线程连接（`SET threads TO 1`），实测两次完全一致（1,021,043 行） | 5909509 |
 | 5 | 抽样数据出现 2030 年时间戳等窗外脏数据；行级抽样稀释用户级指标 | clean_window 按官方窗口剔除 566 行；改用户级抽样 1 万用户全量行为 | 2d5b38d |
 | 4 | winget 装 Quarto 报 1603（InstallScript 无法非交互运行） | MSI 下载后 `msiexec /a` 免管理员提取至 E:\tools\quarto，PATH 写入 ~/.bashrc | 56de970 |
