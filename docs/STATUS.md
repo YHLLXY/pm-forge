@@ -4,9 +4,31 @@
 
 ## 当前任务卡
 
-- **M3 正式收工（2026-09-28）**：Task 1-13 + T15 全部完成；**验收①②③全达成**——① Lighthouse 移动端六页 performance 100 / 四类 ≥95；② 四篇案例过四段式+量化检查；③ 用户完成 Vercel 建站 + 域名解析 + 移动端验证（口头确认"验证过没有问题"）
-- **全面检查完成**（2026-09-28 下午）：10 维度全过——方法论与结果两份报告见 docs/reviews/；3 项当场修复（RSS 尾斜杠 / Quarto CDN 本地化 / 死代码），postcss 漏洞挂 ISSUES #13 专项
-- **M4 vault-tools 已开工**（2026-09-28）：计划 docs/plans/2026-09-28-pm-forge-m4-实施计划.md
+- **M4 vault-tools 完成（2026-09-28）**：只读巡检三件套建成，36 tests 全绿；真实 vault（488 篇）试跑零修改验证通过；体检报告已落 `vault/91-MOC/`（vault commit c009a9830）。验收①③达成，②待用户 Obsidian 图谱对照。**至此 spec 四模块全部建成，pm-forge 转入维护态**
+- **M3 正式收工（2026-09-28）**：验收①②③全达成（Lighthouse 全绿 / 四段式案例 / 用户部署+移动端验证）；全面检查 10 维度全过（docs/reviews/）
+
+## M4 实施记录（2026-09-28 · 同日第三场）
+
+**关键决策（obsidiantools spike 实测驱动）**：
+- obsidiantools 0.11.0 按笔记名（basename）键控：501 篇塌缩 494 键（同名 `_Index.md` ×11、`README.md` ×22 互相顶包）、`nonexistent_notes` 报 435（大量路径式链接误判悬空）、connect+gather 约 62s → **主扫描器自研 stdlib（全路径消歧），obsidiantools 只作可选对照层**（`report --crosscheck`）
+- 消歧按链接类别分层（顶包安全方向）：裸名 `[[X]]` 计入全部同名 X；路径式 wikilink 试根路径→源相对→Obsidian 式子路径；md 链接是显式路径，相对优先不扩散
+- 报告两步式交付：扫描只写 `vault-tools/out/`（gitignore，公开仓库红线）→ 人工通读 → 显式拷贝进 91-MOC + vault 显式 add/commit
+
+**执行中修复的 4 个口径 bug（各有回归测试）**：file: 协议外链跳过（D 盘课件指针）；folder 链接补根目录式与子路径式；排除目录（90-模板）的文件参与悬空判定；子路径匹配须对去 .md 后缀路径比较
+
+**真实 vault 首跑结果（488 篇 / 1611 条链接，git status 零修改）**：
+- 🔴 真孤儿 3（逐条 grep 复核为真）：`30-项目/pm-forge/docs/STATUS.md`、`30-项目/个人工作台/经验总结-审查核实与功能迭代执行.md`（同名双拷贝，所有链接指向 docs/ 那份）、`30-项目/自我画像/docs/lessons-learned.md`
+- 🟠 索引漏收 194：30-项目 159 / 40-经验教训 27 / 20-开发 5 / 00-Inbox 2 / 80-竞赛 1——待用户按 AGENTS 方法归类「真漏 / 刻意不收」
+- 🟡 悬空 15：5 个 MOC 页被引用但不存在（课程/开发/阅读/日常-MOC、个人发展-MOC）、数学建模 2025-CUMCM 五篇笔记、`40-经验教训/小挑/`、`[[数学建模]]` 裸名、`[[90-模板/_Index]]`
+- ⚪ 消歧警示：同名组 README ×22、_Index ×36 等 8 组；裸名链接顶包 5 处
+
+**commits**：计划 1462648 → 脚手架 9f07ba2 → 扫描核心 659fc77 → orphans a758146 → index_diff 157ca00 → report 590b27a → cli eeff19d → crosscheck 7e6968a → README 8258e70 → fix file: d79fa62 → fix folder 3e46060 → fix 排除目录悬空 29a3b5e；vault：报告落库 c009a9830
+
+**遗留（用户侧）**：
+1. **验收②**：Obsidian 图谱/搜索对照体检报告（抽 3-5 项核对观感一致即收）
+2. 3 篇真孤儿处置：挂 _Index / 门户口，或删除重复拷贝（经验总结-审查核实 那篇是同名双拷贝）
+3. 15 条悬空逐条拍板（补建 MOC 页 / 改链接 / 删条目）
+4. 观察：vault git 后台 geometric-repack 偶发 Permission denied（Obsidian 占用所致，不影响提交推送）
 
 ## 全面检查记录（2026-09-28 · 接 M3 实施同日）
 
@@ -44,9 +66,9 @@
 
 ## 下一步
 
-**M4 vault-tools**：Python + obsidiantools 只读巡检三件套（孤立节点·全路径消歧 / _Index 双向 diff / 体检报告）+ pytest 夹具全绿 + 真实 vault 试跑（git status 零修改验证）+ 报告落 91-MOC（source: claude 标注）。
-之后：每月迭代节奏（1 案例/月），2027-06 决策门，2027-08-31 定稿。
+**维护态节奏**：每月 1 案例/迭代进 site；季度跑一次 `report --crosscheck` 体检（报告落 91-MOC）；M4 体检报告的漏收/悬空清单由用户拍板后逐项消化。
+之后：2027-06 决策门（考研/就业），2027-08-31 作品集定稿。
 
 ## 可作战状态
 
-✅ 达成（site M3 上线收工；M4 进行中）
+✅ 达成（M1-M4 四模块全部建成：analysis / toolkit / site / vault-tools；转入维护态）
