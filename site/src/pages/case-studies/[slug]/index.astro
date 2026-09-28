@@ -1,0 +1,126 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import PostLayout from "@/layouts/PostLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Datetime from "@/components/Datetime.astro";
+import Tag from "@/components/Tag.astro";
+import MetricCards from "@/components/MetricCards.astro";
+import ArticleEnhancements from "@/components/ArticleEnhancements.astro";
+import BackButton from "@/components/BackButton.astro";
+import BackToTopButton from "@/components/BackToTopButton.astro";
+import { sortEntries } from "@/utils/sortEntries";
+import { entryUrl } from "@/utils/entryUrl";
+import { slugifyStr } from "@/utils/slugify";
+
+export async function getStaticPaths() {
+  const entries = sortEntries(await getCollection("caseStudies"));
+  return entries.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<"caseStudies"> };
+const { entry } = Astro.props;
+const {
+  title,
+  description,
+  pubDatetime,
+  modDatetime,
+  tags,
+  projectRole,
+  stack,
+  links,
+  metrics,
+  resultsNote,
+} = entry.data;
+const { Content } = await render(entry);
+---
+
+<PostLayout
+  title={`${title} | 余翰林的作品集`}
+  description={description}
+  pubDatetime={pubDatetime}
+  modDatetime={modDatetime}
+>
+  <Header />
+
+  <BackButton />
+
+  <main id="main-content" class="app-layout mt-8">
+    <h1 class="text-accent inline-block text-2xl font-bold sm:text-3xl">
+      {title}
+    </h1>
+
+    <div class="my-2">
+      <Datetime {pubDatetime} {modDatetime} size="lg" />
+    </div>
+
+    <div class="not-prose my-4 grid gap-3 sm:grid-cols-2">
+      <div class="rounded-lg border border-border bg-muted/40 p-3 text-sm">
+        <p class="text-xs text-muted-foreground">我的角色</p>
+        <p class="mt-1 font-medium">{projectRole}</p>
+      </div>
+      <div class="rounded-lg border border-border bg-muted/40 p-3 text-sm">
+        <p class="text-xs text-muted-foreground">技术栈</p>
+        <p class="mt-1 font-medium">{stack.join(" · ") || "—"}</p>
+      </div>
+    </div>
+
+    {
+      (links.live || links.repo) && (
+        <p class="not-prose my-3 flex flex-wrap gap-4 text-sm">
+          {links.live && (
+            <a
+              class="text-accent underline decoration-dashed"
+              href={links.live}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              在线访问 ↗
+            </a>
+          )}
+          {links.repo && (
+            <a
+              class="text-accent underline decoration-dashed"
+              href={links.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              源码仓库 ↗
+            </a>
+          )}
+        </p>
+      )
+    }
+
+    <MetricCards {metrics} {resultsNote} />
+
+    <article
+      id="article"
+      class:list={[
+        "mt-8 w-full",
+        "app-prose max-w-app",
+        "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
+      ]}
+    >
+      <Content />
+    </article>
+
+    <hr class="my-8 border-dashed" />
+
+    <BackToTopButton />
+
+    {
+      tags.length > 0 && (
+        <ul class="mt-4 mb-8 flex flex-wrap gap-4">
+          {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />)}
+        </ul>
+      )
+    }
+  </main>
+  <Footer />
+</PostLayout>
+
+<ArticleEnhancements />

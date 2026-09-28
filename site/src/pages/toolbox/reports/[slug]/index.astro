@@ -1,0 +1,80 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import PostLayout from "@/layouts/PostLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Datetime from "@/components/Datetime.astro";
+import ProvenanceBanner from "@/components/ProvenanceBanner.astro";
+import ArticleEnhancements from "@/components/ArticleEnhancements.astro";
+import BackButton from "@/components/BackButton.astro";
+import BackToTopButton from "@/components/BackToTopButton.astro";
+import { sortEntries } from "@/utils/sortEntries";
+
+export async function getStaticPaths() {
+  const entries = sortEntries(await getCollection("toolkitReports"));
+  return entries.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<"toolkitReports"> };
+const { entry } = Astro.props;
+const {
+  title,
+  description,
+  pubDatetime,
+  toolId,
+  toolName,
+  promptVersion,
+  inputSummary,
+  generatedBy,
+} = entry.data;
+const { Content } = await render(entry);
+---
+
+<PostLayout
+  title={`${title} | 余翰林的作品集`}
+  description={description}
+  pubDatetime={pubDatetime}
+>
+  <Header />
+
+  <BackButton />
+
+  <main id="main-content" class="app-layout mt-8">
+    <h1 class="text-accent inline-block text-2xl font-bold sm:text-3xl">
+      {title}
+    </h1>
+
+    <div class="my-2">
+      <Datetime {pubDatetime} size="lg" />
+    </div>
+
+    <ProvenanceBanner
+      toolName={toolName}
+      inputSummary={inputSummary}
+      generatedBy={generatedBy}
+      promptVersion={promptVersion}
+      toolHref={`https://toolbox.yuhailinlxy.com/tools/${toolId}`}
+    />
+
+    <article
+      id="article"
+      class:list={[
+        "mt-8 w-full",
+        "app-prose max-w-app",
+        "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
+      ]}
+    >
+      <Content />
+    </article>
+
+    <hr class="my-8 border-dashed" />
+
+    <BackToTopButton />
+  </main>
+  <Footer />
+</PostLayout>
+
+<ArticleEnhancements />

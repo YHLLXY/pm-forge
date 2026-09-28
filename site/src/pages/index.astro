@@ -1,14 +1,171 @@
 ---
+import { getCollection } from "astro:content";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import Socials from "@/components/Socials.astro";
+import Card from "@/components/Card.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import { sortEntries } from "@/utils/sortEntries";
+import { entryUrl } from "@/utils/entryUrl";
+import { useTranslations } from "@/i18n";
+import config from "@/config";
+
+const t = useTranslations(Astro.currentLocale ?? config.site.lang);
+const cases = sortEntries(await getCollection("caseStudies"));
+const featuredCases = cases.filter(({ data }) => data.featured).slice(0, 3);
+const latestAnalysis = sortEntries(await getCollection("analysis")).slice(0, 2);
+const latestReports = sortEntries(await getCollection("toolkitReports")).slice(0, 3);
+const toolboxTools = [
+  { id: "competitor-analysis", name: "竞品分析", desc: "证据链标注的六章竞品报告" },
+  { id: "feedback-insights", name: "用户反馈洞察", desc: "主题聚类 + 5×5 优先级矩阵" },
+  { id: "prd-draft", name: "PRD 草稿", desc: "模板驱动，缺口标【待补充】" },
+];
 ---
 
 <Layout>
   <Header />
-  <main id="main-content" class="app-layout my-8">
-    <h1 class="text-3xl font-bold">余翰林 · 产品作品集</h1>
-    <p class="mt-4">施工中：案例研究与工具箱即将上线。</p>
+  <main id="main-content" data-layout="index" class="app-layout my-1">
+    <section id="hero" class="border-border border-b pt-8 pb-6">
+      <h1 class="my-4 inline-block text-3xl leading-snug font-bold sm:my-8 sm:text-5xl">
+        把数据、工程和 AI 工具箱，变成可验证的产品决策。
+      </h1>
+      <p class="mt-2">
+        我是余翰林，重庆邮电大学"大数据管理与应用"专业，目标产品经理。
+        这里放我的案例研究、数据分析报告，以及我自己设计实现的
+        <a
+          class="text-accent underline decoration-dashed"
+          href="https://toolbox.yuhailinlxy.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          AI PM 工具箱
+        </a>。
+      </p>
+      {
+        config.socials.length > 0 && (
+          <div class="mt-4 flex max-sm:flex-col sm:items-center">
+            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">
+              {t.home.socialLinks}:
+            </div>
+            <Socials />
+          </div>
+        )
+      }
+    </section>
+
+    {
+      featuredCases.length > 0 && (
+        <section id="featured" class="border-border border-b pt-12 pb-6">
+          <h2 class="text-2xl font-semibold tracking-wide">精选案例</h2>
+          <ul>
+            {featuredCases.map(c => (
+              <Card
+                variant="h3"
+                href={entryUrl("case-studies", c.id)}
+                title={c.data.title}
+                description={c.data.description}
+                pubDatetime={c.data.pubDatetime}
+                modDatetime={c.data.modDatetime}
+                tags={c.data.tags}
+              />
+            ))}
+          </ul>
+          <div class="my-6">
+            <LinkButton href="/case-studies/">
+              全部案例
+              <IconArrowRight class="inline-block" />
+            </LinkButton>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      latestAnalysis.length > 0 && (
+        <section id="analysis" class="border-border border-b pt-12 pb-6">
+          <h2 class="text-2xl font-semibold tracking-wide">数据分析</h2>
+          <ul>
+            {latestAnalysis.map(a => (
+              <Card
+                variant="h3"
+                href={entryUrl("analysis", a.id)}
+                title={a.data.title}
+                description={a.data.description}
+                pubDatetime={a.data.pubDatetime}
+                modDatetime={a.data.modDatetime}
+              />
+            ))}
+          </ul>
+          <div class="my-6">
+            <LinkButton href="/analysis/">
+              全部报告
+              <IconArrowRight class="inline-block" />
+            </LinkButton>
+          </div>
+        </section>
+      )
+    }
+
+    <section id="toolbox" class="pt-12 pb-6">
+      <h2 class="text-2xl font-semibold tracking-wide">AI PM 工具箱</h2>
+      <p class="mt-2">
+        我自己设计并实现的 AI 产品工具站：证据链提示词、token 预算守卫、演示模式，
+        Next.js 15 + React 19 实现，已部署上线。
+      </p>
+      <ul class="not-prose mt-4 grid gap-3 sm:grid-cols-3">
+        {
+          toolboxTools.map(tool => (
+            <li class="rounded-lg border border-border bg-muted/40 p-4">
+              <p class="font-semibold">{tool.name}</p>
+              <p class="mt-1 text-sm text-muted-foreground">{tool.desc}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="my-6 flex flex-wrap gap-4">
+        <LinkButton
+          href="https://toolbox.yuhailinlxy.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          打开工具箱 ↗
+        </LinkButton>
+        <LinkButton href="/toolbox/">
+          了解工具与精选报告
+          <IconArrowRight class="inline-block" />
+        </LinkButton>
+      </div>
+      {
+        latestReports.length > 0 && (
+          <p class="text-sm text-muted-foreground">
+            最新工具实跑报告：
+            {latestReports.map((r, i) => (
+              <span>
+                {i > 0 && " · "}
+                <a
+                  class="text-accent underline decoration-dashed"
+                  href={`/toolbox/reports/${r.id}/`}
+                >
+                  {r.data.title}
+                </a>
+              </span>
+            ))}
+          </p>
+        )
+      }
+    </section>
   </main>
   <Footer />
 </Layout>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const indexLayout = (document.querySelector("#main-content") as HTMLElement)
+      ?.dataset;
+    if (indexLayout?.layout) {
+      sessionStorage.setItem("backUrl", "/");
+    }
+  });
+</script>
