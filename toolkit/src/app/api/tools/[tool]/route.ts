@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { serverLlmConfig, allowedOrigins } from "@/lib/config";
 import { estimateMessagesTokens } from "@/lib/token-estimate";
-import { getProvider } from "@/lib/llm";
+import { getProvider, type ChatMessage } from "@/lib/llm";
+import { buildRepairRequest } from "@/tools/contracts";
 import { getTool } from "@/tools/registry";
 
 const bodySchema = z.object({
@@ -57,6 +58,58 @@ export async function POST(
   }
 
   const provider = getProvider(cfg, def.fixture);
+  const responseHeaders = {
+    "Content-Type": "text/plain; charset=utf-8",
+    "Cache-Control": "no-store",
+    "X-PMForge-Mode": provider.id,
+  };
+
+  // 输出契约校验（如 feedback-insights 的数量守恒/引用逐字）需要完整输出：
+  // 缓冲生成结果，机械验收不通过时带着具体违例重试一次，两次都不过则按原样返回首次输出。
+  // mock 是写死的演示 fixture，不参与校验。
+  if (def.validateOutput && provider.id !== "mock") {
+    let first = "";
+    try {
+      for await (const chunk of provider.chatStream({
+        messages,
+        maxOutputTokens: cfg.maxOutputTokens,
+      })) {
+        first += chunk;
+      }
+    } catch (e) {
+      // 与流式路径同一约定：显式失败标记，客户端据此拦截保存与导出
+      first += `\n\n[生成失败：${e instanceof Error ? e.message : String(e)}]`;
+      return new Response(first, { headers: responseHeaders });
+    }
+    const violations = def.validateOutput(first, parsedInput.data);
+    if (violations.length > 0) {
+      console.warn(`[contract-retry] tool=${toolId} 违例 ${violations.length} 项，重试一次`);
+      const retryMessages: ChatMessage[] = [
+        ...messages,
+        { role: "assistant", content: first },
+        { role: "user", content: buildRepairRequest(violations) },
+      ];
+      try {
+        let second = "";
+        for await (const chunk of provider.chatStream({
+          messages: retryMessages,
+          maxOutputTokens: cfg.maxOutputTokens,
+        })) {
+          second += chunk;
+        }
+        if (
+          !second.includes("[生成失败") &&
+          def.validateOutput(second, parsedInput.data).length === 0
+        ) {
+          return new Response(second, { headers: responseHeaders });
+        }
+      } catch {
+        // 重试失败：沿用首次输出
+      }
+    }
+    return new Response(first, { headers: responseHeaders });
+  }
+
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       const enc = new TextEncoder();
@@ -76,11 +129,5 @@ export async function POST(
     },
   });
 
-  return new Response(stream, {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "no-store",
-      "X-PMForge-Mode": provider.id,
-    },
-  });
+  return new Response(stream, { headers: responseHeaders });
 }

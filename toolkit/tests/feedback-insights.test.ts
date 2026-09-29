@@ -50,6 +50,9 @@ describe("反馈洞察提示词", () => {
     expect(sys).toContain('"themes"');
     expect(sys).toContain("逐字");
     expect(sys).toContain("3-8");
+    // v1.1：反双计与输出前自查（基线 fb-011 双计、fb-003 JSON 滑丝的针对性约束）
+    expect(sys).toContain("禁止同一条反馈计入两个主题");
+    expect(sys).toContain("输出前自查");
   });
   it("user 含编号反馈与产品背景", () => {
     const user = buildFeedbackMessages(input)[1].content;

@@ -12,5 +12,8 @@ export interface ToolDefinition<TInput = unknown> {
   outputKind: OutputKind;
   buildMessages(input: TInput): ChatMessage[];
   fixture: string; // 演示模式输出
+  // 可选的服务端输出契约校验：返回违例清单（空 = 通过）。route 层据此决定
+  // 是否带着具体违例重试一次。机械可判定项才进这里，语义质量不归它管。
+  validateOutput?(output: string, input: TInput): string[];
 }
 export type Tool = ToolDefinition<unknown>;

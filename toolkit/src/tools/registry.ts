@@ -2,6 +2,7 @@ import type { Tool, ToolDefinition } from "./types";
 import { buildCompetitorMessages } from "@/prompts/competitor-analysis";
 import { buildFeedbackMessages } from "@/prompts/feedback-insights";
 import { buildPrdMessages } from "@/prompts/prd-draft";
+import { feedbackContractViolations } from "./contracts";
 import {
   competitorInputSchema,
   feedbackInputSchema,
@@ -35,6 +36,7 @@ export const TOOLS: Tool[] = [
     inputSchema: feedbackInputSchema,
     outputKind: "json",
     buildMessages: buildFeedbackMessages,
+    validateOutput: feedbackContractViolations,
     fixture: FEEDBACK_FIXTURE,
   }),
   defineTool({

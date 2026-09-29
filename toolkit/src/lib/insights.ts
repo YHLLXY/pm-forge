@@ -14,7 +14,9 @@ export const ThemeSchema = z.object({
 });
 
 export const InsightsReportSchema = z.object({
-  themes: z.array(ThemeSchema).min(1).max(8),
+  // 1 下限：反馈高度同质（如 6 条完全相同的故障报告）时聚出 1 个主题是诚实的答案；
+  // 12 上限：30 条量级的多元输入 8 类不够用（基线运行 fb-007 实测 9 类才是好分析）
+  themes: z.array(ThemeSchema).min(1).max(12),
   overallSentiment: SentimentEnum,
   notableOutliers: z.array(z.string()),
 });
