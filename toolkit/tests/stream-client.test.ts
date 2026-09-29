@@ -46,7 +46,7 @@ describe("streamToolRun", () => {
     vi.unstubAllGlobals();
   });
 
-  it("TOKEN_BUDGET 错误文案含估值与上限", async () => {
+  it("TOKEN_BUDGET 文案不含内部测量值（服务端不回显 estimated/max）", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValue(
@@ -60,8 +60,9 @@ describe("streamToolRun", () => {
       await streamToolRun("prd-draft", { input: {} }, () => {});
       expect.unreachable("应当抛错");
     } catch (e) {
-      expect((e as ToolRunError).message).toContain("9000");
-      expect((e as ToolRunError).message).toContain("8000");
+      expect((e as ToolRunError).message).toContain("超过单次上限");
+      expect((e as ToolRunError).message).not.toContain("9000");
+      expect((e as ToolRunError).message).not.toContain("8000");
     }
     vi.unstubAllGlobals();
   });

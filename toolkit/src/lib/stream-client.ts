@@ -16,12 +16,11 @@ export class ToolRunError extends Error {
 function humanize(data: {
   code?: string;
   message?: string;
-  estimated?: number;
-  max?: number;
 }): string {
   switch (data.code) {
     case "TOKEN_BUDGET":
-      return `输入约 ${data.estimated} tokens，超过单次上限 ${data.max}。请精简输入，或在确认后强制继续。`;
+      // 服务端不再回显 estimated/max（安全审查 F3），客户端本地估算已覆盖确认流程
+      return "输入超过单次上限。请精简输入后重试。";
     case "INVALID_INPUT":
       return "输入格式不正确，请检查表单后重试。";
     case "NOT_FOUND":

@@ -4,10 +4,10 @@ import { POST } from "@/app/api/tools/[tool]/route";
 import { competitorInputSchema } from "@/tools/schemas";
 import { getTool } from "@/tools/registry";
 
-function req(tool: string, body: unknown) {
+function req(tool: string, body: unknown, headers: Record<string, string> = {}) {
   return new Request(`http://localhost/api/tools/${tool}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...headers },
     body: JSON.stringify(body),
   });
 }
@@ -41,12 +41,49 @@ describe("POST /api/tools/[tool]", () => {
     const res = await POST(req("competitor-analysis", { input: validInput }), ctx("competitor-analysis"));
     delete process.env.LLM_MAX_INPUT_TOKENS;
     expect(res.status).toBe(400);
-    expect((await res.json()).code).toBe("TOKEN_BUDGET");
+    const data = await res.json();
+    expect(data.code).toBe("TOKEN_BUDGET");
+    // 错误响应不回显内部测量值（安全审查 F3）
+    expect(data).not.toHaveProperty("estimated");
+    expect(data).not.toHaveProperty("max");
   });
-  it("超预算但 force=true → 放行", async () => {
+  it("超预算但 force=true → 放行（非生产环境）", async () => {
+    delete process.env.VERCEL_ENV;
     process.env.LLM_MAX_INPUT_TOKENS = "1";
     const res = await POST(req("competitor-analysis", { input: validInput, force: true }), ctx("competitor-analysis"));
     delete process.env.LLM_MAX_INPUT_TOKENS;
+    expect(res.status).toBe(200);
+  });
+  it("生产环境 force 无效：超预算仍 400（安全审查 F1）", async () => {
+    process.env.VERCEL_ENV = "production";
+    process.env.LLM_MAX_INPUT_TOKENS = "1";
+    try {
+      const res = await POST(req("competitor-analysis", { input: validInput, force: true }), ctx("competitor-analysis"));
+      expect(res.status).toBe(400);
+      expect((await res.json()).code).toBe("TOKEN_BUDGET");
+    } finally {
+      delete process.env.VERCEL_ENV;
+      delete process.env.LLM_MAX_INPUT_TOKENS;
+    }
+  });
+  it("Origin 在白名单外 → 403 FORBIDDEN_ORIGIN（安全审查 F1）", async () => {
+    const res = await POST(
+      req("competitor-analysis", { input: validInput }, { Origin: "https://evil.example.com" }),
+      ctx("competitor-analysis"),
+    );
+    expect(res.status).toBe(403);
+    expect((await res.json()).code).toBe("FORBIDDEN_ORIGIN");
+  });
+  it("Origin 在白名单内 → 正常处理", async () => {
+    const res = await POST(
+      req("competitor-analysis", { input: validInput }, { Origin: "https://toolbox.yuhailinlxy.com" }),
+      ctx("competitor-analysis"),
+    );
+    expect(res.status).toBe(200);
+    expect(res.headers.get("X-PMForge-Mode")).toBe("mock");
+  });
+  it("无 Origin（curl/evals 等脚本请求）→ 放行", async () => {
+    const res = await POST(req("competitor-analysis", { input: validInput }), ctx("competitor-analysis"));
     expect(res.status).toBe(200);
   });
 });

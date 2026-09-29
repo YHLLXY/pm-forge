@@ -27,3 +27,14 @@ export function serverLlmConfig(): ServerLlmConfig {
     forceMock: process.env.MOCK_LLM === "1",
   };
 }
+
+// 安全审查 F1：API 同源白名单。默认生产域 + 本地开发域，可用 ALLOWED_ORIGINS 覆盖
+// （Vercel 预览域名等）。无 Origin 的脚本请求（evals 等）不在浏览器威胁模型内，另行放行。
+export function allowedOrigins(): Set<string> {
+  return new Set(
+    (process.env.ALLOWED_ORIGINS ?? "https://toolbox.yuhailinlxy.com,http://localhost:3000")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean),
+  );
+}

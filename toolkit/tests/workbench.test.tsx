@@ -79,13 +79,13 @@ describe("ToolWorkbench", () => {
     expect(screen.queryByTestId("tool-output")).not.toBeInTheDocument();
   });
 
-  it("超预算错误显示可读文案（含估值与上限）", async () => {
+  it("超预算错误显示可读文案（不含内部测量值）", async () => {
     vi.stubGlobal("fetch", stubFetch("budget", prdFixture));
     render(<ToolWorkbench toolId="prd-draft" />);
     await fillPrdForm();
     await userEvent.click(screen.getByRole("button", { name: "生成 PRD 草稿" }));
     await waitFor(() =>
-      expect(screen.getByRole("alert")).toHaveTextContent("超过单次上限 8000"),
+      expect(screen.getByRole("alert")).toHaveTextContent("输入超过单次上限。请精简输入后重试。"),
     );
   });
 
