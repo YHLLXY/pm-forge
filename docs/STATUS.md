@@ -108,3 +108,5 @@
 - **发现 F1（中高）**：toolkit 生产 API 无鉴权无限流 = 公网计费代理（TOKEN_BUDGET 零成本探针实证 + force 旁路 + 错误响应泄露测量值）。**代码侧三道防线已实施（bfb825f，58 vitest 全绿）**：①Origin 白名单外 403（无 Origin 脚本请求放行——evals 依赖，滥用由平台层兜底）②force 仅非生产生效 ③错误响应不回显 estimated/max（服务端 console.warn 留痕）。**F4 安全响应头已实施（vercel.json × 2，双构建通过）**。登记 ISSUES #14。
 - **推送即自动部署**：部署后需人工目检 toolbox 页面正常 + 真实生成一次（生产 Origin 校验生效后浏览器同源请求应放行）；`ALLOWED_ORIGINS` 环境变量可加 Vercel 预览域名。
 - **用户侧三项（需本人登录）**：①DeepSeek 平台确认不开启自动充值 ②Vercel Dashboard → toolbox → Firewall 加 /api/* 限流规则（Hobby 免费 1 条）③GitHub 仓库开 Dependabot alerts（gh CLI 未安装，无法代开）。
+
+**F1 收口补记（2026-09-29 晚）**：平台侧三项全部落地并实测——Vercel 限流规则建在 toolbox 项目后，15 连发探针第 11 次起返回 429（10 次/分钟/IP 精确生效）；用户确认所有 API 平台永不开启自动充值（余额即限额）；Dependabot alerts 已开。教训入库：Firewall 规则是**项目级**的，建在 site 项目的规则对 toolbox 域名零作用（探针两轮全 400 定位）。ISSUES #14 关闭在即，仅剩用户浏览器目检一次真实生成。
