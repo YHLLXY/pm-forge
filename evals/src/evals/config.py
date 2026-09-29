@@ -21,6 +21,8 @@ class EvalsConfig:
     judge_model: str  # LLM_MODEL，默认 deepseek-chat
     datasets_dir: Path  # <evals>/datasets
     artifacts_dir: Path  # EVALS_ARTIFACTS_DIR，默认 <evals>/artifacts
+    baseline_dir: Path  # EVALS_BASELINE_DIR，默认 <evals>/baseline
+    calibration_dir: Path  # EVALS_CALIBRATION_DIR，默认 <evals>/calibration
 
 
 def load_config(env: Mapping[str, str] | None = None) -> EvalsConfig:
@@ -33,6 +35,8 @@ def load_config(env: Mapping[str, str] | None = None) -> EvalsConfig:
         judge_model=e.get("LLM_MODEL") or "deepseek-chat",
         datasets_dir=_MODULE_ROOT / "datasets",
         artifacts_dir=Path(e.get("EVALS_ARTIFACTS_DIR") or _MODULE_ROOT / "artifacts"),
+        baseline_dir=Path(e.get("EVALS_BASELINE_DIR") or _MODULE_ROOT / "baseline"),
+        calibration_dir=Path(e.get("EVALS_CALIBRATION_DIR") or _MODULE_ROOT / "calibration"),
     )
 
 

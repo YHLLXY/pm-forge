@@ -12,6 +12,8 @@ def test_defaults():
     assert cfg.judge_model == "deepseek-chat"
     assert cfg.datasets_dir.name == "datasets"
     assert cfg.artifacts_dir.name == "artifacts"
+    assert cfg.baseline_dir.name == "baseline"
+    assert cfg.calibration_dir.name == "calibration"
 
 
 def test_env_overrides():

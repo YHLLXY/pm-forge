@@ -9,12 +9,15 @@
 """
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
+from .calibrate import agreement, load_human_scores, load_results
 from .config import load_config, load_dotenv
 from .dataset import DatasetError, difficulty_counts, load_all
 from .model import TOOL_IDS
+from .regress import compare, latest_run, load_baseline, load_summary, mark_baseline
 from .runner import CostGateError, MockModeError, plan_text, run_datasets
 
 
@@ -55,6 +58,44 @@ def _cmd_run(args) -> int:
     return 0
 
 
+def _resolve_run(cfg, run_id: str | None) -> Path:
+    if run_id:
+        return Path(cfg.artifacts_dir) / run_id
+    return latest_run(cfg.artifacts_dir)
+
+
+def _cmd_regress(args) -> int:
+    cfg = load_config()
+    baseline = load_baseline(cfg.baseline_dir)
+    cand = load_summary(_resolve_run(cfg, args.run))
+    print(compare(baseline, cand))
+    return 0
+
+
+def _cmd_mark_baseline(args) -> int:
+    cfg = load_config()
+    out = mark_baseline(_resolve_run(cfg, args.run), cfg.baseline_dir)
+    print(f"基线已标记：{out}")
+    return 0
+
+
+def _cmd_calibrate(args) -> int:
+    cfg = load_config()
+    run_dir = _resolve_run(cfg, args.run)
+    results = load_results(run_dir)
+    human_path = Path(args.human) if args.human else cfg.calibration_dir / "human-scores.csv"
+    human = load_human_scores(human_path)
+    stats = agreement(results, human)
+    out = run_dir / "calibration.json"
+    out.write_text(json.dumps(stats, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(
+        f"校准对：{stats['pairs']}  完全一致 {stats['exact_rate']:.0%}  "
+        f"±1 一致 {stats['within1_rate']:.0%}  平均绝对差 {stats['mean_abs_diff']}"
+    )
+    print(f"明细（含分歧清单）：{out}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="evals", description="toolkit 三工具评测门禁（A2）")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -72,6 +113,19 @@ def build_parser() -> argparse.ArgumentParser:
     p_run.add_argument("--allow-mock", action="store_true", help="允许 toolkit 演示模式（评分无意义，仅调试管线）")
     p_run.set_defaults(func=_cmd_run)
 
+    p_regress = sub.add_parser("regress", help="与基线对比")
+    p_regress.add_argument("--run", help="候选 run_id（默认 artifacts 下最新）")
+    p_regress.set_defaults(func=_cmd_regress)
+
+    p_mark = sub.add_parser("mark-baseline", help="把某个 run 标记为基线")
+    p_mark.add_argument("--run", help="run_id（默认 artifacts 下最新）")
+    p_mark.set_defaults(func=_cmd_mark_baseline)
+
+    p_cal = sub.add_parser("calibrate", help="人工校准一致率")
+    p_cal.add_argument("--run", help="run_id（默认 artifacts 下最新）")
+    p_cal.add_argument("--human", help="人工评分 CSV（默认 calibration/human-scores.csv）")
+    p_cal.set_defaults(func=_cmd_calibrate)
+
     return parser
 
 
@@ -84,6 +138,6 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     try:
         return args.func(args)
-    except (DatasetError, CostGateError, MockModeError) as exc:
+    except (DatasetError, CostGateError, MockModeError, ValueError) as exc:
         print(f"[evals] {exc}", file=sys.stderr)
         return 1

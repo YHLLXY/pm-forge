@@ -9,21 +9,13 @@
 import json
 from collections.abc import Callable
 from dataclasses import asdict
-from datetime import datetime, timedelta, timezone
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from .client import ToolkitError, call_toolkit
+from .clock import iso_now, stamp
 from .config import EvalsConfig
 from .judge import JudgeError, call_judge
 from .model import DIMENSIONS, TOOL_IDS, Case, CaseResult
 from .structural import structural_checks
-
-try:
-    _TZ = ZoneInfo("Asia/Shanghai")
-except ZoneInfoNotFoundError:
-    # Windows 无系统 tz 库（零依赖核心不带 tzdata 包）时的回退：
-    # 中国无夏令时，固定 UTC+8 与 Asia/Shanghai 等价
-    _TZ = timezone(timedelta(hours=8))
 
 TOOL_NAMES = {
     "competitor-analysis": "竞品分析",
@@ -90,7 +82,7 @@ def _run_case(
         structural=structural,
         dimensions=outcome.dimensions,
         judge_model=outcome.model,
-        judged_at=datetime.now(_TZ).isoformat(timespec="seconds"),
+        judged_at=iso_now(),
         judge_usage=outcome.usage,
     )
 
@@ -113,10 +105,10 @@ def run_datasets(
     if not yes:
         raise CostGateError("真实评分会产生 API 费用：请先 --dry-run 查看计划，确认后加 --yes 执行")
 
-    run_id = run_id or datetime.now(_TZ).strftime("%Y%m%d-%H%M%S")
+    run_id = run_id or stamp()
     run_dir = cfg.artifacts_dir / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
-    started_at = datetime.now(_TZ).isoformat(timespec="seconds")
+    started_at = iso_now()
 
     mode_counter: dict[str, int] = {}
     usage_total = {"prompt_tokens": 0, "completion_tokens": 0}
@@ -164,7 +156,7 @@ def run_datasets(
                     bucket["error_count"] += 1
                 progress(f"  → {result.status}")
 
-    finished_at = datetime.now(_TZ).isoformat(timespec="seconds")
+    finished_at = iso_now()
     per_tool_out = {}
     for tool, bucket in per_tool.items():
         n = bucket["dims_n"] / len(DIMENSIONS) if bucket["dims_n"] else 0
