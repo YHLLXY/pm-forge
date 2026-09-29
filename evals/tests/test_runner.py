@@ -85,7 +85,7 @@ class FakeJudge:
         self.fail_ids = set(fail_ids)
         self.scored: list[str] = []
 
-    def __call__(self, cfg, tool_name, case, output):
+    def __call__(self, cfg, tool_name, case, output, **kwargs):
         self.scored.append(case.id)
         if case.id in self.fail_ids:
             raise JudgeError(f"模拟评分失败：{case.id}")
@@ -97,6 +97,20 @@ class FakeJudge:
             dimensions=dims, note="ok", model="judge-mock-1",
             usage={"prompt_tokens": 100, "completion_tokens": 10},
         )
+
+
+class FlakyJudge(FakeJudge):
+    """首次评分抛 JudgeError（如畸形 JSON），重试后成功。"""
+
+    def __init__(self):
+        super().__init__()
+        self.attempts: list[str] = []
+
+    def __call__(self, cfg, tool_name, case, output, **kwargs):
+        self.attempts.append(case.id)
+        if case.id == "comp-001" and self.attempts.count("comp-001") == 1:
+            raise JudgeError("评分响应不是 JSON")
+        return super().__call__(cfg, tool_name, case, output, **kwargs)
 
 
 def cfg_key(tmp_path: Path):
@@ -188,6 +202,27 @@ def test_judge_error_recorded_not_fatal(tmp_path):
     statuses = {r["case_id"]: r["status"] for r in read_results(run_dir)}
     assert statuses["fb-001"] == "judge_error"
     assert statuses["comp-001"] == "ok"
+
+
+def test_judge_retried_once_then_ok(tmp_path):
+    judge = FlakyJudge()
+    run_dir = run_datasets(cfg_key(tmp_path), CASES, client=FakeClient(), judge=judge, yes=True)
+    statuses = {r["case_id"]: r["status"] for r in read_results(run_dir)}
+    assert statuses["comp-001"] == "ok"  # 重试后成功
+    assert judge.attempts.count("comp-001") == 2  # 恰好重试一次
+
+
+def test_judge_retry_also_fails_recorded(tmp_path):
+    class AlwaysBad(FlakyJudge):
+        def __call__(self, cfg, tool_name, case, output, **kwargs):
+            if case.id == "comp-001":
+                self.attempts.append(case.id)
+                raise JudgeError("始终畸形")
+            return super().__call__(cfg, tool_name, case, output, **kwargs)
+
+    run_dir = run_datasets(cfg_key(tmp_path), CASES, client=FakeClient(), judge=AlwaysBad(), yes=True)
+    statuses = {r["case_id"]: r["status"] for r in read_results(run_dir)}
+    assert statuses["comp-001"] == "judge_error"
 
 
 def test_results_incremental_with_structural(tmp_path):

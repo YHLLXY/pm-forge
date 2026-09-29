@@ -27,7 +27,8 @@ _SYSTEM_PROMPT = """你是严格的 AI 产品质量评审。对给定输出按�
 
 只输出一个 JSON 对象，不要代码围栏，不要解释文字：
 {"dimensions": [{"dimension": "factuality", "score": 1, "evidence": "引用原文的具体证据"}, {"dimension": "structure", "score": 1, "evidence": "..."}, {"dimension": "actionability", "score": 1, "evidence": "..."}, {"dimension": "instruction", "score": 1, "evidence": "..."}], "note": "一句话总评"}
-dimensions 必须恰好包含 factuality、structure、actionability、instruction 四项，不得重复。"""
+dimensions 必须恰好包含 factuality、structure、actionability、instruction 四项，不得重复。
+evidence 字段内禁止出现英文双引号 "，引用原文请用中文引号「」——否则 JSON 会被破坏。"""
 
 
 class JudgeError(RuntimeError):
@@ -42,12 +43,14 @@ class JudgeOutcome:
     usage: dict = field(default_factory=dict)
 
 
-def build_judge_messages(tool_name: str, case: Case, output: str) -> list[dict]:
+def build_judge_messages(tool_name: str, case: Case, output: str, hint: str = "") -> list[dict]:
     user = (
         f"被评工具：{tool_name}\n"
         f"评测任务：{case.task}（难度：{case.difficulty}）\n\n"
         f"待评输出：\n{output}"
     )
+    if hint:
+        user += f"\n\n（更正要求：{hint}）"
     return [
         {"role": "system", "content": _SYSTEM_PROMPT},
         {"role": "user", "content": user},
@@ -112,11 +115,12 @@ def call_judge(
     *,
     transport: JudgeTransport | None = None,
     timeout: int = 120,
+    hint: str = "",
 ) -> JudgeOutcome:
     url = f"{cfg.judge_base_url}/chat/completions"
     payload = {
         "model": cfg.judge_model,
-        "messages": build_judge_messages(tool_name, case, output),
+        "messages": build_judge_messages(tool_name, case, output, hint=hint),
         "temperature": 0,
     }
     headers = {

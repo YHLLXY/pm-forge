@@ -66,12 +66,20 @@ def _run_case(
             "请配置 toolkit 的真实 LLM key 后重试；确要评测演示模式请加 --allow-mock。"
         )
     structural = structural_checks(case, resp.text)
-    try:
-        outcome = judge(cfg, TOOL_NAMES[tool], case, resp.text)
-    except JudgeError as exc:
+    # JudgeError（如偶发畸形 JSON）带更正提示重试一次；再失败才记 judge_error
+    _RETRY_HINT = "上一次评分响应不是合法 JSON：请只输出一个合法 JSON 对象，且 evidence 中不要使用英文双引号。"
+    outcome = None
+    last_err: JudgeError | None = None
+    for kwargs in ({}, {"hint": _RETRY_HINT}):
+        try:
+            outcome = judge(cfg, TOOL_NAMES[tool], case, resp.text, **kwargs)
+            break
+        except JudgeError as exc:
+            last_err = exc
+    if outcome is None:
         return CaseResult(
             **base, status="judge_error", mode=resp.mode, output=resp.text,
-            duration_ms=resp.duration_ms, structural=structural, error=str(exc),
+            duration_ms=resp.duration_ms, structural=structural, error=str(last_err),
         )
     return CaseResult(
         **base,
