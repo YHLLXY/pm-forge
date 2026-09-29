@@ -9,6 +9,7 @@
 import json
 from collections.abc import Callable
 from dataclasses import asdict
+from pathlib import Path
 
 from .client import ToolkitError, call_toolkit
 from .clock import iso_now, stamp
@@ -95,6 +96,87 @@ def _run_case(
     )
 
 
+def _summarize(
+    rows: list[dict],
+    cfg: EvalsConfig,
+    run_id: str,
+    started_at: str,
+    finished_at: str,
+    total_cases: int,
+) -> dict:
+    """从 results 行聚合 summary。
+
+    结构检查通过率的分母是**该检查出现的案例数**（不同工具/案例的检查项
+    不同，如 must_include 只在个别案例上存在），不能除以全部 ok 案例数。
+    """
+    mode_counter: dict[str, int] = {}
+    usage_total = {"prompt_tokens": 0, "completion_tokens": 0}
+    judge_model_seen = ""
+    per_tool = {
+        t: {
+            "case_count": 0,
+            "ok_count": 0,
+            "error_count": 0,
+            "dims_sum": {d: 0 for d in DIMENSIONS},
+            "dims_n": 0,
+            "structural_stats": {},  # key -> [hit, present]
+        }
+        for t in TOOL_IDS
+    }
+    for row in rows:
+        tool = row["tool"]
+        bucket = per_tool[tool]
+        bucket["case_count"] += 1
+        mode_counter[row["mode"]] = mode_counter.get(row["mode"], 0) + 1
+        if row["status"] == "ok":
+            bucket["ok_count"] += 1
+            for key, passed in row["structural"].items():
+                stats = bucket["structural_stats"].setdefault(key, [0, 0])
+                stats[0] += 1 if passed else 0
+                stats[1] += 1
+            for ds in row["dimensions"]:
+                bucket["dims_sum"][ds["dimension"]] += ds["score"]
+                bucket["dims_n"] += 1
+            if row.get("judge_model"):
+                judge_model_seen = row["judge_model"]
+            row_usage = row.get("judge_usage") or {}
+            usage_total["prompt_tokens"] += row_usage.get("prompt_tokens", 0)
+            usage_total["completion_tokens"] += row_usage.get("completion_tokens", 0)
+        else:
+            bucket["error_count"] += 1
+
+    per_tool_out = {}
+    for tool, bucket in per_tool.items():
+        n = bucket["dims_n"] / len(DIMENSIONS) if bucket["dims_n"] else 0
+        per_tool_out[tool] = {
+            "case_count": bucket["case_count"],
+            "ok_count": bucket["ok_count"],
+            "error_count": bucket["error_count"],
+            "dim_avg": {d: round(bucket["dims_sum"][d] / n, 2) if n else None for d in DIMENSIONS},
+            "structural_pass_rate": {
+                k: round(v[0] / v[1], 3) if v[1] else None
+                for k, v in bucket["structural_stats"].items()
+            },
+        }
+    return {
+        "run_id": run_id,
+        "started_at": started_at,
+        "finished_at": finished_at,
+        "toolkit_base_url": cfg.toolkit_base_url,
+        "toolkit_model_note": cfg.toolkit_model_note,
+        "judge_model": judge_model_seen or cfg.judge_model,
+        "judge_model_configured": cfg.judge_model,
+        "mode_counter": mode_counter,
+        "cost": {
+            "cases": total_cases,
+            "toolkit_calls": len(rows),
+            "judge_prompt_tokens": usage_total["prompt_tokens"],
+            "judge_completion_tokens": usage_total["completion_tokens"],
+        },
+        "per_tool": per_tool_out,
+    }
+
+
 def run_datasets(
     cfg: EvalsConfig,
     cases_by_tool: dict[str, list[Case]],
@@ -118,22 +200,7 @@ def run_datasets(
     run_dir.mkdir(parents=True, exist_ok=True)
     started_at = iso_now()
 
-    mode_counter: dict[str, int] = {}
-    usage_total = {"prompt_tokens": 0, "completion_tokens": 0}
-    judge_model_seen = ""
-    per_tool = {
-        t: {
-            "case_count": len(cases_by_tool.get(t, [])),
-            "ok_count": 0,
-            "error_count": 0,
-            "dims_sum": {d: 0 for d in DIMENSIONS},
-            "dims_n": 0,
-            "structural_hits": {},
-            "structural_n": 0,
-        }
-        for t in TOOL_IDS
-    }
-
+    rows: list[dict] = []
     results_path = run_dir / "results.jsonl"
     idx = 0
     with results_path.open("w", encoding="utf-8") as fh:
@@ -142,62 +209,37 @@ def run_datasets(
                 idx += 1
                 progress(f"[{idx}/{total}] {tool} {case.id} …")
                 result = _run_case(cfg, tool, case, client=client, judge=judge, allow_mock=allow_mock)
-                fh.write(json.dumps(asdict(result), ensure_ascii=False) + "\n")
+                row = asdict(result)
+                rows.append(row)
+                fh.write(json.dumps(row, ensure_ascii=False) + "\n")
                 fh.flush()
-
-                mode_counter[result.mode] = mode_counter.get(result.mode, 0) + 1
-                bucket = per_tool[tool]
-                if result.status == "ok":
-                    bucket["ok_count"] += 1
-                    bucket["structural_n"] += 1
-                    for key, passed in result.structural.items():
-                        agg = bucket["structural_hits"].setdefault(key, 0)
-                        bucket["structural_hits"][key] = agg + (1 if passed else 0)
-                    for ds in result.dimensions:
-                        bucket["dims_sum"][ds.dimension] += ds.score
-                        bucket["dims_n"] += 1
-                    if result.judge_model:
-                        judge_model_seen = result.judge_model
-                    usage_total["prompt_tokens"] += result.judge_usage.get("prompt_tokens", 0)
-                    usage_total["completion_tokens"] += result.judge_usage.get("completion_tokens", 0)
-                else:
-                    bucket["error_count"] += 1
                 progress(f"  → {result.status}")
 
     finished_at = iso_now()
-    per_tool_out = {}
-    for tool, bucket in per_tool.items():
-        n = bucket["dims_n"] / len(DIMENSIONS) if bucket["dims_n"] else 0
-        per_tool_out[tool] = {
-            "case_count": bucket["case_count"],
-            "ok_count": bucket["ok_count"],
-            "error_count": bucket["error_count"],
-            "dim_avg": {
-                d: round(bucket["dims_sum"][d] / n, 2) if n else None for d in DIMENSIONS
-            },
-            "structural_pass_rate": {
-                k: round(v / bucket["structural_n"], 3) if bucket["structural_n"] else None
-                for k, v in bucket["structural_hits"].items()
-            },
-        }
-    summary = {
-        "run_id": run_id,
-        "started_at": started_at,
-        "finished_at": finished_at,
-        "toolkit_base_url": cfg.toolkit_base_url,
-        "toolkit_model_note": cfg.toolkit_model_note,
-        "judge_model": judge_model_seen or cfg.judge_model,
-        "judge_model_configured": cfg.judge_model,
-        "mode_counter": mode_counter,
-        "cost": {
-            "cases": total,
-            "toolkit_calls": idx,
-            "judge_prompt_tokens": usage_total["prompt_tokens"],
-            "judge_completion_tokens": usage_total["completion_tokens"],
-        },
-        "per_tool": per_tool_out,
-    }
+    summary = _summarize(rows, cfg, run_id, started_at, finished_at, total)
     (run_dir / "summary.json").write_text(
         json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
     )
     return run_dir
+
+
+def rebuild_summary(run_dir: Path, cfg: EvalsConfig) -> dict:
+    """从 results.jsonl 重建 summary.json（崩溃恢复 / 聚合逻辑修复后重算）。
+
+    started/finished 以 results 内 judged_at 的最小/最大值为近似；
+    结果与原始 run 的差异仅在时间戳与 rebuilt 标记。
+    """
+    run_dir = Path(run_dir)
+    rows = []
+    for line in (run_dir / "results.jsonl").read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            rows.append(json.loads(line))
+    judged = sorted(r["judged_at"] for r in rows if r.get("judged_at"))
+    started_at = judged[0] if judged else iso_now()
+    finished_at = judged[-1] if judged else iso_now()
+    summary = _summarize(rows, cfg, run_dir.name, started_at, finished_at, len(rows))
+    summary["rebuilt_at"] = iso_now()
+    (run_dir / "summary.json").write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    return summary

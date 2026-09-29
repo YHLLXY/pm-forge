@@ -1,13 +1,13 @@
 {
   "run_id": "20260929-133346",
   "judge_model": "deepseek-flash",
-  "marked_at": "2026-09-29T13:54:01+08:00",
+  "marked_at": "2026-09-29T13:59:55+08:00",
   "summary": {
     "run_id": "20260929-133346",
-    "started_at": "2026-09-29T13:33:46+08:00",
+    "started_at": "2026-09-29T13:33:57+08:00",
     "finished_at": "2026-09-29T13:47:17+08:00",
     "toolkit_base_url": "http://localhost:3000",
-    "toolkit_model_note": "deepseek-chat",
+    "toolkit_model_note": "",
     "judge_model": "deepseek-flash",
     "judge_model_configured": "deepseek-chat",
     "mode_counter": {
@@ -32,7 +32,7 @@
         },
         "structural_pass_rate": {
           "no_failure_mark": 1.0,
-          "must_include": 0.182,
+          "must_include": 1.0,
           "sections_complete": 1.0,
           "evidence_marks_present": 1.0
         }
@@ -50,10 +50,10 @@
         "structural_pass_rate": {
           "no_failure_mark": 1.0,
           "json_valid": 0.955,
-          "themes_in_range": 0.864,
-          "sentiment_valid": 0.864,
-          "count_sum_consistent": 0.818,
-          "quotes_verbatim": 0.864
+          "themes_in_range": 0.905,
+          "sentiment_valid": 0.905,
+          "count_sum_consistent": 0.857,
+          "quotes_verbatim": 0.905
         }
       },
       "prd-draft": {
@@ -72,6 +72,7 @@
           "has_tracking": 1.0
         }
       }
-    }
+    },
+    "rebuilt_at": "2026-09-29T13:58:48+08:00"
   }
 }

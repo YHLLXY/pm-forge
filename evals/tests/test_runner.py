@@ -8,7 +8,7 @@ from evals.client import ToolkitError, ToolkitResponse
 from evals.config import load_config
 from evals.judge import JudgeError, JudgeOutcome
 from evals.model import Case, DimensionScore
-from evals.runner import CostGateError, MockModeError, plan_text, run_datasets
+from evals.runner import CostGateError, MockModeError, plan_text, rebuild_summary, run_datasets
 
 DIM_KEYS = ("factuality", "structure", "actionability", "instruction")
 SCORES = {
@@ -91,7 +91,7 @@ class FakeJudge:
             raise JudgeError(f"模拟评分失败：{case.id}")
         dims = tuple(
             DimensionScore(dimension=d, score=s, evidence=f"证据-{d}")
-            for d, s in zip(DIM_KEYS, SCORES[case.id])
+            for d, s in zip(DIM_KEYS, SCORES.get(case.id, (3, 3, 3, 3)))
         )
         return JudgeOutcome(
             dimensions=dims, note="ok", model="judge-mock-1",
@@ -223,6 +223,35 @@ def test_judge_retry_also_fails_recorded(tmp_path):
     run_dir = run_datasets(cfg_key(tmp_path), CASES, client=FakeClient(), judge=AlwaysBad(), yes=True)
     statuses = {r["case_id"]: r["status"] for r in read_results(run_dir)}
     assert statuses["comp-001"] == "judge_error"
+
+
+def test_structural_pass_rate_not_diluted(tmp_path):
+    """must_include 只存在于个别案例：通过率分母应是该检查出现的案例数，不是全部 ok 案例。"""
+    cases = {
+        "competitor-analysis": [
+            Case(id="comp-a", tool="competitor-analysis", task="案例A的任务描述", difficulty="基础",
+                 input={"_marker": "comp-a", "purpose": "目的", "myProduct": "产品描述足够长", "competitors": []},
+                 expect_must_include=("【行业常识】",)),  # COMPETITOR_OUT 含该标注 → 命中
+            Case(id="comp-b", tool="competitor-analysis", task="案例B的任务描述", difficulty="边界",
+                 input={"_marker": "comp-b", "purpose": "目的", "myProduct": "产品描述足够长", "competitors": []}),
+        ],
+    }
+    run_dir = run_datasets(cfg_key(tmp_path), cases, client=FakeClient(), judge=FakeJudge(), yes=True)
+    summary = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
+    rates = summary["per_tool"]["competitor-analysis"]["structural_pass_rate"]
+    assert rates["must_include"] == 1.0  # 1/1，而非被稀释成 0.5
+    assert rates["sections_complete"] == 1.0  # 2/2
+
+
+def test_rebuild_summary_reproduces(tmp_path):
+    run_dir = run_datasets(cfg_key(tmp_path), CASES, client=FakeClient(), judge=FakeJudge(), yes=True)
+    original = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
+    cfg = load_config(env={"LLM_API_KEY": "sk-test", "EVALS_ARTIFACTS_DIR": str(tmp_path / "artifacts")})
+    rebuilt = rebuild_summary(run_dir, cfg)
+    assert rebuilt["per_tool"] == original["per_tool"]
+    assert rebuilt["cost"]["judge_prompt_tokens"] == original["cost"]["judge_prompt_tokens"]
+    assert rebuilt["mode_counter"] == original["mode_counter"]
+    assert rebuilt["rebuilt_at"]  # 重建标记存在
 
 
 def test_results_incremental_with_structural(tmp_path):
