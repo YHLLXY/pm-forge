@@ -6,6 +6,7 @@
 
 | # | 现象 | 原因 | 影响 | 严重度 | 状态 |
 |---|---|---|---|---|---|
+| 14 | toolkit 生产 API 无鉴权无限流，公网可直达计费链路（2026-09-29 安全审查 F1，证据与修复方案见资料库 11 号报告） | 无鉴权 API 上"用户显式确认"对脚本无意义；CORS 不保护无凭证接口（text/plain 简单请求可绕预检） | 脚本化滥用可消耗 DeepSeek 余额与 Vercel 函数配额（单次调用上界 ≈1.5 万 token） | 中高 | **代码侧已缓解（bfb825f）**：同源校验（Origin 白名单外 403）/force 仅非生产生效/错误响应不回显 estimated+max。**平台侧待用户**：①DeepSeek 不开自动充值（最硬天花板）②Vercel Firewall 加 1 条 /api/* 限流规则（Hobby 免费）③GitHub 开 Dependabot alerts。残留：无 Origin 的脚本请求仍可直达（设计取舍，evals 依赖此通道） |
 | 13 | toolkit 的 next 内嵌 postcss ≤8.5.22 报 2 漏洞（1 高 1 中：CSS stringify XSS / sourceMappingURL 文件读取系列，GHSA-qx2v-qp2m-jg93 等） | next 15.5.26 的构建期传递依赖；官方修复需升 next@16.3.6（破坏性大版本） | 实际可利用性低——攻击面需攻击者可控 CSS 输入，toolkit 的 CSS 全部自有 | 中（专项处理） | 延后：升 Next 16 时全量回归（52 vitest + 3 e2e + 线上冒烟）；`npm audit` 须加 `--registry=https://registry.npmjs.org`（npmmirror 无 audit 接口） |
 | 10 | 若 Vercel 钉住的两个 IP（76.76.21.21 / 64.29.17.65）未来也被 GFW 封锁 | 国内直连 Vercel 天然受墙影响 | 网站国内不可达（toolkit 与 site 同方案） | 中 | 监控；后手=Cloudflare 代理（已实测国内可达） |
 | 9 | `next build --turbopack` 在 Windows 报 EISDIR readlink（styled-jsx） | turbopack 构建在 Windows 的解析问题；webpack 构建正常 | 无（构建脚本已固定用 webpack；dev 用 turbopack 不受影响） | 低 | 已绕过（README 注明） |

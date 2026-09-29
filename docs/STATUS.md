@@ -100,3 +100,11 @@
 - **遗留（v2/P2）**：rubric 工具感知锚点；judge 输入可见；反馈工具 JSON 契约违约修复（count 守恒/quotes 逐字）；用户侧抽查校准分歧项（calibration/README 有流程，rater=user 追加即可）；E 基建小包（CI/Pagefind 1.5.2 已验证/RSS/JSON-LD）随时插空；下一线 B 交互数据故事 11 月启动。
 
 **可作战状态**：✅ A 线 A2 收工；A1 拆解板块待 §12 拍板（产品选择+付费账号）后 11 月开工。
+
+## 2026-09-29 安全审查 + 代码侧加固（用户授权远程执行）
+
+- **审查**：vault 无现成方法论 → 采用 OWASP API Security Top 10 (2023) 裁剪（十项只命中三类：资源消耗/业务流滥用/安全配置），东方适配三条（npm audit 镜像缺口 → 直连官方源审计+Dependabot 补偿；人机验证用平台自带；WAF 只用已验证国内可达）。报告：`资料库/11-pm-forge安全审查报告.md`；方法论沉淀 vault `40-经验教训/安全审查/`。
+- **通过项（有证据）**：git 全历史无 .env/无 key 形态、两 .env 正确忽略、无 NEXT_PUBLIC、Python 无危险调用、站点零第三方资源、隐私词扫描仅合成内容命中、site 依赖 0 漏洞、HSTS 启用。
+- **发现 F1（中高）**：toolkit 生产 API 无鉴权无限流 = 公网计费代理（TOKEN_BUDGET 零成本探针实证 + force 旁路 + 错误响应泄露测量值）。**代码侧三道防线已实施（bfb825f，58 vitest 全绿）**：①Origin 白名单外 403（无 Origin 脚本请求放行——evals 依赖，滥用由平台层兜底）②force 仅非生产生效 ③错误响应不回显 estimated/max（服务端 console.warn 留痕）。**F4 安全响应头已实施（vercel.json × 2，双构建通过）**。登记 ISSUES #14。
+- **推送即自动部署**：部署后需人工目检 toolbox 页面正常 + 真实生成一次（生产 Origin 校验生效后浏览器同源请求应放行）；`ALLOWED_ORIGINS` 环境变量可加 Vercel 预览域名。
+- **用户侧三项（需本人登录）**：①DeepSeek 平台确认不开启自动充值 ②Vercel Dashboard → toolbox → Firewall 加 /api/* 限流规则（Hobby 免费 1 条）③GitHub 仓库开 Dependabot alerts（gh CLI 未安装，无法代开）。
