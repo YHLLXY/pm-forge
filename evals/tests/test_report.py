@@ -81,13 +81,14 @@ def test_render_contains_core_fields(tmp_path):
     assert "INVALID_INPUT" in md  # 错误案例摘录
     assert "回归参考" in md  # 钉版本/局限声明
     assert "900" in md  # 成本披露
-    assert "一致率" not in md  # 无校准文件则不出现校准节
+    assert "（本次运行尚未做人工校准）" in md  # 无校准文件则校准节为占位说明
 
 
 def test_render_with_calibration(tmp_path):
     md = render_run_report(_run_dir(tmp_path, with_calibration=True))
     assert "一致率" in md
-    assert "0.72" in md
+    assert "72%" in md  # exact_rate 0.72 → 百分比呈现
+    assert "95%" in md  # within1_rate 0.95
 
 
 def test_render_low_score_excerpt(tmp_path):
