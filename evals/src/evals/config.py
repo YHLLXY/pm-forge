@@ -34,3 +34,16 @@ def load_config(env: Mapping[str, str] | None = None) -> EvalsConfig:
         datasets_dir=_MODULE_ROOT / "datasets",
         artifacts_dir=Path(e.get("EVALS_ARTIFACTS_DIR") or _MODULE_ROOT / "artifacts"),
     )
+
+
+def load_dotenv(path: Path | None = None) -> None:
+    """极简 .env 加载：KEY=VALUE、# 注释；已存在的环境变量优先（setdefault）。"""
+    p = path or _MODULE_ROOT / ".env"
+    if not p.exists():
+        return
+    for line in p.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))

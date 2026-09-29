@@ -13,6 +13,9 @@ dependencies = []
 [dependency-groups]
 dev = ["pytest>=9.1.1", "ruff>=0.16.9"]
 
+[project.scripts]
+evals = "evals.cli:main"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 

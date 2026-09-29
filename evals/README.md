@@ -16,6 +16,19 @@ cp .env.example .env   # 填入 LLM_API_KEY（永不入库）
 uv run pytest -q
 ```
 
+## 用法
+
+```bash
+uv run evals validate                 # 校验评测集（零调用）
+uv run evals run --dry-run            # 查看评测计划与成本上界
+uv run evals run --limit 2 --yes      # 每工具冒烟 2 条（真实调用）
+uv run evals run --yes                # 全量真实运行（66 case）
+uv run evals run --tool prd-draft --yes   # 只跑指定工具
+```
+
+前置：toolkit 本地可访问（`cd toolkit && npm run dev`，且其 `.env` 配置真实 LLM key——
+`X-PMForge-Mode: mock` 时 run 会拒绝执行）。
+
 ## 目录
 
 - `datasets/` 三工具评测集 JSONL（入 git，无隐私）
