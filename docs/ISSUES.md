@@ -6,7 +6,6 @@
 
 | # | 现象 | 原因 | 影响 | 严重度 | 状态 |
 |---|---|---|---|---|---|
-| 14 | toolkit 生产 API 无鉴权无限流，公网可直达计费链路（2026-09-29 安全审查 F1，证据与修复方案见资料库 11 号报告） | 无鉴权 API 上"用户显式确认"对脚本无意义；CORS 不保护无凭证接口（text/plain 简单请求可绕预检） | 脚本化滥用可消耗 DeepSeek 余额与 Vercel 函数配额（单次调用上界 ≈1.5 万 token） | 中高 | **已收敛（代码 bfb825f + 平台侧 2026-09-29 全部落地）**：①同源校验/force 仅非生产/错误不回显测量值（58 vitest）；②Vercel Firewall 限流 10 次/分钟/IP **实测生效**（15 连发探针第 11 次起 429）；③DeepSeek 不开自动充值（用户确认，余额即限额）；④Dependabot alerts 已开。残留：无 Origin 的脚本请求可通过代码层，但被限流封顶（10 次/分钟）；正常使用回归待用户浏览器目检一次真实生成 |
 | 13 | toolkit 的 next 内嵌 postcss ≤8.5.22 报 2 漏洞（1 高 1 中：CSS stringify XSS / sourceMappingURL 文件读取系列，GHSA-qx2v-qp2m-jg93 等） | next 15.5.26 的构建期传递依赖；官方修复需升 next@16.3.6（破坏性大版本） | 实际可利用性低——攻击面需攻击者可控 CSS 输入，toolkit 的 CSS 全部自有 | 中（专项处理） | 延后：升 Next 16 时全量回归（52 vitest + 3 e2e + 线上冒烟）；`npm audit` 须加 `--registry=https://registry.npmjs.org`（npmmirror 无 audit 接口） |
 | 10 | 若 Vercel 钉住的两个 IP（76.76.21.21 / 64.29.17.65）未来也被 GFW 封锁 | 国内直连 Vercel 天然受墙影响 | 网站国内不可达（toolkit 与 site 同方案） | 中 | 监控；后手=Cloudflare 代理（已实测国内可达） |
 | 9 | `next build --turbopack` 在 Windows 报 EISDIR readlink（styled-jsx） | turbopack 构建在 Windows 的解析问题；webpack 构建正常 | 无（构建脚本已固定用 webpack；dev 用 turbopack 不受影响） | 低 | 已绕过（README 注明） |
@@ -29,6 +28,8 @@
 
 | # | 问题 | 解决方案 | commit |
 |---|---|---|---|
+| 15 | evals 基线抓到反馈工具 4 例结构违例（fb-003 JSON 滑丝、fb-011 双计、fb-007/fb-015 主题数越界） | 逐例归因三分类：2 例真缺陷 + 1 例契约过严 + 1 例检查器级联误报。修复三件套：①prompt v1.1 输出前自查（85f2e62）②服务端机械契约校验 + 带具体违例重试一次（contracts.ts，两轮评测实测触发 6 次）③契约放松 1-12 三处同步（insights schema/prompt/evals 检查器）+ 检查器去级联（6446908）。另修 regress.compare 不兼容 mark_baseline 包装结构的端到端 bug。复测 66/66 ok、结构检查全 100%，基线重钉 20260930-005223 | 85f2e62 |
+| 14 | toolkit 生产 API 无鉴权无限流，公网可直达计费链路（2026-09-29 安全审查 F1，报告见资料库 11 号） | 分层收敛：①代码层——同源白名单 403 / force 仅非生产 / 错误不回显测量值（58 vitest，bfb825f）；②平台层——Vercel Firewall 限流 10 次/分钟/IP **实测生效**（15 连发第 11 次起 429；教训：Firewall 规则是项目级的，须建在 toolbox 项目）；③限额层——DeepSeek 不开自动充值（用户确认，余额即上限）；④供应链——Dependabot alerts。生产验证（2026-09-30）：跨站 Origin→403、同站/无 Origin 超预算→400、生产 force 失效→400，四探针全过；浏览器真实生成回归通过（同源请求过白名单，"真实"模式完整六章报告 + 证据链标注 + 历史记录正常） | bfb825f |
 | 7 | 验收②：本机无 LLM_API_KEY 无法产出真实报告 | 用户配置 DeepSeek key → `npm run smoke:real` 三份报告通过（约 6.6k tokens）；2026-09-28 三份报告已精选发布进 site/src/content/toolkit-reports/（含来源横幅与演示样例声明），M3 构建（581bd2c） | 581bd2c |
 | 11 | AstroPaper 基座三个国内构建雷：Google Fonts（fontProviders.google 构建期拉取）、动态 OG（satori 依赖该字体且 CJK 缺字）、pagefind | T1 一次性拆除：系统 CJK 字体栈、静态 og-default.png（Playwright 截图生成）、search:false 并删依赖 | 5e8716e |
 | 12 | Lighthouse 首轮 a11y 87（agriagent 页）：muted 小字对比度不足、dl 内结构不合规、文章标题锚链无可辨识名称 | 自定义组件文字改 text-foreground/75；MetricCards 改 ul/li；锚链加 aria-label；另过滤零权重 insight 审计避免误报 | 6422082 |

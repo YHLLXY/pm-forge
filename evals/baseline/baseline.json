@@ -1,13 +1,13 @@
 {
-  "run_id": "20260929-133346",
+  "run_id": "20260930-005223",
   "judge_model": "deepseek-flash",
-  "marked_at": "2026-09-29T13:59:55+08:00",
+  "marked_at": "2026-09-30T01:07:58+08:00",
   "summary": {
-    "run_id": "20260929-133346",
-    "started_at": "2026-09-29T13:33:57+08:00",
-    "finished_at": "2026-09-29T13:47:17+08:00",
+    "run_id": "20260930-005223",
+    "started_at": "2026-09-30T00:52:23+08:00",
+    "finished_at": "2026-09-30T01:05:32+08:00",
     "toolkit_base_url": "http://localhost:3000",
-    "toolkit_model_note": "",
+    "toolkit_model_note": "deepseek-chat",
     "judge_model": "deepseek-flash",
     "judge_model_configured": "deepseek-chat",
     "mode_counter": {
@@ -16,8 +16,8 @@
     "cost": {
       "cases": 66,
       "toolkit_calls": 66,
-      "judge_prompt_tokens": 138201,
-      "judge_completion_tokens": 26105
+      "judge_prompt_tokens": 140825,
+      "judge_completion_tokens": 25970
     },
     "per_tool": {
       "competitor-analysis": {
@@ -25,10 +25,10 @@
         "ok_count": 22,
         "error_count": 0,
         "dim_avg": {
-          "factuality": 4.91,
+          "factuality": 5.0,
           "structure": 5.0,
-          "actionability": 4.18,
-          "instruction": 4.95
+          "actionability": 4.27,
+          "instruction": 5.0
         },
         "structural_pass_rate": {
           "no_failure_mark": 1.0,
@@ -42,18 +42,18 @@
         "ok_count": 22,
         "error_count": 0,
         "dim_avg": {
-          "factuality": 2.55,
-          "structure": 4.09,
-          "actionability": 3.36,
-          "instruction": 2.14
+          "factuality": 3.05,
+          "structure": 4.14,
+          "actionability": 3.45,
+          "instruction": 2.36
         },
         "structural_pass_rate": {
           "no_failure_mark": 1.0,
-          "json_valid": 0.955,
-          "themes_in_range": 0.905,
-          "sentiment_valid": 0.905,
-          "count_sum_consistent": 0.857,
-          "quotes_verbatim": 0.905
+          "json_valid": 1.0,
+          "themes_in_range": 1.0,
+          "sentiment_valid": 1.0,
+          "count_sum_consistent": 1.0,
+          "quotes_verbatim": 1.0
         }
       },
       "prd-draft": {
@@ -61,10 +61,10 @@
         "ok_count": 22,
         "error_count": 0,
         "dim_avg": {
-          "factuality": 4.09,
+          "factuality": 3.95,
           "structure": 5.0,
-          "actionability": 3.82,
-          "instruction": 4.95
+          "actionability": 3.68,
+          "instruction": 4.91
         },
         "structural_pass_rate": {
           "no_failure_mark": 1.0,
@@ -72,7 +72,6 @@
           "has_tracking": 1.0
         }
       }
-    },
-    "rebuilt_at": "2026-09-29T13:58:48+08:00"
+    }
   }
 }
