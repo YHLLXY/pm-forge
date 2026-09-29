@@ -18,6 +18,7 @@ from .config import load_config, load_dotenv
 from .dataset import DatasetError, difficulty_counts, load_all
 from .model import TOOL_IDS
 from .regress import compare, latest_run, load_baseline, load_summary, mark_baseline
+from .report import render_comparison_report, render_run_report
 from .runner import CostGateError, MockModeError, plan_text, run_datasets
 
 
@@ -96,6 +97,19 @@ def _cmd_calibrate(args) -> int:
     return 0
 
 
+def _cmd_report(args) -> int:
+    cfg = load_config()
+    run_dir = _resolve_run(cfg, args.run)
+    if args.compare_with:
+        md = render_comparison_report(Path(cfg.artifacts_dir) / args.compare_with, run_dir)
+    else:
+        md = render_run_report(run_dir)
+    out = Path(args.out) if args.out else run_dir / "report.md"
+    out.write_text(md, encoding="utf-8")
+    print(f"报告：{out}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="evals", description="toolkit 三工具评测门禁（A2）")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -125,6 +139,12 @@ def build_parser() -> argparse.ArgumentParser:
     p_cal.add_argument("--run", help="run_id（默认 artifacts 下最新）")
     p_cal.add_argument("--human", help="人工评分 CSV（默认 calibration/human-scores.csv）")
     p_cal.set_defaults(func=_cmd_calibrate)
+
+    p_report = sub.add_parser("report", help="渲染运行报告（markdown）")
+    p_report.add_argument("--run", help="run_id（默认 artifacts 下最新）")
+    p_report.add_argument("--out", help="输出路径（默认 <run_dir>/report.md）")
+    p_report.add_argument("--compare-with", help="与指定 run_id 对比渲染")
+    p_report.set_defaults(func=_cmd_report)
 
     return parser
 
