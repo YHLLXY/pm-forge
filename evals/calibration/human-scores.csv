@@ -1,1 +1,33 @@
 case_id,dimension,score,rater,note
+comp-001,factuality,5,ai-blind,断言全部溯源：【依据输入】【推断】【行业常识】三级标注齐备且给核实方式
+comp-001,structure,5,ai-blind,六章齐全且内容实质，矩阵评分标准先行
+comp-001,actionability,5,ai-blind,P0/P1/P2 投向明确，机会点具体（报表讲一句人话）
+comp-001,instruction,5,ai-blind,无材料格子一律待验证并声明勿当已知事实
+comp-009,factuality,5,ai-blind,零材料下全部以行业常识/推断标注并严禁编造数字
+comp-009,structure,5,ai-blind,六章齐全，矩阵如实标注待实测
+comp-009,actionability,4,ai-blind,给出两个待验证方向与风险但受数据真空限制无法更具体
+comp-009,instruction,5,ai-blind,所有数字一律待验证，明确报告不足以支撑立即启动
+comp-017,factuality,5,ai-blind,不编造竞品信息，两种相反解释并列呈现
+comp-017,structure,5,ai-blind,六章齐全且矩阵按单竞品裁剪为两列
+comp-017,actionability,5,ai-blind,临摹打卡做付费核心体验的路径清晰并给三项验证清单
+comp-017,instruction,5,ai-blind,待验证/待补充纪律完整
+fb-002,factuality,5,ai-blind,quotes 全部逐字来自输入，摘要忠实
+fb-002,structure,4,ai-blind,主题数合规但「定位与包装问题」把定位漂移与包装漏汤两个不同问题凑为一堆
+fb-002,actionability,4,ai-blind,机会点合理但偏通用（骑手激励/进度提示），无量化与负责方
+fb-002,instruction,5,ai-blind,JSON 契约完全遵守：count 守恒、sentiment 合法
+fb-016,factuality,5,ai-blind,五条 quotes 逐字无误，矛盾双方如实并陈
+fb-016,structure,5,ai-blind,三主题合规，矛盾对以一部分/另一部分呈现未强行折中
+fb-016,actionability,4,ai-blind,功能开关与分层引导方向对但深度一般
+fb-016,instruction,5,ai-blind,契约遵守完整
+fb-021,factuality,5,ai-blind,长反馈摘要压缩忠实，引用逐字
+fb-021,structure,5,ai-blind,六主题与六条反馈一一对应，count 守恒
+fb-021,actionability,5,ai-blind,机会点具体（公开卡路里口径+穿戴设备校准、按等级分组）
+fb-021,instruction,5,ai-blind,契约完全遵守
+prd-003,factuality,5,ai-blind,只用输入内事实且主动质疑日志口径是否等于全员删除量
+prd-003,structure,5,ai-blind,北极星+护栏指标口径完整，六章齐全
+prd-003,actionability,5,ai-blind,F1-F5 验收标准 Given/When/Then 级具体，埋点事件带参数
+prd-003,instruction,5,ai-blind,待补充均带找谁确认
+prd-015,factuality,5,ai-blind,不编造任何数据，冲突原文如实引用
+prd-015,structure,5,ai-blind,六章齐全，把矛盾定义为分层命题而非和稀泥
+prd-015,actionability,5,ai-blind,F1-F5 具体可验收，冲突用分层/折叠/搜索化解
+prd-015,instruction,5,ai-blind,14 条信息缺口全部标注拍板人
