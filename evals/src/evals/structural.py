@@ -30,7 +30,8 @@ _EVIDENCE_MARKS = ("【依据输入】", "【推断】", "【行业常识】")
 _SENTIMENTS = {"positive", "negative", "mixed"}
 
 
-def _strip_fence(text: str) -> str:
+def strip_code_fence(text: str) -> str:
+    """剥掉模型可能自作主张加上的 ``` 围栏。structural 与 judge 共用。"""
     text = text.strip()
     if text.startswith("```"):
         first_newline = text.find("\n")
@@ -43,7 +44,7 @@ def _strip_fence(text: str) -> str:
 
 def _feedback_checks(case: Case, output: str, checks: dict[str, bool]) -> None:
     try:
-        data = json.loads(_strip_fence(output))
+        data = json.loads(strip_code_fence(output))
     except json.JSONDecodeError:
         checks["json_valid"] = False
         return
