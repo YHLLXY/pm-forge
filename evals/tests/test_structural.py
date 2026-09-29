@@ -105,10 +105,22 @@ def test_competitor_sections_and_evidence():
 def test_feedback_valid_json_all_checks():
     res = structural_checks(_case("feedback-insights", FEEDBACK_INPUT), _feedback_output())
     assert res["json_valid"] is True
-    assert res["themes_in_range"] is True  # 3 主题，在契约 3-8 区间
+    assert res["themes_in_range"] is True  # 3 主题，在契约 1-12 区间
     assert res["sentiment_valid"] is True
     assert res["count_sum_consistent"] is True  # 2+1+1 == 4 条反馈
     assert res["quotes_verbatim"] is True
+
+
+def test_feedback_degenerate_single_theme_ok():
+    # 基线 fb-015：6 条完全相同的反馈聚成 1 个主题是诚实答案，新契约（下限 1）应放行
+    import copy
+
+    data = copy.deepcopy(FEEDBACK_DATA)
+    data["themes"] = [data["themes"][0]]
+    data["themes"][0]["count"] = 4
+    res = structural_checks(_case("feedback-insights", FEEDBACK_INPUT), _feedback_output(data))
+    assert res["themes_in_range"] is True
+    assert res["count_sum_consistent"] is True
 
 
 def test_feedback_fenced_json_parses():
@@ -120,9 +132,31 @@ def test_feedback_theme_range_enforced():
     import copy
 
     data = copy.deepcopy(FEEDBACK_DATA)
-    data["themes"] = data["themes"][:2]  # 2 主题，低于契约下限 3
+    data["themes"] = []  # 0 主题，低于契约下限 1
     res = structural_checks(_case("feedback-insights", FEEDBACK_INPUT), _feedback_output(data))
     assert res["themes_in_range"] is False
+
+
+def test_feedback_no_cascade_when_range_violated():
+    # 基线 fb-007 教训：主题数越界时，其余维度必须在真实主题上继续判定，
+    # 不得因 range 违例把 sentiment/count/quotes 全部拖成误报
+    import copy
+
+    feedbacks = [f"反馈内容编号{i}号" for i in range(1, 14)]  # 13 条输入
+    data = copy.deepcopy(FEEDBACK_DATA)
+    base = data["themes"][0]
+    data["themes"] = []
+    for i in range(13):
+        t = copy.deepcopy(base)
+        t.update({"name": f"主题{i}", "count": 1, "quotes": [f"反馈内容编号{i + 1}号"]})
+        data["themes"].append(t)
+    res = structural_checks(
+        _case("feedback-insights", {"feedbacks": feedbacks}), _feedback_output(data)
+    )
+    assert res["themes_in_range"] is False  # 13 主题，越上限
+    assert res["sentiment_valid"] is True
+    assert res["count_sum_consistent"] is True  # 13×1 == 13 条输入
+    assert res["quotes_verbatim"] is True
 
 
 def test_feedback_count_sum_wrong():

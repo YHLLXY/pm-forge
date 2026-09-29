@@ -54,12 +54,12 @@ def _feedback_checks(case: Case, output: str, checks: dict[str, bool]) -> None:
     checks["json_valid"] = True
 
     themes = data.get("themes")
-    if not isinstance(themes, list) or not 3 <= len(themes) <= 8:
-        checks["themes_in_range"] = False
-        themes = []
-    else:
-        checks["themes_in_range"] = True
-
+    themes = themes if isinstance(themes, list) else []
+    # 契约 1-12（与 toolkit prompt v1.1 对齐）：反馈高度同质时 1 个主题是诚实答案，
+    # 几十条的多元输入 8 类不够用（基线 fb-015/fb-007 实测）。
+    checks["themes_in_range"] = 1 <= len(themes) <= 12
+    # 注意：主题数越界时不得清空 themes——下游检查要在真实主题上继续判定，
+    # 否则一个维度的违例会把其余维度全部拖成误报（基线 fb-007 级联教训）。
     dict_themes = [t for t in themes if isinstance(t, dict)]
     sentiments = [t.get("sentiment") for t in dict_themes]
     checks["sentiment_valid"] = bool(dict_themes) and all(s in _SENTIMENTS for s in sentiments)

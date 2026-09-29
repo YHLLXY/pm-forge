@@ -50,7 +50,14 @@ def compare(base: dict, cand: dict) -> str:
         lines.append(f"⚠ judge 模型变化：{base.get('judge_model')} → {cand.get('judge_model')}，整体漂移可能来自评分器而非工具。")
         lines.append("")
 
-    base_per = base.get("per_tool", {})
+    # mark_baseline 落盘的是 {run_id, judge_model, summary} 包装；候选传入的是裸 summary。
+    # 两者都兼容，否则真实基线文件永远比对不上（per_tool/cost 藏在 summary 里）。
+    base_summary = base.get("summary", base)
+    if base.get("judge_model") != cand.get("judge_model"):
+        lines.append(f"⚠ judge 模型变化：{base.get('judge_model')} → {cand.get('judge_model')}，整体漂移可能来自评分器而非工具。")
+        lines.append("")
+
+    base_per = base_summary.get("per_tool", {})
     cand_per = cand.get("per_tool", {})
     for tool in sorted(set(base_per) | set(cand_per)):
         b = base_per.get(tool)
@@ -86,7 +93,7 @@ def compare(base: dict, cand: dict) -> str:
                 lines.append(f"  {key}: {btxt} → {ctxt}  ({delta_txt})")
         lines.append("")
 
-    cost_b = base.get("cost", {})
+    cost_b = base_summary.get("cost", {})
     cost_c = cand.get("cost", {})
     lines.append(
         "成本（judge tokens）：prompt {pb:,} → {pc:,}；completion {cb:,} → {cc:,}".format(

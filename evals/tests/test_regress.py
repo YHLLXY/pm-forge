@@ -48,6 +48,20 @@ def test_compare_flags_missing_tool():
     assert "缺失" in text
 
 
+def test_compare_accepts_mark_baseline_wrapped_payload():
+    # 真实链路：mark_baseline 落盘的是 {run_id, judge_model, summary} 包装结构。
+    # compare 必须兼容它，否则端到端 regress 永远显示"基线缺失"（2026-09-30 实测踩中）。
+    wrapped = {
+        "run_id": BASE["run_id"],
+        "judge_model": BASE["judge_model"],
+        "marked_at": "2026-09-30T00:00:00+08:00",
+        "summary": BASE,
+    }
+    text = compare(wrapped, CAND)
+    assert "+0.50" in text  # factuality 3.0 → 3.5
+    assert "基线缺失" not in text
+
+
 def test_load_summary_missing_raises(tmp_path):
     with pytest.raises(FileNotFoundError):
         load_summary(tmp_path)
