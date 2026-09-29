@@ -4,8 +4,9 @@
 
 ## 当前任务卡
 
-- **M4 vault-tools 完成（2026-09-28）**：只读巡检三件套建成，36 tests 全绿；真实 vault（488 篇）试跑零修改验证通过；体检报告已落 `vault/91-MOC/`（vault commit c009a9830）。验收①③达成，②待用户 Obsidian 图谱对照。**至此 spec 四模块全部建成，pm-forge 转入维护态**
+- **M4 vault-tools 正式收工（2026-09-29 复检通过）**：验收①②③全达成——① 37 pytest 全绿；② 用户经 Obsidian agent 两轮修复后复检 **真孤儿 0 / 悬空 0 / 漏收仅余声明覆盖 135**（复检报告 vault `91-MOC/2026-09-29-vault-体检报告-复检.md`，vault commit 7e9d1ac77）；③ 扫描零修改验证通过。**巡检三件套转入季度节奏（`report --crosscheck`），P2 存量：裸名链接 36 处全路径化**
 - **M3 正式收工（2026-09-28）**：验收①②③全达成（Lighthouse 全绿 / 四段式案例 / 用户部署+移动端验证）；全面检查 10 维度全过（docs/reviews/）
+- **pm-forge 四模块（analysis / toolkit / site / vault-tools）全部收工，维护态**
 
 ## M4 实施记录（2026-09-28 · 同日第三场）
 
