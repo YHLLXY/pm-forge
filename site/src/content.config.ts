@@ -55,7 +55,7 @@ const toolkitReports = defineCollection({
     description: z.string(),
     pubDatetime: z.date(),
     draft: z.boolean().optional(),
-    toolId: z.enum(["competitor-analysis", "feedback-insights", "prd-draft"]),
+    toolId: z.enum(["competitor-analysis", "feedback-insights", "prd-draft", "evals"]),
     toolName: z.string(),
     promptVersion: z.string(),
     inputSummary: z.string(),

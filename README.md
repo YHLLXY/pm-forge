@@ -51,6 +51,7 @@ npm run smoke:real     # 真实 LLM 冒烟：三工具各产 1 份报告到 tool
 - 浏览器安装（仅 e2e 首次）：`PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright/ npx playwright install chromium`
 
 ## 更新日志
+- 2026-09-29 v0.9: **二期 A2 完成：evals 门禁**——evals 模块建成（零依赖 Python + uv，95 pytest 全绿）：66 条真实任务评测集（基础/复杂/边界三档）+ 确定性结构检查（JSON 契约/quotes 逐字/六章结构）+ LLM-as-judge 四维评分（温度 0、model 字符串留痕、畸形响应重试）+ 人工盲评校准（32 对，±1 一致 84%）+ 基线回归 CLI（validate/run/regress/calibrate/report/mark-baseline）；基线 66/66 ok（judge 成本约 2-3 元）；《evals 计划》与基线报告发布进 site（toolkitReports 扩 evals 枚举）；同期二期 spec（评测线/交互报告/基建/方法论文库）落盘
 - 2026-09-28 v0.8: **M3 完成**——作品集站建成（AstroPaper 基座 + 三内容集合 + 五板块），四篇案例（工作台/情侣 App/AgriAgent/红岩群面复盘）、M1 报告接入、三份工具精选报告发布（验收②收尾）；Lighthouse 移动端性能全 100、四类 ≥95；四段式与死链检查入构建
 - 2026-09-27 v0.7: **M2 验收全部达成**——三份真实 LLM 报告产出（DeepSeek）；工具箱上线 https://toolbox.yuhailinlxy.com（GFW 排障：CNAME 随机命中被墙 IP → 改 A 记录钉死可用 IP，实测 20/20 全通）
 - 2026-09-27 v0.6: **M2 v1 完成**——三工具全链路（竞品分析/反馈洞察/PRD 草稿），52 vitest + 3 Playwright e2e 全绿；token 守卫、演示模式、证据链标注、优先级矩阵；真实 LLM 冒烟脚本就绪（等 key）

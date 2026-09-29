@@ -87,3 +87,16 @@
 - 10 号调研"审查修订 8 补充点"逐条落进 spec（硬伤×2：评测章程、C 链接重写；A2 钉版本、B 双门禁、报告组件层、日历缓冲、串行节奏、待拍板清单）。
 - **Pagefind 技术验证完成**：npmmirror 有 pagefind 1.5.2 主包 + windows-x64/linux-x64 平台二进制（2026-09-29 实测）→ 站内搜索复活纳入 E 包，并预置"中文分词不达预期则砍"的决策规则。
 - **待用户**：spec 书面审阅 + 待拍板清单 5 项（A1 产品选择豆包+Kimi/付费账号/月度案例节奏/B 数据集/C 试点确认）；A2 evals 不被拍板项阻塞，审完即可出 A 线任务卡。
+
+## 2026-09-29 二期 A2 正式收工：evals 门禁建成并跑通基线
+
+- **执行方式**：writing-plans 出 11 张任务卡（`docs/plans/2026-09-29-pm-forge-a2-evals-实施计划.md`），本会话逐卡 TDD 执行，每卡独立 commit+push。
+- **模块**：新顶层 `evals/`（零依赖 Python 3.12 + uv，src 布局，setuptools 打包，console script `evals`）；依赖方向 evals ──HTTP 黑盒──→ toolkit（AGENTS.md 依赖图已更新）。
+- **全链**：66 条评测集（三工具 × 22，基础/复杂/边界三档，黑盒合同下限自检入测试）→ 确定性结构检查（feedback 的 count 守恒/quotes 逐字、competitor/prd 六章与证据链标注）→ LLM-as-judge 四维评分（温度 0、model 字符串留痕、JudgeError 带更正提示重试一次）→ runner 三道守卫（key/`--yes` 成本门/mock 模式拒绝）→ 增量落盘 + 可重建 summary → regress/calibrate/report/mark-baseline 五命令。95 pytest 全绿。
+- **基线（run 20260929-133346）**：66/66 ok、13 分 20 秒；judge（deepseek-flash，配置 deepseek-chat）138,201+26,105 token ≈ 2-3 元。分数表：竞品 4.91/5.00/4.18/4.95，反馈 2.55/4.09/3.36/2.14，PRD 4.09/5.00/3.82/4.95。结构检查抓到反馈工具真实契约违约（count 守恒 85.7%、quotes 逐字 90.5%，v2 修）。
+- **人工盲评校准**：8 案例 × 4 维 = 32 对（先盲评后对比），完全一致 62.5% / ±1 84.4% / MAD 0.594；**5 条差 >1 分歧全是 judge 打低分、4 条集中反馈工具** → 实锤 rubric 锚点工具错位（跨工具 judge 分数不可比）。此发现 + "judge 看不到输入"（fb-015 误伤实证）+ "judge 真捕获"（comp-006 凭空断言）构成《evals 计划》第六节的 v2 改进依据。
+- **执行中抓修 3 个真 bug**（各有测试）：①judge 畸形 JSON 重试；②结构通过率分母稀释（must_include 18%→100%）+ summary 可重建（rebuild_summary）；③zoneinfo Windows 无 tz 库回退固定 UTC+8（clock 模块统一）。
+- **发布**：site toolkitReports 枚举扩 "evals"，《AI 工具箱 evals 计划》+《基线报告》两篇入库，astro build 全绿（14 页、案例检查/死链检查通过）。经验双写：repo lessons + vault `40-经验教训/AI-API经验/2026-09-29-自建evals门禁的三层判定设计.md`。
+- **遗留（v2/P2）**：rubric 工具感知锚点；judge 输入可见；反馈工具 JSON 契约违约修复（count 守恒/quotes 逐字）；用户侧抽查校准分歧项（calibration/README 有流程，rater=user 追加即可）；E 基建小包（CI/Pagefind 1.5.2 已验证/RSS/JSON-LD）随时插空；下一线 B 交互数据故事 11 月启动。
+
+**可作战状态**：✅ A 线 A2 收工；A1 拆解板块待 §12 拍板（产品选择+付费账号）后 11 月开工。
