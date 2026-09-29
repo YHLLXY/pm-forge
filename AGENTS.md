@@ -13,8 +13,8 @@
 
 ## 仓库特化规则
 
-1. **模块边界**：analysis/toolkit/site/vault-tools 四目录职责见 README；site 与 toolkit 各自独立 Vercel 项目（monorepo 内指定根目录）；跨模块只走文件产物与公开接口。
-2. **依赖方向**：analysis/toolkit 产出 → site/content；shared/templates → 被引用。禁止反向依赖与循环依赖。
+1. **模块边界**：analysis/toolkit/site/vault-tools/evals 五目录职责见 README；site 与 toolkit 各自独立 Vercel 项目（monorepo 内指定根目录）；跨模块只走文件产物与公开接口。
+2. **依赖方向**：analysis/toolkit 产出 → site/content；evals ──HTTP 黑盒调用──→ toolkit（API 合同，禁 import 其内部实现）；evals ──评测计划/基线报告──→ site/content；shared/templates → 被引用。禁止反向依赖与循环依赖。
 3. **单文件 >500 行必须拆分**。
 4. **任务卡协议**：所有开发工作以 docs/plans/ 任务卡为单元，每卡 ≤1 天；开工勾 checkbox，收工更新 docs/STATUS.md（做了什么/关键决策/遗留/下一步）并 commit+push。
 5. **Token 守卫**：LLM 调用前先估算 token 并设上限；调试用最小输入；API key 只存 .env（已 gitignore），永不入库、永不明文入档。

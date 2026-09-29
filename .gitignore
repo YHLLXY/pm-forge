@@ -13,6 +13,8 @@ data/
 .env
 .env.*
 !.env.example
+# evals 运行产物（A2：报告先落 artifacts 人工通读，再显式入库/发布）
+evals/artifacts/
 # quarto / 报告构建产物
 analysis/reports/_site/
 # OS

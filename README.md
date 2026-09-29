@@ -10,6 +10,7 @@
 - toolkit/ AI PM 工具箱（M2，Next.js）
 - analysis/ 数据分析（M1，uv + DuckDB + Quarto）
 - vault-tools/ Obsidian 自动化（M4，只读巡检）
+- evals/ toolkit 评测门禁（二期 A2，uv + pytest，零依赖核心）
 - shared/templates/ 共享模板
 - docs/ 设计（specs）、任务卡（plans）、状态（STATUS.md）
 
