@@ -8,10 +8,11 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build && node scripts/check-case-studies.mjs && node scripts/check-links.mjs && node scripts/validate-rss.mjs",
+    "build": "astro check && astro build && node scripts/check-case-studies.mjs && node scripts/check-links.mjs && node scripts/validate-rss.mjs && node scripts/check-ld.mjs",
     "check:content": "node scripts/check-case-studies.mjs",
     "check:links": "node scripts/check-links.mjs",
     "check:rss": "node scripts/validate-rss.mjs",
+    "check:ld": "node scripts/check-ld.mjs",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",

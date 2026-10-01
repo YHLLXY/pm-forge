@@ -31,6 +31,7 @@ npm run lh         # Lighthouse 移动端验收（四类 ≥90）
 
 - **写一篇案例**：在 `site/src/content/case-studies/` 新建 md，frontmatter 带 projectRole/stack/metrics（或 resultsNote），正文四段式 H2；结构不合规构建直接失败。
 - **全文 RSS**：`/rss.xml` 聚合三集合输出全文（content:encoded，根相对链接自动绝对化）；构建链含 `check:rss` 校验（结构/全文/非绝对链接断言）。
+- **结构化数据**：全站注入 WebSite/Person JSON-LD，文章页叠加 BlogPosting；构建链含 `check:ld` 校验（合法性 + 必需属性断言）。
 - **国内适配**：无 Google Fonts（系统 CJK 栈）、无动态 OG（静态 og-default.png）、无 pagefind。
 - **部署**：Vercel Root Directory = site，域名 `yuhailinlxy.com`（A 记录钉 IP，同 toolkit 方案）。
 - 改造清单见 `site/README.md`。

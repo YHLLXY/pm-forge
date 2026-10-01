@@ -24,6 +24,20 @@ const {
 const socialImageURL = new URL(ogImage, Astro.site ?? Astro.url);
 // rss.xml 是文件不是目录，绝不能带尾斜杠（getRelativeLocaleUrl 会追加 /，静态托管下 404）
 const rssHref = "/rss.xml";
+
+// 站点级结构化数据（二期 E4）：每页注入；文章级 BlogPosting 由 PostLayout 叠加
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.title,
+  url: site.url,
+};
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.author,
+  ...(site.profile && { url: site.profile }),
+};
 ---
 
 <!doctype html>
@@ -73,6 +87,16 @@ const rssHref = "/rss.xml";
     <meta name="theme-color" content="" />
 
     <!-- Extra head content injected by child layouts (e.g. JSON-LD, article meta) -->
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(websiteLd)}
+    />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(personLd)}
+    />
     <slot name="head" />
 
     {
