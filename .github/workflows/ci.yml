@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  site:
+    name: site (astro build + 内容/死链检查)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Install
+        working-directory: site
+        run: npm ci
+      - name: Build (astro check + check-case-studies + check-links)
+        working-directory: site
+        run: npm run build
+
+  toolkit:
+    name: toolkit (vitest + next build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: toolkit/package-lock.json
+      - name: Install
+        working-directory: toolkit
+        run: npm ci
+      - name: Unit tests (vitest)
+        working-directory: toolkit
+        run: npm test
+      - name: Build (next build)
+        working-directory: toolkit
+        run: npm run build
+
+  python:
+    # 三个模块串行合并一个 job：省分钟；功能与 spec"矩阵"等价（有意决策，非遗漏）
+    name: python (analysis / vault-tools / evals)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v6
+      - name: analysis pytest
+        working-directory: analysis
+        run: |
+          uv sync --group dev
+          uv run pytest -q
+      - name: vault-tools pytest
+        working-directory: vault-tools
+        run: |
+          uv sync --extra dev
+          uv run pytest -q
+      - name: evals pytest
+        working-directory: evals
+        run: |
+          uv sync --group dev
+          uv run pytest -q

@@ -1,5 +1,7 @@
 # pm-forge · 代码地基工程
 
+[![CI](https://github.com/YHLLXY/pm-forge/actions/workflows/ci.yml/badge.svg)](https://github.com/YHLLXY/pm-forge/actions/workflows/ci.yml)
+
 数据驱动 PM 的个人工程底座：数据分析 → AI 工具 → 作品集站点。
 
 > 2026-09-27 起本仓库位于 `C:\dev\pm-forge`（NTFS）。原位置 `E:\homework\开发\pm-forge` 为 exFAT，
@@ -13,6 +15,7 @@
 - evals/ toolkit 评测门禁（二期 A2，uv + pytest，零依赖核心）
 - shared/templates/ 共享模板
 - docs/ 设计（specs）、任务卡（plans）、状态（STATUS.md）
+- .github/workflows/ci.yml CI 矩阵：site（astro build + 内容/死链检查）· toolkit（vitest + next build）· python 三模块 pytest（evals 只跑 fixture 测试，不花钱）
 
 ## site · 作品集站点（M3）
 
