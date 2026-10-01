@@ -1,14 +1,38 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import Card from "@/components/Card.astro";
+import { sortEntries } from "@/utils/sortEntries";
+import { entryUrl } from "@/utils/entryUrl";
+
+const cases = sortEntries(await getCollection("caseStudies"));
 ---
 
-<Layout title="案例研究 | 余翰林的作品集" description="把做过的项目写成产品视角的案例。">
+<Layout title="案例研究 | 余翰林的作品集" description="把做过的项目写成产品视角的案例：背景与问题、我的角色、关键取舍、量化结果、复盘反思。">
   <Header />
   <main id="main-content" class="app-layout my-8">
     <h1 class="text-3xl font-bold">案例研究</h1>
-    <p class="mt-4">施工中。</p>
+    <p class="text-foreground/75 mt-3">
+      把做过的项目写成产品视角的案例。每篇固定五段式：背景与问题 → 我的角色 → 过程与关键取舍 → 结果与量化 → 复盘反思；
+      数字标注口径，没验证过的如实说“没验证”。
+    </p>
+    <ul class="mt-4">
+      {
+        cases.map(c => (
+          <Card
+            variant="h3"
+            href={entryUrl("case-studies", c.id)}
+            title={c.data.title}
+            description={c.data.description}
+            pubDatetime={c.data.pubDatetime}
+            modDatetime={c.data.modDatetime}
+            tags={c.data.tags}
+          />
+        ))
+      }
+    </ul>
   </main>
   <Footer />
 </Layout>

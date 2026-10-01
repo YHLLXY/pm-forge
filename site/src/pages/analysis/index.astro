@@ -1,14 +1,37 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import Card from "@/components/Card.astro";
+import { sortEntries } from "@/utils/sortEntries";
+import { entryUrl } from "@/utils/entryUrl";
+
+const reports = sortEntries(await getCollection("analysis"));
 ---
 
-<Layout title="数据分析 | 余翰林的作品集" description="数据集吃透一条链：指标体系、漏斗与分层。">
+<Layout title="数据分析 | 余翰林的作品集" description="完整链路的数据分析报告：数据质量治理、口径化指标、漏斗与分层、可复现口径。">
   <Header />
   <main id="main-content" class="app-layout my-8">
     <h1 class="text-3xl font-bold">数据分析</h1>
-    <p class="mt-4">施工中。</p>
+    <p class="text-foreground/75 mt-3">
+      完整链路的数据分析实践：从数据质量治理开始，指标全部给口径，结论带归因警示；每篇附可复现的分析报告原文。
+    </p>
+    <ul class="mt-4">
+      {
+        reports.map(r => (
+          <Card
+            variant="h3"
+            href={entryUrl("analysis", r.id)}
+            title={r.data.title}
+            description={r.data.description}
+            pubDatetime={r.data.pubDatetime}
+            modDatetime={r.data.modDatetime}
+            tags={r.data.tags}
+          />
+        ))
+      }
+    </ul>
   </main>
   <Footer />
 </Layout>
