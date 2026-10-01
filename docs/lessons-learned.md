@@ -17,3 +17,10 @@
 - **根因**：①不同案例的检查项集合不同（must_include 只在 4 个案例上存在），聚合却除以了全部 ok 案例数——分母口径错误稀释了真实通过率；②judge 提示词的 rubric 锚点按 Markdown 证据链报告写，且只看输出不看输入——对 JSON 契约工具系统性误伤（锚点错位），对"忠实去重合并"类行为无法归因（无输入上下文）。
 - **解决方案**：①聚合改为按检查项存在口径（分母=该检查出现的案例数），并抽出 `_summarize`/`rebuild_summary`——原始 results.jsonl 是唯一事实源，修口径后从原始行重建 summary，不用重跑真实评测；②rubric 按工具定制锚点 + judge 输入一并送上（v2 已立项记录）；judge 偶发畸形 JSON（evidence 内英文双引号破坏 JSON）用"提示词禁止 + JudgeError 带更正提示重试一次"双保险兜住。
 - **如何避免**：任何"通过率/均分"聚合动手前先问"这个统计项在每个被统计对象上都存在吗"；LLM 评分必须做盲评校准——**分歧的模式比一致率数字更重要**，它定位的是评分器的错位而非被评者的问题；评分链路里 LLM 的输出永远是"可能畸形的"，解析层必须有重试与显式失败路径。
+
+## 2026-10-02 E 包：Vite 动态导入占位符 / 导航溢出 / sitemap 取反
+
+- **问题**：①搜索页 `import("/pagefind/pagefind.js")` 源码能跑、产物必炸（被 catch 吞成"索引不可用"）；②header 加第 6 个文字导航项后所有链接文字竖排换行（无任何报错）；③改 sitemap filter 时把原布尔逻辑取反，会让 showArchives=false 时整个 sitemap 清空（自查抓住未上线）。
+- **根因**：①Astro 转译丢掉 `@vite-ignore`，Vite 把动态导入包进预加载助手且产物留下未替换的 `__VITE_PRELOAD__` 占位符→运行时 ReferenceError；②AstroPaper 导航链接无 nowrap，flex 收缩越过后中文折行——量变布局回归只有观感没有报错；③布尔逻辑手工德摩根变换改真值表。
+- **解决方案**：①运行时注入 module script（`window.__pagefind` + ready 事件 + onerror + 超时三兜底），打包器零接触；②搜索改图标入口（上游惯例），几何实测全链接 h=32 单行、抽屉 7 行偏移 0px；③铁律"原表达式原样保留、外层追加新条件"。
+- **如何避免**：加载构建后才存在的运行时资产（pagefind/WASM）一律 script 注入；客户端加载逻辑必须在 `astro preview` 的构建产物上验证，dev 能跑证明不了任何事；布局改动用 getBoundingClientRect 量数字而非目测；双写 vault `40-经验教训/前端架构/2026-10-02-搜索复活踩坑-Vite动态导入占位符与导航溢出.md`。

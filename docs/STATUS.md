@@ -139,3 +139,17 @@
 - **节奏不变**：A1 仍按计划 11 月开工；10 月剩余窗口 E 基建小包（CI / Pagefind 1.5.2 已验证 / RSS / JSON-LD）随时可插空。
 
 **可作战状态**：✅ A1 拍板落定、章程草案就绪；A1 开工只欠章程定稿 + writing-plans 任务卡，E 包可插空。
+
+## 2026-10-02 夜 E 基建小包收工（用户睡眠期间自主执行）+ #13 漏洞盘点
+
+- **付费口径拍板入章程 v1.1**（ced8f3a）：豆包/Kimi 未付费走免费口径，DeepSeek API 余额归 A2 分账；A1 待确认项只剩深度分层方案（章程 §1）与对照分工（§7 项 3）两处用户点头。
+- **E 包按计划 v1.1 五卡全收**（独立只读子代理四镜头审查 PASS-WITH-FIXES，修法全采纳后逐卡实施）：
+  - **E1 CI**（fe10976）：`.github/workflows/ci.yml` 三 job——site（astro build+四道检查）/ toolkit（vitest+next build）/ python 三模块 pytest（evals 只跑 fixture 零 key）。**推送即全绿，此后每卡 run 均 success**（spec E①）。
+  - **E3 RSS 全文**（f915b59）：容器 API 渲染 content:encoded（纠偏：`render(entry)` 是独立函数非 entry 方法）+ 根相对链接绝对化 + `validate-rss.mjs` 入构建链。线上 12 条全文实测。
+  - **E4 JSON-LD**（87fbce1）：Layout 注入 WebSite/Person，PostLayout BlogPosting 原有不动；`check-ld.mjs` 断言合法性+必需属性（20 页 12 个 BlogPosting 全过）。
+  - **E2 搜索**（0f42e48）：Pagefind 1.5.2 构建期索引 + 自研 /search 页 + header **图标入口**。两个真坑当场抓修：①Vite 产物留 `__VITE_PRELOAD__` 占位符（Astro 转译丢 @vite-ignore）→ 改运行时 script 注入；②第 6 个文字导航项致 flex 收缩文字竖排（线上 5 项 h=32 对照本地 h=56 定位）→ 图标入口，抽屉 7 行居中偏移全 0。**中文验收：幻觉/RFM/个人工作台三词本地+线上全命中预钉页面，砍线规则未触发**；Lighthouse 七页全 ≥93（/search/ 四项全 100）。
+  - **V1 漏洞盘点**（db90662）：官方源 audit——site **0**、toolkit 2（next 内嵌 postcss，GitHub"4 个"是 advisory 计数口径）；证据落 docs/reviews/2026-10-02-npm-audit-证据.md；Next 16 调研结论回写 #13（async API 已就绪/无 middleware/image，风险=Turbopack 默认构建+Windows EISDIR 史；修复版本实测 16.3.8；**严禁 audit fix --force**）。
+- **生产验证**：/search/ 200、pagefind.js 200、首页 WebSite JSON-LD、rss.xml 12 条全文、线上搜索 RFM 4 条命中、零第三方运行时请求；QA 用独立 IAB 标签页完成并清理，用户标签页未动、主题偏好已还原 dark。
+- **经验双写**：repo lessons + vault `40-经验教训/前端架构/2026-10-02-搜索复活踩坑-Vite动态导入占位符与导航溢出.md`（vault 43aea7146）。
+
+**可作战状态**：✅ E 包四卡+V1 收工，spec E 验收 ①-⑤ 全达成；下一站 = A1 章程定稿（只欠用户点头分层方案）→ writing-plans → 11 月拆解实测；B 线 12 月照旧。
