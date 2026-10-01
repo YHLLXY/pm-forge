@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build && node scripts/check-case-studies.mjs && node scripts/check-links.mjs && node scripts/validate-rss.mjs && node scripts/check-ld.mjs",
+    "build": "astro check && astro build && node scripts/check-case-studies.mjs && node scripts/check-links.mjs && node scripts/validate-rss.mjs && node scripts/check-ld.mjs && pagefind --site dist",
     "check:content": "node scripts/check-case-studies.mjs",
     "check:links": "node scripts/check-links.mjs",
     "check:rss": "node scripts/validate-rss.mjs",
@@ -44,6 +44,7 @@
     "eslint-plugin-astro": "^2.1.1",
     "fast-xml-parser": "^5.11.2",
     "lighthouse": "^13.5.0",
+    "pagefind": "^1.5.2",
     "prettier": "3.9.3",
     "prettier-plugin-astro": "0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.0",

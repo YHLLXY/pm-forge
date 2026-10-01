@@ -1,0 +1,122 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+---
+
+<Layout
+  title="站内搜索 | 余翰林的作品集"
+  description="搜索全站的案例研究、数据分析报告与工具报告；索引在构建时生成，检索全部在浏览器本地完成。"
+>
+  <Header />
+  <main id="main-content" class="app-layout my-8">
+    <h1 class="text-3xl font-bold">站内搜索</h1>
+    <p class="text-foreground/75 mt-3">
+      搜索全站案例、数据报告与工具报告。索引在构建时生成、随站点自托管，检索在你的浏览器本地完成，不经过任何第三方。
+    </p>
+
+    <div class="not-prose mt-6">
+      <input
+        id="search-input"
+        type="search"
+        placeholder="输入关键词，如：幻觉、RFM、个人工作台"
+        aria-label="站内搜索"
+        autocomplete="off"
+        class="focus:border-accent border-border bg-muted/40 w-full rounded-lg border px-4 py-3 text-base outline-none"
+      />
+      <p id="search-status" class="text-foreground/60 mt-3 text-sm" aria-live="polite">
+      </p>
+      <ul id="search-results" class="mt-2"></ul>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  // Pagefind 索引仅存在于生产构建产物（dist/pagefind/）；dev 模式无索引，优雅降级。
+  // 不用 import()：Vite 会把动态导入包进预加载助手并在产物里留下 __VITE_PRELOAD__
+  // 占位符（实测 ReferenceError）。改用运行时注入 module script，打包器完全不碰它。
+  const PF_URL = "/pagefind/pagefind.js";
+
+  const input = document.getElementById("search-input") as HTMLInputElement;
+  const status = document.getElementById("search-status")!;
+  const list = document.getElementById("search-results")!;
+
+  type Pagefind = {
+    search: (q: string) => Promise<{
+      results: { data: () => Promise<{ url: string; excerpt: string; meta?: { title?: string } }> }[];
+    }>;
+  };
+  declare global {
+    interface Window {
+      __pagefind?: Pagefind;
+    }
+  }
+
+  let pagefind: Pagefind | null = null;
+  let loadFailed = false;
+  let timer: ReturnType<typeof setTimeout>;
+
+  function loadPagefind(): Promise<Pagefind | null> {
+    if (pagefind) return Promise.resolve(pagefind);
+    if (loadFailed) return Promise.resolve(null);
+    return new Promise(resolve => {
+      const fail = () => {
+        loadFailed = true;
+        status.textContent = "搜索索引不可用：生产构建才包含索引（npm run build 后可用）。";
+        resolve(null);
+      };
+      const s = document.createElement("script");
+      s.type = "module";
+      s.textContent =
+        'import * as pf from "' +
+        PF_URL +
+        '"; window.__pagefind = pf; window.dispatchEvent(new Event("pagefind:ready"));';
+      s.onerror = fail;
+      window.addEventListener(
+        "pagefind:ready",
+        () => {
+          if (window.__pagefind) {
+            pagefind = window.__pagefind;
+            resolve(pagefind);
+          } else fail();
+        },
+        { once: true }
+      );
+      setTimeout(() => {
+        if (!pagefind && !loadFailed) fail();
+      }, 5000);
+      document.head.appendChild(s);
+    });
+  }
+
+  async function runSearch(query: string) {
+    const q = query.trim();
+    if (!q) {
+      list.innerHTML = "";
+      status.textContent = "";
+      return;
+    }
+    const pf = await loadPagefind();
+    if (!pf) return;
+    const res = await pf.search(q);
+    const data = await Promise.all(res.results.slice(0, 20).map(r => r.data()));
+    status.textContent = `找到 ${res.results.length} 条结果`;
+    list.innerHTML = data
+      .map(
+        d => `
+        <li class="border-border mt-3 rounded-lg border p-3">
+          <a class="text-accent font-medium underline decoration-dashed" href="${d.url}">${
+            d.meta?.title ?? d.url
+          }</a>
+          <p class="text-foreground/75 mt-1 text-sm">${d.excerpt}</p>
+        </li>`
+      )
+      .join("");
+  }
+
+  input.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => runSearch(input.value), 200);
+  });
+</script>

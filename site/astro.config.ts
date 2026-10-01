@@ -24,7 +24,9 @@ export default defineConfig({
     mdx(),
     sitemap({
       filter: page =>
-        config.features?.showArchives !== false || !page.endsWith("/archives/"),
+        // 工具页（搜索）不进 sitemap，对 SEO 无意义；archives 关闭时不收录（原逻辑保持）
+        (config.features?.showArchives !== false || !page.endsWith("/archives/")) &&
+        !page.endsWith("/search/"),
     }),
   ],
   i18n: {
