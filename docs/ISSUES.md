@@ -15,6 +15,7 @@
 
 | 项 | 说明 |
 |---|---|
+| 作品集外链域名绑定（用户自行操作） | personal-workbench 的"在线访问"指向 *.vercel.app 被墙，国内点击无响应（2026-09-30 用户确认自己解决）；方案与 toolbox 同：Vercel 项目绑子域名 + 阿里云 A 记录钉 IP，绑定后把站上链接一并更新 |
 | 反馈 CSV 列映射与 GBK 自动转码 | 目前仅支持 UTF-8 按行导入；Excel 导出的 GBK 文件需另存为 UTF-8 |
 | Supabase 持久化 | 运行历史目前仅 localStorage（每工具 10 条）；云端同步待用户量需求 |
 | 反馈工具上传/导出图表 | 优先级矩阵为 CSS 网格，ECharts 可视化待 v2 |
@@ -28,6 +29,7 @@
 
 | # | 问题 | 解决方案 | commit |
 |---|---|---|---|
+| 16 | 站点质量修缮（2026-09-30 用户验收反馈）：①「全部案例」/「数据分析」导航落地施工中占位页 ②全站正文中文引号被 smartypants 错转为双右引号（250 处） ③移动端抽屉主题切换按钮永远偏左（col-span-1 占半列） ④深色模式橙 accent/橙 border 用户反馈太扎眼 | ①两列表页建成（复用 Card，案例 5 篇/分析 2 篇）；②关 smartypants + scripts/fix-quotes.mjs 存量转换（跳过 frontmatter/代码块），18 页开闭配对全平；③改 col-span-2，实测按钮中心与抽屉中心偏移 0px；④深色 accent #58a6ff + border #334155 并入蓝色体系，浅色不动 | 958ec1b |
 | 15 | evals 基线抓到反馈工具 4 例结构违例（fb-003 JSON 滑丝、fb-011 双计、fb-007/fb-015 主题数越界） | 逐例归因三分类：2 例真缺陷 + 1 例契约过严 + 1 例检查器级联误报。修复三件套：①prompt v1.1 输出前自查（85f2e62）②服务端机械契约校验 + 带具体违例重试一次（contracts.ts，两轮评测实测触发 6 次）③契约放松 1-12 三处同步（insights schema/prompt/evals 检查器）+ 检查器去级联（6446908）。另修 regress.compare 不兼容 mark_baseline 包装结构的端到端 bug。复测 66/66 ok、结构检查全 100%，基线重钉 20260930-005223 | 85f2e62 |
 | 14 | toolkit 生产 API 无鉴权无限流，公网可直达计费链路（2026-09-29 安全审查 F1，报告见资料库 11 号） | 分层收敛：①代码层——同源白名单 403 / force 仅非生产 / 错误不回显测量值（58 vitest，bfb825f）；②平台层——Vercel Firewall 限流 10 次/分钟/IP **实测生效**（15 连发第 11 次起 429；教训：Firewall 规则是项目级的，须建在 toolbox 项目）；③限额层——DeepSeek 不开自动充值（用户确认，余额即上限）；④供应链——Dependabot alerts。生产验证（2026-09-30）：跨站 Origin→403、同站/无 Origin 超预算→400、生产 force 失效→400，四探针全过；浏览器真实生成回归通过（同源请求过白名单，"真实"模式完整六章报告 + 证据链标注 + 历史记录正常） | bfb825f |
 | 7 | 验收②：本机无 LLM_API_KEY 无法产出真实报告 | 用户配置 DeepSeek key → `npm run smoke:real` 三份报告通过（约 6.6k tokens）；2026-09-28 三份报告已精选发布进 site/src/content/toolkit-reports/（含来源横幅与演示样例声明），M3 构建（581bd2c） | 581bd2c |
