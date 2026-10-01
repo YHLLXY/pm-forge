@@ -35,6 +35,9 @@ export default defineConfig({
     },
   },
   markdown: {
+    // 中文正文里 smartypants 会把直引号 "…" 错误转成两个右引号 ”…”（不认中文上下文），
+    // 2026-09-30 全站根治：关闭 smartypants，正文引号统一写全角 “”（scripts/fix-quotes.mjs 已转换存量）
+    smartypants: false,
     processor: unified({
       remarkPlugins: [
         remarkToc,

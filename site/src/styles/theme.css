@@ -28,9 +28,11 @@
 [data-theme="dark"] {
   --background: #212737;
   --foreground: #eaedf3;
-  --accent: #ff6b01;
+  /* 深色模式并入全站蓝色体系（2026-09-30 用户反馈橙色太扎眼）：accent 取可在深底上
+     保持对比度的亮蓝（≈6.9:1），border 换中性石板灰——弃上游默认的橙 accent/橙 border */
+  --accent: #58a6ff;
   --accent-foreground: #ffffff;
   --muted: #343f60;
   --muted-foreground: #afb9ca;
-  --border: #ab4b08;
+  --border: #334155;
 }
