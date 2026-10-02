@@ -164,3 +164,13 @@
 - **vault**：`30-项目/pm-forge/2026-10-02-A1拆解实测执行指引.md`（用户批次卡：4 批 × 30-45 分钟，10 月开跑；vault 1dae89869）。
 
 **可作战状态**：✅ A1 开发侧全部就绪；**球在用户**——按 vault 指引跑 4 个实测批次（10 月），AI 批后结构化，11 月中合并分支发布首篇《豆包拆解》。B 线 11 月 spike、12 月 MVP 照旧。
+## 2026-10-02 傍晚 A1 实测 19/19 代跑完成（用户授权 + 登录就位）
+
+- **执行授权链**：用户指示"能代跑的测试自己跑"（章程 v2.1 修订款，a455b2c）→ 侦察发现三产品访客模式均静默拦截 → 用户在 IAB 一次性登录豆包/Kimi/DeepSeek → AI 全量代跑。
+- **执行器两套**：①`evals/dissection/run_api.mjs`（DeepSeek API，key 只从 .env 读，按模型分目录落盘）；②豆包/Kimi 走浏览器代跑——豆包配方 = textarea/ce 双模式原子写入 + 几何匹配 36×36 发送键（Enter 对富文本编辑器无效）；Kimi 配方 = `.chat-input-editor` + execCommand insertText + `.send-button-container`（**草稿跨刷新持久化，必须走 `?chat_enter_method=new_chat` 拿干净编辑器**；execCommand 的 selectAll/delete 被忽略、Playwright 键盘清除也无效——重载不清草稿是唯一坑）。OS 级 CUA 键入在用户在场时主动停用（有误入其他窗口风险），全程 DOM 层操作。
+- **战果**：21 份原文 + 15 张截图落 `site/out/dissection-staging/`（gitignored 两步式第一态）：豆包 11（全部快速模式、25s 内完成）+ Kimi 4（K3 快速模式，25-55s）+ DeepSeek 6（4 chat + 2 reasoner）。
+- **首批发现预览**（结构化评分留待 T6）：①DeepSeek"厘"陷阱对照——chat 模式 1元=100厘 算出 181.5 元/只超零售价不自检（失败案例），reasoner 模式正确 77.17 元；②豆包/Kimi/DeepSeek 的"不存在实体"与"能力边界"任务表现待评分归档。
+- **用户侧知情项**：豆包/Kimi 账号历史里留下了 AI 代跑的会话（豆包 12 条含连通性测试、Kimi 5 条），可自行删除；工作标签页已清理，只留用户自己的站点标签。
+- **遗留**：DeepSeek 网页端消费端口径（UX/会员维度）可选补测；下一步 = T6 结构化（评测记录 JSON + 门禁 + 报告草稿）随批次点评推进，11 月中分支合并发布。
+
+**可作战状态**：✅ A1 实测数据全量在手；T6 结构化是下一卡。
