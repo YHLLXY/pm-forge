@@ -1,0 +1,73 @@
+---
+// 单条实测记录卡：纯 props（评测记录 JSON 形状），不内聚任何集合/查询逻辑
+import DimensionBar from "./DimensionBar.astro";
+import VersionTag from "./VersionTag.astro";
+
+type RecordShape = {
+  id: string;
+  group: "写作" | "检索" | "结构化产出" | "边界探测";
+  task: string;
+  inputExcerpt: string;
+  outputExcerpt: string;
+  evalDate: string;
+  versionNote: string;
+  accountType: string;
+  scores: {
+    factuality: number | null;
+    structure: number | null;
+    actionability: number | null;
+    instruction: number | null;
+  };
+  productMetrics: { latencyTier: "快" | "中" | "慢"; paywallHit: boolean; uxNotes: string | null };
+  verdict: "成功" | "部分" | "失败";
+  failureAnalysis: string | null;
+};
+
+type Props = { record: RecordShape };
+const { record } = Astro.props;
+const verdictColor =
+  record.verdict === "成功"
+    ? "var(--report-verdict-success)"
+    : record.verdict === "部分"
+      ? "var(--report-verdict-partial)"
+      : "var(--report-verdict-failure)";
+---
+
+<article class="border-border mt-4 rounded-lg border p-4">
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    <h3 class="text-base font-semibold">{record.task}</h3>
+    <span class="text-sm font-medium" style={`color: ${verdictColor}`}>
+      {record.verdict}
+    </span>
+  </div>
+  <VersionTag evalDate={record.evalDate} versionNote={record.versionNote} accountType={record.accountType} />
+
+  <div class="mt-3 space-y-2 text-sm">
+    <p>
+      <span class="text-foreground/60 mr-2 text-xs">输入摘录</span>
+      {record.inputExcerpt}
+    </p>
+    <p>
+      <span class="text-foreground/60 mr-2 text-xs">输出摘录</span>
+      {record.outputExcerpt}
+    </p>
+  </div>
+
+  {
+    record.verdict !== "成功" && record.failureAnalysis && (
+      <p class="text-foreground/75 mt-3 rounded p-2 text-sm" style="background: var(--report-score-track)">
+        <span class="mr-2 text-xs">归因</span>
+        {record.failureAnalysis}
+      </p>
+    )
+  }
+
+  <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+    <DimensionBar scores={record.scores} />
+    <p class="text-foreground/60 text-xs">
+      延迟：{record.productMetrics.latencyTier} ｜ {record.productMetrics.paywallHit
+        ? "撞到会员门槛"
+        : "未撞会员门槛"}{record.productMetrics.uxNotes ? ` ｜ ${record.productMetrics.uxNotes}` : ""}
+    </p>
+  </div>
+</article>

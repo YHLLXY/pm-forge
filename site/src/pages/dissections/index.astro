@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { sortEntries } from "@/utils/sortEntries";
+
+const reports = sortEntries(await getCollection("dissections"));
+---
+
+<Layout
+  title="AI 产品拆解 | 余翰林的作品集"
+  description="以实测记录回答一款 AI 产品的真实能力边界：任务实测、失败案例、边界探测，每条结论标注评测日期与版本口径。"
+>
+  <Header />
+  <main id="main-content" class="app-layout my-8">
+    <h1 class="text-3xl font-bold">AI 产品拆解</h1>
+    <p class="text-foreground/75 mt-3">
+      拆解回答一个问题：一款面向消费者的 AI 产品，在具体任务上的真实能力边界是什么。以实测记录回答，不以印象回答——
+      每条结论都标注评测日期与版本口径，失败案例与成功案例同等呈现，不做选择性展示。
+    </p>
+
+    <div class="border-border bg-muted/40 mt-6 rounded-lg border p-4">
+      <p class="font-medium">评测章程先行</p>
+      <p class="text-foreground/75 mt-1 text-sm">
+        本板块所有实测遵循
+        <a
+          href={getRelativeLocaleUrl("zh", "dissections/charter")}
+          class="text-accent underline decoration-dashed"
+        >
+          《AI 产品拆解评测章程》
+        </a>：只用自有账号的真实输入输出、手动逐条调用、每条结论带日期与版本标注、不做贬损性结论与排名、
+        产品持续迭代结论可能过期。章程全文随板块首发，先于任何拆解内容。
+      </p>
+    </div>
+
+    <h2 class="mt-8 text-xl font-bold">拆解报告</h2>
+    {
+      reports.length === 0 ? (
+        <p class="text-foreground/60 mt-3 text-sm">
+          首篇拆解（豆包主评）实测进行中——任务集已就绪，按评测章程的批次节奏执行；发布前需通过措辞终审与双重数据门禁。
+        </p>
+      ) : (
+        <ul class="mt-4">
+          {reports.map(r => (
+            <li class="border-border mt-3 rounded-lg border p-4">
+              <a href={`/dissections/${r.id}/`} class="text-accent font-medium underline decoration-dashed">
+                {r.data.title}
+              </a>
+              <p class="text-foreground/75 mt-1 text-sm">{r.data.description}</p>
+              <p class="text-foreground/60 mt-2 font-mono text-xs">
+                {r.data.productName} · {r.data.depth} · 评测窗口 {r.data.evalWindow} · {r.data.accountType}
+              </p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </main>
+  <Footer />
+</Layout>

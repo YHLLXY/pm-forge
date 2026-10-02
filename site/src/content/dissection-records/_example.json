@@ -1,0 +1,25 @@
+{
+  "id": "doubao-write-001",
+  "product": "doubao",
+  "group": "写作",
+  "task": "把一句话产品描述扩写成 3 条不同风格的小红书种草文案",
+  "inputExcerpt": "产品：智能水杯清饮 C1……写 3 条小红书种草文案，风格分别为理性测评风/闺蜜安利风/职场效率风。",
+  "outputExcerpt": "三条文案已生成：①理性测评风……②闺蜜安利风……③职场效率风……（此处为示例摘录）",
+  "evalDate": "2026-11-03",
+  "versionNote": "深度思考：关（入口：网页）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 4,
+    "structure": 5,
+    "actionability": 3,
+    "instruction": 4
+  },
+  "productMetrics": {
+    "latencyTier": "快",
+    "paywallHit": false,
+    "uxNotes": "支持逐条重写，追问跟得上上下文"
+  },
+  "verdict": "部分",
+  "failureAnalysis": "示例：三条文案的风格区分度不足，理性测评风混入夸大表述（示例数据，仅演示记录形态）",
+  "screenshot": "doubao-write-001.png"
+}

@@ -1,0 +1,22 @@
+---
+// rubric 四维横条汇总：scores 形状 = 评测记录 JSON 的 scores 字段（纯数据接口，B 线可复用）
+import ScoreBadge from "./ScoreBadge.astro";
+type Scores = {
+  factuality: number | null;
+  structure: number | null;
+  actionability: number | null;
+  instruction: number | null;
+};
+type Props = { scores: Scores };
+const { scores } = Astro.props;
+const dims: [string, number | null][] = [
+  ["事实性/幻觉控制", scores.factuality],
+  ["结构完整", scores.structure],
+  ["可操作性", scores.actionability],
+  ["指令遵守", scores.instruction],
+];
+---
+
+<div class="not-prose flex flex-wrap gap-2">
+  {dims.map(([label, score]) => <ScoreBadge {label} {score} />)}
+</div>
