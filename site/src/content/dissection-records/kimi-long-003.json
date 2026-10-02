@@ -1,0 +1,25 @@
+{
+  "id": "kimi-long-003",
+  "product": "kimi",
+  "group": "检索",
+  "task": "长文档中段信息检索（needle-in-haystack）",
+  "inputExcerpt": "对 3000 字规格书回答四问并注明原文位置：①316 不锈钢采购单价 ②线下渠道数量 ③V2.3 稿日期 ④Pro 底座供应商编号",
+  "outputExcerpt": "四问全部命中埋点：41,700 元/吨、12,000 只、2026-08-22、SQ-2026-088，位置全标注（七、埋点信息 + 相应背景章节）",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 K3 快速模式（kimi.com，\"快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 5,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "中",
+    "paywallHit": false,
+    "uxNotes": "对第②问做了「3 万只 × 40%」的交叉验算后才作答——不只点查、还校验"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": "kimi-long-003.png"
+}

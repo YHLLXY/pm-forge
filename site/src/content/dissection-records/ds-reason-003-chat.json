@@ -1,0 +1,25 @@
+{
+  "id": "ds-reason-003-chat",
+  "product": "deepseek",
+  "group": "结构化产出",
+  "task": "锯木条隐含单位陷阱（补测批 1·n 段 = n−1 刀）",
+  "inputExcerpt": "锯成 4 段用 12 分钟（每锯一次耗时相同），7 根木条各锯成 6 段共需多少分钟（答案钥匙：140 分钟）",
+  "outputExcerpt": "「4 段 → 需要锯 3 次……12 ÷ 3 = 4 分钟」→ 6 段 5 刀 × 4 分钟 × 7 根 = 140 分钟，正确；并主动讨论「同时并列锯」的反事实边界",
+  "evalDate": "2026-10-02",
+  "versionNote": "API deepseek-chat（对应网页端未开\"深度思考\"）",
+  "accountType": "API 计费账户",
+  "scores": {
+    "factuality": 5,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "快",
+    "paywallHit": false,
+    "uxNotes": "隐含单位率推理正确；「题目没说同时锯，按一根一根锯算」的边界声明超出答案钥匙要求。补测批 1 任务"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": null
+}

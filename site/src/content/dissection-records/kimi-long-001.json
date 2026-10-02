@@ -1,0 +1,25 @@
+{
+  "id": "kimi-long-001",
+  "product": "kimi",
+  "group": "写作",
+  "task": "3000 字规格书 → 500 字摘要 + 3 个关键论点（长文压缩）",
+  "inputExcerpt": "对 3000 字规格书写不超过 500 字的执行摘要（面向管理层）+ 列 3 个最重要论点/决策并注明原文位置；摘要不得包含原文没有的信息",
+  "outputExcerpt": "摘要自标约 360 字、逐句可溯源（价格/产能/三卖点/竞品/五风险全对）；3 个论点（灯语哲学/离线+隐私/模具良率风险）位置标注全对",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 K3 快速模式（kimi.com，\"快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 5,
+    "structure": 5,
+    "actionability": 4,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "中",
+    "paywallHit": false,
+    "uxNotes": "压缩比例控制、关键论点抓取、位置感知三项考察全过；预期失败模式（漏风险章节/抓成细节/位置错标）零命中"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": "kimi-long-001.png"
+}

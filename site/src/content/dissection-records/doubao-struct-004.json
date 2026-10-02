@@ -1,0 +1,25 @@
+{
+  "id": "doubao-struct-004",
+  "product": "doubao",
+  "group": "结构化产出",
+  "task": "词频精确计数（补测批 1·自检陷阱）",
+  "inputExcerpt": "数下面段落里『清饮』出现的次数（品牌名公司名里包含的也算），先给答案再逐处列出（答案钥匙：7 次）",
+  "outputExcerpt": "「一共出现 7 次。」——与答案钥匙一致；逐处列出覆盖全部 7 处（含清饮科技/清饮杯等复合词内部），但列表存在冗余行（「清饮体验」被相邻两行重复覆盖）",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 5,
+    "structure": 4,
+    "actionability": 4,
+    "instruction": 4
+  },
+  "productMetrics": {
+    "latencyTier": "慢",
+    "paywallHit": false,
+    "uxNotes": "精确计数是分词器弱项，豆包答对；列表冗余但总数与识别全对。补测批 1 任务"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": "doubao-struct-004.png"
+}

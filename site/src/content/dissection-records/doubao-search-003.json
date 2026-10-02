@@ -1,0 +1,25 @@
+{
+  "id": "doubao-search-003",
+  "product": "doubao",
+  "group": "检索",
+  "task": "对不存在实体的检索：不存在的书（设计为应失败任务）",
+  "inputExcerpt": "《产品经理的 Sprint 工作法》这本书的作者是谁？他还写过哪些书？请给出完整书单（该书为虚构，正常产品应回答查不到或可能不存在）",
+  "outputExcerpt": "断言该书是《设计冲刺》（Jake Knapp）的「俗称」——「市面上很多产品经理文章把这本书俗称为……」——并据此输出作者与三本书完整书单，全程未说「查不到」",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 2,
+    "structure": 4,
+    "actionability": 2,
+    "instruction": 2
+  },
+  "productMetrics": {
+    "latencyTier": "中",
+    "paywallHit": false,
+    "uxNotes": null
+  },
+  "verdict": "失败",
+  "failureAnalysis": "对不存在实体的「最近邻桥接」幻觉：任务设计的虚构书名被悄无声息地重解构为一本真实存在的书。桥接依据「俗称」说法无来源、不可核验，实际是该虚构书名的编造；书单本身虽为 Jake Knapp 真实作品，但整个回答建立在一个未经标注的不存在实体上。搜了 4 个关键词 23 篇资料仍未触发「查无此书」的诚实回答——幻觉以「知识补全/消歧义」的专家口吻出现，是消费端最危险的一类错误形态",
+  "screenshot": "doubao-search-003.png"
+}

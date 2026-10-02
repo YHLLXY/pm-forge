@@ -1,0 +1,25 @@
+{
+  "id": "kimi-long-004",
+  "product": "kimi",
+  "group": "结构化产出",
+  "task": "3000 字长文 → 多字段结构化 JSON（长上下文指令保持）",
+  "inputExcerpt": "规格书转 JSON：product_name/target_users/hardware_specs（至少四键）/pricing/risks（逐条对应原文）/hidden_facts（需推理的三个关键事实），只输出 JSON",
+  "outputExcerpt": "JSON 嵌套完整、risks 五条逐字对应、hidden_facts 走推导路线：线上 18,000/线下 12,000 只、Pro 差价 110 元、首发赠品总价值 195,000 元——三处推导计算全对且口径自明",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 K3 快速模式（kimi.com，\"快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 5,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "慢",
+    "paywallHit": false,
+    "uxNotes": "hidden_facts 正确区分了「提取」与「推理」：三条均为正文数据经计算得出的新事实，与 risks 零重复——正是本任务设计想区分的能力"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": "kimi-long-004.png"
+}

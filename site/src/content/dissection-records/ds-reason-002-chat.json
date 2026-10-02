@@ -1,0 +1,25 @@
+{
+  "id": "ds-reason-002-chat",
+  "product": "deepseek",
+  "group": "结构化产出",
+  "task": "带陷阱的推理题：单位不一致（厘陷阱，chat 模式）",
+  "inputExcerpt": "杯体 58 元/只、杯盖 12,000 厘/只（陷阱：1 元 = 1000 厘，即 12 元）、包装 3.5 元/只、首批 30,000 只、开模费 110,000 元；先列每个数字及单位再计算",
+  "outputExcerpt": "「注意：1 元 = 100 厘 → 12,000 厘 = 120 元/只」——换算系数错误（正确 1000），单只变动成本 181.5 元、均摊 185.17 元/只，全链数字错误",
+  "evalDate": "2026-10-02",
+  "versionNote": "API deepseek-chat（对应网页端未开\"深度思考\"）",
+  "accountType": "API 计费账户",
+  "scores": {
+    "factuality": 2,
+    "structure": 4,
+    "actionability": 2,
+    "instruction": 4
+  },
+  "productMetrics": {
+    "latencyTier": "快",
+    "paywallHit": false,
+    "uxNotes": null
+  },
+  "verdict": "失败",
+  "failureAnalysis": "换算知识错误且零自查：把错误换算作为「注意」步骤郑重展示，算术本身自洽但建立在错误系数上；对「杯盖单价 120 元是杯体 58 元的两倍多」这一成本结构异常毫无警觉。指令遵守（先列数字再算）反而满分——形式纪律与实质错误并存，是该模型最典型的失败形态",
+  "screenshot": null
+}

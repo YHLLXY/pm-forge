@@ -1,0 +1,25 @@
+{
+  "id": "ds-struct-002-chat",
+  "product": "deepseek",
+  "group": "结构化产出",
+  "task": "补贴方案最优解计算 + 权衡解释（业务推理）",
+  "inputExcerpt": "预算上限 10 万：方案一每只补贴 20 元预计销量 4500 只；方案二前 3000 只补 30 元、后 2500 只补 10 元。①两方案总成本与销量 ②预算内推荐并解释权衡 ③指出一个关键假设",
+  "outputExcerpt": "方案一 9 万/4500 只（预算内）、方案二 11.5 万/5500 只（超支 1.5 万）计算全对；推荐方案一并说明「若预算可突破则方案二」的 conditional 权衡；关键假设指出销量数字的确定性依赖",
+  "evalDate": "2026-10-02",
+  "versionNote": "API deepseek-chat（对应网页端未开\"深度思考\"）",
+  "accountType": "API 计费账户",
+  "scores": {
+    "factuality": 5,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "快",
+    "paywallHit": false,
+    "uxNotes": "PM 视角四项考察（计算/约束判断/权衡/假设意识）全中；「题目没给出余量的弹性方案，不能直接计入销量」的克制是加分项"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": null
+}
