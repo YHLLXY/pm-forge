@@ -1,6 +1,7 @@
-# evals — toolkit 评测门禁（A2）
+# evals — 评测体系（A2 toolkit 门禁 + A1 拆解任务集）
 
-pm-forge 二期主线 A2：为 toolkit 三工具（竞品分析 / 用户反馈洞察 / PRD 草稿）建 evals 门禁。
+pm-forge 二期主线 A：评测体系两条子线。
+- **A2 toolkit 评测门禁**：为 toolkit 三工具（竞品分析 / 用户反馈洞察 / PRD 草稿）建 evals 门禁。
 设计文档：`docs/specs/2026-09-29-pm-forge-二期评测线与交互报告设计.md` §3；实施计划：`docs/plans/2026-09-29-pm-forge-a2-evals-实施计划.md`。
 
 ## 架构一句话
@@ -41,3 +42,7 @@ uv run evals run --tool prd-draft --yes   # 只跑指定工具
 - 评测集与校准数据均为自造真实任务，无隐私，可入公开仓。
 - 真实评分必须 `--yes` 显式确认成本；`--dry-run` 先看计划（先估后跑）。
 - toolkit 处于 mock 模式时拒绝真实评分（`--allow-mock` 显式豁免）。
+
+## A1 子线（AI 产品拆解任务集）
+
+`dissection/`：豆包主评 + Kimi/DeepSeek 对照的实测任务集与执行协议（19 条，全部合成素材）。见 `dissection/README.md`；章程与实施计划见 `docs/specs/2026-10-02-pm-forge-A1拆解评测章程.md` 与 `docs/plans/2026-10-02-pm-forge-A1拆解板块-实施计划.md`。

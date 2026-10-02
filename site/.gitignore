@@ -1,6 +1,9 @@
 # build output
 dist/
 
+# A1 实测 staging（两步式第一态，永不入库）
+out/
+
 # generated types
 .astro/
 
