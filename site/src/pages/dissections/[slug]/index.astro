@@ -67,7 +67,7 @@ const byGroup = (g: string) => records.filter(r => r.data.group === g);
         </p>
       </div>
     </div>
-    <p class="text-foreground/60 not-prose font-mono text-xs">
+    <p class="text-foreground/75 not-prose font-mono text-xs">
       版本口径：{versionNote} ｜ 章程版本：{charterVersion}
     </p>
 
@@ -82,7 +82,7 @@ const byGroup = (g: string) => records.filter(r => r.data.group === g);
     </article>
 
     <h2 class="not-prose mt-8 text-xl font-bold">任务实测（{records.length} 条）</h2>
-    <p class="text-foreground/60 not-prose mt-1 text-xs">
+    <p class="text-foreground/75 not-prose mt-1 text-xs">
       每条记录的分数为四维 rubric 单独评分；显示"未评"表示该维度本条未评——不造默认值。
     </p>
 
@@ -99,12 +99,12 @@ const byGroup = (g: string) => records.filter(r => r.data.group === g);
     }
 
     <h2 class="not-prose mt-10 text-xl font-bold">失败案例库（{failures.length} 条）</h2>
-    <p class="text-foreground/60 not-prose mt-1 text-xs">
+    <p class="text-foreground/75 not-prose mt-1 text-xs">
       失败案例与成功案例同等呈现，不做选择性展示（章程 §4）。
     </p>
     {
       failures.length === 0 ? (
-        <p class="text-foreground/60 not-prose mt-3 text-sm">暂无归档的失败案例。</p>
+        <p class="text-foreground/75 not-prose mt-3 text-sm">暂无归档的失败案例。</p>
       ) : (
         failures.map(r => (
           <FailureCallout
@@ -125,7 +125,7 @@ const byGroup = (g: string) => records.filter(r => r.data.group === g);
     </div>
 
     <hr class="my-8 border-dashed" />
-    <p class="text-foreground/60 text-sm">
+    <p class="text-foreground/75 text-sm">
       产品持续迭代，本文结论可能过期，以评测日期与版本口径为准。
     </p>
     <BackToTopButton />
