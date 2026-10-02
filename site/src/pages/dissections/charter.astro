@@ -6,11 +6,12 @@ import Footer from "@/components/Footer.astro";
 
 <Layout
   title="AI 产品拆解评测章程 | 余翰林的作品集"
-  description="本板块所有拆解内容遵循的评测纪律：自有账号真实数据、手动逐条、日期与版本标注、只述实测不做排名、隐私红线。章程全文，先于任何拆解内容发布。"
+  description="本板块所有拆解内容遵循的评测纪律：自有账号真实数据、授权代跑逐条执行、日期与版本标注、只述实测不做排名、隐私红线。章程 v2.1 全文，先于任何拆解内容发布。"
 >
   <Header />
   <main id="main-content" class="app-layout my-8">
     <h1 class="text-3xl font-bold">AI 产品拆解评测章程</h1>
+    <p class="text-foreground/75 mt-1 font-mono text-xs">章程版本 v2.1 · 2026-10-02 定稿（含执行授权修订款，见铁律 2）</p>
     <p class="text-foreground/75 mt-3">
       这是本板块的纪律承诺，先于任何拆解内容发布。每一条拆解结论都必须能在本章程下被检验；做不到的结论不允许发布。
     </p>
@@ -25,7 +26,7 @@ import Footer from "@/components/Footer.astro";
       <h2>二、六条铁律</h2>
       <ol>
         <li><strong>自有数据</strong>：只用自己账号下的真实输入输出；不爬取，不引用或转存他人会话数据。</li>
-        <li><strong>手动逐条</strong>：不做任何规模性、自动化调用（含脚本批量）；遵守各产品用户协议；额度与限流提示原样记录，不绕过。</li>
+        <li><strong>手动逐条</strong>：不做任何规模性、自动化调用（含脚本批量、并发压测）；遵守各产品用户协议；额度与限流提示原样记录，不绕过。<strong>修订款（v2.1）</strong>：①经用户授权的 AI 协作者可人工节奏逐条代跑消费端产品（一次一条、无脚本无并发），账号归属与授权责任在用户；②API 计费入口属服务的正常使用方式，用户授权下允许脚本逐条执行，不属于"规模性自动化"。</li>
         <li>
           <strong>日期 + 版本留痕</strong>：每条实测结论标注评测日期与产品版本。版本口径为产品内"关于/版本"信息或可见功能开关状态（如"深度思考：开"）；
           拿不到时标注"未公开版本 + 入口形态"。无版本标注的结论不允许发布——本站的构建检查会直接让发布失败。
@@ -40,8 +41,8 @@ import Footer from "@/components/Footer.astro";
 
       <h2>三、账号与成本口径</h2>
       <p>
-        实测在免费账号能力面下进行（豆包、Kimi 未付费；DeepSeek 消费端免费），报告如实标注"付费能力面未测"。
-        成本维度只记录消费者产品形态的可见成本（免费额度、价格页可见的会员信息），与本站工具箱使用的模型 API 定价分属两条线，不混谈。
+        实测在用户实际账号能力面下进行：豆包、Kimi 免费账号，报告标注"付费能力面未测"；DeepSeek 走 API 计费入口（铁律 2 修订款②），报告如实标注账号类型。
+        成本维度只记录消费者产品形态的可见成本（免费额度、价格页可见的会员信息）；API 定价与充值属工具线成本口径，不混入拆解报告。
       </p>
 
       <h2>四、怎么读这些报告</h2>
@@ -68,7 +69,7 @@ import Footer from "@/components/Footer.astro";
     </article>
 
     <hr class="my-8 border-dashed" />
-    <p class="text-foreground/60 text-sm">产品持续迭代，本文结论可能过期，以评测日期为准。</p>
+    <p class="text-foreground/75 text-sm">产品持续迭代，本文结论可能过期，以评测日期为准。</p>
   </main>
   <Footer />
 </Layout>

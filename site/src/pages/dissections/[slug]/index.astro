@@ -37,6 +37,7 @@ const aggregate = {
   instruction: avg(records.map(r => r.data.scores.instruction)),
 };
 const failures = records.filter(r => r.data.verdict === "失败");
+const edgeRecords = records.filter(r => r.data.group === "边界探测");
 const byGroup = (g: string) => records.filter(r => r.data.group === g);
 ---
 
@@ -116,6 +117,27 @@ const byGroup = (g: string) => records.filter(r => r.data.group === g);
             versionNote={r.data.versionNote}
           />
         ))
+      )
+    }
+
+    <h2 class="not-prose mt-10 text-xl font-bold">边界能力清单（{edgeRecords.length} 条）</h2>
+    <p class="text-foreground/75 not-prose mt-1 text-xs">
+      边界探测逐条实测「能 / 不能」，输入与输出摘录证据见上方对应记录卡（章程 §4）。
+    </p>
+    {
+      edgeRecords.length === 0 ? (
+        <p class="text-foreground/75 not-prose mt-3 text-sm">
+          本对照子集未含边界探测任务，边界面未测（对照分工见章程 §1）。
+        </p>
+      ) : (
+        <ul class="not-prose mt-3 space-y-1 text-sm">
+          {edgeRecords.map(r => (
+            <li>
+              <span class="font-medium">{r.data.task}</span>
+              <span class="text-foreground/75">——判定：{r.data.verdict}</span>
+            </li>
+          ))}
+        </ul>
       )
     }
 

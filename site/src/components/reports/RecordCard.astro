@@ -17,6 +17,7 @@ const SHOT_DIMS: Record<string, [number, number]> = (() => {
 
 type RecordShape = {
   id: string;
+  product: string;
   group: "写作" | "检索" | "结构化产出" | "边界探测";
   task: string;
   inputExcerpt: string;
@@ -36,8 +37,14 @@ type RecordShape = {
   screenshot?: string | null;
 };
 
+// 章程 §5 图注口径：来源用产品中文名（记录 JSON 存 id）
+const PRODUCT_NAMES: Record<string, string> = { doubao: "豆包", kimi: "Kimi", deepseek: "DeepSeek" };
+
 type Props = { record: RecordShape };
 const { record } = Astro.props;
+
+// 发布截图尺寸（缺清单项则不渲染，防 404）
+const shotDims = record.screenshot ? (SHOT_DIMS[record.screenshot.replace(/\.png$/, "")] ?? null) : null;
 const verdictColor =
   record.verdict === "成功"
     ? "var(--report-verdict-success)"
@@ -76,20 +83,19 @@ const verdictColor =
   }
 
   {
-    record.screenshot &&
-    SHOT_DIMS[record.screenshot.replace(/\.png$/, "")] && (
+    shotDims && (
       <figure class="not-prose mt-3">
         <img
           src={`/assets/dissections/${record.screenshot}`}
-          width={SHOT_DIMS[record.screenshot.replace(/\.png$/, "")][0]}
-          height={SHOT_DIMS[record.screenshot.replace(/\.png$/, "")][1]}
+          width={shotDims[0]}
+          height={shotDims[1]}
           loading="lazy"
           decoding="async"
           alt={`实测截图：${record.task}`}
           class="border-border rounded-lg border"
         />
         <figcaption class="text-foreground/75 mt-1 text-xs">
-          实测截图（已脱敏：侧栏与账号信息已裁除；来源与会话时间见上方口径行）
+          来源：{PRODUCT_NAMES[record.product] ?? record.product}，截图日期 {record.evalDate}；已脱敏（侧栏与账号信息已裁除）
         </figcaption>
       </figure>
     )

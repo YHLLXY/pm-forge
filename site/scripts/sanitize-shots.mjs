@@ -15,7 +15,7 @@ mkdirSync(OUTDIR, { recursive: true });
 
 // 每张图的脱敏配置：crop = 裁切窗口（原图坐标）；redact = 遮盖块（裁后坐标，白色盖板）
 const PLAN = {
-  // 豆包会话布局：左 283px 是侧栏（含昵称 Mr.墨言无殇），全部裁掉
+  // 豆包会话布局：左 283px 是侧栏（含账号昵称区），全部裁掉
   defaultDoubao: { crop: { x: 283, y: 0, width: 997, height: 720 } },
   "doubao/doubao-struct-004": { crop: { x: 283, y: 0, width: 997, height: 505 } },
   // 豆包画布布局（write-003）：无侧栏；右侧云文档面板有两处昵称，白块遮盖
