@@ -264,8 +264,15 @@
 
 **执行偏差（如实记录）**：
 1. **Git Bash MSYS 路径转换改写 grep 模式**：含 POSIX 绝对路径字面量的模式（如 `'href="/analysis/…"'`）被 MSYS 参数转换后失配、误报计数 0（隔离实验：加 `MSYS_NO_PATHCONV=1` 后命中 1，产物本身正常）。本环境验证命令一律加此前缀。
-2. **Astro 7 preview 守护单槽注册**：`astro preview` 为常驻守护且全局单槽——story-gates/lh.mjs 的 `server.kill()`/`preview.kill()` 只杀 npx 外壳，astro 守护被孤儿化残留；同端口 `--force` 可替换、异端口被全局注册表拒绝（报「Another astro preview server is already running」），表现为 check:story/lh 连报「preview 服务器未就绪」。本次 `npx astro preview stop` 清理后全过。**遗留建议**（未动代码，留待下轮修缮）：两脚本收尾/异常退出时补 `astro preview stop`，或以子进程组杀树。
+2. **Astro 7 preview 守护单槽注册**：`astro preview` 为常驻守护且全局单槽——story-gates/lh.mjs 的 `server.kill()`/`preview.kill()` 只杀 npx 外壳，astro 守护被孤儿化残留；同端口 `--force` 可替换、异端口被全局注册表拒绝（报「Another astro preview server is already running」），表现为 check:story/lh 连报「preview 服务器未就绪」。本次 `npx astro preview stop` 清理后全过。尾巴已于同日收尾轮修复（见深夜③段）。
 3. resume-bullets 按其自带使用规则执行日重估：「12 天 135+ commits」→「11 天 141 commits」（git rev-list 实点）；页数 26 与计划预估一致。
 4. **计划外修复（存量 bug）：桌面端导航折行**——A1 加「拆解」、B 线加「故事」后导航项 5→7 个，flex 挤压使每项塌成单字宽两行竖排（1280/1536/1920 三宽度实测链接高 56px=两行；Lighthouse a11y 不拦此问题、此前复检仅移动端截图故漏网）。修复：Header.astro 导航 ul 加 `md:whitespace-nowrap`（移动端不受影响），重建后七项全部单行（高 32px），header 截图走查核验；构建链复绿。
 
-**可作战状态**：✅ 六卡全部执行完毕逐卡推送（273116d → e09d82b → 1e40469 → c3b1eb8 → da7de86 → 本 commit），全门禁绿；待 Vercel 部署完成后线上抽查 /interviewers/ 与首页新板块。
+**可作战状态**：✅ 六卡全部执行完毕逐卡推送（273116d → e09d82b → 1e40469 → c3b1eb8 → da7de86 → 1e88c21），全门禁绿；线上抽查已过（/interviewers/ 200 + 首页新板块命中 + 导航修复类在产）。
+
+## 2026-10-06 深夜③（收尾轮：守护清理修复 + 漏洞数字刷新 + 经验沉淀）
+
+- **preview 守护清理修复**（f879290）：story-gates.mjs / lh.mjs spawn 前 `npx astro preview stop` 清槽（清掉孤儿占槽，也停掉手动在跑的 preview——门禁独占守护槽，注释已声明）+ finally 再清一次（30 秒超时保险）。端到端验证：预置 4321 残留守护 → check:story 跑绿 → 4321/4328 零残留；lh 复跑绿 + 零残留。B 线四坑里「杀孤儿要杀 node 子进程」的处方至此落实到代码。
+- **ISSUES #13 数字刷新**：dependabot 口径 2→9（5 高 4 中，2026-10-06 push 通知；新增 advisory 明细以面板为准），处置不变（Next 16 专项卡全量回归、**严禁 npm audit fix --force**）。
+- **lessons-learned 补收尾轮条目**：MSYS 参数改写（`MSYS_NO_PATHCONV=1`）／复盘处方落实到代码才算关闭／门禁正则锚点须在叙述句上干跑；vault 双写待用户侧同步。
+- **可作战状态**：✅ 收尾轮三项完成并推送（f879290 + 本 commit）；门禁第七条 + 求职包装 + 收尾全部闭环，停在这里等用户下一步指令。
