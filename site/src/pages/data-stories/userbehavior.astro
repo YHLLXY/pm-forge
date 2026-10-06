@@ -1,0 +1,160 @@
+---
+// site/src/pages/data-stories/userbehavior.astro —— B 线唯一故事页（B 验收⑥载体）
+// 口径行（metricNote）构建期从 preset JSON 读取，页面文本与数据文件单一事实源。
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+
+// 预渲染在 dist 里跑，import.meta.url 指向编译产物；process.cwd() = site/ 才是稳定锚点
+const PRESET_DIR = join(process.cwd(), "public", "assets", "data-stories", "userbehavior", "presets");
+const presetMeta = (qid: string) => {
+  const p = JSON.parse(readFileSync(join(PRESET_DIR, `${qid}.json`), "utf8")) as {
+    title: string;
+    metricNote: string;
+  };
+  return p;
+};
+const note = (qid: string) => {
+  const m = presetMeta(qid);
+  return { title: m.title, metricNote: m.metricNote };
+};
+---
+
+<Layout title="淘宝用户行为九日谈：一场浏览器里的复算 | 余翰林的作品集" description="100k 行抽样的淘宝用户行为数据，在浏览器内用 DuckDB-WASM 现场复算：行为结构、时间分布、类目格局与行为质量，全部口径可查、全部数字可复现。">
+  <Header />
+  <main id="main-content" class="app-layout my-8">
+    <article class="mx-auto max-w-3xl">
+      <p class="text-foreground/75 font-mono text-xs">数据故事 · UserBehavior 100k 抽样（seed=42） · 2017-11-25 → 12-03（UTC+8）</p>
+      <h1 class="mt-2 text-3xl font-bold sm:text-4xl">淘宝用户行为九日谈：一场浏览器里的复算</h1>
+
+      <section class="story-step mt-10">
+        <h2 class="text-xl font-bold sm:text-2xl">一、这是一份什么数据</h2>
+        <p class="mt-3">阿里巴巴公开的淘宝用户行为数据集（UserBehavior），取其中 100,000 行用户级抽样（seed=42，抽样与清洗脚本开源在本仓库 analysis/）。字段只有五个：用户、商品、类目、行为类型、时间戳。行为分四种——pv（浏览）、cart（加购）、fav（收藏）、buy（购买）。</p>
+        <p class="mt-3">抽样中混入了官方窗口外的脏时间戳（含 2030 年的「未来行为」），按与仓库分析线相同的口径剔除后，<strong>99,958 行</strong>落在 2017-11-25 至 12-03 共九天（UTC+8）内。下文每个数字都可以在页面末尾的查询框里亲手复算。</p>
+      </section>
+
+      <section class="story-step mt-16">
+        <h2 class="text-xl font-bold sm:text-2xl">二、总量与结构：百分之九十四的目光</h2>
+        <p class="mt-3">九天里，92,042 个用户对 81,695 个商品、3,985 个类目产生了 99,958 次行为。其中 pv 占 89.4%——接近九成的行为只是「看」；加购 5.6%、收藏 2.9%、购买 2.0%。注意力远远多于动作，是所有电商数据的第一形状。</p>
+        <div class="mt-6 space-y-8">
+          <figure data-chart="q01" class="m-0">
+            <figcaption class="text-foreground/75 text-xs">{note("q01").title} · 口径：{note("q01").metricNote}</figcaption>
+          </figure>
+          <figure data-chart="q02" class="m-0">
+            <figcaption class="text-foreground/75 text-xs">{note("q02").title} · 口径：{note("q02").metricNote}</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="story-step mt-16">
+        <h2 class="text-xl font-bold sm:text-2xl">三、时间维度：周末的访客潮与凌晨的低谷</h2>
+        <p class="mt-3">日活（当日去重用户数）在工作日稳定在 9,500–10,500 之间，12 月 2 日、3 日两个周末日跳升至 13,500 上下——访客在周末多了三成。按小时看，凌晨 0 点至 5 点是谷底，谷底在 04 点，上午 10 点后爬回平台。</p>
+        <div class="mt-6 space-y-8">
+          <figure data-chart="q03" class="m-0">
+            <figcaption class="text-foreground/75 text-xs">{note("q03").title} · 口径：{note("q03").metricNote}</figcaption>
+          </figure>
+          <figure data-chart="q04" class="m-0">
+            <figcaption class="text-foreground/75 text-xs">{note("q04").title} · 口径：{note("q04").metricNote}</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="story-step mt-16">
+        <h2 class="text-xl font-bold sm:text-2xl">四、类目格局：头部的宽度与转化率的小样本陷阱</h2>
+        <p class="mt-3">把 pv 按类目排队，Top10 类目构成的头部有多宽？再看转化率视角——买行数除以看行数。注意口径行里的 pv≥50 门槛：样本里大量类目只有几次浏览，它们的「高转化率」只是小样本的运气，不设门槛的榜单会被这种噪音霸占。</p>
+        <div class="mt-6 space-y-8">
+          <figure data-chart="q05" class="m-0">
+            <figcaption class="text-foreground/75 text-xs">{note("q05").title} · 口径：{note("q05").metricNote}</figcaption>
+          </figure>
+          <figure data-chart="q06" class="m-0">
+            <figcaption class="text-foreground/75 text-xs">{note("q06").title} · 口径：{note("q06").metricNote}</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="story-step mt-16">
+        <h2 class="text-xl font-bold sm:text-2xl">五、行为质量：加购的边际与复购的稀有</h2>
+        <p class="mt-3">5.99% 的用户在九天里加购过却从未购买——加购到购买之间隔着一整个决策期。复购（buy≥2）只占 0.01%：九天窗口太短，它只陈述窗口内的事实，不外推为忠诚度结论。漏斗是平行计数而非严格漏斗：看过的人里 6.7% 加购、2.5% 购买。</p>
+        <div class="mt-6 space-y-8">
+          <figure data-chart="q07" class="m-0">
+            <figcaption class="text-foreground/75 text-xs">{note("q07").title} · 口径：{note("q07").metricNote}</figcaption>
+          </figure>
+          <figure data-chart="q08" class="m-0">
+            <figcaption class="text-foreground/75 text-xs">{note("q08").title} · 口径：{note("q08").metricNote}</figcaption>
+          </figure>
+          <figure data-chart="q09" class="m-0">
+            <figcaption class="text-foreground/75 text-xs">{note("q09").title} · 口径：{note("q09").metricNote}</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="story-step mt-16">
+        <h2 class="text-xl font-bold sm:text-2xl">六、一个反直觉的发现：周末效应不存在</h2>
+        <p class="mt-3">人均行为数（总行为 ÷ 去重用户）：工作日 1.05，周末 1.05。周末只是<b>人多了</b>，每个人的行为强度没有任何变化。第三节看到的访客潮，是分母的潮汐，不是分子的热情。这是这份数据里最值得记住的一行。</p>
+        <figure data-chart="q10" class="mt-6">
+          <figcaption class="text-foreground/75 text-xs">{note("q10").title} · 口径：{note("q10").metricNote}</figcaption>
+        </figure>
+      </section>
+
+      <section id="explore" class="story-step mt-16">
+        <h2 class="text-xl font-bold sm:text-2xl">七、轮到你了</h2>
+        <p class="mt-3">上面所有图表都是构建期固化好的预置答案。桌面端点击右下角的「开始探索」，你的浏览器会现场加载 DuckDB-WASM 查询引擎（约 33MB，仅首次），把这份 parquet 重新算一遍——查询框提供维度、行为类型、指标与日期区间的自由组合，任何组合都是上面没画过的图。移动端只看预置图表就够了，引擎不会加载。</p>
+        <div class="mt-6" data-query-root>
+          <!-- Task 7：受限查询框落位于此 -->
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <a
+    href="#explore"
+    class="border-border bg-background focus-outline fixed bottom-6 end-6 z-40 rounded-full border px-5 py-3 text-sm font-medium shadow-lg"
+  >开始探索 ↑</a>
+
+  <div
+    id="degrade-note"
+    class="border-border bg-muted text-foreground/75 fixed inset-x-0 bottom-0 z-40 hidden border-t px-4 py-3 text-center text-xs"
+  >移动端展示预置图表；桌面端可自由查询。</div>
+
+  <Footer />
+</Layout>
+
+<script>
+  import scrollama from "scrollama";
+
+  // 移动端降级：视口+触控组合判定（与 story-gates.mjs 门禁口径一致），不采信 UA
+  const isMobileLike =
+    window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(max-width: 767px)").matches;
+  if (isMobileLike) {
+    document.getElementById("degrade-note")?.classList.remove("hidden");
+    document.querySelector('a[href="#explore"]')?.remove();
+  }
+
+  // 滚动叙事：进入视口中线的 section 加 is-active（图容器由 charts.ts 在 Task 6 接管）
+  scrollama()
+    .setup({ step: ".story-step", offset: 0.5 })
+    .onStepEnter(response => {
+      response.element.classList.add("is-active");
+    })
+    .onStepExit(response => {
+      response.element.classList.remove("is-active");
+    });
+</script>
+
+<style>
+  .story-step {
+    opacity: 0.45;
+    transition: opacity 0.4s ease;
+  }
+  .story-step.is-active {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .story-step {
+      opacity: 1;
+      transition: none;
+    }
+  }
+</style>

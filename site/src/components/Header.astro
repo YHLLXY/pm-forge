@@ -107,6 +107,15 @@ const isActive = (path: string) => {
         </li>
         <li class="col-span-2">
           <a
+            href="/data-stories/userbehavior/"
+            class:list={{ "active-nav": isActive("/data-stories") }}
+          >
+            <span class="md:hidden">数据故事</span>
+            <span class="hidden md:inline">故事</span>
+          </a>
+        </li>
+        <li class="col-span-2">
+          <a
             href="/toolbox/"
             class:list={{ "active-nav": isActive("/toolbox") }}
           >
