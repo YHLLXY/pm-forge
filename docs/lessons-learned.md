@@ -38,3 +38,11 @@
 - **astro check 爆堆 = tsconfig `**/*` 扫进大二进制**：public/ 落了 34MB wasm 后 `include:["**/*"]`（exclude 只有 dist/public/pagefind）让 astro LS 把二进制纳入扫描，本地 8GB 堆都不够；Vercel 构建一直正常≠本地没病。二分定位后 `exclude: ["dist", "public"]` 根治。教训：往 public/ 放大文件前先看 tsconfig 扫描面。
 - **Astro 7 preview 单例锁**：preview 全局互斥（换端口也不行，报 "Another astro preview server is already running"），并发 spawn 的验证脚本会互相卡死——脚本内 spawn 一律加 `--force` + 各用独立端口；杀孤儿要杀 node 子进程而非 cmd 壳。
 - **DuckDB 跨端时区一致性**：`to_timestamp()` 返回 TIMESTAMPTZ，`strftime` 按**会话时区**渲染——Python 端随本机（Asia/Shanghai）、浏览器 WASM 端默认 UTC，同一 SQL 两端数字不同。跨端一致的墙钟成分用纯整数运算（Unix 秒 + 28800 对 86400 取模），不碰类型渲染；`IIF` 在新 duckdb 已移除（用 CASE WHEN），`DATE + BIGINT` 无重载（CAST 成 INTEGER）。
+
+## 2026-10-06 B 线执行复盘（过程级，区别于上面的技术坑）
+
+- **假绿提交**：Task 1 的"构建验证"用 `npm run build | grep …; echo $?` 拿到的是 grep 的退出码，构建实际已 OOM 却以"全绿"结论提交了 commit。事后根因虽是 tsconfig（与该 commit 无关），但"验证过了"这个动作本身是假的。同类管道退出码陷阱本项目已踩两次。**规矩**：宣告"构建全绿"前必须看到链尾的完成标志（如 pagefind 的 Finished 行），退出码用 `${PIPESTATUS[0]}` 单独取。
+- **验证脚本自身有洞**：①查询框验证脚本的 waitForFunction 等"引擎就绪"存在即通过，第二次起读到的是上一次的旧状态（应等"状态变化"而非"状态存在"）；②反向验证第一版只 import 了 loader 模块没调 `loadDuckDB()`，门禁照绿——差点把"反向验证通过"当证据收下，实际是注入方式无效。**规矩**：反向验证的红必须是"注入后真红"，绿了但没红过，先怀疑注入再相信门禁；状态断言永远锚定"变化"。
+- **环境类故障的排查路径**：preview "未就绪"时好时坏，重试 4-5 轮后才定位到 Astro 7 单例锁 + Windows spawn 杀壳不杀子进程的孤儿持有锁。OOM 排查同理：先怀疑 duckdb 类型、挪文件、stash 干净树，三轮之后才对上时间线（public/ 落 34MB 文件的那一刻开始炸）。**规矩**：同一脚本"时好时坏"= 环境病（孤儿进程/单例锁/端口/缓存），第一反应 netstat/查锁，不是重跑；环境故障先画时间线找"什么时候开始、当时唯一的变量"，比按嫌疑度试错快。
+- **计划稿里未验证的外部细节一律先核对再照抄**：FILES 清单里的 duckdb-browser-eh.wasm（dist 里不存在）、`FILTER` 缺 WHERE、`IIF` 已移除、to_timestamp 的渲染语义——四处都是写计划时的合理猜测，执行时先照抄、等报错才回头。**规矩**：写计划时对外部 API 的细节要么当场实测，要么在卡里标注"执行时先对实物核对"；执行时对"猜的细节"先查一手来源（dist 目录、类型定义、官方文档）再落笔。
+- **做对了的**：9 张任务卡零改道跑完，计划期的接口约定（loader/budget/preset JSON 字段）跨任务全部咬合——"配置机制回填"代替 TBD 的写法成立；体积门禁与双门禁的正反向验证各证明了一次"门禁真的在测东西"；口径一致性靠 pandas 逐值交叉验证抓到浏览器端第 10 天的脏数据泄漏——同一数字多处出现时，机械核对永远比目测可靠。
