@@ -1,0 +1,11 @@
+{
+ "id": "q07",
+ "title": "加购未买用户占比",
+ "metricNote": "分母=全量用户；加购未买 = 有 cart 且无 buy 行为的用户",
+ "rows": [
+  {
+   "pct_cart_no_buy": 5.99,
+   "users": 92042
+  }
+ ]
+}

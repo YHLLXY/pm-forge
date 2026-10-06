@@ -1,0 +1,103 @@
+{
+ "id": "q04",
+ "title": "小时分布",
+ "metricNote": "按 UTC+8 墙钟小时计数",
+ "rows": [
+  {
+   "dim": "00",
+   "event_count": 3468
+  },
+  {
+   "dim": "01",
+   "event_count": 1586
+  },
+  {
+   "dim": "02",
+   "event_count": 853
+  },
+  {
+   "dim": "03",
+   "event_count": 596
+  },
+  {
+   "dim": "04",
+   "event_count": 474
+  },
+  {
+   "dim": "05",
+   "event_count": 624
+  },
+  {
+   "dim": "06",
+   "event_count": 1394
+  },
+  {
+   "dim": "07",
+   "event_count": 2453
+  },
+  {
+   "dim": "08",
+   "event_count": 3373
+  },
+  {
+   "dim": "09",
+   "event_count": 4107
+  },
+  {
+   "dim": "10",
+   "event_count": 4997
+  },
+  {
+   "dim": "11",
+   "event_count": 4730
+  },
+  {
+   "dim": "12",
+   "event_count": 4752
+  },
+  {
+   "dim": "13",
+   "event_count": 5303
+  },
+  {
+   "dim": "14",
+   "event_count": 5150
+  },
+  {
+   "dim": "15",
+   "event_count": 5280
+  },
+  {
+   "dim": "16",
+   "event_count": 5192
+  },
+  {
+   "dim": "17",
+   "event_count": 4798
+  },
+  {
+   "dim": "18",
+   "event_count": 4784
+  },
+  {
+   "dim": "19",
+   "event_count": 6043
+  },
+  {
+   "dim": "20",
+   "event_count": 7100
+  },
+  {
+   "dim": "21",
+   "event_count": 8417
+  },
+  {
+   "dim": "22",
+   "event_count": 8263
+  },
+  {
+   "dim": "23",
+   "event_count": 6221
+  }
+ ]
+}

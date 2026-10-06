@@ -1,0 +1,13 @@
+{
+ "id": "q01",
+ "title": "样本总览",
+ "metricNote": "100k 行 reservoir 抽样（seed=42），剔除官方窗口外的脏时间戳行（口径同 ingest.clean_window）后进行分析",
+ "rows": [
+  {
+   "events": 99958,
+   "users": 92042,
+   "items": 81695,
+   "categories": 3985
+  }
+ ]
+}

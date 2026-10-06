@@ -1,0 +1,15 @@
+{
+ "id": "q10",
+ "title": "周末 vs 工作日",
+ "metricNote": "周末 = UTC+8 墙钟的周六/周日；对比人均行为数",
+ "rows": [
+  {
+   "dim": "工作日",
+   "events_per_user": 1.05
+  },
+  {
+   "dim": "周末",
+   "events_per_user": 1.05
+  }
+ ]
+}

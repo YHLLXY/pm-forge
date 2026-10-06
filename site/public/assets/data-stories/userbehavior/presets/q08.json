@@ -1,0 +1,10 @@
+{
+ "id": "q08",
+ "title": "复购用户占比",
+ "metricNote": "复购 = buy 行为 ≥2 次（不区分是否同商品）",
+ "rows": [
+  {
+   "pct_repurchase": 0.01
+  }
+ ]
+}

@@ -1,0 +1,47 @@
+{
+ "id": "q05",
+ "title": "类目 PV Top10",
+ "metricNote": "pv 行数最多的 category_id；类目 ID 为平台原始编号",
+ "rows": [
+  {
+   "dim": 4756105,
+   "event_count": 4359
+  },
+  {
+   "dim": 2355072,
+   "event_count": 3182
+  },
+  {
+   "dim": 4145813,
+   "event_count": 3181
+  },
+  {
+   "dim": 3607361,
+   "event_count": 2984
+  },
+  {
+   "dim": 982926,
+   "event_count": 2832
+  },
+  {
+   "dim": 2520377,
+   "event_count": 1998
+  },
+  {
+   "dim": 4801426,
+   "event_count": 1820
+  },
+  {
+   "dim": 1320293,
+   "event_count": 1765
+  },
+  {
+   "dim": 2465336,
+   "event_count": 1513
+  },
+  {
+   "dim": 3002561,
+   "event_count": 1388
+  }
+ ]
+}

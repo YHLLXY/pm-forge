@@ -1,0 +1,27 @@
+{
+ "id": "q02",
+ "title": "四类行为占比",
+ "metricNote": "行为计数 = events 表按 behavior_type 的行数",
+ "rows": [
+  {
+   "dim": "pv",
+   "event_count": 89447,
+   "user_count": 82924
+  },
+  {
+   "dim": "cart",
+   "event_count": 5563,
+   "user_count": 5525
+  },
+  {
+   "dim": "fav",
+   "event_count": 2908,
+   "user_count": 2874
+  },
+  {
+   "dim": "buy",
+   "event_count": 2040,
+   "user_count": 2032
+  }
+ ]
+}
