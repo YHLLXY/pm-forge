@@ -90,7 +90,7 @@ function printFailedAudits(json) {
   }
 }
 
-const preview = spawn("npx", ["astro", "preview", "--port", String(PORT)], {
+const preview = spawn("npx", ["astro", "preview", "--port", String(PORT), "--force"], {
   cwd: SITE_DIR,
   shell: true,
   stdio: "ignore",
@@ -100,7 +100,7 @@ try {
   await waitForServer(BASE);
 
   // 页面清单：四个固定页 + 第一篇案例详情 + 拆解板块（首页/章程/首篇详情）
-  const pages = ["/", "/case-studies/", "/analysis/", "/dissections/", "/dissections/charter/", "/dissections/doubao/", "/toolbox/", "/about/", "/search/"];
+  const pages = ["/", "/case-studies/", "/analysis/", "/dissections/", "/dissections/charter/", "/dissections/doubao/", "/data-stories/userbehavior/", "/toolbox/", "/about/", "/search/"];
   const caseDir = join(SITE_DIR, "dist", "case-studies");
   if (existsSync(caseDir)) {
     const first = readdirSync(caseDir).find(

@@ -148,6 +148,8 @@ const note = (qid: string) => {
           </div>
         </div>
       </section>
+
+      <p class="text-foreground/75 mt-12 border-t border-border/60 pt-4 text-xs">数据为 100k 行抽样（seed=42），窗口以 ts 覆盖范围为准；结论可能随数据重抽过期。</p>
     </article>
   </main>
 
@@ -255,16 +257,18 @@ const note = (qid: string) => {
 </script>
 
 <style>
+  /* 滚动叙事的进场提示不用透明度：非激活文本会被 axe 对比度审计判 fail（a11y 门禁 ≥90），
+     改用 accent 左边框标记当前节，文本始终全对比度。 */
   .story-step {
-    opacity: 0.45;
-    transition: opacity 0.4s ease;
+    border-inline-start: 3px solid transparent;
+    padding-inline-start: 1rem;
+    transition: border-color 0.4s ease;
   }
   .story-step.is-active {
-    opacity: 1;
+    border-inline-start-color: var(--accent);
   }
   @media (prefers-reduced-motion: reduce) {
     .story-step {
-      opacity: 1;
       transition: none;
     }
   }

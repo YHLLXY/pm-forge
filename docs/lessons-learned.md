@@ -31,3 +31,10 @@
 - **根因**：Astro 表达式容器 `{...}` 只接受**表达式**，不接受语句；解析器在非法 token 处错位后，把其后所有内容按错误路径解析——报错位置远离真实病灶。这是本分支第二次踩同一坑（T6 首次以"内联"规避，重写时又忘了）。
 - **解决方案**：把派生值计算全部提到 frontmatter（`const shotDims = record.screenshot ? (SHOT_DIMS[...] ?? null) : null;`），模板容器里只留 `shotDims && (...)` 纯表达式。
 - **如何避免**：模板里出现"先算一个中间值再用"的需求时，条件反射去 frontmatter 开变量；`astro check` 的级联报错先看**最靠前的第一个**错误，它才是病灶。
+
+## 2026-10-06 B 线四坑（DuckDB-WASM 接入日）
+
+- **退出码管道陷阱（变体二）**：`npm run build | grep …; echo $?` 给的是 grep/head 的退出码——T6 审查轮已记过"看最靠前的错误"，这轮换形态再踩（BUILD-EXIT=0 实为 grep 的）。取前段退出码用 `${PIPESTATUS[0]}`，或管道后单独重跑关键段验证。
+- **astro check 爆堆 = tsconfig `**/*` 扫进大二进制**：public/ 落了 34MB wasm 后 `include:["**/*"]`（exclude 只有 dist/public/pagefind）让 astro LS 把二进制纳入扫描，本地 8GB 堆都不够；Vercel 构建一直正常≠本地没病。二分定位后 `exclude: ["dist", "public"]` 根治。教训：往 public/ 放大文件前先看 tsconfig 扫描面。
+- **Astro 7 preview 单例锁**：preview 全局互斥（换端口也不行，报 "Another astro preview server is already running"），并发 spawn 的验证脚本会互相卡死——脚本内 spawn 一律加 `--force` + 各用独立端口；杀孤儿要杀 node 子进程而非 cmd 壳。
+- **DuckDB 跨端时区一致性**：`to_timestamp()` 返回 TIMESTAMPTZ，`strftime` 按**会话时区**渲染——Python 端随本机（Asia/Shanghai）、浏览器 WASM 端默认 UTC，同一 SQL 两端数字不同。跨端一致的墙钟成分用纯整数运算（Unix 秒 + 28800 对 86400 取模），不碰类型渲染；`IIF` 在新 duckdb 已移除（用 CASE WHEN），`DATE + BIGINT` 无重载（CAST 成 INTEGER）。

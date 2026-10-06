@@ -213,3 +213,29 @@
 - **A1 合并当日执行**：用户同日指示"按照计划开始"——A1 合并提前于原定 11 月中窗口执行（唯一冲突 docs/STATUS.md 双方补记按时间序并留），合并后构建门禁复跑、线上复验，随即切 `b-data-story` 开工 B 线。
 
 **可作战状态**：✅ A 线全部收口（A2 发布闭环 + A1 合并上线）；B 线按计划卡执行中。
+
+## 2026-10-06 晚（A1 线上复验 + B 线 MVP 九任务卡一日贯通，合回 main）
+
+- **A1 线上复验**：合并部署后 yuhailinlxy.com 三篇拆解 + 章程页渲染正常；doubao 判定分布本地机械清点 11 成功/2 部分/1 失败 = 14 条记录逐一吻合（线上抽查代理曾误数 10/3/1，以机械清点为准）。
+- **B 线九任务卡全部执行**（a8581c9→c890695 共 9 commits，全部已推 b-data-story，本补记随合并入 main）：
+  1. 地基：@duckdb/duckdb-wasm **1.32.0 稳定版**（镜像 latest 是 dev 标签 1.33.1-dev57，按预案改钉非 dev 最新）+ plot 0.6.17 + scrollama 3.2.0，EHDR 资产拷贝入构建链。
+  2. spike 打通：懒加载边界 Playwright 实证（点击前零重资源，点击后 4 行行为计数总和=100,000）。
+  3. 体积门禁：check-story-budget 入构建链（pagefind 前），反向验证 parquet 限 1MB → exit 1。
+  4. 10 问预生成：官方窗口清洗 **100,000→99,958 行**（42 行脏时间戳，ISSUES #5 同源，口径同 ingest.clean_window，q01 口径行如实披露）；q03/q04 与 pandas 规范语义逐值交叉验证一致。
+  5. 7 节滚动叙事页 + 口径行构建期注入（process.cwd() 读 preset JSON，页面文本与数据单一事实源）+ 导航补「故事」入口。
+  6. Observable Plot 10 图（3 大数字卡 + 7 SVG），进视口才 fetch。
+  7. 受限查询框：白名单 SQL（枚举/整数域/正则，零自由文本）+ 懒加载引擎（首查 3.2s，后续 <40ms）+ limit=51 行内报错。
+  8. Playwright 双门禁（npm run check:story）：正向双场景绿 + 反向验证（页面注入 loadDuckDB() 自动加载 → 双场景必红）。
+  9. Lighthouse 10 页全过：story 页 **99/95/100/100**（a11y 首跑 89 → 修 scrollama 透明度进场为 accent 左边框后 95）。
+- **B 验收①-⑥勾验**（spec §4）：①首屏零重资源=story-gates 场景 1 ②自由查询=查询框 3 场景+越界报错 ③移动降级=场景 2 零重资源+提示在位（移动端表单整体移除，杜绝触发 WASM）④体积门禁=反向验证过（实测 duckdb 33.39/40MB、数据 2.02/3MB）⑤Lighthouse ≥90 ⑥7 节+每节口径行（metricNote 同源注入）。
+- **对计划的偏差（全部实测驱动）**：
+  - duckdb-wasm 1.32.0 dist **无** duckdb-browser-eh.wasm——EHDR 实为 2 文件（wasm+worker），FILES 清单按实修正；loader 硬编码 eh bundle 不走 selectBundle（mvp 兜底未发布会 404）。
+  - **astro check 本地 OOM 根因** = tsconfig `include:["**/*"]` 把 public/ 下 34MB wasm 扫进 astro LS——`exclude` 改 `public` 整目录根治（Vercel 构建一直正常，纯本地病灶）。
+  - registerFileURL 需 4 参数（DuckDBDataProtocol.HTTP, directIO）；httpfs 不接管 URL 读取，自托管 parquet 必须注册进 JS 虚拟 FS。
+  - DuckDB `to_timestamp` 返回 TIMESTAMPTZ 且 strftime 按会话时区渲染——Python 本机(Asia/Shanghai) 与浏览器 WASM(UTC) 同 SQL 会分叉，墙钟成分改**纯整数运算**（ts+28800 对 86400 取模）两端确定一致。
+  - loader 视图补官方窗口过滤：曾现「pv 按天第 10 天」——浏览器查询与预置图表口径不一致，已同口径。
+  - Astro 7 preview **单例锁**：并发 spawn 全部互斥，story-gates/lh.mjs 均加 `--force` + 独立端口。
+  - Plot 小时轴：补零字符串触发「疑似数字」警告（SVG 内嵌警告节点），改数值通道 + interval:1；面积图是 areaY 不是 area。
+- **lessons 新增**：退出码管道陷阱（二次变体）、tsconfig **/* 与大二进制、preview 单例锁、DuckDB 跨端时区四条。
+
+**可作战状态**：✅ B 线 MVP 完成（10 问/3 卡片+7 图/1 查询框卡界未超），门禁全绿合回 main；12 月考试季冻结前 C 线不动。
