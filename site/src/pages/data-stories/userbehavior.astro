@@ -102,7 +102,50 @@ const note = (qid: string) => {
         <h2 class="text-xl font-bold sm:text-2xl">七、轮到你了</h2>
         <p class="mt-3">上面所有图表都是构建期固化好的预置答案。桌面端点击右下角的「开始探索」，你的浏览器会现场加载 DuckDB-WASM 查询引擎（约 33MB，仅首次），把这份 parquet 重新算一遍——查询框提供维度、行为类型、指标与日期区间的自由组合，任何组合都是上面没画过的图。移动端只看预置图表就够了，引擎不会加载。</p>
         <div class="mt-6" data-query-root>
-          <!-- Task 7：受限查询框落位于此 -->
+          <div data-desktop-only>
+            <div class="border-border bg-muted/40 grid gap-3 rounded-lg border p-4 sm:grid-cols-2">
+              <label class="text-sm">
+                维度
+                <select id="q-dim" class="border-border bg-background mt-1 w-full rounded border px-2 py-1.5">
+                  <option value="behavior_type">行为类型</option>
+                  <option value="category_id">类目</option>
+                  <option value="day">日期</option>
+                </select>
+              </label>
+              <label class="text-sm">
+                行为筛选
+                <select id="q-behavior" class="border-border bg-background mt-1 w-full rounded border px-2 py-1.5">
+                  <option value="">全部行为</option>
+                  <option value="pv">仅 pv</option>
+                  <option value="cart">仅 cart</option>
+                  <option value="fav">仅 fav</option>
+                  <option value="buy">仅 buy</option>
+                </select>
+              </label>
+              <label class="text-sm">
+                指标排序
+                <select id="q-metric" class="border-border bg-background mt-1 w-full rounded border px-2 py-1.5">
+                  <option value="event_count">行为数</option>
+                  <option value="user_count">用户数</option>
+                </select>
+              </label>
+              <label class="text-sm">
+                返回条数（1-50）
+                <input id="q-limit" type="number" min="1" max="50" value="10" class="border-border bg-background mt-1 w-full rounded border px-2 py-1.5" />
+              </label>
+              <label class="text-sm">
+                起始日期（可空）
+                <input id="q-from" type="date" min="2017-11-25" max="2017-12-03" class="border-border bg-background mt-1 w-full rounded border px-2 py-1.5" />
+              </label>
+              <label class="text-sm">
+                结束日期（可空）
+                <input id="q-to" type="date" min="2017-11-25" max="2017-12-03" class="border-border bg-background mt-1 w-full rounded border px-2 py-1.5" />
+              </label>
+            </div>
+            <button id="q-run" class="bg-accent text-background mt-3 rounded-lg px-5 py-2 text-sm font-medium disabled:opacity-60">运行查询</button>
+            <p id="q-status" class="text-foreground/75 mt-2 min-h-5 text-xs" role="status"></p>
+            <div id="query-result" class="mt-3"></div>
+          </div>
         </div>
       </section>
     </article>
@@ -123,6 +166,9 @@ const note = (qid: string) => {
 
 <script>
   import scrollama from "scrollama";
+  import { BEHAVIORS, DIMS, buildQuery, type QuerySpec } from "@/scripts/story/allowed-queries";
+
+  const METRICS = ["event_count", "user_count"] as const;
 
   // 移动端降级：视口+触控组合判定（与 story-gates.mjs 门禁口径一致），不采信 UA
   const isMobileLike =
@@ -130,6 +176,8 @@ const note = (qid: string) => {
   if (isMobileLike) {
     document.getElementById("degrade-note")?.classList.remove("hidden");
     document.querySelector('a[href="#explore"]')?.remove();
+    // 移动端绝不加载 WASM：查询表单整体移除，防触发引擎加载
+    document.querySelector("[data-desktop-only]")?.remove();
   }
 
   // 图表懒渲染：进视口才 fetch preset 并注图（预生成 JSON 与页面同源，首拉后走 HTTP 缓存）
@@ -166,6 +214,44 @@ const note = (qid: string) => {
     .onStepExit(response => {
       response.element.classList.remove("is-active");
     });
+
+  // 受限查询框：buildQuery 白名单拼装（唯一 SQL 收口）+ 懒加载引擎（仅首次拉 WASM）
+  const status = document.getElementById("q-status");
+  const runBtn = document.getElementById("q-run") as HTMLButtonElement | null;
+  let engineReady = false;
+  runBtn?.addEventListener("click", async () => {
+    if (!runBtn || !status) return;
+    status.className = "text-foreground/75 mt-2 min-h-5 text-xs";
+    try {
+      const dim = DIMS.find(d => d === (document.getElementById("q-dim") as HTMLSelectElement).value);
+      const behavior = BEHAVIORS.find(b => b === (document.getElementById("q-behavior") as HTMLSelectElement).value);
+      const metric = METRICS.find(m => m === (document.getElementById("q-metric") as HTMLSelectElement).value);
+      if (!dim || !metric) throw new Error("维度或指标取值不在白名单内");
+      const spec: QuerySpec = {
+        dim,
+        behavior,
+        metric,
+        limit: Number((document.getElementById("q-limit") as HTMLInputElement).value),
+        dayFrom: (document.getElementById("q-from") as HTMLInputElement).value || undefined,
+        dayTo: (document.getElementById("q-to") as HTMLInputElement).value || undefined,
+      };
+      const sql = buildQuery(spec);
+      runBtn.disabled = true;
+      if (!engineReady) status.textContent = "引擎加载中（约 33MB，仅首次）…";
+      const { queryParquet } = await import("@/scripts/story/duckdb-loader");
+      const t0 = performance.now();
+      const rows = await queryParquet<{ dim: string; event_count: number; user_count: number }>(sql);
+      engineReady = true;
+      runBtn.disabled = false;
+      status.textContent = `引擎就绪 · ${rows.length} 行 · ${(performance.now() - t0).toFixed(0)}ms`;
+      const { renderRows } = await import("@/scripts/story/charts");
+      renderRows(rows, document.getElementById("query-result")!, spec.metric);
+    } catch (err) {
+      runBtn!.disabled = false;
+      status.className = "mt-2 min-h-5 text-xs text-red-700 dark:text-red-400";
+      status.textContent = `查询失败：${err instanceof Error ? err.message : String(err)}`;
+    }
+  });
 </script>
 
 <style>

@@ -38,11 +38,18 @@ function toPlain<T>(rows: object[]): T[] {
   ) as T[];
 }
 
+// 官方窗口（同 precompute_story.py / ingest.clean_window：上海墙钟 2017-11-25 00:00 ≤ x < 2017-12-04 00:00）
+// 的 unix 秒端点。浏览器侧查询与构建期预置图表必须同口径，否则脏时间戳会混进查询结果。
+const WINDOW_START = 1511539200;
+const WINDOW_END = 1512316800;
+
 export async function queryParquet<T = Record<string, unknown>>(sql: string): Promise<T[]> {
   const db = await loadDuckDB();
   const conn = await db.connect();
   try {
-    await conn.query(`CREATE OR REPLACE VIEW events AS SELECT * FROM read_parquet('${PARQUET_NAME}')`);
+    await conn.query(
+      `CREATE OR REPLACE VIEW events AS SELECT * FROM read_parquet('${PARQUET_NAME}') WHERE ts >= ${WINDOW_START} AND ts < ${WINDOW_END}`,
+    );
     return toPlain<T>((await conn.query(sql)).toArray());
   } finally {
     await conn.close();
