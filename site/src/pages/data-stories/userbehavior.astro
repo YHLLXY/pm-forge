@@ -132,7 +132,32 @@ const note = (qid: string) => {
     document.querySelector('a[href="#explore"]')?.remove();
   }
 
-  // 滚动叙事：进入视口中线的 section 加 is-active（图容器由 charts.ts 在 Task 6 接管）
+  // 图表懒渲染：进视口才 fetch preset 并注图（预生成 JSON 与页面同源，首拉后走 HTTP 缓存）
+  const rendered = new Set<string>();
+  const io = new IntersectionObserver(
+    entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const host = entry.target as HTMLElement;
+        const qid = host.dataset.chart;
+        if (!qid || rendered.has(qid)) continue;
+        rendered.add(qid);
+        import("@/scripts/story/charts")
+          .then(m => m.renderPreset(qid, host))
+          .catch(err => {
+            const p = document.createElement("p");
+            p.className = "text-xs text-red-700 dark:text-red-400";
+            p.textContent = `图表加载失败：${String(err)}`;
+            host.append(p);
+          });
+        io.unobserve(host);
+      }
+    },
+    { rootMargin: "200px 0px" },
+  );
+  document.querySelectorAll<HTMLElement>("figure[data-chart]").forEach(f => io.observe(f));
+
+  // 滚动叙事：进入视口中线的 section 加 is-active
   scrollama()
     .setup({ step: ".story-step", offset: 0.5 })
     .onStepEnter(response => {
