@@ -1,0 +1,24 @@
+---
+// site/src/pages/data-stories/spike.astro —— 临时验证页，Task 5 由 userbehavior.astro 取代
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+---
+<Layout title="数据探索 spike | 余翰林的作品集">
+  <Header />
+  <main id="main-content" class="app-layout my-8">
+    <h1 class="text-2xl font-bold">数据探索（spike）</h1>
+    <button id="boot" class="border-border bg-background mt-4 rounded-lg border px-4 py-2">开始探索</button>
+    <pre id="out" class="bg-muted mt-4 overflow-auto rounded p-3 text-sm"></pre>
+  </main>
+  <Footer />
+</Layout>
+<script>
+  document.getElementById("boot")?.addEventListener("click", async () => {
+    const { queryParquet } = await import("@/scripts/story/duckdb-loader");
+    const rows = await queryParquet(
+      "SELECT behavior_type, count(*) AS n, count(DISTINCT user_id) AS users FROM events GROUP BY 1 ORDER BY n DESC",
+    );
+    document.getElementById("out")!.textContent = JSON.stringify(rows, null, 2);
+  });
+</script>
