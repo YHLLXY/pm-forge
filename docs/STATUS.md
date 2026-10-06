@@ -174,3 +174,11 @@
 - **遗留**：DeepSeek 网页端消费端口径（UX/会员维度）可选补测；下一步 = T6 结构化（评测记录 JSON + 门禁 + 报告草稿）随批次点评推进，11 月中分支合并发布。
 
 **可作战状态**：✅ A1 实测数据全量在手；T6 结构化是下一卡。
+## 2026-10-06（A2 尾巴收口 + §12 拍板全落定 + B 线实施计划就绪）
+
+- **契约修复报告发布**（ca3abdd，main 已上线）：`evals/out/eval-driven-contract-fix-draft.md` 按两步式发布——代行终审方法 = 全文数字对齐 `evals/baseline/baseline.json` 产物证据（66/66 ok、judge 140,825+25,970 token、反馈工具结构检查全 1.0、基线重钉 20260930-005223 全部吻合）+ 发布稿与原稿 diff 仅 blockquote 一处（草稿标记→发布口径）+ 构建/门禁全绿（20 页、RSS 13 条、死链 65 文件）。前篇基线报告按既定口径保留为历史快照不动。GitHub 漏洞提示为已知 ISSUES #13（Next 16 专项卡），非新增。
+- **§12 五项拍板全部落定**（spec v1.2）：项 4 = B 数据集**复用 M1 UserBehavior 10 万行抽样转 parquet 自托管**；项 5 = C 试点**《键控消歧设计》**。经用户委托授权按推荐执行，两处开工前可翻案。至此 §12 清单 5/5 关闭，B 线 writing-plans 解除阻塞。
+- **B 线实施计划就绪**：`docs/plans/2026-10-06-pm-forge-B数据故事-实施计划.md`（9 任务卡：地基/spike/体积门禁/预置固化/叙事页/图表/受限查询框/Playwright 双门禁/Lighthouse 收尾）。关键设计决策已锁死：duckdb-wasm 走 **EHDR 单线程形态**（免全站 COOP/COEP）、懒加载唯一入口 `duckdb-loader.ts`、SQL 拼装唯一收口 `allowed-queries.ts`（枚举+正则约束零自由文本）、移动端降级门禁用视口+触控组合判定。npmmirror 在架性已验证（@duckdb/duckdb-wasm、@observablehq/plot 0.6.17、scrollama 3.2.0）。
+- **执行窗口**：B 线任务卡等 **A1 合并后的 main** 切 `b-data-story` 分支执行（11 月窗口）；12 月考试季冻结不变。
+
+**可作战状态**：✅ A 线全部收口（A2 发布闭环 + A1 分支待合并）；B 线计划就绪待 11 月窗口；§12 无待拍板项。
