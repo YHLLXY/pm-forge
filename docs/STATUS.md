@@ -250,3 +250,21 @@
 - **复检后门禁**：构建链全绿、`check:story` 正反向全绿、`check_story_presets` 全绿、Lighthouse 10 页 ≥90（story 99/95/100/100）。
 
 **可作战状态**：✅ B 线复检-修复-复验闭环完成并已推送上线；停在这里等用户下一步指令。
+
+## 2026-10-06 深夜②（门禁第七条 + 求职素材包装：计划六卡执行完毕）
+
+- **计划**：docs/plans/2026-10-06-pm-forge-门禁第七条与求职包装-实施计划.md（6 任务卡，两轮审核定稿 87bf197），executing-plans 逐卡执行、逐卡独立 commit+push。
+- **Task 1 claims 结构化**（273116d）：`yaml` devDep（npmmirror）+ dissections schema zod claims 层 + 三篇报告 frontmatter（值全部机械清点：doubao 14=11成功/2部分/1失败，kimi 6=5/0/1，deepseek 10=7/0/3）。
+- **Task 2 ⑦ 门禁**（e09d82b）：check-dissections.mjs 四组断言——7a 求和自洽、7b 声称↔实际记录集合、7c 正文判定分布句（锚定「条成功」防叙述句误报，缺段按 0）、7d 正文条数引导句、7e 引用记录 id 存在性（含前缀语义：ds-reason-004 → -chat/-reasoner 对）。三重反向验证全红：claims 改错→7a+7b+7c 连红、正文改错→7c 精准红、假 ID→7e 红；恢复后全绿。
+- **Task 3 /interviewers/**（1e40469）：pages 集合条目（五考点映射表/三条高速通道/核验方式/时效声明）+ 独立路由（about.astro 模式）+ lh.mjs pages 数组 11+splice=12 页。
+- **Task 4 首页**（c3b1eb8）：AI 产品拆解板块（「共 {recordCount} 条」用集合实时计数=30，与记录集合同源）+ 数据故事板块 + hero 面试官快速通道按钮；产物抽查三链接计数全命中。
+- **Task 5 求职素材**（da7de86）：docs/interview/ 三件套（STAR 六故事锚仓库证据/demo 讲稿+录屏脱敏清单/简历条目库按五考点）；执行日机械重估 141 commits / 26 页（首提交 2026-09-26 起）；引用的 8 个证据路径全存在；隐私红线自查过（简历侧「某头部产品」模糊措辞 vs 站点章程实名，双口径并记）。
+- **Task 6 收口**（本 commit）：README 顶部求职定位块（五考点表+面试官指南入口）+ 板块行五→七（toolkit 报告数 6 实点核对）+ v0.11 changelog；about.md 三补记（面试官引流/能力表 AI 评测行/时间线 2026-10）；汇总报告「21 条任务集」存量口径修正为 27（14+6+7，§2.3/§4.1/数据口径行三处，grep 验证 21 残留 0）。
+- **全门禁复验全绿**：build=0 / check:story=0 / check:story --reverse=0 / check_story_presets=0 / lh=0（12 页全 ✓，interviewers 100/100/100/100、userbehavior 99/95/100/100）。
+
+**执行偏差（如实记录）**：
+1. **Git Bash MSYS 路径转换改写 grep 模式**：含 POSIX 绝对路径字面量的模式（如 `'href="/analysis/…"'`）被 MSYS 参数转换后失配、误报计数 0（隔离实验：加 `MSYS_NO_PATHCONV=1` 后命中 1，产物本身正常）。本环境验证命令一律加此前缀。
+2. **Astro 7 preview 守护单槽注册**：`astro preview` 为常驻守护且全局单槽——story-gates/lh.mjs 的 `server.kill()`/`preview.kill()` 只杀 npx 外壳，astro 守护被孤儿化残留；同端口 `--force` 可替换、异端口被全局注册表拒绝（报「Another astro preview server is already running」），表现为 check:story/lh 连报「preview 服务器未就绪」。本次 `npx astro preview stop` 清理后全过。**遗留建议**（未动代码，留待下轮修缮）：两脚本收尾/异常退出时补 `astro preview stop`，或以子进程组杀树。
+3. resume-bullets 按其自带使用规则执行日重估：「12 天 135+ commits」→「11 天 141 commits」（git rev-list 实点）；页数 26 与计划预估一致。
+
+**可作战状态**：✅ 六卡全部执行完毕逐卡推送（273116d → e09d82b → 1e40469 → c3b1eb8 → da7de86 → 本 commit），全门禁绿；待 Vercel 部署完成后线上抽查 /interviewers/ 与首页新板块。
