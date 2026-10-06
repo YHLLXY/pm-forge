@@ -17,6 +17,8 @@ const cases = sortEntries(await getCollection("caseStudies"));
 const featuredCases = cases.filter(({ data }) => data.featured).slice(0, 3);
 const latestAnalysis = sortEntries(await getCollection("analysis")).slice(0, 2);
 const latestReports = sortEntries(await getCollection("toolkitReports")).slice(0, 3);
+const latestDissections = sortEntries(await getCollection("dissections")).slice(0, 3);
+const recordCount = (await getCollection("dissectionRecords")).length;
 const toolboxTools = [
   { id: "competitor-analysis", name: "竞品分析", desc: "证据链标注的六章竞品报告" },
   { id: "feedback-insights", name: "用户反馈洞察", desc: "主题聚类 + 5×5 优先级矩阵" },
@@ -43,6 +45,12 @@ const toolboxTools = [
           AI PM 工具箱
         </a>。
       </p>
+      <div class="mt-5">
+        <LinkButton href="/interviewers/">
+          面试官快速通道（15 分钟了解这个作品集）
+          <IconArrowRight class="inline-block" />
+        </LinkButton>
+      </div>
       {
         config.socials.length > 0 && (
           <div class="mt-4 flex max-sm:flex-col sm:items-center">
@@ -107,6 +115,49 @@ const toolboxTools = [
         </section>
       )
     }
+
+    {
+      latestDissections.length > 0 && (
+        <section id="dissections" class="border-border border-b pt-12 pb-6">
+          <h2 class="text-2xl font-semibold tracking-wide">AI 产品拆解</h2>
+          <p class="mt-2">
+            共 {recordCount} 条任务实测（含陷阱探测与顺从性探测），失败案例与成功案例同等呈现，判定分布由构建门禁机械核对。
+          </p>
+          <ul>
+            {latestDissections.map(d => (
+              <Card
+                variant="h3"
+                href={`/dissections/${d.id}/`}
+                title={d.data.title}
+                description={d.data.description}
+                pubDatetime={d.data.pubDatetime}
+                modDatetime={d.data.modDatetime}
+                tags={d.data.tags}
+              />
+            ))}
+          </ul>
+          <div class="my-6">
+            <LinkButton href="/dissections/">
+              全部拆解
+              <IconArrowRight class="inline-block" />
+            </LinkButton>
+          </div>
+        </section>
+      )
+    }
+
+    <section id="data-story" class="border-border border-b pt-12 pb-6">
+      <h2 class="text-2xl font-semibold tracking-wide">数据故事</h2>
+      <p class="mt-2">
+        《淘宝用户行为九日谈》：7 节滚动叙事 + 10 个预置问题，DuckDB-WASM 引擎懒加载——读者可以在浏览器里亲手复算我的数据（移动端自动降级为纯阅读）。
+      </p>
+      <div class="my-6">
+        <LinkButton href="/data-stories/userbehavior/">
+          开始阅读与复算
+          <IconArrowRight class="inline-block" />
+        </LinkButton>
+      </div>
+    </section>
 
     <section id="toolbox" class="pt-12 pb-6">
       <h2 class="text-2xl font-semibold tracking-wide">AI PM 工具箱</h2>
