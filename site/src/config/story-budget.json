@@ -1,6 +1,6 @@
 {
   "dirs": [
-    { "path": "public/duckdb", "maxMB": 40 },
-    { "path": "public/assets/data-stories/userbehavior", "maxMB": 3 }
+    { "path": "dist/duckdb", "maxMB": 40 },
+    { "path": "dist/assets/data-stories/userbehavior", "maxMB": 3 }
   ]
 }

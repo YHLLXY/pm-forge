@@ -1,5 +1,6 @@
 // site/scripts/check-story-budget.mjs —— B 线体积门禁（spec §4 门禁 1）
-// 预算唯一事实源 src/config/story-budget.json；实测 dist 之前的 public/ 目录体积，超限 exit 1。
+// 预算唯一事实源 src/config/story-budget.json；实测 dist 产物体积（链位在 astro build 之后、
+// pagefind 之前），超限 exit 1。public/ 与 dist/ 内容为确定性拷贝，测 dist 才是发布物本体。
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 

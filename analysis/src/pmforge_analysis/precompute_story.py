@@ -1,6 +1,6 @@
 # analysis/src/pmforge_analysis/precompute_story.py
 # 用法: uv run python -m pmforge_analysis.precompute_story
-# 输出: site/public/assets/data-stories/userbehavior/presets/{qid}.json + manifest.json
+# 输出: site/public/assets/data-stories/userbehavior/presets/{qid}.json
 # 时间口径: ingest.py 存的是 unix 秒（真 UTC epoch）；展示语义按 Asia/Shanghai 墙钟。
 # dayofweek 口径: DuckDB 0=周日（脚本自证打印）。
 import json
@@ -36,9 +36,9 @@ PRESETS = [
     ("q08", "复购用户占比", "复购 = buy 行为 ≥2 次（不区分是否同商品）",
      "SELECT round(sum(CASE WHEN buy_n>=2 THEN 1 ELSE 0 END)::DOUBLE*100 / count(*), 2) AS pct_repurchase FROM (SELECT user_id, count(*) FILTER (WHERE behavior_type='buy') AS buy_n FROM events GROUP BY user_id)"),
     ("q09", "行为漏斗", "漏斗为平行计数非严格漏斗：各行为的去重用户数（fav 不进主漏斗）",
-     "SELECT behavior_type AS dim, count(DISTINCT user_id) AS user_count FROM events WHERE behavior_type IN ('pv','cart','fav','buy') GROUP BY 1"),
-    ("q10", "周末 vs 工作日", "周末 = UTC+8 墙钟的周六/周日；对比人均行为数",
-     "SELECT CASE WHEN dayofweek(DATE '1970-01-01' + CAST((ts + 28800) // 86400 AS INTEGER)) IN (0,6) THEN '周末' ELSE '工作日' END AS dim, round(count(*)::DOUBLE / count(DISTINCT user_id), 2) AS events_per_user FROM events GROUP BY 1"),
+     "SELECT behavior_type AS dim, count(DISTINCT user_id) AS user_count FROM events WHERE behavior_type IN ('pv','cart','fav','buy') GROUP BY 1 ORDER BY user_count DESC"),
+    ("q10", "周末 vs 工作日", "周末 = UTC+8 墙钟的周六/周日；对比人均行为数（结果保留两位小数）",
+     "SELECT CASE WHEN dayofweek(DATE '1970-01-01' + CAST((ts + 28800) // 86400 AS INTEGER)) IN (0,6) THEN '周末' ELSE '工作日' END AS dim, round(count(*)::DOUBLE / count(DISTINCT user_id), 2) AS events_per_user FROM events GROUP BY 1 ORDER BY events_per_user DESC, dim"),
 ]
 
 
@@ -72,8 +72,6 @@ def main() -> None:
         )
         ids.append(qid)
         print(f"✓ {qid} {title}: {len(rows)} 行")
-    (OUT / "manifest.json").write_text(json.dumps({"presets": ids}), encoding="utf-8")
-    print(f"manifest: {ids}")
 
 
 if __name__ == "__main__":

@@ -215,7 +215,8 @@ export async function renderPreset(qid: string, host: Element): Promise<void> {
   }
 }
 
-// 查询框结果：与预置图同款的条形 + 小表（metric 决定排序键与条形取值）
+// 查询框结果：与预置图同款的条形 + 小表（metric 决定排序键与条形取值）。
+// 图截前 20 行（可读性）、表列全量（limit 上限 50）——展示口径差异有意为之。
 export function renderRows(rows: Row[], host: Element, metric: "event_count" | "user_count"): void {
   host.replaceChildren();
   const shown = rows.slice(0, 20);
@@ -226,22 +227,7 @@ export function renderRows(rows: Row[], host: Element, metric: "event_count" | "
     host.append(p);
     return;
   }
-  const plot = Plot.plot({
-    marginLeft: 72,
-    marginRight: 56,
-    marginTop: 8,
-    marginBottom: 28,
-    x: { label: null },
-    y: { domain: shown.map(r => String(r.dim)), label: null },
-    marks: [
-      Plot.barX(shown, { y: r => String(r.dim), x: metric, fill: ACCENT }),
-      Plot.text(shown, { y: r => String(r.dim), x: metric, textAnchor: "start", dx: 3, text: r => fmt.format(Number(r[metric])) }),
-    ],
-    width: host.clientWidth || 640,
-    height: Math.min(300, 26 * shown.length + 36),
-    style: { font: "inherit" },
-  });
-  host.append(plot);
+  barX(shown, host, metric);
   const table = document.createElement("table");
   table.className = "text-sm mt-3 w-full";
   const head = table.insertRow();

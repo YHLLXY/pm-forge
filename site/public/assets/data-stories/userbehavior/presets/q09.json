@@ -4,20 +4,20 @@
  "metricNote": "漏斗为平行计数非严格漏斗：各行为的去重用户数（fav 不进主漏斗）",
  "rows": [
   {
-   "dim": "buy",
-   "user_count": 2032
+   "dim": "pv",
+   "user_count": 82924
   },
   {
    "dim": "cart",
    "user_count": 5525
   },
   {
-   "dim": "pv",
-   "user_count": 82924
-  },
-  {
    "dim": "fav",
    "user_count": 2874
+  },
+  {
+   "dim": "buy",
+   "user_count": 2032
   }
  ]
 }
