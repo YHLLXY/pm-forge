@@ -239,3 +239,14 @@
 - **lessons 新增**：退出码管道陷阱（二次变体）、tsconfig **/* 与大二进制、preview 单例锁、DuckDB 跨端时区四条。
 
 **可作战状态**：✅ B 线 MVP 完成（10 问/3 卡片+7 图/1 查询框卡界未超），门禁全绿合回 main；12 月考试季冻结前 C 线不动。
+
+## 2026-10-06 深夜（B 线发布后复检：双轴子代理 + 机械门禁自跑 + 修复后停下待指令）
+
+- **审查方法**：code-review 双轴并行子代理（Standards/Spec，固定基点 9cd413e...HEAD）+ 自跑机械门禁 + 页面叙事数字 ↔ preset JSON 逐值核对（同 A1 审查的门禁盲区类：报告正文数字 ↔ 数据）。
+- **抓到并修复**：①**spike.astro 未按计划 Task 5 Step 5 删除**（临时页作为公开路由随构建发布）——已 git rm；②体积门禁实测 public/ 而非计划要求的 dist 产物——已改 dist 口径并复跑反向验证；③叙事数字三处：pv 占比 89.4% 为截断应为 **89.5%**（89,447/99,958=89.48%）、「100,000 行用户级抽样」措辞错误（实为**行级 reservoir**）、第三节周末以偏概全（**第一个周末 11-25/26 与工作日持平，仅第二个周末跳升三成**）——全部修正，第六节同步改写为「两个周末的分歧」诚实版；④验收⑥缺口：①⑦节补口径行；⑤**复跑预生成时抓到新真 bug：q09/q10 SQL 缺 ORDER BY**，DuckDB 哈希序不定致图表条序可翻转——补确定性排序（q10 并列值加 dim 平局裁决），连续两次生成零 diff 验证幂等；⑥manifest.json 零消费者（Speculative Generality）——删除。
+- **不可复核声称升级为可重跑**：pandas 交叉验证入库 `analysis/src/pmforge_analysis/check_story_presets.py`（q01 总量/q03 日活/q04 小时/q10 周末判定逐值比对，exit 1 兜底）；story-gates 加 `--reverse` 内置反向自检（注入重资源请求，双场景必须全红）+ 场景 3 引擎冒烟（类目 Top10=11 表行、pv 按天=10 表行，把浏览器侧窗口/墙钟口径钉进门禁）。
+- **判断题处置（Standards 0 硬违规/8 判断题）**：renderRows 复用 barX 与 width()；presetMeta 由每图双读改单次读取；页面「约 33MB」改构建期实测注入、loader 状态文案去硬编码体积；「图截 20 行/表列 50 行」加注为有意口径；check-story-budget 手写 walk 保留（check-* 门禁各自自足的既有惯例）；q10 舍入口径补进 metricNote。
+- **scope creep 复核**：导航「故事」入口、lh.mjs/tsconfig 环境修补——均已在执行轮披露，维持。
+- **复检后门禁**：构建链全绿、`check:story` 正反向全绿、`check_story_presets` 全绿、Lighthouse 10 页 ≥90（story 99/95/100/100）。
+
+**可作战状态**：✅ B 线复检-修复-复验闭环完成并已推送上线；停在这里等用户下一步指令。
