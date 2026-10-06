@@ -90,6 +90,25 @@ function printFailedAudits(json) {
   }
 }
 
+// Astro 7 preview 是常驻守护且全局单槽注册：跨端口的二次 spawn 会被注册表拒绝（--force 只替换同端口实例），
+// 且杀 npx 外壳杀不掉守护本身（孤儿占槽，表现为「preview 服务器未就绪」）。
+// spawn 前先清槽（会停掉本机手动在跑的 astro preview），结束后 finally 再清一次。
+async function stopPreviewDaemon() {
+  await Promise.race([
+    new Promise(resolve => {
+      const p = spawn("npx", ["astro", "preview", "stop"], {
+        cwd: SITE_DIR,
+        shell: true,
+        stdio: "ignore",
+      });
+      p.on("exit", resolve);
+      p.on("error", () => resolve());
+    }),
+    new Promise(r => setTimeout(r, 30000)),
+  ]);
+}
+await stopPreviewDaemon();
+
 const preview = spawn("npx", ["astro", "preview", "--port", String(PORT), "--force"], {
   cwd: SITE_DIR,
   shell: true,
@@ -149,4 +168,5 @@ try {
   console.log("Lighthouse 验收通过 ✓");
 } finally {
   preview.kill();
+  await stopPreviewDaemon();
 }

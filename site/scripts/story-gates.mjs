@@ -31,6 +31,25 @@ const BASE = `http://localhost:${PORT}`;
 const STORY = `${BASE}/data-stories/userbehavior/`;
 const HEAVY = /duckdb.*\.wasm|\.worker\.js|userbehavior_100k\.parquet/i;
 
+// Astro 7 preview 是常驻守护且全局单槽注册：跨端口的二次 spawn 会被注册表拒绝（--force 只替换同端口实例），
+// 且杀 npx 外壳杀不掉守护本身（孤儿占槽，表现为「preview 服务器未就绪」时好时坏）。
+// 因此 spawn 前先清槽（会停掉本机手动在跑的 astro preview——门禁独占守护槽），结束后 finally 再清一次。
+async function stopPreviewDaemon() {
+  await Promise.race([
+    new Promise(resolve => {
+      const p = spawn("npx", ["astro", "preview", "stop"], {
+        cwd: join(HERE, ".."),
+        shell: true,
+        stdio: "ignore",
+      });
+      p.on("exit", resolve);
+      p.on("error", () => resolve());
+    }),
+    new Promise(r => setTimeout(r, 30000)),
+  ]);
+}
+await stopPreviewDaemon();
+
 const server = spawn("npx", ["astro", "preview", "--port", String(PORT), "--force"], {
   cwd: join(HERE, ".."),
   shell: true, // Windows 下 npx 需要 shell 解析
@@ -42,8 +61,9 @@ for (let i = 0; i < 60 && !ready; i++) {
   ready = await fetch(BASE).then(r => r.ok).catch(() => false);
 }
 if (!ready) {
-  console.error("✗ preview 服务器未就绪");
+  console.error("✗ preview 服务器未就绪（清槽后仍失败——查 npx/astro 本身）");
   server.kill();
+  await stopPreviewDaemon();
   process.exit(1);
 }
 
@@ -126,6 +146,7 @@ try {
   await mobile.close();
 } finally {
   server.kill();
+  await stopPreviewDaemon();
 }
 if (reverse) {
   console.log(failed ? "✓ 反向自检：场景全红符合预期，门禁探测与失败接线有效" : "✗ 反向自检失败：没有任何场景变红，门禁形同虚设");
