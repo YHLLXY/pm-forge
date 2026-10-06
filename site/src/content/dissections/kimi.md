@@ -13,6 +13,12 @@ evalWindow: 2026-10-02 单日单轮
 versionNote: 网页端 K3 快速模式（kimi.com，「快速」档）
 charterVersion: v2.1
 tasksetRef: evals/dissection/tasks-kimi.jsonl @ 4a4ec95（6 条）
+claims:
+  recordCount: 6
+  verdicts:
+    成功: 5
+    部分: 0
+    失败: 1
 ---
 
 > 对照评口径：Kimi 在本板块承担**长文本对照**维度（主评见[豆包](/dissections/doubao/)）。执行与代跑披露、素材合成声明同主评报告。

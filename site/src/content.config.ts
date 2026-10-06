@@ -74,7 +74,7 @@ const pages = defineCollection({
 });
 
 // A1 AI 产品拆解板块：报告 md（每产品一篇）+ 评测记录 JSON（每条实测一条）
-// 记录 schema = spec §9.2 接缝的 operable 化；交叉不变量由 scripts/check-dissections.mjs 兜底
+// 记录 schema = spec §9.2 接缝的 operable 化；交叉不变量由 scripts/check-dissections.mjs 兜底（含 ⑦ 报告数字 ↔ 记录集合一致性）
 const dissections = defineCollection({
   loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/dissections" }),
   schema: z.object({
@@ -92,6 +92,15 @@ const dissections = defineCollection({
     versionNote: z.string(),
     charterVersion: z.string(),
     tasksetRef: z.string(),
+    // ⑦ 报告正文数字的结构化声称层：check-dissections.mjs 据此与记录集合机械核对
+    claims: z.object({
+      recordCount: z.number().int().min(1),
+      verdicts: z.object({
+        成功: z.number().int().min(0),
+        部分: z.number().int().min(0),
+        失败: z.number().int().min(0),
+      }),
+    }),
   }),
 });
 

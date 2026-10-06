@@ -13,6 +13,12 @@ evalWindow: 2026-10-02 单日单轮
 versionNote: 网页端 快速模式（doubao.com，「豆包 快速」档）
 charterVersion: v2.1
 tasksetRef: evals/dissection/tasks-doubao.jsonl @ 4a4ec95（14 条）
+claims:
+  recordCount: 14
+  verdicts:
+    成功: 11
+    部分: 2
+    失败: 1
 ---
 
 > 评测章程 v2.1（见[章程页](/dissections/charter/)）。执行口径：经章程 v2.1 执行授权修订款，本批实测由 AI 协作者以人工节奏逐条代跑——豆包/Kimi 走消费端网页（DOM 层操作，无 OS 级键入、不触碰本站以外任何窗口），DeepSeek 走 API 计费入口；全部任务为合成素材（虚构产品「清饮 C1」生态），不含任何真实隐私。付费能力面未测。

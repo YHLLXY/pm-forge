@@ -13,6 +13,12 @@ evalWindow: 2026-10-02 单日单轮
 versionNote: API deepseek-chat / deepseek-reasoner 双模式（对应网页端「深度思考」开关）
 charterVersion: v2.1
 tasksetRef: evals/dissection/tasks-deepseek.jsonl @ 4a4ec95（7 条任务，reason-001/002/003 双跑计 10 条记录）
+claims:
+  recordCount: 10
+  verdicts:
+    成功: 7
+    部分: 0
+    失败: 3
 ---
 
 > 对照评口径：DeepSeek 在本板块承担**推理与结构化对照**维度（主评见[豆包](/dissections/doubao/)）。推理任务按 chat / reasoner 双模式对照，其中 reason-001/002/003 双跑、ds-reason-004 仅 chat 补测。执行与代跑披露、素材合成声明同主评报告；成本口径按章程 §3 分账，A1 只记产品形态不记 API 价格。**利益披露（章程 §5）**：本站工具箱底层调用 DeepSeek API；本报告拆解结论基于对消费者产品形态的实测，与该 API 依赖关系无关，不构成利益倾向。
