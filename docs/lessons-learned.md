@@ -24,3 +24,10 @@
 - **根因**：①Astro 转译丢掉 `@vite-ignore`，Vite 把动态导入包进预加载助手且产物留下未替换的 `__VITE_PRELOAD__` 占位符→运行时 ReferenceError；②AstroPaper 导航链接无 nowrap，flex 收缩越过后中文折行——量变布局回归只有观感没有报错；③布尔逻辑手工德摩根变换改真值表。
 - **解决方案**：①运行时注入 module script（`window.__pagefind` + ready 事件 + onerror + 超时三兜底），打包器零接触；②搜索改图标入口（上游惯例），几何实测全链接 h=32 单行、抽屉 7 行偏移 0px；③铁律"原表达式原样保留、外层追加新条件"。
 - **如何避免**：加载构建后才存在的运行时资产（pagefind/WASM）一律 script 注入；客户端加载逻辑必须在 `astro preview` 的构建产物上验证，dev 能跑证明不了任何事；布局改动用 getBoundingClientRect 量数字而非目测；双写 vault `40-经验教训/前端架构/2026-10-02-搜索复活踩坑-Vite动态导入占位符与导航溢出.md`。
+
+## 2026-10-03 A1 审查：Astro 表达式容器禁语句（二次踩坑）
+
+- **问题**：RecordCard 截图块重写时把 `const shotKey = ...; const dims = ...` 写进模板表达式容器，`astro check` 报 12 个错误，且错误从声明处向下游级联（后续合法的中文文本、模板字符串全被判 Unexpected token）。
+- **根因**：Astro 表达式容器 `{...}` 只接受**表达式**，不接受语句；解析器在非法 token 处错位后，把其后所有内容按错误路径解析——报错位置远离真实病灶。这是本分支第二次踩同一坑（T6 首次以"内联"规避，重写时又忘了）。
+- **解决方案**：把派生值计算全部提到 frontmatter（`const shotDims = record.screenshot ? (SHOT_DIMS[...] ?? null) : null;`），模板容器里只留 `shotDims && (...)` 纯表达式。
+- **如何避免**：模板里出现"先算一个中间值再用"的需求时，条件反射去 frontmatter 开变量；`astro check` 的级联报错先看**最靠前的第一个**错误，它才是病灶。

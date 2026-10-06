@@ -1,0 +1,112 @@
+---
+// 单条实测记录卡：纯 props（评测记录 JSON 形状），不内聚任何集合/查询逻辑
+import DimensionBar from "./DimensionBar.astro";
+import VersionTag from "./VersionTag.astro";
+import { readFileSync } from "node:fs";
+
+// 脱敏截图尺寸清单（build 时由 scripts/sanitize-shots.mjs 写入 public/assets/dissections/manifest.json）
+const SHOT_DIMS: Record<string, [number, number]> = (() => {
+  try {
+    return JSON.parse(
+      readFileSync(new URL("../../../public/assets/dissections/manifest.json", import.meta.url), "utf8")
+    );
+  } catch {
+    return {}; // 清单缺失（未跑脱敏脚本）→ 记录卡不带截图，构建不失败
+  }
+})();
+
+type RecordShape = {
+  id: string;
+  product: string;
+  group: "写作" | "检索" | "结构化产出" | "边界探测";
+  task: string;
+  inputExcerpt: string;
+  outputExcerpt: string;
+  evalDate: string;
+  versionNote: string;
+  accountType: string;
+  scores: {
+    factuality: number | null;
+    structure: number | null;
+    actionability: number | null;
+    instruction: number | null;
+  };
+  productMetrics: { latencyTier: "快" | "中" | "慢"; paywallHit: boolean; uxNotes: string | null };
+  verdict: "成功" | "部分" | "失败";
+  failureAnalysis: string | null;
+  screenshot?: string | null;
+};
+
+// 章程 §5 图注口径：来源用产品中文名（记录 JSON 存 id）
+const PRODUCT_NAMES: Record<string, string> = { doubao: "豆包", kimi: "Kimi", deepseek: "DeepSeek" };
+
+type Props = { record: RecordShape };
+const { record } = Astro.props;
+
+// 发布截图尺寸（缺清单项则不渲染，防 404）
+const shotDims = record.screenshot ? (SHOT_DIMS[record.screenshot.replace(/\.png$/, "")] ?? null) : null;
+const verdictColor =
+  record.verdict === "成功"
+    ? "var(--report-verdict-success)"
+    : record.verdict === "部分"
+      ? "var(--report-verdict-partial)"
+      : "var(--report-verdict-failure)";
+---
+
+<article class="border-border mt-4 rounded-lg border p-4">
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    <h3 class="text-base font-semibold">{record.task}</h3>
+    <span class="text-sm font-medium" style={`color: ${verdictColor}`}>
+      {record.verdict}
+    </span>
+  </div>
+  <VersionTag evalDate={record.evalDate} versionNote={record.versionNote} accountType={record.accountType} />
+
+  <div class="mt-3 space-y-2 text-sm">
+    <p>
+      <span class="text-foreground/75 mr-2 text-xs">输入摘录</span>
+      {record.inputExcerpt}
+    </p>
+    <p>
+      <span class="text-foreground/75 mr-2 text-xs">输出摘录</span>
+      {record.outputExcerpt}
+    </p>
+  </div>
+
+  {
+    record.verdict !== "成功" && record.failureAnalysis && (
+      <p class="text-foreground/75 mt-3 rounded p-2 text-sm" style="background: var(--report-score-track)">
+        <span class="mr-2 text-xs">归因</span>
+        {record.failureAnalysis}
+      </p>
+    )
+  }
+
+  {
+    shotDims && (
+      <figure class="not-prose mt-3">
+        <img
+          src={`/assets/dissections/${record.screenshot}`}
+          width={shotDims[0]}
+          height={shotDims[1]}
+          loading="lazy"
+          decoding="async"
+          alt={`实测截图：${record.task}`}
+          class="border-border rounded-lg border"
+        />
+        <figcaption class="text-foreground/75 mt-1 text-xs">
+          来源：{PRODUCT_NAMES[record.product] ?? record.product}，截图日期 {record.evalDate}；已脱敏（侧栏与账号信息已裁除）
+        </figcaption>
+      </figure>
+    )
+  }
+
+  <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+    <DimensionBar scores={record.scores} />
+    <p class="text-foreground/75 text-xs">
+      延迟：{record.productMetrics.latencyTier} ｜ {record.productMetrics.paywallHit
+        ? "撞到会员门槛"
+        : "未撞会员门槛"}{record.productMetrics.uxNotes ? ` ｜ ${record.productMetrics.uxNotes}` : ""}
+    </p>
+  </div>
+</article>

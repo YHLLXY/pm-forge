@@ -1,0 +1,25 @@
+{
+  "id": "doubao-search-002",
+  "product": "doubao",
+  "group": "检索",
+  "task": "带约束的开源项目检索：仍在维护的中文分词项目",
+  "inputExcerpt": "找一个 2026 年仍活跃维护的开源中文分词项目，给出名称、仓库地址、最近一次提交大致时间、star 数量级；不能确认就标「待确认」而不是估计",
+  "outputExcerpt": "推荐 HanLP（仓库真实、star 量级 3.6 万+ 合理）；关键考察点满分——「最近一次提交时间」老实标注「待确认（仓库主页实时提交记录需现场查看）」而非编一个日期",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 4,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "中",
+    "paywallHit": false,
+    "uxNotes": "检索 6 个关键词 35 篇资料；「待确认」纪律正是本任务的核心考察点，行为与指令逐字吻合"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": "doubao-search-002.png"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "ds-struct-001-chat",
+  "product": "deepseek",
+  "group": "结构化产出",
+  "task": "嵌套表头描述 → Markdown 表格 + 排序 + 性价比结论",
+  "inputExcerpt": "四款产品数据整理成表格按综合得分降序（(灯语+续航)/2，保留一位小数），表后一句话说明谁性价比最高（综合得分/价格）",
+  "outputExcerpt": "表格与排序全对（8.9/7.9/7.2/5.8，四款综合得分复算无误）；但结论称「性价比最高的是某新品 Y，比值为 0.036，高于其他产品」",
+  "evalDate": "2026-10-02",
+  "versionNote": "API deepseek-chat（对应网页端未开\"深度思考\"）",
+  "accountType": "API 计费账户",
+  "scores": {
+    "factuality": 3,
+    "structure": 5,
+    "actionability": 2,
+    "instruction": 4
+  },
+  "productMetrics": {
+    "latencyTier": "快",
+    "paywallHit": false,
+    "uxNotes": null
+  },
+  "verdict": "失败",
+  "failureAnalysis": "结论与自定义口径矛盾：Y 的比值 0.0365 实际低于清饮 C1 的 8.9/219=0.0406——「高于其他产品」为假。只计算了 Y 一家的比值、未算得分最高的 C1 就下结论，用「最便宜」直觉替代了任务规定的综合得分/价格口径。对决策型输出而言，表格正确但结论错误比全错更危险（错误藏在最后一句话里）",
+  "screenshot": null
+}

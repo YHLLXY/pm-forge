@@ -1,0 +1,25 @@
+{
+  "id": "ds-struct-003-chat",
+  "product": "deepseek",
+  "group": "结构化产出",
+  "task": "盈亏平衡销量取整方向陷阱（补测批 1）",
+  "inputExcerpt": "固定开模费 110,000 元、变动成本 73.5 元/只、售价 99 元，至少卖多少只不亏本？解释为什么是这个整数（答案钥匙：4313.7 → 4314 只，卖 4313 只亏 18.5 元）",
+  "outputExcerpt": "中途把 110000/25.5 误算成 431（少一个数量级）→ 自行喊停「等等——这里好像数量级不对」→ 重算 4313.7 → 正确向上取整 4314 并双向验证（4313 只亏 18.5 元/4314 只盈 7 元）",
+  "evalDate": "2026-10-02",
+  "versionNote": "API deepseek-chat（对应网页端未开\"深度思考\"）",
+  "accountType": "API 计费账户",
+  "scores": {
+    "factuality": 5,
+    "structure": 4,
+    "actionability": 5,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "快",
+    "paywallHit": false,
+    "uxNotes": "全场最完整的自纠展示：可见的错误-觉察-重算-验证四步。与厘陷阱（reason-002）对照可提炼该模型的自查触发条件——只在答案内部数字互斥时激活，与外部常识冲突时不触发。补测批 1 任务"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": null
+}

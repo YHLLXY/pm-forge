@@ -1,0 +1,25 @@
+{
+  "id": "doubao-struct-003",
+  "product": "doubao",
+  "group": "结构化产出",
+  "task": "12 条并发约束下的产品介绍（指令遵守压力测试）",
+  "inputExcerpt": "写一段产品介绍，须同时满足 12 条约束（字数/原句/禁词/数字/问句结尾/无感叹号/「清饮」恰 2 次/不提价/场景词/段首固定句/最多两段/无「您」），写完自行逐条核对并给出核对清单",
+  "outputExcerpt": "正文两段合计约 113 字（含标点），12 条约束经代跑方逐条验证全部满足；自查清单 12 项全勾",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 4,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 4
+  },
+  "productMetrics": {
+    "latencyTier": "中",
+    "paywallHit": false,
+    "uxNotes": null
+  },
+  "verdict": "部分",
+  "failureAnalysis": "约束本身全部满足，但自查清单声称「字数：132 字」与实际约 113 字（含标点；不含标点约 99 字）不符——无论按哪种口径都对不上。约束结论（≤180）碰巧成立，但自报数字不实：自我核查环节存在「声称核对过但数字是编的」的精确性缺陷，正是本任务重点考察的自查可靠性",
+  "screenshot": "doubao-struct-003.png"
+}

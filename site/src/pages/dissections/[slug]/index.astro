@@ -1,0 +1,156 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import PostLayout from "@/layouts/PostLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Datetime from "@/components/Datetime.astro";
+import RecordCard from "@/components/reports/RecordCard.astro";
+import FailureCallout from "@/components/reports/FailureCallout.astro";
+import DimensionBar from "@/components/reports/DimensionBar.astro";
+import BackButton from "@/components/BackButton.astro";
+import BackToTopButton from "@/components/BackToTopButton.astro";
+
+export async function getStaticPaths() {
+  const entries = (await getCollection("dissections")).filter(e => e.id !== "charter");
+  return entries.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<"dissections"> };
+const { entry } = Astro.props;
+const { title, description, pubDatetime, modDatetime, product, productName, depth, accountType, evalWindow, versionNote, charterVersion } =
+  entry.data;
+const { Content } = await render(entry);
+
+const allRecords = await getCollection("dissectionRecords");
+const records = allRecords.filter(r => r.data.product === product);
+const avg = (xs: (number | null)[]) => {
+  const vals = xs.filter((x): x is number => x !== null);
+  return vals.length ? Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 10) / 10 : null;
+};
+const aggregate = {
+  factuality: avg(records.map(r => r.data.scores.factuality)),
+  structure: avg(records.map(r => r.data.scores.structure)),
+  actionability: avg(records.map(r => r.data.scores.actionability)),
+  instruction: avg(records.map(r => r.data.scores.instruction)),
+};
+const failures = records.filter(r => r.data.verdict === "失败");
+const edgeRecords = records.filter(r => r.data.group === "边界探测");
+const byGroup = (g: string) => records.filter(r => r.data.group === g);
+---
+
+<PostLayout
+  title={`${title} | 余翰林的作品集`}
+  description={description}
+  pubDatetime={pubDatetime}
+  modDatetime={modDatetime}
+>
+  <Header />
+  <BackButton />
+
+  <main id="main-content" class="app-layout mt-8">
+    <h1 class="text-accent inline-block text-2xl font-bold sm:text-3xl">{title}</h1>
+    <div class="my-2">
+      <Datetime {pubDatetime} {modDatetime} size="lg" />
+    </div>
+
+    <div class="not-prose my-4 grid gap-3 sm:grid-cols-2">
+      <div class="border-border bg-muted/40 rounded-lg border p-3 text-sm">
+        <p class="text-foreground/75 text-xs">被测产品</p>
+        <p class="mt-1 font-medium">{productName}（{depth}）</p>
+      </div>
+      <div class="border-border bg-muted/40 rounded-lg border p-3 text-sm">
+        <p class="text-foreground/75 text-xs">评测口径</p>
+        <p class="mt-1 font-medium">
+          {accountType} ｜ 评测窗口 {evalWindow}
+        </p>
+      </div>
+    </div>
+    <p class="text-foreground/75 not-prose font-mono text-xs">
+      版本口径：{versionNote} ｜ 章程版本：{charterVersion}
+    </p>
+
+    <article
+      id="article"
+      class:list={[
+        "app-prose mt-8 w-full",
+        "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
+      ]}
+    >
+      <Content />
+    </article>
+
+    <h2 class="not-prose mt-8 text-xl font-bold">任务实测（{records.length} 条）</h2>
+    <p class="text-foreground/75 not-prose mt-1 text-xs">
+      每条记录的分数为四维 rubric 单独评分；显示"未评"表示该维度本条未评——不造默认值。
+    </p>
+
+    {
+      ["写作", "检索", "结构化产出", "边界探测"].map(g => {
+        const groupRecords = byGroup(g);
+        return groupRecords.length > 0 && (
+          <section>
+            <h3 class="not-prose mt-6 text-lg font-semibold">{g}（{groupRecords.length}）</h3>
+            {groupRecords.map(r => <RecordCard record={r.data} />)}
+          </section>
+        );
+      })
+    }
+
+    <h2 class="not-prose mt-10 text-xl font-bold">失败案例库（{failures.length} 条）</h2>
+    <p class="text-foreground/75 not-prose mt-1 text-xs">
+      失败案例与成功案例同等呈现，不做选择性展示（章程 §4）。
+    </p>
+    {
+      failures.length === 0 ? (
+        <p class="text-foreground/75 not-prose mt-3 text-sm">暂无归档的失败案例。</p>
+      ) : (
+        failures.map(r => (
+          <FailureCallout
+            task={r.data.task}
+            inputExcerpt={r.data.inputExcerpt}
+            outputExcerpt={r.data.outputExcerpt}
+            failureAnalysis={r.data.failureAnalysis ?? ""}
+            evalDate={r.data.evalDate}
+            versionNote={r.data.versionNote}
+          />
+        ))
+      )
+    }
+
+    <h2 class="not-prose mt-10 text-xl font-bold">边界能力清单（{edgeRecords.length} 条）</h2>
+    <p class="text-foreground/75 not-prose mt-1 text-xs">
+      边界探测逐条实测「能 / 不能」，输入与输出摘录证据见上方对应记录卡（章程 §4）。
+    </p>
+    {
+      edgeRecords.length === 0 ? (
+        <p class="text-foreground/75 not-prose mt-3 text-sm">
+          本对照子集未含边界探测任务，边界面未测（对照分工见章程 §1）。
+        </p>
+      ) : (
+        <ul class="not-prose mt-3 space-y-1 text-sm">
+          {edgeRecords.map(r => (
+            <li>
+              <span class="font-medium">{r.data.task}</span>
+              <span class="text-foreground/75">——判定：{r.data.verdict}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    <h2 class="not-prose mt-10 text-xl font-bold">四维均分（{product}）</h2>
+    <div class="not-prose mt-3">
+      <DimensionBar scores={aggregate} />
+    </div>
+
+    <hr class="my-8 border-dashed" />
+    <p class="text-foreground/75 text-sm">
+      产品持续迭代，本文结论可能过期，以评测日期与版本口径为准。
+    </p>
+    <BackToTopButton />
+  </main>
+  <Footer />
+</PostLayout>

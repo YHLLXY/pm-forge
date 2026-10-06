@@ -8,8 +8,9 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build && node scripts/check-case-studies.mjs && node scripts/check-links.mjs && node scripts/validate-rss.mjs && node scripts/check-ld.mjs && pagefind --site dist",
+    "build": "astro check && astro build && node scripts/check-case-studies.mjs && node scripts/check-dissections.mjs && node scripts/check-links.mjs && node scripts/validate-rss.mjs && node scripts/check-ld.mjs && pagefind --site dist",
     "check:content": "node scripts/check-case-studies.mjs",
+    "check:dissections": "node scripts/check-dissections.mjs",
     "check:links": "node scripts/check-links.mjs",
     "check:rss": "node scripts/validate-rss.mjs",
     "check:ld": "node scripts/check-ld.mjs",

@@ -1,0 +1,25 @@
+{
+  "id": "doubao-write-003",
+  "product": "doubao",
+  "group": "写作",
+  "task": "三个要点扩写成 400 字周报（反幻觉纪律）",
+  "inputExcerpt": "仅给三个要点：竞品降价至 189 元/模具良率升至 86%/用户更在乎「今天喝没喝够」；要求扩写 400 字三节周报，不得虚构日期、人名、数字",
+  "outputExcerpt": "云文档画布正文可见部分：竞品售价、良率 86%、深访结论均如实展开，影响分析基于给定要点做合理推断，可见范围内无编造的日期/人名/数字",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 5,
+    "structure": 4,
+    "actionability": 4,
+    "instruction": 4
+  },
+  "productMetrics": {
+    "latencyTier": "中",
+    "paywallHit": false,
+    "uxNotes": "长文自动创建云文档画布（可管理/分享），正文第三节「下周计划」超出截图未验证；raw 仅捕到画布开头，评分基于可见证据"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": "doubao-write-003.png"
+}

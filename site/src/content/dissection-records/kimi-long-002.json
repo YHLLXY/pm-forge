@@ -1,0 +1,25 @@
+{
+  "id": "kimi-long-002",
+  "product": "kimi",
+  "group": "写作",
+  "task": "两篇 1200 字文档交叉比对（5 处埋设矛盾）",
+  "inputExcerpt": "A 会议纪要（旧）与 B 周报（新）逐项比对，输出①矛盾条目（A 说 X → B 说 Y）②一致条目 ③B 新增信息；只依据原文不推测对错",
+  "outputExcerpt": "5 处埋设矛盾抓到 4 处（预算 40→45 万/投放结构/预售日期/预售目标）+ 额外抓到梯媒城市「成都由待定转确定」的状态变更；第 5 处（头部 KOL 时间）经字段级论证「签约≠发布」后明确列入新信息而非矛盾",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 K3 快速模式（kimi.com，\"快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 5,
+    "structure": 5,
+    "actionability": 4,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "慢",
+    "paywallHit": false,
+    "uxNotes": "最有价值的判断：拒绝把「9 月 20 日前签约」与「改为 10 月初发布」强行报成矛盾（字段不同），既不漏报也不编造；思考轨迹完整展示了这一权衡。无「脑补哪个对」"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": "kimi-long-002.png"
+}

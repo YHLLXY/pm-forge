@@ -1,0 +1,22 @@
+---
+// 单维分数徽章：纯 props，null = 该维度未评（如实显示，不造默认值）
+type Props = { label: string; score: number | null };
+const { label, score } = Astro.props;
+---
+
+<span
+  class="border-border inline-flex items-center gap-1 rounded border px-2 py-0.5 text-xs">
+  <span class="text-foreground/75">{label}</span>
+  {
+    score === null ? (
+      <span class="text-foreground/75">未评</span>
+    ) : (
+      <span
+        class="font-medium"
+        style={`color: var(--report-verdict-${score >= 4 ? "success" : score >= 3 ? "partial" : "failure"})`}
+      >
+        {score}/5
+      </span>
+    )
+  }
+</span>

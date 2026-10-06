@@ -1,0 +1,25 @@
+{
+  "id": "doubao-struct-002",
+  "product": "doubao",
+  "group": "结构化产出",
+  "task": "15 行销售数据按星期分组汇总 + 均值对比（计算精度）",
+  "inputExcerpt": "奶茶店 15 天日销售额，输出①按周一至周日分组小计表（注意 10/1 是周二）②工作日均值 vs 周末均值 ③一句话趋势结论，计算必须准确",
+  "outputExcerpt": "「先说明一处日期修正：按 10/1=周二 推算，10/4 确为周五，但 10/10 应为周四（您标注为周五，疑为笔误），以下分组以星期校准结果为准」——随后全部计算正确",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 5,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "慢",
+    "paywallHit": false,
+    "uxNotes": "两个亮点：①主动发现并公开修正任务素材的星期笔误（10/10 实为周四），按校准口径作答；②七组小计/总和 82690/两个均值/差值 903.2/占比 17.1% 经代跑方逐格复算全部无误。页面标注「共用时 1 分 36 秒」，发送后 15 秒仍在思考导致首拍空捕获，同日重开会话补捕获"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": "doubao-struct-002.png"
+}

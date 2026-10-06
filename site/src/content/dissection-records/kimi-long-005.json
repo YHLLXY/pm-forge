@@ -1,0 +1,25 @@
+{
+  "id": "kimi-long-005",
+  "product": "kimi",
+  "group": "结构化产出",
+  "task": "长文档全文词频统计与定位（补测批 1·长上下文计数）",
+  "inputExcerpt": "全文中『杯盖』出现多少次？逐处列出所在章节与句子；『换盖计划』首次出现在哪章（答案钥匙：杯盖 7 次、其中 OTA 句含 2 次；换盖计划首现第四章）",
+  "outputExcerpt": "「全文共出现 7 次」+ 六行定位表（OTA 句正确标 ×2）+「换盖计划首现四、型号与定价」，另主动点破「第一章出现过『换盖不换杯』，但并未出现完整的『换盖计划』词组」",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 K3 快速模式（kimi.com，\"快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 5,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "慢",
+    "paywallHit": false,
+    "uxNotes": "穷举式计数满分：总数、每处章节、同句重复的拆分全部与答案钥匙一致；区分「换盖」与「换盖计划」的边界意识是加分项。首次发送因草稿残留贴入重复素材已废弃重跑，本记录为干净重跑。补测批 1 任务"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": "kimi-long-005.png"
+}

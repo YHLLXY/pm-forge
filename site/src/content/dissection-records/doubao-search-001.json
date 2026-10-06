@@ -1,0 +1,25 @@
+{
+  "id": "doubao-search-001",
+  "product": "doubao",
+  "group": "检索",
+  "task": "近 30 天国内新能源汽车行业大事件（时效检索）",
+  "inputExcerpt": "检索最近一个月（今天倒推 30 天）国内新能源汽车行业 3-5 条重要新闻，每条注明事件、日期、信息来源；无法确认时效就明确说「无法确认」",
+  "outputExcerpt": "窗口计算正确（2026-09-02 ~ 10-02）；5 条新闻全部带日期与来源（澎湃新闻/央视网/上海证券报等），含比亚迪 9 月销量、充电设施数据、九部门发文等",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 4,
+    "structure": 5,
+    "actionability": 4,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "中",
+    "paywallHit": false,
+    "uxNotes": "格式纪律完美（每条事件/日期/来源三要素齐全）；具体数字（46.36 万辆等）来自实时搜索，代跑方无法离线独立核验，如实计 4 分"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": "doubao-search-001.png"
+}

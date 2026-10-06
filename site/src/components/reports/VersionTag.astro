@@ -1,0 +1,12 @@
+---
+// 口径标注：日期 + 版本口径 + 账号类型（章程铁律 3 的页面呈现形态）
+type Props = { evalDate: string; versionNote: string; accountType: string };
+const { evalDate, versionNote, accountType } = Astro.props;
+---
+
+<p
+  class="text-foreground/75 font-mono text-xs"
+  title="本条结论仅在评测日期与版本口径组合下成立（章程铁律 3）"
+>
+  {evalDate} · {versionNote} · {accountType}
+</p>

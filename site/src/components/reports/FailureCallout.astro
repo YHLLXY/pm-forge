@@ -1,0 +1,27 @@
+---
+// 失败案例框：失败输入 + 实际输出 + 归因（章程 §4：失败案例与成功案例同等呈现）
+type Props = {
+  task: string;
+  inputExcerpt: string;
+  outputExcerpt: string;
+  failureAnalysis: string;
+  evalDate: string;
+  versionNote: string;
+};
+const { task, inputExcerpt, outputExcerpt, failureAnalysis, evalDate, versionNote } = Astro.props;
+---
+
+<div
+  class="mt-4 rounded-lg border p-4"
+  style="border-color: var(--report-verdict-failure)"
+>
+  <p class="text-sm font-semibold" style="color: var(--report-verdict-failure)">
+    失败案例 · {task}
+  </p>
+  <p class="text-foreground/75 mt-1 font-mono text-xs">{evalDate} · {versionNote}</p>
+  <div class="mt-3 space-y-2 text-sm">
+    <p><span class="text-foreground/75 mr-2 text-xs">失败输入</span>{inputExcerpt}</p>
+    <p><span class="text-foreground/75 mr-2 text-xs">实际输出</span>{outputExcerpt}</p>
+    <p><span class="text-foreground/75 mr-2 text-xs">归因分析</span>{failureAnalysis}</p>
+  </div>
+</div>

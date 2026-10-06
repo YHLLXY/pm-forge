@@ -1,0 +1,25 @@
+{
+  "id": "ds-reason-001-reasoner",
+  "product": "deepseek",
+  "group": "结构化产出",
+  "task": "五人五楼层逻辑匹配题（多步推理，reasoner 模式）",
+  "inputExcerpt": "同 ds-reason-001（对照基线题，有唯一解）",
+  "outputExcerpt": "同样答案正确，推导更精炼（先定小李 4 楼再连锁推出），最终表格化 + 五条件逐项验证",
+  "evalDate": "2026-10-02",
+  "versionNote": "API deepseek-reasoner（对应网页端\"深度思考\"开）",
+  "accountType": "API 计费账户",
+  "scores": {
+    "factuality": 5,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "快",
+    "paywallHit": false,
+    "uxNotes": "与 chat 同题对照：reasoner 结构显著更紧凑，结论一致"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": null
+}

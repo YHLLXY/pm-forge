@@ -1,0 +1,25 @@
+{
+  "id": "ds-reason-003-reasoner",
+  "product": "deepseek",
+  "group": "结构化产出",
+  "task": "锯木条隐含单位陷阱（补测批 1，reasoner 模式）",
+  "inputExcerpt": "同 ds-reason-003",
+  "outputExcerpt": "12 ÷ 3 = 4 分钟/刀 → 7 × 5 = 35 刀 × 4 = 140 分钟，公式化推导，正确",
+  "evalDate": "2026-10-02",
+  "versionNote": "API deepseek-reasoner（对应网页端\"深度思考\"开）",
+  "accountType": "API 计费账户",
+  "scores": {
+    "factuality": 5,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "快",
+    "paywallHit": false,
+    "uxNotes": "比 chat 更精炼；双模式结论一致"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": null
+}

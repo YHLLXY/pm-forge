@@ -5,7 +5,11 @@ import { sortEntries } from "@/utils/sortEntries";
 import { entryUrl, toolkitReportUrl } from "@/utils/entryUrl";
 import config from "@/config";
 
-type Entry = CollectionEntry<"caseStudies"> | CollectionEntry<"analysis"> | CollectionEntry<"toolkitReports">;
+type Entry =
+  | CollectionEntry<"caseStudies">
+  | CollectionEntry<"analysis">
+  | CollectionEntry<"toolkitReports">
+  | CollectionEntry<"dissections">;
 
 // 全文 RSS（二期 E3）：容器 API 把条目渲染成 HTML 塞进 content:encoded。
 // 正文里的根相对链接（src/href="/..."）改写为绝对 URL，否则阅读器内断链。
@@ -23,10 +27,11 @@ async function fullContent(container: Awaited<ReturnType<typeof AstroContainer.c
 
 export async function GET() {
   const container = await AstroContainer.create();
-  const [cases, analyses, reports] = await Promise.all([
+  const [cases, analyses, reports, dissections] = await Promise.all([
     getCollection("caseStudies"),
     getCollection("analysis"),
     getCollection("toolkitReports"),
+    getCollection("dissections"),
   ]);
 
   const items = [
@@ -54,6 +59,15 @@ export async function GET() {
         title: e.data.title,
         description: e.data.description,
         pubDate: new Date(e.data.pubDatetime),
+        content: await fullContent(container, e),
+      })),
+    )),
+    ...(await Promise.all(
+      sortEntries(dissections).map(async e => ({
+        link: `/dissections/${e.id}/`,
+        title: e.data.title,
+        description: e.data.description,
+        pubDate: new Date(e.data.modDatetime ?? e.data.pubDatetime),
         content: await fullContent(container, e),
       })),
     )),

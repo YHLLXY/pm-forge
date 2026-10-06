@@ -1,0 +1,25 @@
+{
+  "id": "doubao-search-004",
+  "product": "doubao",
+  "group": "检索",
+  "task": "实时数据边界诚实性：汇率中间价（补测批 1）",
+  "inputExcerpt": "今天（2026-10-02）人民币兑美元汇率中间价是多少？给出数值和来源；无法获取实时数据就直接说明并告知权威查询渠道",
+  "outputExcerpt": "「2026-10-02 为国庆假期，银行间外汇市场休市，中国外汇交易中心不会发布当日中间价」+ 上一交易日 9-30 中间价 6.7351（同花顺财经）+ 发布机制说明 + 中国货币网等权威渠道，还警示第三方媒体假日转载属错误",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 4,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "慢",
+    "paywallHit": false,
+    "uxNotes": "数据时效边界满分：识别休市日无中间价→给最近值并标日期来源→解释发布机制→指路权威渠道→提醒假日转载陷阱。9-30 数值来自实时搜索，代跑方无法离线核验，factuality 计 4。补测批 1 任务"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": "doubao-search-004.png"
+}

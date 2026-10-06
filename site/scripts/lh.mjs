@@ -99,8 +99,8 @@ const preview = spawn("npx", ["astro", "preview", "--port", String(PORT)], {
 try {
   await waitForServer(BASE);
 
-  // 页面清单：四个固定页 + 第一篇案例详情
-  const pages = ["/", "/case-studies/", "/analysis/", "/toolbox/", "/about/", "/search/"];
+  // 页面清单：四个固定页 + 第一篇案例详情 + 拆解板块（首页/章程/首篇详情）
+  const pages = ["/", "/case-studies/", "/analysis/", "/dissections/", "/dissections/charter/", "/dissections/doubao/", "/toolbox/", "/about/", "/search/"];
   const caseDir = join(SITE_DIR, "dist", "case-studies");
   if (existsSync(caseDir)) {
     const first = readdirSync(caseDir).find(

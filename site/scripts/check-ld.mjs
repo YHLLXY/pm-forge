@@ -50,7 +50,7 @@ if (ws && (!ws.name || !ws.url)) fail("首页 WebSite 缺 name/url");
 if (!hasType(homeBlocks, "Person")) fail("首页缺 Person");
 
 // 3) 详情页断言：BlogPosting + 必需属性
-const detailDirs = ["case-studies", "analysis", "toolbox/reports"];
+const detailDirs = ["case-studies", "analysis", "toolbox/reports", "dissections"];
 let postingCount = 0;
 for (const dir of detailDirs) {
   const abs = join(DIST, dir);
@@ -62,8 +62,8 @@ for (const dir of detailDirs) {
   for (const p of walk(abs)) {
     if (!p.endsWith("index.html")) continue;
     const rel = relative(DIST, p).replaceAll("\\", "/");
-    // 集合目录的列表页（case-studies/index.html）不走 PostLayout，不在断言范围
-    if (rel === `${dir}/index.html`) continue;
+    // 集合目录的列表页与章程页（静态路由）不走 PostLayout，不在断言范围
+    if (rel === `${dir}/index.html` || rel === `${dir}/charter/index.html`) continue;
     const post = (pageBlocks.get(rel) ?? []).find(b => b?.["@type"] === "BlogPosting");
     if (!post) {
       fail(`${rel} 缺 BlogPosting`);

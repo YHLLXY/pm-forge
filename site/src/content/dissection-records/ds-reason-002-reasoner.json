@@ -1,0 +1,25 @@
+{
+  "id": "ds-reason-002-reasoner",
+  "product": "deepseek",
+  "group": "结构化产出",
+  "task": "带陷阱的推理题：单位不一致（厘陷阱，reasoner 模式）",
+  "inputExcerpt": "同 ds-reason-002（杯盖单位是「厘」）",
+  "outputExcerpt": "「换算：1 元 = 1,000 厘，所以 12,000 厘/只 = 12 元/只」——换算正确，73.5/2,205,000/2,315,000/77.17 全链正确",
+  "evalDate": "2026-10-02",
+  "versionNote": "API deepseek-reasoner（对应网页端\"深度思考\"开）",
+  "accountType": "API 计费账户",
+  "scores": {
+    "factuality": 5,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "快",
+    "paywallHit": false,
+    "uxNotes": "同一产品、同一题、一个开关之差：chat 自信地错，reasoner 正确——A1 最具对照价值的失败样本"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": null
+}

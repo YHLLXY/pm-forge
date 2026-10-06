@@ -1,0 +1,25 @@
+{
+  "id": "doubao-write-001",
+  "product": "doubao",
+  "group": "写作",
+  "task": "一句话产品描述扩写成 3 条不同风格小红书种草文案",
+  "inputExcerpt": "产品：智能水杯清饮 C1，核心卖点是灯语提醒、不用 App、杯体五年只换不修……写 3 条小红书种草文案，风格分别为理性测评风/闺蜜安利风/职场效率风，每条不超过 120 字，末尾 3 个话题标签",
+  "outputExcerpt": "三条文案语气区分明显：①理性测评风（克制陈述卖点）②闺蜜安利风（「宝子！挖到神仙办公杯」+emoji）③职场效率风（场景导向收尾），各带 3 个话题标签",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 4,
+    "structure": 5,
+    "actionability": 4,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "中",
+    "paywallHit": false,
+    "uxNotes": "风险点：理性测评风开头用了「实测清饮 C1」——代跑方并未实测，属种草文体的轻度人设措辞；三条复述同一组卖点，风格区分停留在语气层。主动追问是否配套写标题"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": "doubao-write-001.png"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "ds-reason-001-chat",
+  "product": "deepseek",
+  "group": "结构化产出",
+  "task": "五人五楼层逻辑匹配题（多步推理，chat 模式）",
+  "inputExcerpt": "五人住五层，五条约束（小陈不住 1/5 楼、小王在小李正上方、小赵不住偶数层、小李不住 1 楼、小周住 3 楼），给出答案与完整推理；有冲突要指出",
+  "outputExcerpt": "答案正确（1 楼小赵/2 楼小陈/3 楼小周/4 楼小李/5 楼小王），五步推导完整，唯一性论证与全条件复核齐全",
+  "evalDate": "2026-10-02",
+  "versionNote": "API deepseek-chat（对应网页端未开\"深度思考\"）",
+  "accountType": "API 计费账户",
+  "scores": {
+    "factuality": 5,
+    "structure": 4,
+    "actionability": 4,
+    "instruction": 5
+  },
+  "productMetrics": {
+    "latencyTier": "快",
+    "paywallHit": false,
+    "uxNotes": "无跳步；篇幅冗长但每步可复验"
+  },
+  "verdict": "成功",
+  "failureAnalysis": null,
+  "screenshot": null
+}

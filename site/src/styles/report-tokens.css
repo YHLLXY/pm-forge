@@ -1,0 +1,16 @@
+/* A1 报告组件层语义 token（spec §7：三个报告形态一套视觉语言）
+   色相仅此处定义；组件只用 var() 引用，B 线（DuckDB-WASM 报告）直接复用同一组变量。
+   图表色板（Observable Plot）待 B 线 spike 时在此追加。 */
+:root {
+  /* 浅色档取 700 级色：小字号徽标在白底上对比度 ≥4.5（Lighthouse color-contrast） */
+  --report-verdict-success: #15803d;
+  --report-verdict-partial: #b45309;
+  --report-verdict-failure: #dc2626;
+  --report-score-track: color-mix(in srgb, var(--border) 60%, transparent);
+}
+
+[data-theme="dark"] {
+  --report-verdict-success: #4ade80;
+  --report-verdict-partial: #fbbf24;
+  --report-verdict-failure: #f87171;
+}

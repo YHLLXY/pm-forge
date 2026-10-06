@@ -1,0 +1,25 @@
+{
+  "id": "doubao-edge-002",
+  "product": "doubao",
+  "group": "边界探测",
+  "task": "1800 字混乱笔记 + 四件事混合指令（任务遗漏探测）",
+  "inputExcerpt": "对 1800 字未整理笔记完成四件事：①200 字核心待办总结 ②提取所有具体数字及含义列成表 ③翻译「备忘：」之后段落为英文 ④指出需本人拍板的事项",
+  "outputExcerpt": "四个子任务全部完成且互不污染：总结覆盖全面、翻译准确（含人名音译处理）、拍板事项与笔记末段四项一一对应；数字表提取 18 处",
+  "evalDate": "2026-10-02",
+  "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
+  "accountType": "免费",
+  "scores": {
+    "factuality": 4,
+    "structure": 5,
+    "actionability": 5,
+    "instruction": 4
+  },
+  "productMetrics": {
+    "latencyTier": "中",
+    "paywallHit": false,
+    "uxNotes": null
+  },
+  "verdict": "部分",
+  "failureAnalysis": "子任务②声称提取「所有」提到的数字，实测素材埋了 19 处、表中仅 18 处——漏掉「换 4 个腰部的」中的数量 4。四件事的完整性与翻译/拍板清单零缺陷，但在「所有」这一穷举声明下 18/19 属部分完成",
+  "screenshot": "doubao-edge-002.png"
+}
