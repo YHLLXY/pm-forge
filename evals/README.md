@@ -37,6 +37,12 @@ uv run evals run --tool prd-draft --yes   # 只跑指定工具
 - `baseline/` 基线指针与快照（入 git）
 - `calibration/` 人工校准评分（入 git）
 
+## 基线口径
+
+- 基线 **20261007-102655** 起为 judge v2 口径（工具感知锚点 + 输入可见，键为 runner.py TOOL_NAMES 的中文显示名）。
+- v1 基线 **20260930-005223** 的 summary.dim_avg 存 baseline.json git 历史与 docs/STATUS.md；**跨版本分数不可直接比**（v2 对照表见该 run 报告的补记段）。
+- 盲评校准包（用户侧，rater=user）：`calibration/blind-package-20261007-102655.md`（8 案例三工具三难度，先盲评后对分）。
+
 ## 安全契约
 
 - 评测集与校准数据均为自造真实任务，无隐私，可入公开仓。

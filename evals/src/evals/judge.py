@@ -30,6 +30,15 @@ _SYSTEM_PROMPT = """你是严格的 AI 产品质量评审。对给定输出按�
 dimensions 必须恰好包含 factuality、structure、actionability、instruction 四项，不得重复。
 evidence 字段内禁止出现英文双引号 "，引用原文请用中文引号「」——否则 JSON 会被破坏。"""
 
+# v2 工具感知锚点（STATUS 09-29 校准结论：v1 锚点按 Markdown 证据链报告写，
+# 对 JSON 契约工具系统性误伤——5 条差>1 分歧全是 judge 低分、4 条集中反馈工具）。
+# 键 = runner.py TOOL_NAMES 的中文显示名（call_judge 实传 tool_name 是中文，不是英文 id）。
+_TOOL_ANCHORS = {
+    "竞品分析": "本工具输出为六章证据链竞品报告：评分前先核对引用是否给出来源标注；无来源的关键竞品断言应在 factuality 上扣分（真凭空断言是 judge 应捕获的目标，见 comp-006）。",
+    "用户反馈洞察": "本工具输出为 JSON 主题聚类：输入材料是原始反馈列表——「忠实合并去重/概括多条相似反馈」不是幻觉而是正确行为（judge 若见『6 条合并为 1 主题』不得因数量无来源而误判）；factuality 锚点是『输出对输入材料的每个主题是否有对应反馈支撑』，结构锚点是 JSON 契约字段完整。",
+    "PRD 草稿": "本工具输出为 PRD 草稿：信息缺口按规范标【待补充】是指令遵守的正向行为而非缺漏；actionability 锚点是验收标准是否具体（有数值、有拍板人）。",
+}
+
 
 class JudgeError(RuntimeError):
     pass
@@ -44,9 +53,13 @@ class JudgeOutcome:
 
 
 def build_judge_messages(tool_name: str, case: Case, output: str, hint: str = "") -> list[dict]:
+    # v2 的第二个改进：judge 看得到输入（fb-015 类"输出忠实但 judge 无对照"误伤有据可判）
+    tool_anchor = _TOOL_ANCHORS.get(tool_name, "")
     user = (
         f"被评工具：{tool_name}\n"
         f"评测任务：{case.task}（难度：{case.difficulty}）\n\n"
+        f"输入材料（judge 据此核对输出是否忠实，不得凭空补料）：\n{json.dumps(case.input, ensure_ascii=False)}\n\n"
+        f"本工具评分要点：{tool_anchor or '无工具专属锚点，按通用四维评。'}\n\n"
         f"待评输出：\n{output}"
     )
     if hint:

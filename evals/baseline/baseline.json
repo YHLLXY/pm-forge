@@ -1,11 +1,11 @@
 {
-  "run_id": "20260930-005223",
+  "run_id": "20261007-102655",
   "judge_model": "deepseek-flash",
-  "marked_at": "2026-09-30T01:07:58+08:00",
+  "marked_at": "2026-10-07T10:40:29+08:00",
   "summary": {
-    "run_id": "20260930-005223",
-    "started_at": "2026-09-30T00:52:23+08:00",
-    "finished_at": "2026-09-30T01:05:32+08:00",
+    "run_id": "20261007-102655",
+    "started_at": "2026-10-07T10:26:55+08:00",
+    "finished_at": "2026-10-07T10:40:02+08:00",
     "toolkit_base_url": "http://localhost:3000",
     "toolkit_model_note": "deepseek-chat",
     "judge_model": "deepseek-flash",
@@ -16,8 +16,8 @@
     "cost": {
       "cases": 66,
       "toolkit_calls": 66,
-      "judge_prompt_tokens": 140825,
-      "judge_completion_tokens": 25970
+      "judge_prompt_tokens": 151604,
+      "judge_completion_tokens": 27405
     },
     "per_tool": {
       "competitor-analysis": {
@@ -25,9 +25,9 @@
         "ok_count": 22,
         "error_count": 0,
         "dim_avg": {
-          "factuality": 5.0,
+          "factuality": 4.45,
           "structure": 5.0,
-          "actionability": 4.27,
+          "actionability": 4.05,
           "instruction": 5.0
         },
         "structural_pass_rate": {
@@ -42,10 +42,10 @@
         "ok_count": 22,
         "error_count": 0,
         "dim_avg": {
-          "factuality": 3.05,
-          "structure": 4.14,
-          "actionability": 3.45,
-          "instruction": 2.36
+          "factuality": 4.95,
+          "structure": 5.0,
+          "actionability": 4.05,
+          "instruction": 4.09
         },
         "structural_pass_rate": {
           "no_failure_mark": 1.0,
@@ -61,10 +61,10 @@
         "ok_count": 22,
         "error_count": 0,
         "dim_avg": {
-          "factuality": 3.95,
+          "factuality": 4.86,
           "structure": 5.0,
-          "actionability": 3.68,
-          "instruction": 4.91
+          "actionability": 4.32,
+          "instruction": 5.0
         },
         "structural_pass_rate": {
           "no_failure_mark": 1.0,
