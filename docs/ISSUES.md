@@ -7,7 +7,7 @@
 | # | 现象 | 原因 | 影响 | 严重度 | 状态 |
 |---|---|---|---|---|---|
 | 13 | toolkit 依赖链报 9 漏洞（**5 高 4 中**，2026-10-06 GitHub push 通知/Dependabot 口径；2026-10-02 首记 2 漏洞 1 高 1 中——next 15.5.26 内嵌 postcss ≤8.5.22，postcss 一条依赖挂 4 条 advisory：CSS stringify XSS / sourceMappingURL 文件读取系列，GHSA-qx2v-qp2m-jg93 等。新增 7 条的具体 advisory 明细以 GitHub Dependabot 面板为准，升 Next 16 时一并消除） | next 15.5.26 的构建期传递依赖；postcss 是 next 编译内置依赖，overrides 无法覆盖，audit 实测修复版本 = next@16.3.8（破坏性大版本，15.x 线无修复） | 实际可利用性低——攻击面需攻击者可控 CSS 输入，toolkit 的 CSS 全自有；site/ 实测 0 漏洞（证据：docs/reviews/2026-10-02-npm-audit-证据.md） | 中（专项处理） | 延后：升 Next 16 专项卡全量回归（52+ vitest + 3 e2e + smoke:real + 线上冒烟 + Windows turbopack 实测——#9 EISDIR 史）。2026-10-02 调研：async API 已就绪（route params 即 Promise 合同）、无 middleware/next/image，风险集中在 Turbopack 默认构建。**严禁 npm audit fix --force**；`npm audit` 须加 `--registry=https://registry.npmjs.org`（npmmirror 无 audit 接口） |
-| 10 | 若 Vercel 钉住的两个 IP（76.76.21.21 / 64.29.17.65）未来也被 GFW 封锁 | 国内直连 Vercel 天然受墙影响 | 网站国内不可达（toolkit 与 site 同方案） | 中 | 监控；后手=Cloudflare 代理（已实测国内可达） |
+| 10 | 若 Vercel 钉住的两个 IP（76.76.21.21 / 64.29.17.65）未来也被 GFW 封锁 | 国内直连 Vercel 天然受墙影响 | 网站国内不可达（toolkit 与 site 同方案） | 中 | 巡检脚本就绪（node scripts/check-vercel-ips.mjs，零依赖双栈判级：node/OpenSSL 探针红时用系统 curl/Schannel 交叉复核，双红=硬不可达走后手、单红=TLS 指纹级干扰记录观察），每次发布/求职季自跑；2026-10-07 首跑：64.29.17.65 出现指纹级干扰（OpenSSL 系握手被丢、Schannel 仍通，浏览器主路径未断），观察中；告警处置=后手 Cloudflare 代理（已实测国内可达） |
 | 9 | `next build --turbopack` 在 Windows 报 EISDIR readlink（styled-jsx） | turbopack 构建在 Windows 的解析问题；webpack 构建正常 | 无（构建脚本已固定用 webpack；dev 用 turbopack 不受影响） | 低 | 已绕过（README 注明） |
 | 2 | vault 仓库 push 时报 multi-pack-index 权限拒绝（commit/push 本身成功） | 疑似 Obsidian 文件锁或 .git 权限 | 后续 vault 提交可能间歇报错 | 低 | 观察 |
 
