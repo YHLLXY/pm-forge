@@ -309,3 +309,13 @@
 - **静态数字同步**：当前时态「30 条」8 处 → 40 条（失败总数 5→8 同步）；grep 复验零残留。
 - **线上验证**：build 绿（40 记录/8 失败/4 报告全过账）；lh 13 页全过（新报告页 100/100/100/100）。
 - **执行偏差**：①首条发送被口径污染（默认双开关全开）作废重来；②「开启新对话」按钮点击不生效（虚拟列表渲染干扰判断）→ 改根 URL 导航法 + 发送前空态校验；③DeepSeek 按钮为 div[role=button] 非 button 标签，Enter 偶发不触发发送 → 改点击发送键 + 双票制完成确认（防流式中假完成）；④完成信号「停止按钮消失」在未发送时假绿 → 补发送确证（清空/停止/消息任一出现）；⑤用户账号将留存约 14 条评测会话（1 污染 + 10 正式 + 重试），可自行删除。
+
+## 2026-10-07 尾巴收口：evals 起跑预检（候选落码）
+
+- **背景**：11 月窗口包 Task 5 首跑 66 例全 toolkit_error（dev 服务未起、runner 不预检，空跑 4 分半）——lessons 记为「下轮顺手落码」候选，本轮兑现。
+- **实现**：runner 第四道守卫 `ToolkitPreflightError` + `probe_toolkit()`——`--yes` 门之后、建 run_dir 之前免费 GET 一次 toolkit_base_url（超时 5 秒，**任何 HTTP 响应含 4xx/5xx 算可达**：预检只判「服务在不在」，路由/方法错误留给首个 case）；连接拒绝/超时/URL 非法 → 报错退出并附处置指引（cd toolkit && npm run dev / 查 TOOLKIT_BASE_URL）。mock 检测仍在生成响应头里、免费 GET 不可得，由首个 case 既有守卫拦截（口径写入模块 docstring 与 README）。
+- **测试**：pytest 98→103 全绿（注入 probe 的守卫阻断 + URL 透传 2 条；本地 HTTP server 真测 200/404 可达 + 关闭端口必红 3 条）；既有 run_datasets 调用经 autouse 夹具统一 stub 预检（单测零网络约定不变）；ruff 干净。
+- **真实负向冒烟**：toolkit dev 未起时 `evals run --limit 1 --yes` → 预检拦截、exit 1、零 API 调用（4.4 秒，即 Task 5 那次空跑场景的复现已修复）。
+- **文档**：evals/README 前置段补预检说明；lessons 对应条目「候选」改「已落码」。
+
+**可作战状态**：✅ 预检落码推送；剩余待办均为用户侧（盲评校准包 / vault 双写同步 / DeepSeek 会话清理）与寒假 C 线草案；等用户下一步指令。

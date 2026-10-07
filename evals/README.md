@@ -28,7 +28,9 @@ uv run evals run --tool prd-draft --yes   # 只跑指定工具
 ```
 
 前置：toolkit 本地可访问（`cd toolkit && npm run dev`，且其 `.env` 配置真实 LLM key——
-`X-PMForge-Mode: mock` 时 run 会拒绝执行）。
+`X-PMForge-Mode: mock` 时 run 会拒绝执行）。runner 起跑前会自动预检可达性（免费 GET 一次，
+任何 HTTP 响应即算通过）；服务未起时直接报错退出，不再逐例记 toolkit_error 空跑。
+mock 判定在生成响应头里，预检拿不到，仍由首个 case 拦截。
 
 ## 目录
 

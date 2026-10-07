@@ -19,7 +19,13 @@ from .dataset import DatasetError, difficulty_counts, load_all
 from .model import TOOL_IDS
 from .regress import compare, latest_run, load_baseline, load_summary, mark_baseline
 from .report import render_comparison_report, render_run_report
-from .runner import CostGateError, MockModeError, plan_text, run_datasets
+from .runner import (
+    CostGateError,
+    MockModeError,
+    ToolkitPreflightError,
+    plan_text,
+    run_datasets,
+)
 
 
 def _cmd_validate(args) -> int:
@@ -158,6 +164,12 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     try:
         return args.func(args)
-    except (DatasetError, CostGateError, MockModeError, ValueError) as exc:
+    except (
+        DatasetError,
+        CostGateError,
+        MockModeError,
+        ToolkitPreflightError,
+        ValueError,
+    ) as exc:
         print(f"[evals] {exc}", file=sys.stderr)
         return 1

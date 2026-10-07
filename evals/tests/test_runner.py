@@ -1,14 +1,26 @@
-"""runner.py 端到端测试：注入 fake client/judge，验证三道守卫、落盘与汇总数学。零网络零 key。"""
+"""runner.py 端到端测试：注入 fake client/judge，验证四道守卫、落盘与汇总数学。零网络零 key。"""
 
 import json
+import socket
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
 import pytest
+from evals import runner as runner_module
 from evals.client import ToolkitError, ToolkitResponse
 from evals.config import load_config
 from evals.judge import JudgeError, JudgeOutcome
 from evals.model import Case, DimensionScore
-from evals.runner import CostGateError, MockModeError, plan_text, rebuild_summary, run_datasets
+from evals.runner import (
+    CostGateError,
+    MockModeError,
+    ToolkitPreflightError,
+    plan_text,
+    probe_toolkit,
+    rebuild_summary,
+    run_datasets,
+)
 
 DIM_KEYS = ("factuality", "structure", "actionability", "instruction")
 SCORES = {
@@ -117,6 +129,13 @@ def cfg_key(tmp_path: Path):
     return load_config(env={"LLM_API_KEY": "sk-test", "EVALS_ARTIFACTS_DIR": str(tmp_path / "artifacts")})
 
 
+@pytest.fixture(autouse=True)
+def _stub_preflight(monkeypatch):
+    """可达性预检默认走真实网络：单测统一替换为 no-op（run_datasets 内延迟解析模块属性，
+    monkeypatch 生效）。预检自身的真实行为在下方 probe_toolkit 专属测试里用本地 server 验证。"""
+    monkeypatch.setattr(runner_module, "probe_toolkit", lambda url, **kw: None)
+
+
 def read_results(run_dir: Path):
     lines = (run_dir / "results.jsonl").read_text(encoding="utf-8").splitlines()
     return [json.loads(line) for line in lines if line.strip()]
@@ -156,6 +175,71 @@ def test_mock_mode_allow_runs(tmp_path):
     )
     results = read_results(run_dir)
     assert all(r["mode"] == "mock" for r in results)
+
+
+def test_preflight_failure_blocks_everything(tmp_path):
+    """预检红：任何 case 都不发起、不建 run_dir（防 66 例全 toolkit_error 空跑）。"""
+    client = FakeClient()
+
+    def bad_probe(_url):
+        raise ToolkitPreflightError("toolkit 服务不可达")
+
+    with pytest.raises(ToolkitPreflightError, match="不可达"):
+        run_datasets(cfg_key(tmp_path), CASES, client=client, judge=FakeJudge(), yes=True, probe=bad_probe)
+    assert client.calls == []
+    assert not (tmp_path / "artifacts").exists() or not list((tmp_path / "artifacts").iterdir())
+
+
+def test_preflight_receives_configured_base_url(tmp_path):
+    seen = []
+    run_datasets(cfg_key(tmp_path), CASES, client=FakeClient(), judge=FakeJudge(), yes=True, probe=seen.append)
+    assert seen == ["http://localhost:3000"]
+
+
+class _ProbeHandler(BaseHTTPRequestHandler):
+    status = 200
+
+    def do_GET(self):
+        self.send_response(self.status)
+        self.end_headers()
+        self.wfile.write(b"ok")
+
+    def log_message(self, *args):
+        pass
+
+
+def _serve(status: int) -> HTTPServer:
+    srv = HTTPServer(("127.0.0.1", 0), type("_Handler", (_ProbeHandler,), {"status": status}))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    return srv
+
+
+def test_probe_toolkit_reachable_200():
+    srv = _serve(200)
+    try:
+        probe_toolkit(f"http://127.0.0.1:{srv.server_port}/", timeout=2)
+    finally:
+        srv.shutdown()
+        srv.server_close()
+
+
+def test_probe_toolkit_http_404_still_reachable():
+    """4xx 也算可达：预检只判「服务在不在」，路由/方法错误留给首个 case 暴露。"""
+    srv = _serve(404)
+    try:
+        probe_toolkit(f"http://127.0.0.1:{srv.server_port}/", timeout=2)
+    finally:
+        srv.shutdown()
+        srv.server_close()
+
+
+def test_probe_toolkit_closed_port_raises():
+    sock = socket.socket()
+    sock.bind(("127.0.0.1", 0))
+    port = sock.getsockname()[1]
+    sock.close()  # 留下一个确定无监听的端口
+    with pytest.raises(ToolkitPreflightError, match="npm run dev"):
+        probe_toolkit(f"http://127.0.0.1:{port}/", timeout=2)
 
 
 def test_happy_end_to_end(tmp_path):

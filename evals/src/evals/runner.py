@@ -1,12 +1,16 @@
-"""评测运行编排：守卫（密钥/成本/mock）→ 逐 case 黑盒调用与评分 → 增量落盘 → 汇总。
+"""评测运行编排：守卫（密钥/成本/可达性/mock）→ 逐 case 黑盒调用与评分 → 增量落盘 → 汇总。
 
-真实评分的三道门：
+真实评分的四道门：
 1. LLM_API_KEY 未配置 → CostGateError；
 2. 未显式 --yes → CostGateError（先 --dry-run 看计划）；
-3. toolkit 返回 mock 模式（X-PMForge-Mode: mock）→ MockModeError，--allow-mock 显式豁免。
+3. toolkit 不可达 → ToolkitPreflightError（起跑预检免费 GET 一次，防整轮 toolkit_error 空跑）；
+4. toolkit 返回 mock 模式（X-PMForge-Mode: mock）→ MockModeError，--allow-mock 显式豁免。
+   mock 判定在生成响应头里，预检的免费 GET 拿不到，故仍由首个 case 拦截。
 """
 
 import json
+import urllib.error
+import urllib.request
 from collections.abc import Callable
 from dataclasses import asdict
 from pathlib import Path
@@ -31,6 +35,34 @@ class CostGateError(RuntimeError):
 
 class MockModeError(RuntimeError):
     pass
+
+
+class ToolkitPreflightError(RuntimeError):
+    pass
+
+
+def probe_toolkit(base_url: str, *, timeout: float = 5.0) -> None:
+    """起跑前置检查：toolkit 服务可达性（免费 GET，任何 HTTP 响应都算可达）。
+
+    只区分「服务没起」与「服务在跑」：4xx/5xx 也算可达——路由与方法错误会在
+    首个 case 暴露，不该由预检越权判定；连接拒绝/超时/URL 非法才拦在起跑前。
+    """
+    req = urllib.request.Request(
+        base_url, method="GET", headers={"User-Agent": "pmforge-evals-preflight"}
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=timeout):
+            return
+    except urllib.error.HTTPError:
+        return
+    except ValueError as exc:
+        raise ToolkitPreflightError(f"TOOLKIT_BASE_URL 形态非法（{base_url}）：{exc}") from exc
+    except OSError as exc:  # URLError/超时均属 OSError 家族（连接拒绝、DNS、超时）
+        raise ToolkitPreflightError(
+            f"toolkit 服务不可达（{base_url}）：{exc}。"
+            "评测前先启动 toolkit dev 服务（cd toolkit && npm run dev）；"
+            "若 toolkit 在远程或自定义端口，检查 TOOLKIT_BASE_URL。"
+        ) from exc
 
 
 def plan_text(cases_by_tool: dict[str, list[Case]]) -> str:
@@ -183,6 +215,7 @@ def run_datasets(
     *,
     client: Callable = call_toolkit,
     judge: Callable = call_judge,
+    probe: Callable[[str], object] | None = None,
     allow_mock: bool = False,
     yes: bool = False,
     run_id: str | None = None,
@@ -194,6 +227,10 @@ def run_datasets(
         raise CostGateError("LLM_API_KEY 未配置（evals/.env）：真实评分需要评分器 key")
     if not yes:
         raise CostGateError("真实评分会产生 API 费用：请先 --dry-run 查看计划，确认后加 --yes 执行")
+    if probe is None:
+        probe = probe_toolkit
+    progress(f"前置检查：toolkit 可达性（{cfg.toolkit_base_url}）…")
+    probe(cfg.toolkit_base_url)
 
     run_id = run_id or stamp()
     run_dir = cfg.artifacts_dir / run_id
