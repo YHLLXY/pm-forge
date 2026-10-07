@@ -71,6 +71,7 @@ npm run smoke:real     # 真实 LLM 冒烟：三工具各产 1 份报告到 tool
 - 浏览器安装（仅 e2e 首次）：`PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright/ npx playwright install chromium`
 
 ## 更新日志
+- 2026-10-07 v0.12: **11 月窗口包**——B 线查询框扩 5 维度（新增商品/小时，Top-N 确定性平局裁决）+ 引擎加载字节级进度（duckdb-wasm 原生回调）；Vercel 钉 IP 双栈巡检脚本（#10，首跑发现 64.29.17.65 TLS 指纹级干扰，观察中）；toolkit 升级 Next 16（#13 原 postcss 链消除，Windows turbopack 默认构建通过 = #9 修复；顺修 e2e 同源白名单存量断裂）；judge v2（工具感知锚点 + 输入可见）基线重钉；DeepSeek 网页端补测（待用户拍板章程 v2.2 后执行）；C 线方法论文库实施计划草案落盘
 - 2026-10-06 v0.11: **二期 A1+B 双线上线**——AI 产品拆解板块（章程 v2.1 + 30 条实测记录 + 三篇报告，判定分布由构建门禁机械核对）；数据故事《九日谈》（DuckDB-WASM 浏览器内复算 + 受限查询框 + 移动端降级，Playwright 双门禁 + 体积门禁）；check-dissections 第七条门禁（报告数字 ↔ 记录集合一致性）；面试官指南页 + 求职素材库（docs/interview/）
 - 2026-10-02 v0.10: **二期 E 基建小包完成**——GitHub Actions CI 三 job 矩阵（site/toolkit/python，evals 只跑 fixture 不花钱）全绿；站内搜索复活（Pagefind 1.5.2 构建期索引 + 自研 /search 页 + header 图标入口，中文验收词实测命中，检索零第三方请求）；RSS 升级全文输出（content:encoded + 链接绝对化 + 构建期校验）；WebSite/Person/BlogPosting JSON-LD 全站注入 + 构建期校验；Lighthouse 七页全过。npm audit 全仓盘点（site 0，toolkit 2 = next 内嵌 postcss，Next 16 专项调研入 ISSUES #13）
 - 2026-09-29 v0.9: **二期 A2 完成：evals 门禁**——evals 模块建成（零依赖 Python + uv，95 pytest 全绿）：66 条真实任务评测集（基础/复杂/边界三档）+ 确定性结构检查（JSON 契约/quotes 逐字/六章结构）+ LLM-as-judge 四维评分（温度 0、model 字符串留痕、畸形响应重试）+ 人工盲评校准（32 对，±1 一致 84%）+ 基线回归 CLI（validate/run/regress/calibrate/report/mark-baseline）；基线 66/66 ok（judge 成本约 2-3 元）；《evals 计划》与基线报告发布进 site（toolkitReports 扩 evals 枚举）；同期二期 spec（评测线/交互报告/基建/方法论文库）落盘

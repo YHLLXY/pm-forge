@@ -276,3 +276,26 @@
 - **ISSUES #13 数字刷新**：dependabot 口径 2→9（5 高 4 中，2026-10-06 push 通知；新增 advisory 明细以面板为准），处置不变（Next 16 专项卡全量回归、**严禁 npm audit fix --force**）。
 - **lessons-learned 补收尾轮条目**：MSYS 参数改写（`MSYS_NO_PATHCONV=1`）／复盘处方落实到代码才算关闭／门禁正则锚点须在叙述句上干跑；vault 双写待用户侧同步。
 - **可作战状态**：✅ 收尾轮三项完成并推送（f879290 + 本 commit）；门禁第七条 + 求职包装 + 收尾全部闭环，停在这里等用户下一步指令。
+
+## 2026-10-07 11 月窗口包（七卡：③B 线体验 + ④技术债 + ⑤C 线筹备）
+
+**执行卡与 commit 串**：Task 1 Vercel 钉 IP 巡检（f71446d）→ Task 2 查询维度扩展（a58e069）→ Task 3 引擎加载字节级进度（bf56494）→ Task 4 Next 16 升级（fab7377 + c33a3e2 tsconfig 尾巴）→ Task 5 judge v2 基线重钉（df72b6d）→ Task 6 **停在用户门禁**（章程 v2.2 草案已起草未提交）→ Task 7 收尾（本 commit：C 线草案 + README v0.12 + 本段）。
+
+- **Task 1（f71446d）**：scripts/check-vercel-ips.mjs 零依赖巡检（node:https/node:dns）。正向绿 + 死 IP 203.0.113.1 反向必红后恢复绿；ISSUES #10 状态列更新。
+- **Task 2（a58e069）**：查询框维度 3→5（商品/小时），DIM_EXPR 收口 + ORDER BY 追加 dim ASC 平局裁决；story-gates 场景 3 扩四断言（占位状态防同毫秒竞态）；正向绿 + 期望值改错必红后恢复绿。
+- **Task 3（bf56494）**：duckdb-wasm instantiate 原生进度回调透传（字节级 loaded/total），页面 100ms 节流渲染「引擎加载中 X/33MB（Y%）」；构建链 + 双门禁绿。
+- **Task 4（fab7377）**：toolkit next/eslint-config-next → 16.3.8（react 19.1.0 不动）；Windows turbopack 默认构建直接通过——**#9 EISDIR 随升级修复**，移入已修复；#13 原 Next 15 postcss 链消除。全链回归：build/test 70/e2e 3/smoke:real 三报告 + CI 绿 + 三工具线上 live 冒烟 200。
+- **Task 5（df72b6d）**：judge v2（_TOOL_ANCHORS 中文键 + judge 可见输入材料）；66/66 重跑成功，基线重钉 **20261007-102655**；v1→v2 对比：反馈工具系统性误伤收敛（fact 3.05→4.95、instruction 2.36→4.09）、竞品 factuality 收紧（4.91→4.45，judge 真核对来源）、PRD 正向识别（4.09→4.86）——两改进方向均验证；judge 成本 ≈18 万 token（预算 ≤10 元内）；盲评校准包 8 案例落 calibration/（待用户，不阻塞）；evals/README 基线口径注记。
+- **Task 6**：⛔ 停在门禁——章程 v2.2 修订草案已按计划起草（工作区未提交，版本表行 + 铁律 2 修订款均标注「草案，待用户拍板」）；两项就位（拍板 + chat.deepseek.com 登录）后续跑 Step 3-7。
+- **Task 7（本 commit）**：C 线草案 docs/plans/c-line-方法论文库-实施计划草案.md（带 Task 0 执行前刷新；锚点当日实查：vault=E:\knowledge home、试点文章在位、vault-tools 命令面 orphans/indexdiff/report）；README v0.12。
+
+**执行偏差（如实记录）**：
+1. **Task 1 脚本两次升级**（计划稿逐字可用 → 实机两次修正）：①本机 dns.resolve4 被 ECONNREFUSED 拒（本地代理接管 53 端口）→ 加阿里云 DoH 兜底（恰为钉记录服务商）；②正向首跑发现 **64.29.17.65 TLS 指纹级差异化干扰**——node/OpenSSL 系握手被丢（13/13 复现 + run1 曾 2/2 通过 = 间歇性），系统 curl/Schannel 系全通（TCP 层三家全通 ~100ms），单栈探测会把「指纹级干扰」误报成「IP 硬不可达」→ 脚本升级双栈判级（node 红时系统 curl 交叉复核：双红=硬不可达 exit 1 触发 #10 后手；单红=指纹干扰 ⚠ exit 0 观察）。**首跑结论：64.29.17.65 存在指纹级干扰、浏览器主路径未断，观察中**。
+2. **Task 4 build 首跑 13 个 TS2345**：Next 16 收紧路由 handler 类型（NextRequest 必选），测试辅助函数裸 Request → NextRequest 修复（与运行时同形）。
+3. **Task 4 e2e 三连红 = 存量断裂非 Next 16 回归**：bfb825f 落地同源白名单时 e2e 未同步（3100 端口不在默认白名单 {toolbox 域, localhost:3000}），全量回归首次重跑暴露；修复 = playwright webServer env 加 ALLOWED_ORIGINS=http://localhost:3100（e2e 专属）。
+4. **Task 4 audit 结果与计划预期不同**：计划预期「0 漏洞」，实测 = 原 postcss 链消除，但 2026-10-07 新披露 4 组 advisory——sharp（librsvg CVE）与 source-map-js（事件循环 DoS）经非破坏 npm audit fix 修复；braces 链（eslint-config-next→fast-glob→micromatch，advisory 打在 * 上游无修复版本）与 postcss-selector-parser（经 @tailwindcss/typography，「修复」=荒谬降级）**残余 7 条（5 高 2 中）全 dev/build 期零运行时暴露**，#13 如实改账为观察；Dependabot 面板 10→4（2 高 2 中）。
+5. **Task 5 首跑 66 例全 toolkit_error**：前置 toolkit dev 服务未起（README 明示前置），judge token=0 零成本；起服务后重跑成功。
+6. 计划稿「95+ pytest」实为 **98** 全绿（judge 单测无需同步即过）；STATUS 收尾统一延至本卡（计划将 STATUS 列入 Task 5 文件）。
+7. 三工具线上 live 冒烟一度用 GBK 乱码输入（Git Bash curl 中文编码坑），改 UTF-8 文件 --data-binary 重发全 200。
+
+**可作战状态**：✅ 11 月窗口包六卡落地一卡停门禁（f71446d → a58e069 → bf56494 → fab7377 → c33a3e2 → df72b6d → 本 commit），全门禁绿（build/story/reverse/presets/pytest98/toolkit70/lh 12 页全过）；B 线查询框 5 维度 + 引擎进度线上可验；judge v2 基线就位待用户盲评；Task 6 等章程 v2.2 拍板与登录就位。
