@@ -212,6 +212,20 @@ export async function renderPreset(qid: string, host: Element): Promise<void> {
     case "q10":
       compare(rows, host);
       break;
+    case "q11":
+      bigNumbers(
+        [
+          { label: "购买用户", value: fmt.format(Number(rows[0].buyers)) },
+          { label: "仅一次购买（占购买用户）", value: `${Number(rows[0].pct_once).toFixed(2)}%` },
+          { label: "复购用户（buy≥2）", value: fmt.format(Number(rows[0].repeat_buyers)) },
+          { label: "活跃仅一天用户（占全体）", value: `${Number(rows[0].pct_one_day_active).toFixed(2)}%` },
+        ],
+        host,
+      );
+      break;
+    case "q12":
+      barX(rows, host, "user_count");
+      break;
     default:
       throw new Error(`未知 preset ${qid}`);
   }

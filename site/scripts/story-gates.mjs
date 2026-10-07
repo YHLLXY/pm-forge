@@ -95,6 +95,19 @@ try {
 
   // 图表 hover 提示（仅正常模式）：悬停 q02 条形，SVG 内节点必须增长（tip 为悬停时动态渲染）
   if (!reverse && !failed) {
+    // q12 在页面尾部新节，8 轮滚动后懒渲染未必完成——等渲染而非瞬断（瞬时 count() 会假红）
+    await dPage.locator('figure[data-chart="q12"]').scrollIntoViewIfNeeded();
+    let q12ok = true;
+    try {
+      await dPage.waitForSelector('figure[data-chart="q12"] svg', { timeout: 10_000 });
+    } catch {
+      q12ok = false;
+    }
+    if (q12ok) console.log("✓ 预置图表渲染：q12（R 分布）SVG 在位");
+    else {
+      console.error("✗ q12 图表未渲染（10 秒内懒渲染未完成）");
+      failed = true;
+    }
     const q02 = dPage.locator('figure[data-chart="q02"]');
     const before = await q02.locator("svg *").count();
     await q02.locator("svg rect").first().hover();

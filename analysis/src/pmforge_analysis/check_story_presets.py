@@ -58,6 +58,37 @@ def main() -> None:
         if abs(float(p_q10[is_wd]) - s_q10[dim]) >= 0.01:
             failures.append(f"q10 {dim}: pandas {p_q10[is_wd]} vs preset {s_q10[dim]}")
 
+    # q11 购买分层（buyers / pct_buyers / pct_once / repeat_buyers / pct_one_day_active）
+    # days 必须先 dt.normalize() 归到当日零点再去重——d 是带时分的完整时间戳，
+    # 直接 nunique() 数的是「去重时间戳数」而非「去重天数」，与 DuckDB 的 count(DISTINCT DAY) 分叉。
+    per = pd.DataFrame({
+        "buy_n": df[df["behavior_type"] == "buy"].groupby("user_id").size(),
+        "days": d.dt.normalize().groupby(df["user_id"]).nunique(),
+    }).fillna({"buy_n": 0})
+    total = len(per)
+    buyers = per[per["buy_n"] >= 1]
+    q11 = load("q11")["rows"][0]
+    checks_q11 = {
+        "buyers": (int(q11["buyers"]), len(buyers)),
+        "pct_buyers": (float(q11["pct_buyers"]), round(len(buyers) * 100 / total, 2)),
+        "pct_once": (float(q11["pct_once"]), round((per["buy_n"] == 1).sum() * 100 / len(buyers), 2)),
+        "repeat_buyers": (int(q11["repeat_buyers"]), int((per["buy_n"] >= 2).sum())),
+        "pct_one_day_active": (float(q11["pct_one_day_active"]), round((per["days"] == 1).sum() * 100 / total, 2)),
+    }
+    for name, (preset_v, pandas_v) in checks_q11.items():
+        if abs(float(preset_v) - float(pandas_v)) >= 0.01:
+            failures.append(f"q11 {name}: pandas {pandas_v} vs preset {preset_v}")
+
+    # q12 R 分布（距窗口末天数 → 购买用户数）。注意 max() 取到的是时间戳，必须 normalize()
+    # 归到当日零点再算天数，否则 12-02 23:00 会被 floor 成 lag=0，与 DuckDB 日期级 datediff 分叉。
+    bmask = df["behavior_type"] == "buy"
+    last_buy = d[bmask].groupby(df["user_id"][bmask]).max().dt.normalize()
+    lag = (pd.Timestamp("2017-12-03", tz=TZ_CN) - last_buy).dt.days
+    p_q12 = lag.value_counts().to_dict()
+    s_q12 = {int(str(r["dim"]).split(" ")[0]): int(r["user_count"]) for r in load("q12")["rows"]}
+    if {int(k): int(v) for k, v in p_q12.items()} != s_q12:
+        failures.append("q12 R 分布逐值不一致")
+
     # 总行数一致性自证：四类行为加总 = 清洗后行数
     if s_q04 and sum(s_q04.values()) != len(df):
         failures.append("q04 小时加总 != 清洗后总行数")
@@ -66,7 +97,7 @@ def main() -> None:
         for f in failures:
             print(f"✗ {f}")
         raise SystemExit(1)
-    print(f"✓ 预置 JSON 与 pandas 规范语义逐值一致（q01 总量 / q03 日活 {len(s_q03)} 天 / q04 小时 {len(s_q04)} 项 / q10 周末判定），窗口 {len(df)} 行")
+    print(f"✓ 预置 JSON 与 pandas 规范语义逐值一致（q01 总量 / q03 日活 {len(s_q03)} 天 / q04 小时 {len(s_q04)} 项 / q10 周末判定 / q11 购买分层 / q12 R 分布），窗口 {len(df)} 行")
 
 
 if __name__ == "__main__":
