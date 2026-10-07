@@ -9,6 +9,8 @@ const pct = (v: number) => `${(v * 100).toFixed(1)}%`;
 type Row = Record<string, string | number>;
 
 const ACCENT = "var(--accent)";
+// tip 配色走站内 CSS 变量：Plot 默认白底 + 继承页面文字色，暗色主题下浅字白底不可读
+const TIP = { fill: "var(--background)", stroke: "var(--border)" };
 
 function insert(host: Element, node: Node): void {
   // 口径行（figcaption）固定在图下方；查询框宿主没有 figcaption 时直接 append
@@ -55,7 +57,7 @@ function barX(rows: Row[], host: Element, xKey: string, xLabel?: string): void {
       x: { label: xLabel ?? null },
       y: { domain: rows.map(r => String(r.dim)), label: null },
       marks: [
-        Plot.barX(rows, { y: r => String(r.dim), x: xKey, fill: ACCENT }),
+        Plot.barX(rows, { y: r => String(r.dim), x: xKey, fill: ACCENT, tip: TIP }),
         Plot.text(rows, { y: r => String(r.dim), x: xKey, textAnchor: "start", dx: 3, text: r => fmt.format(Number(r[xKey])) }),
       ],
       width: width(host),
@@ -76,7 +78,7 @@ function columnHour(rows: Row[], host: Element): void {
       marginBottom: 28,
       y: { label: null, grid: true },
       x: { interval: 1, label: "小时", ticks: rows.map(r => Number(r.dim)).filter(n => n % 2 === 0) },
-      marks: [Plot.barY(rows, { x: r => Number(r.dim), y: "event_count", fill: ACCENT })],
+      marks: [Plot.barY(rows, { x: r => Number(r.dim), y: "event_count", fill: ACCENT, tip: TIP })],
       width: width(host),
       height: 220,
       style: { font: "inherit" },
@@ -97,7 +99,7 @@ function areaDay(rows: Row[], host: Element): void {
       x: { type: "time", tickFormat: "%m-%d" },
       marks: [
         Plot.areaY(rows, { x, y: "user_count", fill: ACCENT, fillOpacity: 0.15, curve: "monotone-x" }),
-        Plot.line(rows, { x, y: "user_count", stroke: ACCENT, strokeWidth: 2, curve: "monotone-x" }),
+        Plot.line(rows, { x, y: "user_count", stroke: ACCENT, strokeWidth: 2, curve: "monotone-x", tip: TIP }),
       ],
       width: width(host),
       height: 220,
@@ -117,7 +119,7 @@ function barRate(rows: Row[], host: Element): void {
       x: { domain: [0, Math.max(...rows.map(r => Number(r.rate))) * 1.2], label: null },
       y: { domain: rows.map(r => String(r.dim)), label: null },
       marks: [
-        Plot.barX(rows, { y: r => String(r.dim), x: r => Number(r.rate), fill: ACCENT }),
+        Plot.barX(rows, { y: r => String(r.dim), x: r => Number(r.rate), fill: ACCENT, tip: TIP }),
         Plot.text(rows, {
           y: r => String(r.dim),
           x: r => Number(r.rate),
@@ -144,7 +146,7 @@ function compare(rows: Row[], host: Element): void {
       x: { label: null },
       y: { domain: rows.map(r => String(r.dim)), label: null },
       marks: [
-        Plot.barX(rows, { y: r => String(r.dim), x: r => Number(r.events_per_user), fill: ACCENT }),
+        Plot.barX(rows, { y: r => String(r.dim), x: r => Number(r.events_per_user), fill: ACCENT, tip: TIP }),
         Plot.text(rows, {
           y: r => String(r.dim),
           x: r => Number(r.events_per_user),

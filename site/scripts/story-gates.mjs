@@ -93,6 +93,20 @@ try {
     console.log("✓ 桌面首屏零 WASM/parquet 下载（B 验收①）");
   }
 
+  // 图表 hover 提示（仅正常模式）：悬停 q02 条形，SVG 内节点必须增长（tip 为悬停时动态渲染）
+  if (!reverse && !failed) {
+    const q02 = dPage.locator('figure[data-chart="q02"]');
+    const before = await q02.locator("svg *").count();
+    await q02.locator("svg rect").first().hover();
+    await dPage.waitForTimeout(300);
+    const after = await q02.locator("svg *").count();
+    if (after > before) console.log("✓ 图表 hover：悬停后新增 tip 节点");
+    else {
+      console.error(`✗ hover 未出提示（before=${before} after=${after}）`);
+      failed = true;
+    }
+  }
+
   // 场景 3：引擎冒烟——查询框跑四条，结果行数钉死窗口口径（仅正常模式）。
   // 注意：状态断言等"变化"而非"存在"——第二次查询的waitForFunction若只看"引擎就绪"，
   // 会读到上一次的旧表（本项目查询框验证踩过的竞态）。
