@@ -1,7 +1,7 @@
 // site/scripts/story-gates.mjs —— B 验收①③双门禁（spec §4 门禁 2）
 // 场景 1：桌面首屏滚动到底也不点击「开始探索」→ 零 WASM/worker/parquet 请求
 // 场景 2：移动视口+触控（Playwright isMobile+hasTouch，与页面 JS 判定同口径）→ 零重资源 + 降级提示在 DOM
-// 场景 3：引擎冒烟（正常模式跑两条查询）——浏览器侧窗口口径与预置图表一致的机械锚
+// 场景 3：引擎冒烟（正常模式跑四条查询）——浏览器侧窗口口径与预置图表一致的机械锚
 //         （类目 Top10 = 11 表行；pv 按天 = 10 表行，即官方窗口 9 天）
 // 反向自检：node scripts/story-gates.mjs --reverse —— 注入脚本主动拉取重资源，
 //           两个零重资源场景必须全红（exit 0 = 门禁探测与失败接线有效）。
@@ -93,7 +93,7 @@ try {
     console.log("✓ 桌面首屏零 WASM/parquet 下载（B 验收①）");
   }
 
-  // 场景 3：引擎冒烟——查询框跑两条，结果行数钉死窗口口径（仅正常模式）。
+  // 场景 3：引擎冒烟——查询框跑四条，结果行数钉死窗口口径（仅正常模式）。
   // 注意：状态断言等"变化"而非"存在"——第二次查询的waitForFunction若只看"引擎就绪"，
   // 会读到上一次的旧表（本项目查询框验证踩过的竞态）。
   if (!reverse && !failed) {
@@ -110,9 +110,25 @@ try {
       return cur !== p && cur.includes("引擎就绪");
     }, prevStatus, { timeout: 60000 });
     const dayRows = await dPage.locator("#query-result table tr").count();
-    // 类目 Top10 = 表头 + 10 行；pv 按天 = 表头 + 9 天（官方窗口天数钉死）
-    if (catRows === 11 && dayRows === 10) console.log("✓ 引擎冒烟：类目 Top10 与 pv 按天（9 天）行数符合口径（窗口/墙钟跨端一致）");
-    else { console.error(`✗ 引擎冒烟行数异常：类目 ${catRows}（期望 11）、pv 按天 ${dayRows}（期望 10）`); failed = true; }
+    // item/hour 断言用占位模式而非"等状态变化"：两者期望行数同为 11，状态串只差毫秒数，
+    // 两次查询取整到相同 ms 会 60 秒超时假红——先把状态行改成"查询中"再等"引擎就绪"。
+    const runDim = async dim => {
+      await dPage.evaluate(() => { document.getElementById("q-status").textContent = "查询中"; });
+      await dPage.selectOption("#q-behavior", "");
+      await dPage.selectOption("#q-dim", dim);
+      await dPage.click("#q-run");
+      await dPage.waitForFunction(() => (document.getElementById("q-status")?.textContent ?? "").includes("引擎就绪"), null, { timeout: 60000 });
+      return dPage.locator("#query-result table tr").count();
+    };
+    const itemRows = await runDim("item_id");
+    const hourRows = await runDim("hour");
+    // 类目 Top10 = 表头 + 10 行；pv 按天 = 表头 + 9 天（官方窗口天数钉死）；商品/小时 Top10 = 表头 + 10 行
+    if (catRows === 11 && dayRows === 10 && itemRows === 11 && hourRows === 11)
+      console.log("✓ 引擎冒烟：类目/商品/小时 Top10 与 pv 按天（9 天）行数符合口径（窗口/墙钟跨端一致）");
+    else {
+      console.error(`✗ 引擎冒烟行数异常：类目 ${catRows}（期望 11）、pv 按天 ${dayRows}（期望 10）、商品 ${itemRows}（期望 11）、小时 ${hourRows}（期望 11）`);
+      failed = true;
+    }
   }
   await desktop.close();
 
