@@ -39,6 +39,10 @@ PRESETS = [
      "SELECT behavior_type AS dim, count(DISTINCT user_id) AS user_count FROM events WHERE behavior_type IN ('pv','cart','fav','buy') GROUP BY 1 ORDER BY user_count DESC"),
     ("q10", "周末 vs 工作日", "周末 = UTC+8 墙钟的周六/周日；对比人均行为数（结果保留两位小数）",
      "SELECT CASE WHEN dayofweek(DATE '1970-01-01' + CAST((ts + 28800) // 86400 AS INTEGER)) IN (0,6) THEN '周末' ELSE '工作日' END AS dim, round(count(*)::DOUBLE / count(DISTINCT user_id), 2) AS events_per_user FROM events GROUP BY 1 ORDER BY events_per_user DESC, dim"),
+    ("q11", "购买用户分层快照", "RFM 诚实降维口径：数据集无金额字段（M 不可算）；九日窗口购买行为稀薄，绝大多数购买用户仅购买 1 次（F 无区分度，具体占比见快照行）；分母=全体去重用户，购买指标分母=购买用户",
+     f"WITH per_user AS (SELECT user_id, count(*) FILTER (WHERE behavior_type = 'buy') AS buy_n, count(DISTINCT {DAY}) AS days FROM events GROUP BY user_id), agg AS (SELECT count(*) AS total, count(*) FILTER (WHERE buy_n >= 1) AS buyers, count(*) FILTER (WHERE buy_n = 1) AS once_buyers, count(*) FILTER (WHERE buy_n >= 2) AS repeat_buyers, count(*) FILTER (WHERE days = 1) AS one_day_users FROM per_user) SELECT buyers, round(buyers::DOUBLE * 100 / total, 2) AS pct_buyers, round(once_buyers::DOUBLE * 100 / buyers, 2) AS pct_once, repeat_buyers, round(one_day_users::DOUBLE * 100 / total, 2) AS pct_one_day_active FROM agg"),
+    ("q12", "最近购买距今分布（R）", "R = 距窗口末（2017-12-03，UTC+8）最近一次购买的天数；样本=窗口内有 buy 行为的购买用户（人数见 q11 快照行）；分布近似平坦系每日购买量稳定的镜像",
+     f"WITH buys AS (SELECT user_id, max({DAY}) AS last_day FROM events WHERE behavior_type = 'buy' GROUP BY user_id), lagged AS (SELECT datediff('day', CAST(last_day AS DATE), DATE '2017-12-03') AS lag, count(*) AS user_count FROM buys GROUP BY 1) SELECT CAST(lag AS VARCHAR) || ' 天前' AS dim, user_count FROM lagged ORDER BY lag ASC"),
 ]
 
 
