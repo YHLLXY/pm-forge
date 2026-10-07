@@ -7,7 +7,7 @@
   "outputExcerpt": "「本次更新优化了 App 启动速度，打开更快；修复深色模式弹窗遮罩显示异常；推送服务升级，保障消息正常接收，同时修复部分数据保存异常问题」——零术语、信息取舍正确",
   "evalDate": "2026-10-02",
   "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
-  "accountType": "免费",
+  "accountType": "免费账号",
   "scores": {
     "factuality": 5,
     "structure": 5,

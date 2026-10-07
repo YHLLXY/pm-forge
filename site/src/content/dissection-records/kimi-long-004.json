@@ -7,7 +7,7 @@
   "outputExcerpt": "JSON 嵌套完整、risks 五条逐字对应、hidden_facts 走推导路线：线上 18,000/线下 12,000 只、Pro 差价 110 元、首发赠品总价值 195,000 元——三处推导计算全对且口径自明",
   "evalDate": "2026-10-02",
   "versionNote": "网页端 K3 快速模式（kimi.com，\"快速\"档）",
-  "accountType": "免费",
+  "accountType": "免费账号",
   "scores": {
     "factuality": 5,
     "structure": 5,

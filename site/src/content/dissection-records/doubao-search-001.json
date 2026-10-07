@@ -7,7 +7,7 @@
   "outputExcerpt": "窗口计算正确（2026-09-02 ~ 10-02）；5 条新闻全部带日期与来源（澎湃新闻/央视网/上海证券报等），含比亚迪 9 月销量、充电设施数据、九部门发文等",
   "evalDate": "2026-10-02",
   "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
-  "accountType": "免费",
+  "accountType": "免费账号",
   "scores": {
     "factuality": 4,
     "structure": 5,

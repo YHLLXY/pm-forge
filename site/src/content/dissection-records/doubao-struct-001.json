@@ -7,7 +7,7 @@
   "outputExcerpt": "8 条对象齐全、JSON 语法干净（无尾逗号/中文引号）、8 条 quote 全部逐字复制、theme 与 sentiment 判定全部在约定枚举内",
   "evalDate": "2026-10-02",
   "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
-  "accountType": "免费",
+  "accountType": "免费账号",
   "scores": {
     "factuality": 5,
     "structure": 5,

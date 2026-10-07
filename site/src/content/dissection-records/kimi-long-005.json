@@ -7,7 +7,7 @@
   "outputExcerpt": "「全文共出现 7 次」+ 六行定位表（OTA 句正确标 ×2）+「换盖计划首现四、型号与定价」，另主动点破「第一章出现过『换盖不换杯』，但并未出现完整的『换盖计划』词组」",
   "evalDate": "2026-10-02",
   "versionNote": "网页端 K3 快速模式（kimi.com，\"快速\"档）",
-  "accountType": "免费",
+  "accountType": "免费账号",
   "scores": {
     "factuality": 5,
     "structure": 5,

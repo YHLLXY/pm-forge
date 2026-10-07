@@ -7,7 +7,7 @@
   "outputExcerpt": "云文档画布正文可见部分：竞品售价、良率 86%、深访结论均如实展开，影响分析基于给定要点做合理推断，可见范围内无编造的日期/人名/数字",
   "evalDate": "2026-10-02",
   "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
-  "accountType": "免费",
+  "accountType": "免费账号",
   "scores": {
     "factuality": 5,
     "structure": 4,

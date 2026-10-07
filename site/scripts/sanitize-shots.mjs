@@ -28,17 +28,21 @@ const PLAN = {
   },
   // Kimi 截图侧栏已折叠（无昵称），原图直出
   defaultKimi: { crop: null },
+  // DeepSeek 网页端布局：左 261px 侧栏（底部含账号昵称/头像），全部裁掉
+  defaultDeepseekWeb: { crop: { x: 261, y: 0, width: 1019, height: 720 } },
 };
 
 const jobs = [];
-for (const product of ["doubao", "kimi"]) {
+for (const product of ["doubao", "kimi", "deepseek-web"]) {
   const base = join(STAGING, product);
   if (!existsSync(base)) continue;
   for (const dir of readdirSyncDir(base)) {
     const shot = join(base, dir, "shot.png");
     if (!existsSync(shot)) continue;
     const key = `${product}/${dir}`;
-    const plan = PLAN[key] ?? (product === "doubao" ? PLAN.defaultDoubao : PLAN.defaultKimi);
+    const plan =
+      PLAN[key] ??
+      (product === "doubao" ? PLAN.defaultDoubao : product === "deepseek-web" ? PLAN.defaultDeepseekWeb : PLAN.defaultKimi);
     jobs.push({ id: dir, shot, plan });
   }
 }

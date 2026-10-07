@@ -1,0 +1,25 @@
+{
+ "id": "dsw-reason-003-reasoner",
+ "product": "deepseek",
+ "group": "结构化产出",
+ "task": "锯木条隐含单位陷阱（网页端深度思考开）",
+ "inputExcerpt": "锯成 4 段用 12 分钟（每锯一次耗时相同），7 根木条各锯成 6 段共需多少分钟（答案钥匙：140 分钟）",
+ "outputExcerpt": "答案正确（140 分钟），思考仅 1 秒/135 字，输出比关档更精炼（227 字 vs 386 字），n−1 推理完整",
+ "evalDate": "2026-10-07",
+ "versionNote": "网页端，深度思考：开，智能搜索：关",
+ "accountType": "网页端免费账号",
+ "scores": {
+  "factuality": 5,
+  "structure": 5,
+  "actionability": 5,
+  "instruction": 5
+ },
+ "productMetrics": {
+  "latencyTier": "快",
+  "paywallHit": false,
+  "uxNotes": "端到端约 3-6 秒；简单题上深度思考档反而更省字"
+ },
+ "verdict": "成功",
+ "failureAnalysis": null,
+ "screenshot": "dsw-reason-003-reasoner.png"
+}

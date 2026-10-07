@@ -1,0 +1,25 @@
+{
+ "id": "dsw-struct-003-chat",
+ "product": "deepseek",
+ "group": "结构化产出",
+ "task": "盈亏平衡销量（取整方向陷阱）（网页端深度思考关）",
+ "inputExcerpt": "固定开模费 110,000 元、变动成本 73.5 元/只、售价 99 元，至少卖多少只不亏本？解释为什么是这个整数（答案钥匙：4313.7 → 4314 只，卖 4313 只亏 18.5 元）",
+ "outputExcerpt": "110,000 ÷ 25.5 ≈ 4313.73 → 正确向上取整 4314 只，并按题目要求双向验证（4313 只亏 18.5 元/4314 只盈 7 元）解释为何不取相邻整数",
+ "evalDate": "2026-10-07",
+ "versionNote": "网页端，深度思考：关，智能搜索：关",
+ "accountType": "网页端免费账号",
+ "scores": {
+  "factuality": 5,
+  "structure": 5,
+  "actionability": 5,
+  "instruction": 5
+ },
+ "productMetrics": {
+  "latencyTier": "快",
+  "paywallHit": false,
+  "uxNotes": "端到端约 3-6 秒；与 API 口径不同：本次无中途误算与自纠，一步到位（API 口径该题为「误算 431 → 喊停自纠 → 4314」的教科书自纠样本）"
+ },
+ "verdict": "成功",
+ "failureAnalysis": null,
+ "screenshot": "dsw-struct-003-chat.png"
+}

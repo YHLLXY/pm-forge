@@ -15,7 +15,7 @@ description: "余翰林：重庆邮电大学大数据管理与应用专业，目
 |---|---|---|
 | 产品设计 | 四段式案例法、RICE 优先级、用户故事与验收标准、PRD 模板（信息缺口标【待补充】+ 拍板人） | [AI PM 工具箱](/toolbox/) · [AgriAgent](/case-studies/agriagent/) |
 | 数据分析 | 指标树（OSM/AARRR）、转化漏斗、RFM 分层、口径先行、DuckDB + Quarto | [UserBehavior 案例报告](/analysis/userbehavior-case1/) |
-| AI 评测与模型评估 | 66 例评测集 + LLM-as-judge 回归基线；消费级 AI 产品 30 条逐条实测（失败案例同等呈现） | [评测驱动的第一次产品迭代](/toolbox/reports/eval-driven-contract-fix/) · [AI 产品拆解](/dissections/) |
+| AI 评测与模型评估 | 66 例评测集 + LLM-as-judge 回归基线；消费级 AI 产品 40 条逐条实测（失败案例同等呈现） | [评测驱动的第一次产品迭代](/toolbox/reports/eval-driven-contract-fix/) · [AI 产品拆解](/dissections/) |
 | 工程交付 | React 19 / Next.js / Astro、TDD（vitest + Playwright）、体积预算门禁、AI 协作开发流程 | [个人工作台](/case-studies/personal-workbench/) · [情侣心愿 App](/case-studies/couple-app/) |
 | 方法论沉淀 | 结构化复盘、经验资产化（一次踩坑 → 全项目复用的检查清单） | [红岩网校群面复盘](/case-studies/hongyan-group-interview-retro/) |
 
@@ -26,7 +26,7 @@ description: "余翰林：重庆邮电大学大数据管理与应用专业，目
 - **2026-08** 个人工作台 v1.0→v1.22——4 周 22 版密集迭代（React 19 + Supabase）
 - **2026-08** 红岩网校开源项目审查修复交付（JuanNiang-Neo：Go + Vue 3 项目审查与多阶段验收）
 - **2026-09** pm-forge 工程——数据分析流水线 + AI PM 工具箱上线 + 本作品集站
-- **2026-10** pm-forge 二期——AI 产品拆解（30 条实测 + 三篇报告）与浏览器内数据故事上线，构建期门禁守护数字一致性
+- **2026-10** pm-forge 二期——AI 产品拆解（40 条实测 + 四篇报告）与浏览器内数据故事上线，构建期门禁守护数字一致性
 
 ## 群面方法论小史
 

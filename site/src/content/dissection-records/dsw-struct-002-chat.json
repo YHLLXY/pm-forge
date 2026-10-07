@@ -1,0 +1,25 @@
+{
+ "id": "dsw-struct-002-chat",
+ "product": "deepseek",
+ "group": "结构化产出",
+ "task": "补贴方案最优解计算 + 权衡解释（网页端深度思考关）",
+ "inputExcerpt": "预算上限 10 万：方案一每只补贴 20 元预计销量 4500 只；方案二前 3000 只补 30 元、后 2500 只补 10 元。①两方案总成本与销量 ②预算内推荐并解释权衡 ③指出一个关键假设",
+ "outputExcerpt": "三小问全对：方案一 90,000 元/4500 只、方案二 115,000 元/5500 只（超预算 1.5 万不可直接执行）；预算内推荐方案一并给出权衡（余量 1 万、方案二需压缩才可行）；关键假设（销量预测准确实现）明确",
+ "evalDate": "2026-10-07",
+ "versionNote": "网页端，深度思考：关，智能搜索：关",
+ "accountType": "网页端免费账号",
+ "scores": {
+  "factuality": 5,
+  "structure": 5,
+  "actionability": 5,
+  "instruction": 5
+ },
+ "productMetrics": {
+  "latencyTier": "快",
+  "paywallHit": false,
+  "uxNotes": "端到端约 3-6 秒；额外给出「方案二压缩到预算内」的延伸思考"
+ },
+ "verdict": "成功",
+ "failureAnalysis": null,
+ "screenshot": "dsw-struct-002-chat.png"
+}

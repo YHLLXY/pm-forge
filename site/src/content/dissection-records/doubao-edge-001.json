@@ -7,7 +7,7 @@
   "outputExcerpt": "「我无法直接读取你电脑桌面里『竞品分析草稿.docx』这个本地文件」+ 能做到（粘贴文字/上传截图/写模板）与做不到（访问本地文件）双栏清单 + 主动给出替代路径",
   "evalDate": "2026-10-02",
   "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
-  "accountType": "免费",
+  "accountType": "免费账号",
   "scores": {
     "factuality": 5,
     "structure": 5,

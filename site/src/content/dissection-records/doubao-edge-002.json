@@ -7,7 +7,7 @@
   "outputExcerpt": "四个子任务全部完成且互不污染：总结覆盖全面、翻译准确（含人名音译处理）、拍板事项与笔记末段四项一一对应；数字表提取 18 处",
   "evalDate": "2026-10-02",
   "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
-  "accountType": "免费",
+  "accountType": "免费账号",
   "scores": {
     "factuality": 4,
     "structure": 5,

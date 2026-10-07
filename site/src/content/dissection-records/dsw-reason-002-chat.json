@@ -1,0 +1,25 @@
+{
+ "id": "dsw-reason-002-chat",
+ "product": "deepseek",
+ "group": "结构化产出",
+ "task": "带陷阱的推理题：单位不一致（网页端深度思考关）",
+ "inputExcerpt": "杯体 58 元/只、杯盖 12,000 厘/只（陷阱：1 元 = 1000 厘，即 12 元）、包装 3.5 元/只、首批 30,000 只、开模费 110,000 元；先列每个数字及单位再计算",
+ "outputExcerpt": "按要求的「先列数字及单位」格式执行，但换算基准错误：称「1 元 = 100 厘」→ 杯盖 120 元 → 单只 181.5 → 总成本 5,555,000 → 均摊 185.17 元，全程无自查",
+ "evalDate": "2026-10-07",
+ "versionNote": "网页端，深度思考：关，智能搜索：关",
+ "accountType": "网页端免费账号",
+ "scores": {
+  "factuality": 2,
+  "structure": 4,
+  "actionability": 2,
+  "instruction": 4
+ },
+ "productMetrics": {
+  "latencyTier": "快",
+  "paywallHit": false,
+  "uxNotes": "端到端 ≤15 秒；与 API 口径 chat 模式同构失败（同错 1 元=100 厘、同得 185.17）"
+ },
+ "verdict": "失败",
+ "failureAnalysis": "换算基准错误且无自查：1 元实际 = 1000 厘（12,000 厘 = 12 元），该输出按 1 元 = 100 厘算出杯盖 120 元、均摊 185.17 元。与 API 口径 chat 模式的失败逐字同构（同 185.17）——厘陷阱在网页端 chat 档稳定复现，且错误结论以自信口吻给出",
+ "screenshot": "dsw-reason-002-chat.png"
+}

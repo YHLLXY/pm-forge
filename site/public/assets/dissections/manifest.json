@@ -78,5 +78,45 @@
   "kimi-long-006": [
     1280,
     720
+  ],
+  "dsw-reason-001-chat": [
+    1019,
+    720
+  ],
+  "dsw-reason-001-reasoner": [
+    1019,
+    720
+  ],
+  "dsw-reason-002-chat": [
+    1019,
+    720
+  ],
+  "dsw-reason-002-reasoner": [
+    1019,
+    720
+  ],
+  "dsw-reason-003-chat": [
+    1019,
+    720
+  ],
+  "dsw-reason-003-reasoner": [
+    1019,
+    720
+  ],
+  "dsw-reason-004-chat": [
+    1019,
+    720
+  ],
+  "dsw-struct-001-chat": [
+    1019,
+    720
+  ],
+  "dsw-struct-002-chat": [
+    1019,
+    720
+  ],
+  "dsw-struct-003-chat": [
+    1019,
+    720
   ]
 }

@@ -117,15 +117,15 @@ for (const f of reportMdFiles) {
     continue;
   }
   claimsChecked++;
-  const mine = records.filter(r => r.product === fm.product);
+  const mine = records.filter(r => r.product === fm.product && r.accountType === fm.accountType);
   const v = claims.verdicts;
   // 7a 求和自洽
   if (v["成功"] + v["部分"] + v["失败"] !== claims.recordCount) {
     fail(`${f}: claims.verdicts 求和 ≠ recordCount（${v["成功"]}+${v["部分"]}+${v["失败"]} ≠ ${claims.recordCount}）`);
   }
-  // 7b 声称 ↔ 实际记录集合
+  // 7b 声称 ↔ 实际记录集合（按 product + accountType 分组：同产品多口径各对各的账）
   if (claims.recordCount !== mine.length) {
-    fail(`${f}: claims.recordCount=${claims.recordCount} 但 product=${fm.product} 实际 ${mine.length} 条记录`);
+    fail(`${f}: claims.recordCount=${claims.recordCount} 但 product=${fm.product}/accountType=${fm.accountType} 实际 ${mine.length} 条记录`);
   }
   for (const verdict of ["成功", "部分", "失败"]) {
     const actual = mine.filter(r => r.verdict === verdict).length;
@@ -151,8 +151,8 @@ for (const f of reportMdFiles) {
       fail(`${f}: 正文条数声称「${m[1]} 条」与 claims.recordCount=${claims.recordCount} 不一致`);
     }
   }
-  // 7e 正文引用的记录 id 必须存在（允许前缀引用记录对：ds-reason-004 → ds-reason-004-chat/-reasoner）
-  for (const m of body.matchAll(/(?:doubao|kimi|ds)-[a-z0-9]+-\d{3}(?:-[a-z]+)?/g)) {
+  // 7e 正文引用的记录 id 必须存在（允许前缀引用记录对：ds-reason-004 → ds-reason-004-chat/-reasoner；dsw = DeepSeek 网页端口径）
+  for (const m of body.matchAll(/(?:doubao|kimi|ds|dsw)-[a-z0-9]+-\d{3}(?:-[a-z]+)?/g)) {
     const ref = m[0];
     if (!recordIds.has(ref) && ![...recordIds].some(id => id.startsWith(`${ref}-`))) {
       fail(`${f}: 引用了不存在的记录 id「${ref}」`);

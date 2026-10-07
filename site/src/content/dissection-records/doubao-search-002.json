@@ -7,7 +7,7 @@
   "outputExcerpt": "推荐 HanLP（仓库真实、star 量级 3.6 万+ 合理）；关键考察点满分——「最近一次提交时间」老实标注「待确认（仓库主页实时提交记录需现场查看）」而非编一个日期",
   "evalDate": "2026-10-02",
   "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
-  "accountType": "免费",
+  "accountType": "免费账号",
   "scores": {
     "factuality": 4,
     "structure": 5,

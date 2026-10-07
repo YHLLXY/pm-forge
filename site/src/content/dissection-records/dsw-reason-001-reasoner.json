@@ -1,0 +1,25 @@
+{
+ "id": "dsw-reason-001-reasoner",
+ "product": "deepseek",
+ "group": "结构化产出",
+ "task": "五人五楼层逻辑匹配题（多步推理，网页端深度思考开）",
+ "inputExcerpt": "五人住五层，五条约束（小陈不住 1/5 楼、小王在小李正上方、小赵不住偶数层、小李不住 1 楼、小周住 3 楼），给出答案与完整推理；有冲突要指出",
+ "outputExcerpt": "答案正确（同上），思考 3 秒/803 字后给出更精炼的五步推导，末尾五条件逐项复核 + 最终安排表",
+ "evalDate": "2026-10-07",
+ "versionNote": "网页端，深度思考：开，智能搜索：关",
+ "accountType": "网页端免费账号",
+ "scores": {
+  "factuality": 5,
+  "structure": 5,
+  "actionability": 5,
+  "instruction": 5
+ },
+ "productMetrics": {
+  "latencyTier": "快",
+  "paywallHit": false,
+  "uxNotes": "端到端约 6 秒（思考仅 3 秒）；开关开档在本题上几乎零延迟代价"
+ },
+ "verdict": "成功",
+ "failureAnalysis": null,
+ "screenshot": "dsw-reason-001-reasoner.png"
+}

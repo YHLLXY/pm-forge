@@ -33,7 +33,7 @@
 
 ## site · 作品集站点（M3）
 
-Astro 7 + Tailwind 4（AstroPaper v6.1.0 基座，上游 35cfa7f）。七板块：**首页**（定位语+精选）、**案例研究**（四篇四段式案例，构建期强制结构检查）、**数据分析**（M1 报告 + Quarto 全文内嵌）、**AI 产品拆解**（30 条实测 + 三篇报告，判定分布由门禁机械核对）、**数据故事**（浏览器内 DuckDB 复算）、**工具箱**（M2 介绍 + 六份报告）、**关于**；另设[面试官指南](https://www.yuhailinlxy.com/interviewers/)。
+Astro 7 + Tailwind 4（AstroPaper v6.1.0 基座，上游 35cfa7f）。七板块：**首页**（定位语+精选）、**案例研究**（四篇四段式案例，构建期强制结构检查）、**数据分析**（M1 报告 + Quarto 全文内嵌）、**AI 产品拆解**（40 条实测 + 四篇报告，判定分布由门禁机械核对）、**数据故事**（浏览器内 DuckDB 复算）、**工具箱**（M2 介绍 + 六份报告）、**关于**；另设[面试官指南](https://www.yuhailinlxy.com/interviewers/)。
 
 ```bash
 cd site

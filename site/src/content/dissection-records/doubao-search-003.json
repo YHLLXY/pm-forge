@@ -7,7 +7,7 @@
   "outputExcerpt": "断言该书是《设计冲刺》（Jake Knapp）的「俗称」——「市面上很多产品经理文章把这本书俗称为……」——并据此输出作者与三本书完整书单，全程未说「查不到」",
   "evalDate": "2026-10-02",
   "versionNote": "网页端 快速模式（doubao.com，\"豆包 快速\"档）",
-  "accountType": "免费",
+  "accountType": "免费账号",
   "scores": {
     "factuality": 2,
     "structure": 4,
