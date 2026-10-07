@@ -1,11 +1,13 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
+import { NextRequest } from "next/server";
 import { POST } from "@/app/api/tools/[tool]/route";
 import { competitorInputSchema } from "@/tools/schemas";
 import { getTool } from "@/tools/registry";
 
+// Next 16 收紧路由 handler 类型（NextRequest 必选），测试构造与运行时同形的请求对象
 function req(tool: string, body: unknown, headers: Record<string, string> = {}) {
-  return new Request(`http://localhost/api/tools/${tool}`, {
+  return new NextRequest(`http://localhost/api/tools/${tool}`, {
     method: "POST",
     headers: { "Content-Type": "application/json", ...headers },
     body: JSON.stringify(body),

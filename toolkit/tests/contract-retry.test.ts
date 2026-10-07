@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { NextRequest } from "next/server";
 import { feedbackInputSchema } from "@/tools/schemas";
 
 // getProvider 打桩：按脚本依次吐出预设输出，记录每次收到的 messages
@@ -19,8 +20,9 @@ vi.mock("@/lib/llm", () => ({
 
 const { POST } = await import("@/app/api/tools/[tool]/route");
 
+// Next 16 收紧路由 handler 类型（NextRequest 必选），测试构造与运行时同形的请求对象
 function req(body: unknown) {
-  return new Request("http://localhost/api/tools/feedback-insights", {
+  return new NextRequest("http://localhost/api/tools/feedback-insights", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
