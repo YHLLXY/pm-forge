@@ -71,6 +71,7 @@ npm run smoke:real     # 真实 LLM 冒烟：三工具各产 1 份报告到 tool
 - 浏览器安装（仅 e2e 首次）：`PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright/ npx playwright install chromium`
 
 ## 更新日志
+- 2026-10-07 v0.13: **B 线体验增强 + P2 清库**——数据故事七张图表 hover 提示（Plot tip 内建通道，暗色主题配色走 CSS 变量）；新增第七节「用户分层：RFM 在这份数据上只剩 R」（q11/q12 构建期预置 + pandas 交叉验证扩展覆盖，查询框顺延第八节）；工具箱三卡真截图（本地 mock 演示样例一次性脚本产物，/toolbox/ lh 保持满分）；反馈上传 GBK 自动解码（UTF-8 严格优先 + GBK 兜底，杜绝静默乱码，ISSUES #17）
 - 2026-10-07 v0.12: **11 月窗口包**——B 线查询框扩 5 维度（新增商品/小时，Top-N 确定性平局裁决）+ 引擎加载字节级进度（duckdb-wasm 原生回调）；Vercel 钉 IP 双栈巡检脚本（#10，首跑发现 64.29.17.65 TLS 指纹级干扰，观察中）；toolkit 升级 Next 16（#13 原 postcss 链消除，Windows turbopack 默认构建通过 = #9 修复；顺修 e2e 同源白名单存量断裂）；judge v2（工具感知锚点 + 输入可见）基线重钉；DeepSeek 网页端补测（章程 v2.2 用户拍板，10 条记录 + 对照报告，判定分布与 API 口径 7/0/3 完全一致）；C 线方法论文库实施计划草案落盘
 - 2026-10-06 v0.11: **二期 A1+B 双线上线**——AI 产品拆解板块（章程 v2.1 + 30 条实测记录 + 三篇报告，判定分布由构建门禁机械核对）；数据故事《九日谈》（DuckDB-WASM 浏览器内复算 + 受限查询框 + 移动端降级，Playwright 双门禁 + 体积门禁）；check-dissections 第七条门禁（报告数字 ↔ 记录集合一致性）；面试官指南页 + 求职素材库（docs/interview/）
 - 2026-10-02 v0.10: **二期 E 基建小包完成**——GitHub Actions CI 三 job 矩阵（site/toolkit/python，evals 只跑 fixture 不花钱）全绿；站内搜索复活（Pagefind 1.5.2 构建期索引 + 自研 /search 页 + header 图标入口，中文验收词实测命中，检索零第三方请求）；RSS 升级全文输出（content:encoded + 链接绝对化 + 构建期校验）；WebSite/Person/BlogPosting JSON-LD 全站注入 + 构建期校验；Lighthouse 七页全过。npm audit 全仓盘点（site 0，toolkit 2 = next 内嵌 postcss，Next 16 专项调研入 ISSUES #13）

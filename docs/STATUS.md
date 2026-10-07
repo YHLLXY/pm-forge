@@ -319,3 +319,21 @@
 - **文档**：evals/README 前置段补预检说明；lessons 对应条目「候选」改「已落码」。
 
 **可作战状态**：✅ 预检落码推送；剩余待办均为用户侧（盲评校准包 / vault 双写同步 / DeepSeek 会话清理）与寒假 C 线草案；等用户下一步指令。
+
+## 2026-10-07 B 线体验增强 + P2 清库（六卡：hover / RFM 诚实降维 / 工具箱截图 / GBK 解码）
+
+**commit 串**：计划 3c547f9 → Task 1 hover 19631dc → Task 2 q11/q12 预置 63b92c0 → Task 3 第七节 209195f → Task 4 GBK 解码 fabecad → Task 5 工具箱截图 5c50be2 → Task 6 收尾（本 commit）。
+
+- **Task 1**：五处 marks 加 tip（barX×3 / barY / line；areaY 有意不加防遮挡噪声，renderRows 复用 barX 自动获得）；story-gates 场景 1 加 hover 断言（悬停 q02 后 SVG 节点数必须增长，`!reverse` 守卫保反向全红）；红→绿全程（首跑 before=after=41 红、加 tip 后绿）。Plot 默认白底 tip 在暗色主题下浅字不可读（明暗双主题截图目检实证）→ 按计划预写兜底改 tip 配色走站内 CSS 变量（fill: var(--background) / stroke: var(--border)），复检双主题均可读。
+- **Task 2**：PRESETS +q11（购买分层快照）/ q12（R 分布），SQL 均为计划期实跑原文；重生成幂等自证（git status 仅 +q11.json/q12.json，q01–q10 零 diff）；q11 五值与计划锚点表全等（buyers 2032 / 2.21% / 99.61% / 复购 8 / 93.63%），q12 九行（0–8 天前）加总 2032 = buyers 自洽。
+- **Task 3**：第七节「用户分层：RFM 在这份数据上只剩 R」入页，查询框顺延第八节（id="explore" 不动）；第一节复算口径句改为「总量与维度分布类可复算 + 第七节用户级分层为构建期预置专属」；charts.ts renderPreset +q11 大数字卡 / q12 barX；check_story_presets 覆盖扩到 q11/q12（pandas 侧两处 dt.normalize() 防时间戳/日期口径分叉——计划审查轮必改点原样落地）；story-gates +q12 SVG 等待式在位断言（scrollIntoView + waitForSelector 10s，防页面尾部懒渲染瞬断假红）；lh 13 页全 ≥90（userbehavior 99/95/100/100 保持）；叙事数字审计逐值溯源（2032 / 2.21 / 99.61 / 8 / 93.63 / 197–282=q12 实测 min-max；第五节 0.01% 与 repeat_buyers=8 自洽 8/92,042=0.0087%）。
+- **Task 4**：decode-upload.ts（UTF-8 严格解码 fatal:true + BOM 剥离优先 → GBK（gb18030 超集）兜底 → 双失败才抛 DecodeError，杜绝静默 U+FFFD）；feedback-form 接线；vitest 70→76 全绿（解码 4 + 表单上传集成 2，GBK 18 字节夹具与计划锚点一致）；ISSUES P2 拆账——GBK 入已修复 #17，列映射留 P2。
+- **Task 5**：toolbox-shots.mjs 一次性脚本（MOCK_LLM=1 + ALLOWED_ORIGINS=3100、借装 playwright、try/finally taskkill 杀树，3100 零残留实测）；三张工作台截图逐张目检（演示样例输出 + 演示模式横幅在位，无账号/昵称/真实数据痕迹）；三卡接 img（lazy + width/height 1400×900 防 CLS）；/toolbox/ lh 100/100/100/100 保持；ISSUES P2「site 工具真截图」移入已修复 #18。
+- **Task 6**：全门禁九项一次性全绿（site build / check:story 正向+反向全红自证 / lh 13 页、check_story_presets 含 q11/q12、analysis pytest 13、toolkit vitest 76 + next build、evals pytest 103）；README v0.13 + lessons 补条目。
+
+**执行偏差（如实记录）**：
+1. feedback-form 的 Field hint 原文「仅支持 UTF-8 编码」与 GBK 支持上线后矛盾（计划未列该细节），同步更新为「支持 UTF-8 / GBK 编码（Excel 导出常见）」。
+2. Task 5 目检发现分析产出后表单 textarea 为空——查实为 tool-workbench.tsx 流式期间条件卸载表单（`{status !== "streaming" && <Form/>}`）重挂清空 React 状态的既有产品行为，非截图事故，按真实工作台状态入库。
+3. 计划 Task 1 Step 5 的暗色兜底分支被真实触发（Plot 默认 tip 白底 × 继承浅色字在暗色不可读），按计划预案走 CSS 变量配色，非改道。
+
+**可作战状态**：✅ 六卡全部落地推送，全门禁绿；ISSUES P2 清两行（GBK #17 / 工具真截图 #18）；剩余待办均为用户侧（盲评校准包 / vault 双写同步 / DeepSeek 会话清理）；C 线按计划寒假 2027-01。等用户下一步指令。
