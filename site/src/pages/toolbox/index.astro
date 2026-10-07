@@ -55,6 +55,14 @@ const tools = [
             <li class="flex flex-col rounded-lg border border-border bg-muted/40 p-4">
               <p class="font-semibold">{tool.name}</p>
               <p class="mt-2 flex-1 text-sm text-foreground/75">{tool.desc}</p>
+              <img
+                src={`/assets/toolbox/${tool.id}.png`}
+                alt={`${tool.name} 工作台截图（演示样例输出）`}
+                width={1400}
+                height={900}
+                loading="lazy"
+                class="border-border mt-3 h-auto w-full rounded border"
+              />
               <a
                 class="mt-3 text-sm text-accent underline decoration-dashed"
                 href={`https://toolbox.yuhailinlxy.com/tools/${tool.id}`}
