@@ -15,13 +15,21 @@ const EHDR_BUNDLE = {
 
 let dbPromise: Promise<duckdb.AsyncDuckDB> | null = null;
 
-export function loadDuckDB(): Promise<duckdb.AsyncDuckDB> {
+export function loadDuckDB(
+  onProgress?: (bytesLoaded: number, bytesTotal: number) => void,
+): Promise<duckdb.AsyncDuckDB> {
   dbPromise ??= (async () => {
     const db = new duckdb.AsyncDuckDB(
       new duckdb.ConsoleLogger(duckdb.LogLevel.WARNING),
       new Worker(EHDR_BUNDLE.mainWorker),
     );
-    await db.instantiate(EHDR_BUNDLE.mainModule);
+    // 进度回调：instantiate 内部 fetch wasm（约 34MB），InstantiationProgress 字节级 loaded/total；
+    // 第二参数显式 null——EHDR 单线程形态无 pthread worker
+    await db.instantiate(
+      EHDR_BUNDLE.mainModule,
+      null,
+      onProgress ? p => onProgress(p.bytesLoaded, p.bytesTotal) : undefined,
+    );
     // EHDR 构建的 httpfs 不接管 URL 读取——自托管 parquet 须经 registerFileURL
     // 注册进 JS 侧虚拟文件系统（fetch 由主线程承接），SQL 里按文件名引用。
     await db.registerFileURL(PARQUET_NAME, PARQUET_URL, duckdb.DuckDBDataProtocol.HTTP, true);
@@ -43,8 +51,11 @@ function toPlain<T>(rows: object[]): T[] {
 const WINDOW_START = 1511539200;
 const WINDOW_END = 1512316800;
 
-export async function queryParquet<T = Record<string, unknown>>(sql: string): Promise<T[]> {
-  const db = await loadDuckDB();
+export async function queryParquet<T = Record<string, unknown>>(
+  sql: string,
+  onProgress?: (bytesLoaded: number, bytesTotal: number) => void,
+): Promise<T[]> {
+  const db = await loadDuckDB(onProgress);
   const conn = await db.connect();
   try {
     await conn.query(

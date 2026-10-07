@@ -245,7 +245,17 @@ const ENGINE_MB = Math.round(
       if (!engineReady) status.textContent = "引擎加载中，仅首次需下载查询引擎…";
       const { queryParquet } = await import("@/scripts/story/duckdb-loader");
       const t0 = performance.now();
-      const rows = await queryParquet<{ dim: string; event_count: number; user_count: number }>(sql);
+      // 字节级下载进度（instantiate 原生回调）；缓存命中时 bytesTotal 可能为 0，跳过即可。
+      // 100ms 节流：进度回调触发频度高，没必要逐次重排状态行。
+      let lastPaint = 0;
+      const onProgress = (loaded: number, total: number) => {
+        if (!total) return;
+        const now = performance.now();
+        if (now - lastPaint < 100) return;
+        lastPaint = now;
+        status.textContent = `引擎加载中 ${Math.round(loaded / 1048576)} / ${Math.round(total / 1048576)}MB（${Math.round((loaded / total) * 100)}%）…`;
+      };
+      const rows = await queryParquet<{ dim: string; event_count: number; user_count: number }>(sql, onProgress);
       engineReady = true;
       runBtn.disabled = false;
       status.textContent = `引擎就绪 · ${rows.length} 行 · ${(performance.now() - t0).toFixed(0)}ms`;
