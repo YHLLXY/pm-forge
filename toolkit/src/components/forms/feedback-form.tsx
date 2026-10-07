@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { Field } from "./field";
+import { DecodeError, decodeUpload } from "@/lib/decode-upload";
 import { feedbackInputSchema } from "@/tools/schemas";
 
 export function FeedbackForm({
@@ -34,16 +35,18 @@ export function FeedbackForm({
   }
 
   async function handleFile(file: File) {
-    const content = await file.text();
-    if (content.includes("\uFFFD")) {
+    try {
+      const { text } = decodeUpload(await file.arrayBuffer());
+      setErrors({});
+      setText(text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean).join("\n"));
+    } catch (err) {
       setErrors({
         file:
-          "文件不是 UTF-8 编码（Excel 导出的 CSV 常见）。请用记事本打开，另存为 UTF-8 后重试；或直接复制内容粘贴到文本框。",
+          err instanceof DecodeError
+            ? "无法识别文件编码（仅支持 UTF-8 / GBK）。请用记事本另存为 UTF-8 后重试，或直接复制内容粘贴到文本框。"
+            : `读取文件失败：${err instanceof Error ? err.message : String(err)}`,
       });
-      return;
     }
-    setErrors({});
-    setText(content.split(/\r?\n/).map((l) => l.trim()).filter(Boolean).join("\n"));
   }
 
   return (
@@ -69,7 +72,7 @@ export function FeedbackForm({
           className="min-h-56 w-full rounded border p-2 font-mono text-sm"
         />
       </Field>
-      <Field label="从 CSV/TXT 导入" htmlFor="file" error={errors["file"]} hint="仅支持 UTF-8 编码，整文件按行导入">
+      <Field label="从 CSV/TXT 导入" htmlFor="file" error={errors["file"]} hint="支持 UTF-8 / GBK 编码（Excel 导出常见），整文件按行导入">
         <input
           id="file"
           ref={fileRef}

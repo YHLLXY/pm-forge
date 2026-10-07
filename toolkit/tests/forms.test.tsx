@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { CompetitorForm } from "@/components/forms/competitor-form";
@@ -48,6 +48,24 @@ describe("FeedbackForm", () => {
     await userEvent.click(screen.getByRole("button", { name: "开始分析" }));
     expect(onSubmit).not.toHaveBeenCalled();
     expect(screen.getByText(/至少 5 条/)).toBeInTheDocument();
+  });
+  it("上传 GBK 文件自动解码导入（Excel 导出场景）", async () => {
+    const onSubmit = vi.fn();
+    render(<FeedbackForm onSubmit={onSubmit} />);
+    const gbk = new Uint8Array([
+      0xb5, 0xc8, 0xc1, 0xcb, 0xca, 0xae, 0xb7, 0xd6, 0xd6, 0xd3, 0xc3, 0xbb, 0xc8, 0xcb, 0xbd, 0xd3, 0xb5, 0xa5,
+    ]);
+    await userEvent.upload(screen.getByLabelText("从 CSV/TXT 导入"), new File([gbk], "feedback.csv"));
+    await waitFor(() => expect(screen.getByLabelText("反馈列表")).toHaveValue("等了十分钟没人接单"));
+    expect(screen.queryByText(/无法识别文件编码/)).not.toBeInTheDocument();
+  });
+  it("上传非法编码文件显示报错文案不导入", async () => {
+    const onSubmit = vi.fn();
+    render(<FeedbackForm onSubmit={onSubmit} />);
+    const bad = new Uint8Array([0xff, 0xfe, 0x81, 0x40, 0xff, 0xff]);
+    await userEvent.upload(screen.getByLabelText("从 CSV/TXT 导入"), new File([bad], "bad.csv"));
+    expect(await screen.findByText(/无法识别文件编码/)).toBeInTheDocument();
+    expect(screen.getByLabelText("反馈列表")).toHaveValue("");
   });
 });
 
