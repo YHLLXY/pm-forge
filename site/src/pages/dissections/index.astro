@@ -4,6 +4,7 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import Card from "@/components/Card.astro";
 import { sortEntries } from "@/utils/sortEntries";
 
 const reports = sortEntries(await getCollection("dissections"));
@@ -21,7 +22,7 @@ const reports = sortEntries(await getCollection("dissections"));
       每条结论都标注评测日期与版本口径，失败案例与成功案例同等呈现，不做选择性展示。
     </p>
 
-    <div class="border-border bg-muted/40 mt-6 rounded-lg border p-4">
+    <div class="border-border bg-surface-1 mt-6 rounded-lg border p-4">
       <p class="font-medium">评测章程先行</p>
       <p class="text-foreground/75 mt-1 text-sm">
         本板块所有实测遵循
@@ -42,17 +43,30 @@ const reports = sortEntries(await getCollection("dissections"));
           首篇拆解（豆包主评）实测进行中——任务集已就绪，按评测章程的批次节奏执行；发布前需通过措辞终审与双重数据门禁。
         </p>
       ) : (
-        <ul class="mt-4">
+        <ul class="mt-6 grid gap-5 sm:grid-cols-2">
           {reports.map(r => (
-            <li class="border-border mt-3 rounded-lg border p-4">
-              <a href={`/dissections/${r.id}/`} class="text-accent font-medium underline decoration-dashed">
-                {r.data.title}
-              </a>
-              <p class="text-foreground/75 mt-1 text-sm">{r.data.description}</p>
-              <p class="text-foreground/75 mt-2 font-mono text-xs">
-                {r.data.productName} · {r.data.depth} · 评测窗口 {r.data.evalWindow} · {r.data.accountType}
-              </p>
-            </li>
+            <Card
+              variant="h3"
+              href={`/dissections/${r.id}/`}
+              title={r.data.title}
+              description={r.data.description}
+              pubDatetime={r.data.pubDatetime}
+              modDatetime={r.data.modDatetime}
+              tags={[r.data.productName, r.data.depth]}
+              note={`评测窗口 ${r.data.evalWindow} · ${r.data.accountType}`}
+              cover={{
+                section: "dissection",
+                kicker: "AI TEARDOWN",
+                date: r.data.pubDatetime,
+                headline: String(r.data.claims.recordCount),
+                subline: "条实测任务",
+                facts: [
+                  { label: "成功", value: String(r.data.claims.verdicts.成功) },
+                  { label: "部分", value: String(r.data.claims.verdicts.部分) },
+                  { label: "失败", value: String(r.data.claims.verdicts.失败) },
+                ],
+              }}
+            />
           ))}
         </ul>
       )

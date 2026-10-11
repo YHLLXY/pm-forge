@@ -44,7 +44,7 @@ const { Content } = await render(entry);
     </div>
 
     <div class="not-prose my-4">
-      <div class="rounded-lg border border-border bg-muted/40 p-3 text-sm">
+      <div class="rounded-lg border border-border bg-surface-1 p-3 text-sm">
         <p class="text-xs text-muted-foreground">数据集</p>
         <p class="mt-1 font-medium">{dataset}</p>
       </div>
@@ -52,7 +52,7 @@ const { Content } = await render(entry);
 
     {
       reportUrl && (
-        <div class="not-prose my-4 rounded-lg border border-border bg-muted/40 p-4">
+        <div class="not-prose my-4 rounded-lg border border-border bg-surface-1 p-4">
           <p class="text-sm text-muted-foreground">
             完整分析报告（Quarto 生成，含图表与指标口径）
           </p>
@@ -80,7 +80,7 @@ const { Content } = await render(entry);
       id="article"
       class:list={[
         "mt-8 w-full",
-        "app-prose max-w-app",
+        "app-prose max-w-readable",
         "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
       ]}
     >

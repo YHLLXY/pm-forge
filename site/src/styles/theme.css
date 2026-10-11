@@ -7,32 +7,62 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-warm: var(--warm);
+  --color-section-case: var(--section-case);
+  --color-section-analysis: var(--section-analysis);
+  --color-section-dissection: var(--section-dissection);
+  --color-section-story: var(--section-story);
+  --color-section-toolbox: var(--section-toolbox);
   --font-app: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
     sans-serif;
 }
 
-/* Light theme values */
+/* Light theme values —— 2026-10-09 视觉美化：暖米白底 + 表面分层 + 板块识别色
+   色值全部按 4.5:1 对比度选（浅色档取 700 级），依据 Lighthouse color-contrast 红线 */
 :root,
 [data-theme="light"] {
-  --background: #fdfdfd;
-  --foreground: #282728;
-  --accent: #006cac;
+  --background: #fbfaf8; /* 暖米白（用户拍板"偏暖一点"） */
+  --foreground: #1c1b1a;
+  --accent: #0b6bcb;
   --accent-foreground: #ffffff;
-  --muted: #e6e6e6;
-  --muted-foreground: #6b7280;
-  --border: #ece9e9;
+  --muted: #f0ede8;
+  --muted-foreground: #6b655c;
+  --border: #e6e2db;
+  /* 表面分层：卡片白底 + 次级米灰底，替代"1px 边框堆叠" */
+  --surface-1: #ffffff;
+  --surface-2: #f5f2ed;
+  --warm: #a24d05;
+  --shadow-1: 0 1px 2px rgba(28, 27, 26, 0.05);
+  --shadow-2: 0 10px 30px -14px rgba(28, 27, 26, 0.18),
+    0 2px 6px -2px rgba(28, 27, 26, 0.06);
+  /* 板块识别色：只用于标签/边框/图标/引导线，不做大面积铺色（"不花哨"的技术关键） */
+  --section-case: #0b5fa5;
+  --section-analysis: #0f6b73;
+  --section-dissection: #4f46b8;
+  --section-story: #a24d05;
+  --section-toolbox: #2a6b45;
 }
 
-/* Dark theme values */
+/* Dark theme values —— 保持原深蓝基调，补表面分层与识别色亮档 */
 [data-theme="dark"] {
   --background: #212737;
   --foreground: #eaedf3;
-  /* 深色模式并入全站蓝色体系（2026-09-30 用户反馈橙色太扎眼）：accent 取可在深底上
-     保持对比度的亮蓝（≈6.9:1），border 换中性石板灰——弃上游默认的橙 accent/橙 border */
   --accent: #58a6ff;
   --accent-foreground: #ffffff;
-  --muted: #343f60;
-  --muted-foreground: #afb9ca;
+  --muted: #2b3346;
+  --muted-foreground: #aab4c6;
   --border: #334155;
+  --surface-1: #262d3f;
+  --surface-2: #2d3549;
+  --warm: #f0b470;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-2: 0 12px 32px -16px rgba(0, 0, 0, 0.6);
+  --section-case: #7db8f0;
+  --section-analysis: #5fc9d0;
+  --section-dissection: #a99cf5;
+  --section-story: #f0b470;
+  --section-toolbox: #6fcf97;
 }
