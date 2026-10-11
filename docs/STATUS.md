@@ -362,5 +362,5 @@
 - **批 2**：新增 `components/Cover.astro`（**内联 SVG，非图片文件**——随主题自适应、零网络请求、零构建步骤、无 CLS）与 `coverData` 语义（section/kicker/date/headline/subline/facts）；`Card.astro` 重写为"封面 + 板块色标签 + 日期 + 标题 + 摘要 + 标签"的整卡链接；四个集合全部接线；表面 token 全站收口（9 文件 `bg-muted/*` → `bg-surface-*`）。
 - **封面诚实原则**：封面数字全部取自条目真实数据（案例 `metrics`、拆解 `claims.recordCount` 与判定分布、工具报告 `toolName/promptVersion/generatedBy`），**不画"假装是数据"的图表**；超长文案按可视宽度截断（CJK 1em / 拉丁 0.56em 估算）。
 - **顺修的既有缺陷**：①案例/数据列表页 `h1 → h3` 跳级（Lighthouse a11y 98 的成因，经 dist HTML 标题序列证实为既有问题）→ 卡片改 h2；②首屏标题 `max-w-[20ch]` 用拉丁 ch 计算导致 CJK 出现"可验/证"断行 → 改 13em。
-- **验证**：`npm run build` 全绿（28 页 + 六道内容门禁 + 体积门禁）；`npm run check:story` 五场景全绿（**首次跑出现一次"引擎冒烟 类目 0 行"的偶发失败，连续两次复跑全绿——记为已知 flake**）；`npm run lh` 13 页四类全 ≥90（首页/拆解/工具箱/关于/面试官/搜索 全 100；story 99/95/100/100）。
+- **验证**：`npm run build` 全绿（28 页 + 六道内容门禁 + 体积门禁）；`npm run check:story` 五场景全绿（**首次跑出现一次"引擎冒烟 类目 0 行"的偶发失败，连续两次复跑全绿——记为已知 flake**）；`npm run lh` 13 页四类全 ≥90，**其中 12 页四类全 100**（含案例/数据列表——h2 修复生效的前后对照：修复前 98，修复后 100）；story 页 99/95/100/100 与 2026-10-07 基线一致，未受本轮影响。
 - **状态**：改动在 `visual-refresh` 分支并已推远端，**等用户目检后再合并 main**（合并=Vercel 上线）。工作分支上未做的事：hero 右侧证据面板、悬停/进场动效（用户本轮明确排除）；详情页版头未加封面。
