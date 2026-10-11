@@ -17,17 +17,24 @@ const reports = sortEntries(await getCollection("analysis"));
     <p class="text-foreground/75 mt-3">
       完整链路的数据分析实践：从数据质量治理开始，指标全部给口径，结论带归因警示；每篇附可复现的分析报告原文。
     </p>
-    <ul class="mt-4">
+    <ul class="mt-6 grid gap-5 sm:grid-cols-2">
       {
         reports.map(r => (
           <Card
-            variant="h3"
+            variant="h2"
             href={entryUrl("analysis", r.id)}
             title={r.data.title}
             description={r.data.description}
             pubDatetime={r.data.pubDatetime}
             modDatetime={r.data.modDatetime}
             tags={r.data.tags}
+            cover={{
+              section: "analysis",
+              kicker: "DATA ANALYSIS",
+              date: r.data.pubDatetime,
+              headline: r.data.dataset,
+              subline: "分析数据集",
+            }}
           />
         ))
       }

@@ -71,6 +71,7 @@ npm run smoke:real     # 真实 LLM 冒烟：三工具各产 1 份报告到 tool
 - 浏览器安装（仅 e2e 首次）：`PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright/ npx playwright install chromium`
 
 ## 更新日志
+- 2026-10-09 v0.14: **视觉美化（第一批 + 第二批）**——暖米白底 + 表面分层 token（`--surface-1/2`、柔和阴影）+ 五个板块识别色；版心 768 → 1120px，列表页改双列网格；全站数字等宽（`tabular-nums`）；**新增数据驱动封面卡片**：列表条目按各自真实数据生成内联 SVG 封面（案例取 metrics、拆解取 recordCount 与判定分布、工具报告取 promptName/promptVersion），随主题自适应、零网络请求、无新依赖；顺修两处既有缺陷：案例/数据列表页 `h1 → h3` 跳级（a11y），首屏标题在宽版心下的孤字换行
 - 2026-10-07 v0.13: **B 线体验增强 + P2 清库**——数据故事七张图表 hover 提示（Plot tip 内建通道，暗色主题配色走 CSS 变量）；新增第七节「用户分层：RFM 在这份数据上只剩 R」（q11/q12 构建期预置 + pandas 交叉验证扩展覆盖，查询框顺延第八节）；工具箱三卡真截图（本地 mock 演示样例一次性脚本产物，/toolbox/ lh 保持满分）；反馈上传 GBK 自动解码（UTF-8 严格优先 + GBK 兜底，杜绝静默乱码，ISSUES #17）
 - 2026-10-07 v0.12: **11 月窗口包**——B 线查询框扩 5 维度（新增商品/小时，Top-N 确定性平局裁决）+ 引擎加载字节级进度（duckdb-wasm 原生回调）；Vercel 钉 IP 双栈巡检脚本（#10，首跑发现 64.29.17.65 TLS 指纹级干扰，观察中）；toolkit 升级 Next 16（#13 原 postcss 链消除，Windows turbopack 默认构建通过 = #9 修复；顺修 e2e 同源白名单存量断裂）；judge v2（工具感知锚点 + 输入可见）基线重钉；DeepSeek 网页端补测（章程 v2.2 用户拍板，10 条记录 + 对照报告，判定分布与 API 口径 7/0/3 完全一致）；C 线方法论文库实施计划草案落盘
 - 2026-10-06 v0.11: **二期 A1+B 双线上线**——AI 产品拆解板块（章程 v2.1 + 30 条实测记录 + 三篇报告，判定分布由构建门禁机械核对）；数据故事《九日谈》（DuckDB-WASM 浏览器内复算 + 受限查询框 + 移动端降级，Playwright 双门禁 + 体积门禁）；check-dissections 第七条门禁（报告数字 ↔ 记录集合一致性）；面试官指南页 + 求职素材库（docs/interview/）

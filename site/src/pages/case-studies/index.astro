@@ -18,17 +18,25 @@ const cases = sortEntries(await getCollection("caseStudies"));
       把做过的项目写成产品视角的案例。每篇固定五段式：背景与问题 → 我的角色 → 过程与关键取舍 → 结果与量化 → 复盘反思；
       数字标注口径，没验证过的如实说“没验证”。
     </p>
-    <ul class="mt-4">
+    <ul class="mt-6 grid gap-5 sm:grid-cols-2">
       {
         cases.map(c => (
           <Card
-            variant="h3"
+            variant="h2"
             href={entryUrl("case-studies", c.id)}
             title={c.data.title}
             description={c.data.description}
             pubDatetime={c.data.pubDatetime}
             modDatetime={c.data.modDatetime}
             tags={c.data.tags}
+            cover={{
+              section: "case",
+              kicker: "CASE STUDY",
+              date: c.data.pubDatetime,
+              headline: c.data.metrics[0]?.value ?? "产品案例",
+              subline: c.data.metrics[0]?.label ?? "案例研究",
+              facts: c.data.metrics.slice(1, 4),
+            }}
           />
         ))
       }

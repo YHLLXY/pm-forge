@@ -1,0 +1,135 @@
+---
+export type CoverFact = { label: string; value: string };
+export type CoverProps = {
+  section: "case" | "analysis" | "dissection" | "story" | "toolbox";
+  kicker: string;
+  date: Date;
+  headline: string;
+  subline: string;
+  facts?: CoverFact[];
+};
+
+type Props = CoverProps;
+
+const { section, kicker, date, headline, subline, facts = [] } = Astro.props;
+const sectionVar = `var(--section-${section})`;
+
+const dateText = new Intl.DateTimeFormat("zh-CN", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  timeZone: "Asia/Shanghai",
+})
+  .format(date)
+  .replace(/\//g, "-");
+
+const isCJK = (ch: string) => /[\u3000-\u9fff\uff00-\uffef]/.test(ch);
+const widthOf = (ch: string) => (isCJK(ch) ? 1 : 0.56);
+
+/** 按可视宽度截断，避免长串溢出封面 */
+function clip(text: string, maxEm: number) {
+  let em = 0;
+  let out = "";
+  for (const ch of text) {
+    const w = widthOf(ch);
+    if (em + w > maxEm) return out + "…";
+    em += w;
+    out += ch;
+  }
+  return out;
+}
+
+/** 自适应字号：中文字宽 1em、拉丁 0.56em 估算 */
+function fitSize(text: string, maxWidth: number, max: number, min: number) {
+  let em = 0;
+  for (const ch of text) em += widthOf(ch);
+  if (em === 0) return max;
+  return Math.max(min, Math.min(max, Math.floor(maxWidth / em)));
+}
+
+const headlineText = clip(headline, 16);
+const headlineSize = fitSize(headlineText, 400, facts.length ? 54 : 62, 22);
+const sublineText = clip(subline, 34);
+const shownFacts = facts.slice(0, 3).map(f => ({
+  label: clip(f.label, 8),
+  value: clip(f.value, 9),
+}));
+
+const W = 536;
+const H = 301;
+const patternId =
+  "dots-" +
+  (section + dateText + headlineText).replace(/[^a-zA-Z0-9]/g, "").slice(0, 24);
+---
+
+<svg
+  class="block h-auto w-full"
+  viewBox={`0 0 ${W} ${H}`}
+  role="presentation"
+  aria-hidden="true"
+>
+  <defs>
+    <pattern id={patternId} width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.4" fill="var(--foreground)" opacity="0.055"
+      ></circle>
+    </pattern>
+  </defs>
+  <rect width={W} height={H} fill="var(--surface-2)"></rect>
+  <rect width={W} height={H} fill={`url(#${patternId})`}></rect>
+  <rect x="0" y="0" width="6" height={H} fill={sectionVar}></rect>
+  <text
+    x="30"
+    y="46"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="13"
+    letter-spacing="3.2"
+    fill={sectionVar}>{kicker}</text
+  >
+  <line x1="30" y1="58" x2="98" y2="58" stroke={sectionVar} stroke-width="2"
+  ></line>
+  <text
+    x="506"
+    y="46"
+    text-anchor="end"
+    font-size="12.5"
+    fill="var(--muted-foreground)">{dateText}</text
+  >
+  <text
+    x="30"
+    y={shownFacts.length ? 158 : 178}
+    font-size={headlineSize}
+    font-weight="800"
+    letter-spacing="-1.5"
+    fill="var(--foreground)">{headlineText}</text
+  >
+  <text
+    x="30"
+    y={shownFacts.length ? 190 : 210}
+    font-size="13.5"
+    fill="var(--muted-foreground)">{sublineText}</text
+  >
+  {
+    shownFacts.length > 0 && (
+      <>
+        <line
+          x1="30"
+          y1="216"
+          x2="506"
+          y2="216"
+          stroke="var(--border)"
+          stroke-width="1"
+        />
+        {shownFacts.map((f, i) => (
+          <g transform={`translate(${30 + i * 168}, 0)`}>
+            <text x="0" y="248" font-size="17" font-weight="700" fill="var(--foreground)">
+              {f.value}
+            </text>
+            <text x="0" y="268" font-size="11" fill="var(--muted-foreground)">
+              {f.label}
+            </text>
+          </g>
+        ))}
+      </>
+    )
+  }
+</svg>

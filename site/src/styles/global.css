@@ -7,6 +7,11 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @layer base {
+  body {
+    /* 数据站点：数字一律等宽，避免数字跳动与列不对齐 */
+    font-variant-numeric: tabular-nums;
+  }
+
   * {
     @apply border-border outline-accent/75;
     scrollbar-width: auto;
@@ -24,11 +29,15 @@
 }
 
 @utility max-w-app {
-  @apply max-w-3xl;
+  @apply max-w-[1120px];
 }
 
 @utility app-layout {
   @apply max-w-app mx-auto w-full px-4;
+}
+
+@utility max-w-readable {
+  @apply max-w-[68ch];
 }
 
 @utility active-nav {
