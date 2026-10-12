@@ -8,6 +8,8 @@ import EntryHeader from "@/components/EntryHeader.astro";
 import ArticleEnhancements from "@/components/ArticleEnhancements.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
+import DetailColumns from "@/components/DetailColumns.astro";
+import ArticleToc from "@/components/ArticleToc.astro";
 import { sortEntries } from "@/utils/sortEntries";
 
 export async function getStaticPaths() {
@@ -22,7 +24,7 @@ type Props = { entry: CollectionEntry<"analysis"> };
 const { entry } = Astro.props;
 const { title, description, pubDatetime, modDatetime, dataset, reportUrl } =
   entry.data;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 ---
 
 <PostLayout
@@ -52,53 +54,59 @@ const { Content } = await render(entry);
       }}
     />
 
-    <div class="not-prose my-4">
-      <div class="border-border bg-surface-1 rounded-lg border p-3 text-sm">
-        <p class="text-muted-foreground text-xs">数据集</p>
-        <p class="mt-1 font-medium">{dataset}</p>
-      </div>
-    </div>
+    <DetailColumns>
+      <Fragment slot="rail">
+        <ArticleToc {headings} />
 
-    {
-      reportUrl && (
-        <div class="not-prose border-border bg-surface-1 my-4 rounded-lg border p-4">
-          <p class="text-muted-foreground text-sm">
-            完整分析报告（Quarto 生成，含图表与指标口径）
-          </p>
-          <iframe
-            src={reportUrl}
-            class="border-border mt-3 h-[75vh] w-full rounded border"
-            loading="lazy"
-            title="完整报告"
-          />
-          <p class="mt-2 text-sm">
-            <a
-              class="text-accent underline decoration-dashed"
-              href={reportUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              新窗口打开完整报告 ↗
-            </a>
-          </p>
+        <div class="not-prose my-4">
+          <div class="border-border bg-surface-1 rounded-lg border p-3 text-sm">
+            <p class="text-muted-foreground text-xs">数据集</p>
+            <p class="mt-1 font-medium">{dataset}</p>
+          </div>
         </div>
-      )
-    }
+      </Fragment>
 
-    <article
-      id="article"
-      class:list={[
-        "mt-8 w-full",
-        "app-prose max-w-readable",
-        "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
-      ]}
-    >
-      <Content />
-    </article>
+      {
+        reportUrl && (
+          <div class="not-prose border-border bg-surface-1 my-4 rounded-lg border p-4">
+            <p class="text-muted-foreground text-sm">
+              完整分析报告（Quarto 生成，含图表与指标口径）
+            </p>
+            <iframe
+              src={reportUrl}
+              class="border-border mt-3 h-[75vh] w-full rounded border"
+              loading="lazy"
+              title="完整报告"
+            />
+            <p class="mt-2 text-sm">
+              <a
+                class="text-accent underline decoration-dashed"
+                href={reportUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                新窗口打开完整报告 ↗
+              </a>
+            </p>
+          </div>
+        )
+      }
 
-    <hr class="my-8 border-dashed" />
+      <article
+        id="article"
+        class:list={[
+          "mt-8 w-full",
+          "app-prose max-w-readable",
+          "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
+        ]}
+      >
+        <Content />
+      </article>
 
-    <BackToTopButton />
+      <hr class="my-8 border-dashed" />
+
+      <BackToTopButton />
+    </DetailColumns>
   </main>
   <Footer />
 </PostLayout>
