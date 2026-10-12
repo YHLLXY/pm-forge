@@ -3,7 +3,7 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 import PostLayout from "@/layouts/PostLayout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Datetime from "@/components/Datetime.astro";
+import EntryHeader from "@/components/EntryHeader.astro";
 import ProvenanceBanner from "@/components/ProvenanceBanner.astro";
 import ArticleEnhancements from "@/components/ArticleEnhancements.astro";
 import BackButton from "@/components/BackButton.astro";
@@ -43,13 +43,20 @@ const { Content } = await render(entry);
   <BackButton />
 
   <main id="main-content" class="app-layout mt-8">
-    <h1 class="text-accent inline-block text-2xl font-bold sm:text-3xl">
-      {title}
-    </h1>
-
-    <div class="my-2">
-      <Datetime {pubDatetime} size="lg" />
-    </div>
+    <EntryHeader
+      section="toolbox"
+      sectionLabel="工具箱报告"
+      title={title}
+      deck={description}
+      {pubDatetime}
+      cover={{
+        kicker: "TOOL REPORT",
+        date: pubDatetime,
+        headline: toolName,
+        subline: generatedBy,
+        facts: [{ label: "提示词版本", value: promptVersion }],
+      }}
+    />
 
     <ProvenanceBanner
       toolName={toolName}

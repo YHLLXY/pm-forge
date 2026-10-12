@@ -7,6 +7,14 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @layer base {
+  h1,
+  h2,
+  h3 {
+    /* 中文标题在窄容器里容易「掉一个字」到第二行；balance 让浏览器均分行宽。
+       只在标题层用——长正文用 balance 会拖慢排版且没有必要。 */
+    text-wrap: balance;
+  }
+
   body {
     /* 数据站点：数字一律等宽，避免数字跳动与列不对齐 */
     font-variant-numeric: tabular-nums;
@@ -36,8 +44,18 @@
   @apply max-w-app mx-auto w-full px-4;
 }
 
+/* 必须显式声明：正文容器的 .app-prose 经 @apply prose 自带 max-width:65ch，两者特异性相同
+   （0,1,0），不写这条就会被压到 65ch（构建产物偏移实测：.app-prose 在 7111、.max-w-readable 在 29183，后者生效） */
 @utility max-w-readable {
   @apply max-w-[68ch];
+}
+
+@utility max-w-headline {
+  @apply max-w-[46ch];
+}
+
+@utility max-w-deck {
+  @apply max-w-[52ch];
 }
 
 @utility active-nav {

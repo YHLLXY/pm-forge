@@ -1,0 +1,74 @@
+---
+import Datetime from "./Datetime.astro";
+import Cover, { type CoverProps } from "./Cover.astro";
+
+export type EntryHeaderProps = {
+  section: CoverProps["section"]; // "case" | "analysis" | "dissection" | "story" | "toolbox"
+  sectionLabel: string; // 中文板块名
+  title: string;
+  deck?: string; // 直接传 collection 的 description，不新增 schema 字段
+  pubDatetime: Date;
+  modDatetime?: Date | null;
+  cover?: Omit<CoverProps, "section"> | null; // null/省略 = 无封面版头
+};
+
+type Props = EntryHeaderProps;
+const {
+  section,
+  sectionLabel,
+  title,
+  deck,
+  pubDatetime,
+  modDatetime,
+  cover = null,
+} = Astro.props;
+---
+
+<header class="pt-6 sm:pt-10">
+  {
+    /* 板块色 kicker 承担「这是哪一篇」的信息；h1 因此不再用 accent 蓝（与正文链接同色会削弱层级） */
+  }
+  <p
+    class="text-xs font-semibold tracking-[0.08em] sm:text-[13px]"
+    style={`color: var(--section-${section})`}
+  >
+    {sectionLabel}
+  </p>
+
+  {
+    /* 不加负字距：封面 SVG 里的 letter-spacing:-1.5 只适合大号拉丁/数字，中文会挤 */
+  }
+  <h1
+    class="max-w-headline mt-2 text-[1.75rem] leading-[1.25] font-extrabold sm:text-[2.5rem] sm:leading-[1.2]"
+  >
+    {title}
+  </h1>
+
+  {
+    deck && (
+      <p class="max-w-deck text-muted-foreground mt-3 text-[0.9375rem] leading-relaxed sm:mt-4 sm:text-[1.0625rem]">
+        {deck}
+      </p>
+    )
+  }
+
+  <div class="mt-4 sm:mt-5">
+    <Datetime {pubDatetime} {modDatetime} size="lg" />
+  </div>
+
+  {
+    cover && (
+      <div class="border-border shadow-card mt-6 overflow-hidden rounded-xl border sm:mt-8">
+        {/* banner 的 viewBox 是 1120×420，在手机上按 0.35 倍缩放会让 kicker/日期/facts 标签糊掉，
+            所以小屏改用 card 几何（536×301，与列表页卡片同一套坐标，保证「同族」），sm 起才是真 banner。
+            两个 SVG 的 pattern id 带 variant，同页面共存不会互相引用错。 */}
+        <div class="sm:hidden">
+          <Cover {section} {...cover} variant="card" />
+        </div>
+        <div class="hidden sm:block">
+          <Cover {section} {...cover} variant="banner" />
+        </div>
+      </div>
+    )
+  }
+</header>
