@@ -3,8 +3,6 @@ import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import { unified } from "@astrojs/markdown-remark";
-import remarkToc from "remark-toc";
-import remarkCollapse from "remark-collapse";
 import rehypeCallouts from "rehype-callouts";
 import {
   transformerNotationDiff,
@@ -38,10 +36,11 @@ export default defineConfig({
     // 2026-09-30 全站根治：关闭 smartypants，正文引号统一写全角 “”（scripts/fix-quotes.mjs 已转换存量）
     smartypants: false,
     processor: unified({
-      remarkPlugins: [
-        remarkToc,
-        [remarkCollapse, { test: "Table of contents" }],
-      ],
+      // 曾经挂过 remarkToc + remarkCollapse：它们会在正文里匹配 '## Contents' / '## TOC'
+      // 自动生成一份「正文内目录」并包进英文 details/summary（summary 文案是英文
+      // "Open Table of contents"，中文站里很突兀），与详情页右栏目录重复。
+      // 实测 19 个内容文件 / 109 个标题，命中 0，纯惰性；2026-10-12 随右栏目录一起移除。
+      remarkPlugins: [],
       rehypePlugins: [rehypeCallouts],
     }),
     shikiConfig: {
