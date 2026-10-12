@@ -394,3 +394,68 @@
 
 **已知未做**：`check-spa-revisit.mjs` **不进构建门禁**（构建门禁必须离线、无浏览器依赖），手动跑；脚本在找不到 playwright 时打印 SKIP 并 exit 0（本机从 `toolkit/node_modules` 借装，实际不会跳过）。
 **顺带发现（未在本轨处理）**：push 时 GitHub 报默认分支 4 个依赖漏洞（2 高 2 中），未排查。
+
+
+## 2026-10-09 二期 A/B/C 三轨（v0.16）
+
+**A 轨 · 详情页版头**
+- 新增 `components/EntryHeader.astro`（板块 kicker + h1 + deck + Datetime + 封面槽），四类详情页接线；`deck` 复用 collection 的 `description`，**不新增 schema 字段**。
+- `components/Cover.astro` 增加 `variant: "card" | "banner"`：banner 用**独立 viewBox 1120×420 与独立坐标**（536×301 拉伸到 1120 会变 629px 高、且 `preserveAspectRatio="none"` 会让文字变形）。card 的数值一个都没改，列表页封面像素级不变。
+- **实施中改了两处计划值，都写在这里**：①banner 的 `factValueSize` 由 30 降到 26——30px 下 9em 的截断上限是 270px > `colStep` 260，第 3 列起会压字；②新增 **<640px 回落 card 几何**（`sm:hidden` / `hidden sm:block`）——1120 宽的 banner 在 390px 视口按 0.35 倍缩放，kicker/日期/facts 标签全糊（截图已证），小屏改用与列表卡片同一套 536×301 坐标；两个 SVG 的 pattern id 带 variant，共存不会互相引用。
+- 正文宽度口径：四页统一 `app-prose max-w-readable`。**纠正调研的一处误判**——构建产物里 `.app-prose{max-width:65ch}` 在偏移 7111、`.max-w-readable{max-width:68ch}` 在 29183，特异性相同而后者在后 → **68ch 生效**，它不是死代码。
+- 新增 `scripts/check-headings.mjs`：每个 dist HTML **恰好一个 h1**、标题不跳级。（Lighthouse 的 a11y 审计没有「h1 唯一性」这一项，现有 100 分挡不住这个错误。）
+- **这个门禁第一次跑就抓到 4 条既有缺陷**：`dist/reports/case1-userbehavior/*.html`（Quarto 生成的独立报告，作为 iframe 资源引用、不是 Astro 页面 → 按目录整体排除）；`toolbox/reports/{competitor-analysis,feedback-insights,prd-draft}` 三页各有一个**多余的第二 h1**（markdown 正文第一行写了 `# 标题`，与版头 h1 重复）→ 删掉这三行冗余标题，使六篇工具报告口径一致。**不是本轮引入的。**
+
+**B 轨 · 首页证据面板**
+- 新增 `utils/evidence.ts`（`buildEvidence()`，面板的唯一取数来源）与 `components/EvidencePanel.astro`（只渲染 `<dl>`，不带取数逻辑）。
+- 首页 hero 改 `grid-cols-1 lg:grid-cols-12`：左栏 `lg:col-span-7`、面板 `lg:col-span-5`。DOM 顺序 = 左栏 → 面板，所以移动端面板天然落在 CTA 与社交链接**之后**，不需要 `order-*`。
+- 面板 5 项（全部真实统计）：案例研究 5 篇（其中 2 个可在线访问）/ 数据分析报告 2 篇 / AI 产品拆解 4 篇 / 实测记录 40 条（成功 30 · 部分 2 · 失败 8）/ 工具实跑报告 6 篇；另有「最近更新 2026年10月7日」（构建期常量，**不在客户端算距今几天**——那必然引起文本变化，是白送的 CLS 风险）。
+- **绝对禁止假数据**：`scripts/check-home-metrics.mjs` **不 import** `evidence.ts`（否则是同义反复），而是自己数文件、自己读 JSON、自己解析 frontmatter，比对页面上的 `data-evidence-key`/`data-evidence-value`、判定分布文案与最近更新日期；出现门禁不认识的证据项也报错（防止取数模块与门禁脱钩）。构建输出：`✓ 首页证据面板校验通过（5 项数字 + 判定分布「成功 30 · 部分 2 · 失败 8」+ 最近更新「2026年10月7日」与内容集合一致）`。
+- **明确不做**：访问量/阅读数、GitHub star 或活跃度（需构建期访问外网）、手写的 Lighthouse 分数（做不到自动更新就等于写死一个假数字）、数字递增动画。`data-evidence-*` 是无语义副作用的门禁抓手，不是给机器读的数据接口。
+
+**C 轨 · 克制的微动效**（Task 1–3 落地）
+- `Card.astro`：`transition-[box-shadow,translate] duration-200 ease-out` + `motion-safe:hover:-translate-y-0.5`（本项目 `--spacing: .25rem` → 正好 **−2px**）+ `focus-visible:shadow-lift` + `group-focus-visible:text-accent`。**这修的是现存的无障碍不一致**：以前键盘用户 Tab 到卡片时没有任何反馈，与鼠标 hover 不一致。`motion-safe:` 让 reduce 用户只看到阴影变化、没有位移。
+- `global.css`：`h1,h2,h3 { text-wrap: balance }`（同时删掉首页与 EntryHeader 上重复的 `text-balance` 类）。
+- `astro.config.ts`：把 prefetch 的**隐式默认显式写出来**（`prefetchAll: true` + `hover`），避免某次 Astro 升级把它悄悄改掉。明确不改的两个方向：不改 `viewport`（移动端一进页面就预取全部可见链接，流量开销明显）、不改 `false`（prefetch 是 ClientRouter「体感快」的主要来源）。
+- **Task 4「区块级进场淡入」未做**：它是全部候选项里风险最高的一项（CLS + 无 JS 时内容不可见），计划明确要求用户点头才做，本轮没有点头 → **整条跳过，本轨依然完整**。
+- **明确不做**（逐条有调研依据，不是偷懒）：count-up 数字递增、卡片边框变色、`transition:animate="slide"`、逐卡 stagger 瀑布进场、循环/呼吸/脉冲动画、`linear()` 弹簧曲线、`transition: all`、封面 `scale > 1.02`。
+
+**顺修一个 v0.14 的真实缺陷（独立发现）**：`theme.css` 只在 `:root` 定义了 `--shadow-1`/`--shadow-2`，**从未注册进 Tailwind 的 `--shadow-*` 命名空间**，于是 `Card.astro` 上的 `shadow-1`/`hover:shadow-2` 与 `toolbox/index.astro` 上的 `shadow-1` **全是空类**（构建产物里 `.shadow-1`/`.shadow-2` 命中 0，`--shadow-1` 变量出现 2 次但无人消费）。也就是说 v0.14 的「表面分层」其实一直只有无阴影的白底。改为注册 `--shadow-card: var(--shadow-1)` / `--shadow-lift: var(--shadow-2)`（用不同名字映射，避免 `--shadow-1: var(--shadow-1)` 的自我引用）并全站换用。
+
+**验收证据**
+- `npm run build` 全绿：`astro check` 0 errors；内容门禁全过（案例 5 篇 / 评测记录 40 条 / 死链 125 文件 / RSS 17 item / JSON-LD 29 页 / **标题结构 29 页** / **首页证据面板** / 体积门禁）+ pagefind 29 页。
+- `npm run lh`：**13 页四类全部 ≥90，其中 12 页四类全 100；数据故事页 99/95/100/100**——与 v0.13/v0.14 基线**逐页完全一致**，A/B/C 三轨零回归，a11y 仍全面 100。
+- 真实浏览器三档宽度（390/768/1120）× 6 条路径探针：每页 `h1 == 1`、`CLS == 0`；`canScrollX == 0`（无横向滚动。768px 下 `scrollWidth - clientWidth = 17` 是 `overflow-y-scroll` 的滚动条槽，不是内容溢出）。
+- 截图走查：1120 下首页 hero 左栏（标题/说明/CTA/社交）+ 右栏证据面板并排、`<dl>` 虚分割线连续；四类详情页 banner 的 kicker/日期/大标题/facts 均不出框不重叠；390 下详情页走 card 几何，文字清晰可读。
+
+
+## 2026-10-09 二期 D 轨：逐页 OG 分享图（v0.17）
+
+**问题**：27 个页面共用同一张 `og-default.png`，分享到微信/飞书/X 都长一样；且那张图还是**旧品牌色 `#006cac` + 旧文案**，与 v0.14 的暖色 token 不一致。
+
+**路线**：**本地生成 + 产物入库 + 陈旧门禁**（调研的「方案 C」）。不把 satori/resvg 这类原生依赖放进部署链——那正是当初拆掉动态 OG 的原因（`STATUS.md` 2026-09-29 记：satori 依赖 Google Fonts 构建期拉取 + CJK 缺字）；也与 `public/assets/dissections/*.png`（40 张）「脚本生成 + 入库 + manifest.json」的既有做法一致。产物在 PR 里可以直接肉眼审。
+
+**做了什么**：
+- `scripts/og/tokens.mjs`：色值**逐条抄自** `src/styles/theme.css`（satori 不解析 CSS 变量，必须是字面量）。
+- `scripts/og/card.mjs`：1200×630 的 satori 元素树，布局对齐 `Cover.astro` 的 banner 变体；`clip`/`fitSize` 与 `Cover.astro` 同逻辑（中文 1em / 拉丁 0.56em）；`deriveCardData`/`entryHash` 是生成器与门禁共用的**唯一口径**。
+- `scripts/fetch-og-font.mjs`：下载 **Noto Sans SC（OFL-1.1）** 400/700 到 `scripts/og-assets/`（**已 gitignore**：不入库、不随站点分发，符合字体授权要求）。走「旧 UA + 旧 CSS 端点」是因为新端点只给 woff2，而 satori 官方明确不支持 woff2。
+- `scripts/build-og.mjs`：读 frontmatter → 逐页 PNG + `public/og/manifest.json`。字体按**全量字符集只子集化一次**（不是每张图切一次）。**幂等**（刻意不写 `generatedAt`，连跑两次零 diff）。内置**出框自检**：底排估算宽度超过可用宽度就 exit 1。
+- `scripts/check-og.mjs`（新门禁）：①陈旧（指纹不符）②manifest 幽灵条目 ③PNG 签名 + **IHDR 读回真实宽高** ④每页 `og:image` 恰好 1 个且指向存在的本地文件 ⑤`og:image:alt` 非空 ⑥`og:image:width/height` 必须是 1200×630。
+- `src/config.ts`：`DEFAULT_OG_IMAGE` 由 `"default-og.jpg"` 修为 `"og-default.png"`（**死回退陷阱**：配置里那行一删，构建就会去找不存在的 `public/default-og.jpg` 然后 throw）。
+- `src/layouts/Layout.astro`：`ogImage` prop 支持 `string | { src, alt, width, height }`；补 `og:image:type/width/height/alt` 与 `twitter:image:alt`（ogp.me 原文要求有 `og:image` 就该有 `og:image:alt`）。`type` 由扩展名推出，`width/height` 默认 1200/630。
+- `src/layouts/PostLayout.astro`：JSON-LD 的 `image` 改成「有值才展开」——原写法 `image: ogImage` 在 `ogImage === undefined` 时会被 `JSON.stringify` **整个丢掉键**，所以文章页的结构化数据原本**根本没有 image**。
+- `src/utils/ogImage.ts` + 四个详情页一行接线（纯函数，页面不手拼字符串）。
+- 删掉 `scripts/og-template.html`（旧蓝 Playwright 模板，已被生成器取代、无消费者）；`public/og-default.png` 由新生成器重做。
+
+**实施中发现并处理的三件事**（都写进了代码注释，别让后来人重踩）：
+1. **satori 不收 `data:` URI 图片源**（实测 `Image source must be an absolute URL`）；换成 `file://` 绝对 URL 后同样在 satori 渲染期抛错 → **放弃 Cover 的纸面点阵**，OG 卡改用纯净 `surface-2` 底 + 板块色竖条。
+2. **`→`（U+2192）在 Noto Sans SC 子集里没有字形**，会渲染成一个空白缺口（第一版截图已证）。改为 ASCII `->`；并且**字体字符集必须用 sanitize 之后的文本构建**——否则 `>` 是运行时才出现的字符、子集里没有它，会再缺一次（实测踩了两次）。
+3. `clip()` 在运行时追加的 `…` 同理：必须显式入集，否则省略号也是空白。
+
+**验收证据**：
+- `npm run og`：`✓ 生成 17 张逐页 OG 图 + 1 张默认图，共 1001 KB`；底排最紧的一张 `agriagent 967/1026px（94%）`。连跑两次**零 diff**（幂等）。
+- `npm run build` 全绿：`✓ OG 检查通过（18 张图 / 28 个页面 / og:image 去重后 18 个）`（17 张逐页图 + 1 张默认图；`dist/reports/` 的 Quarto 报告作为 iframe 资源被排除）。
+- **陈旧门禁反向自检**：把 `couple-app` 的标题改一个字、不重跑生成器 → `✗ case-studies/couple-app: OG 图已陈旧`；改回 → 绿。**能抓到问题的门禁才算门禁。**
+- 18 张图抽检（代表性的 4 张逐张看图）：中文无豆腐块、无缺字、无溢出、无压字。
+
+**未核实（照抄调研，不自己补数字）**：X/Twitter 与 Facebook 的 OG 尺寸/格式要求（官方文档 4 个域名本机全部不可达）；LinkedIn 官方尺寸；微信/飞书抓取规则（无官方文档，只能实测）。**平台侧人工复验（LinkedIn Post Inspector / Facebook Sharing Debugger / 直接发微信与飞书各一次）需要用户在能访问的网络下过一遍**——本机只能保证 meta 与图片本身正确。
