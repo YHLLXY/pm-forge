@@ -5,10 +5,13 @@ import { getAssetPath } from "@/utils/withBase";
 import config from "@/config";
 import "@/styles/global.css";
 
+type OgImage =
+  string | { src: string; alt?: string; width?: number; height?: number };
+
 type Props = {
   title?: string;
   description?: string;
-  ogImage?: string;
+  ogImage?: OgImage;
   canonicalURL?: string;
 };
 
@@ -21,7 +24,25 @@ const {
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
 } = Astro.props;
 
-const socialImageURL = new URL(ogImage, Astro.site ?? Astro.url);
+// og:image 既接受纯字符串（向后兼容），也接受 { src, alt, width, height }。
+// type/width/height 由**实际取值**推出，不让每个调用方各自猜；og:image:alt 是 ogp.me 的明确要求。
+const ogSrc = typeof ogImage === "string" ? ogImage : ogImage.src;
+const ogAlt = typeof ogImage === "string" ? undefined : ogImage.alt;
+const ogWidth =
+  (typeof ogImage === "string" ? undefined : ogImage.width) ?? 1200;
+const ogHeight =
+  (typeof ogImage === "string" ? undefined : ogImage.height) ?? 630;
+const ogExt = ogSrc.split(".").pop()?.toLowerCase();
+const ogType =
+  ogExt === "jpg" || ogExt === "jpeg"
+    ? "image/jpeg"
+    : ogExt === "webp"
+      ? "image/webp"
+      : ogExt === "svg"
+        ? "image/svg+xml"
+        : "image/png";
+
+const socialImageURL = new URL(ogSrc, Astro.site ?? Astro.url);
 // rss.xml 是文件不是目录，绝不能带尾斜杠（getRelativeLocaleUrl 会追加 /，静态托管下 404）
 const rssHref = "/rss.xml";
 
@@ -67,6 +88,10 @@ const personLd = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:type" content={ogType} />
+    <meta property="og:image:width" content={String(ogWidth)} />
+    <meta property="og:image:height" content={String(ogHeight)} />
+    <meta property="og:image:alt" content={ogAlt ?? title} />
 
     <!-- Twitter / X -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -74,6 +99,7 @@ const personLd = {
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={socialImageURL} />
+    <meta property="twitter:image:alt" content={ogAlt ?? title} />
 
     <!-- RSS autodiscovery -->
     <link

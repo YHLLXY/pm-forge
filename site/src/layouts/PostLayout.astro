@@ -2,10 +2,13 @@
 import Layout from "./Layout.astro";
 import config from "@/config";
 
+type OgImage =
+  string | { src: string; alt?: string; width?: number; height?: number };
+
 type Props = {
   title?: string;
   description?: string;
-  ogImage?: string;
+  ogImage?: OgImage;
   canonicalURL?: string;
   pubDatetime?: Date;
   modDatetime?: Date | null;
@@ -16,11 +19,16 @@ const { site } = config;
 const { title, description, ogImage, canonicalURL, pubDatetime, modDatetime } =
   Astro.props;
 
+// ogImage 为 undefined 时 JSON.stringify 会把 image 键整个丢掉（文章页结构化数据原本就没有 image）
+const ogImageSrc = typeof ogImage === "string" ? ogImage : ogImage?.src;
+
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: title ?? site.title,
-  image: ogImage,
+  ...(ogImageSrc && {
+    image: new URL(ogImageSrc, Astro.site ?? Astro.url).href,
+  }),
   ...(pubDatetime && { datePublished: pubDatetime.toISOString() }),
   ...(modDatetime && { dateModified: modDatetime.toISOString() }),
   author: [
