@@ -9,6 +9,8 @@ import MetricCards from "@/components/MetricCards.astro";
 import ArticleEnhancements from "@/components/ArticleEnhancements.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
+import DetailColumns from "@/components/DetailColumns.astro";
+import ArticleToc from "@/components/ArticleToc.astro";
 import { sortEntries } from "@/utils/sortEntries";
 import { entryUrl } from "@/utils/entryUrl";
 
@@ -34,7 +36,7 @@ const {
   metrics,
   resultsNote,
 } = entry.data;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 ---
 
 <PostLayout
@@ -66,72 +68,78 @@ const { Content } = await render(entry);
       }}
     />
 
-    <div class="not-prose my-4 grid gap-3 sm:grid-cols-2">
-      <div class="border-border bg-surface-1 rounded-lg border p-3 text-sm">
-        <p class="text-foreground/75 text-xs">我的角色</p>
-        <p class="mt-1 font-medium">{projectRole}</p>
-      </div>
-      <div class="border-border bg-surface-1 rounded-lg border p-3 text-sm">
-        <p class="text-foreground/75 text-xs">技术栈</p>
-        <p class="mt-1 font-medium">{stack.join(" · ") || "—"}</p>
-      </div>
-    </div>
+    <DetailColumns>
+      <Fragment slot="rail">
+        <ArticleToc {headings} />
 
-    {
-      (links.live || links.repo) && (
-        <p class="not-prose my-3 flex flex-wrap gap-4 text-sm">
-          {links.live && (
-            <a
-              class="text-accent underline decoration-dashed"
-              href={links.live}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              在线访问 ↗
-            </a>
-          )}
-          {links.repo && (
-            <a
-              class="text-accent underline decoration-dashed"
-              href={links.repo}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              源码仓库 ↗
-            </a>
-          )}
-        </p>
-      )
-    }
+        <div class="not-prose my-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+          <div class="border-border bg-surface-1 rounded-lg border p-3 text-sm">
+            <p class="text-foreground/75 text-xs">我的角色</p>
+            <p class="mt-1 font-medium">{projectRole}</p>
+          </div>
+          <div class="border-border bg-surface-1 rounded-lg border p-3 text-sm">
+            <p class="text-foreground/75 text-xs">技术栈</p>
+            <p class="mt-1 font-medium">{stack.join(" · ") || "—"}</p>
+          </div>
+        </div>
 
-    <MetricCards {metrics} {resultsNote} />
+        {
+          (links.live || links.repo) && (
+            <p class="not-prose my-3 flex flex-wrap gap-4 text-sm">
+              {links.live && (
+                <a
+                  class="text-accent underline decoration-dashed"
+                  href={links.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  在线访问 ↗
+                </a>
+              )}
+              {links.repo && (
+                <a
+                  class="text-accent underline decoration-dashed"
+                  href={links.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  源码仓库 ↗
+                </a>
+              )}
+            </p>
+          )
+        }
 
-    <article
-      id="article"
-      class:list={[
-        "mt-8 w-full",
-        "app-prose max-w-readable",
-        "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
-      ]}
-    >
-      <Content />
-    </article>
+        <MetricCards {metrics} {resultsNote} />
+      </Fragment>
 
-    <hr class="my-8 border-dashed" />
+      <article
+        id="article"
+        class:list={[
+          "mt-8 w-full",
+          "app-prose max-w-readable",
+          "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
+        ]}
+      >
+        <Content />
+      </article>
 
-    <BackToTopButton />
+      <hr class="my-8 border-dashed" />
 
-    {
-      tags.length > 0 && (
-        <ul class="mt-4 mb-8 flex flex-wrap gap-2">
-          {tags.map(tag => (
-            <li class="border-border bg-surface-1 text-foreground/75 rounded border px-2 py-0.5 text-xs">
-              {tag}
-            </li>
-          ))}
-        </ul>
-      )
-    }
+      <BackToTopButton />
+
+      {
+        tags.length > 0 && (
+          <ul class="mt-4 mb-8 flex flex-wrap gap-2">
+            {tags.map(tag => (
+              <li class="border-border bg-surface-1 text-foreground/75 rounded border px-2 py-0.5 text-xs">
+                {tag}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </DetailColumns>
   </main>
   <Footer />
 </PostLayout>
