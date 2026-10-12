@@ -44,10 +44,17 @@
   @apply max-w-app mx-auto w-full px-4;
 }
 
-/* 必须显式声明：正文容器的 .app-prose 经 @apply prose 自带 max-width:65ch，两者特异性相同
-   （0,1,0），不写这条就会被压到 65ch（构建产物偏移实测：.app-prose 在 7111、.max-w-readable 在 29183，后者生效） */
+/* 中文正文的长度单位必须是 em 而不是 ch：ch 是西文数字 "0" 字形的前进宽度，
+   实测同一份 68ch 在 10 种字体栈间摆动 586.5 到 638.0px（8.8%）。
+   40em = 每行整 40 个汉字 —— 满足 W3C clreq 7.1.1.4「行长宜为字号整数倍」，
+   且不越过日文 jlreq 2.4.2 的 40 字上限。依据见
+   docs/research/2026-10-12-右栏调研-04-中文正文行长依据.md
+
+   注意：@apply prose 给 .app-prose 带来自带的 max-width:65ch（=609.7px，比 40em 窄），
+   两者特异性相同（0,1,0），靠本条在构建产物里更靠后生效；
+   改完必须实测 #article 的计算宽度是 640px，不是 610px。 */
 @utility max-w-readable {
-  @apply max-w-[68ch];
+  @apply max-w-[40em];
 }
 
 @utility max-w-headline {
