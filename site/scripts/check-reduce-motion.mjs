@@ -9,6 +9,11 @@
 //   no-preference：卡片 hover 上浮到 -2px；html scroll-behavior = smooth
 //   reduce       ：卡片**不上浮**（translate 保持 none）；锚点不平滑滚动（auto）；
 //                  ::view-transition-* 关停；**阴影反馈仍然保留**（reduce 用户不是没有反馈）
+//
+// v0.18 追加（本轨给右栏目录加了 200ms 的 color/background/box-shadow 过渡）：
+//   详情页的 [data-article-toc] a —— no-preference 下必须**有**过渡，
+//   reduce 下 transition-property 必须是 none（article-toc.css 的 reduce 分支）。
+//   没有这条，新的动效词汇就只是在"靠人记得复测"。
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -41,12 +46,20 @@ async function probe(mode) {
   const after = await read();
   const scrollBehavior = await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior);
   const vt = await page.evaluate(() => { try { return getComputedStyle(document.documentElement, "::view-transition-group(root)").animationName; } catch (e) { return "ERR"; } });
+  await page.goto(BASE + "/case-studies/student-union-platform/", { waitUntil: "networkidle" });
+  const toc = await page.evaluate(() => {
+    const a = document.querySelector("[data-article-toc] a");
+    if (!a) return null;
+    const s = getComputedStyle(a);
+    return { prop: s.transitionProperty, dur: s.transitionDuration };
+  });
   console.log("--- prefers-reduced-motion: " + mode + " ---");
   console.log("  卡片 translate   : " + before.translate + "  ->  " + after.translate);
   console.log("  卡片 box-shadow  : " + (before.shadow === after.shadow ? "未变" : "有变化（阴影加深）"));
   console.log("  transition-property: " + before.transition);
   console.log("  html scroll-behavior: " + scrollBehavior);
   console.log("  ::view-transition-group(root) animation-name: " + vt);
+  console.log("  目录项 transition        : " + (toc ? toc.prop + " / " + toc.dur : "找不到目录项"));
   if (mode === "reduce") {
     if (after.translate !== "none" && !/^0px 0px$|^0px$/.test(after.translate)) { console.log("  ✗ reduce 下卡片仍上浮"); bad++; }
     else console.log("  ✓ reduce 下卡片不上浮");
@@ -56,11 +69,18 @@ async function probe(mode) {
     else console.log("  ✓ reduce 下 ::view-transition-* animation: none");
     if (before.shadow === after.shadow) { console.log("  ✗ reduce 下连阴影反馈都没有了"); bad++; }
     else console.log("  ✓ reduce 下仍保留阴影反馈（reduce 用户不是没有反馈）");
+    if (!toc) { console.log("  ✗ reduce 下在详情页找不到目录项（选择器或接线变了？）"); bad++; }
+    else if (toc.prop !== "none") { console.log("  ✗ reduce 下目录项过渡没关掉（transition-property = " + toc.prop + "）"); bad++; }
+    else console.log("  ✓ reduce 下目录项 transition: none");
   } else {
     if (!/^-?\d/.test(after.translate) || after.translate === before.translate) { console.log("  ✗ 正常模式下卡片没有上浮"); bad++; }
     else console.log("  ✓ 正常模式下卡片上浮到 " + after.translate);
     if (scrollBehavior !== "smooth") { console.log("  ✗ 正常模式下 scroll-behavior 不是 smooth"); bad++; }
     else console.log("  ✓ 正常模式下平滑滚动开着");
+    if (!toc) { console.log("  ✗ 正常模式下在详情页找不到目录项"); bad++; }
+    else if (toc.prop === "none" || /^0s(, 0s)*$/.test(toc.dur)) {
+      console.log("  ✗ 正常模式下目录项过渡被误关（transition-property = " + toc.prop + " / " + toc.dur + "）"); bad++;
+    } else console.log("  ✓ 正常模式下目录项有过渡（" + toc.prop + " / " + toc.dur + "）");
   }
   await ctx.close();
 }
