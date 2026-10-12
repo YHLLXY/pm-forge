@@ -9,7 +9,6 @@ inputSummary: "随手记账小程序「月度消费报告导出 PDF」功能的�
 generatedBy: "deepseek-chat 真实调用"
 ---
 
-# PRD：月度消费报告导出 PDF
 
 ## 一、背景与目标
 

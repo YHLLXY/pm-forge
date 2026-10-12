@@ -9,7 +9,6 @@ inputSummary: "随手记账（大学生极简记账小程序）与钱迹、鲨�
 generatedBy: "deepseek-chat 真实调用"
 ---
 
-# 竞品分析：为「随手记账」Q4 迭代选择差异化方向
 
 ## 一、分析目的
 
