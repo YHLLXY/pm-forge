@@ -38,11 +38,13 @@ const sectionLabel: Record<string, string> = {
 <li class="my-0">
   <a
     href={href}
-    class="border-border bg-surface-1 shadow-1 hover:shadow-2 focus-visible:no-underline group flex h-full flex-col overflow-hidden rounded-xl border transition-shadow duration-200"
+    class="border-border bg-surface-1 shadow-card group hover:shadow-lift focus-visible:shadow-lift flex h-full flex-col overflow-hidden rounded-xl border transition-[box-shadow,translate] duration-200 ease-out focus-visible:no-underline motion-safe:hover:-translate-y-0.5 motion-safe:focus-visible:-translate-y-0.5"
   >
     {cover && <Cover {...cover} />}
     <div class="flex flex-1 flex-col p-4 sm:p-5">
-      <div class="text-muted-foreground mb-2 flex items-center justify-between gap-3 text-xs">
+      <div
+        class="text-muted-foreground mb-2 flex items-center justify-between gap-3 text-xs"
+      >
         {
           cover && (
             <span
@@ -56,7 +58,7 @@ const sectionLabel: Record<string, string> = {
         <Datetime {pubDatetime} {modDatetime} />
       </div>
       <Heading
-        class="group-hover:text-accent text-lg leading-snug font-semibold tracking-tight"
+        class="group-hover:text-accent group-focus-visible:text-accent text-lg leading-snug font-semibold tracking-tight"
       >
         {title}
       </Heading>
