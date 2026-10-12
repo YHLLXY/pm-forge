@@ -18,6 +18,7 @@
     "check:ld": "node scripts/check-ld.mjs",
     "preview": "astro preview",
     "check:reduce": "node scripts/check-reduce-motion.mjs",
+    "check:rail": "node scripts/check-detail-rail.mjs",
     "check:toc": "node scripts/check-toc.mjs",
     "og": "node scripts/build-og.mjs",
     "og:font": "node scripts/fetch-og-font.mjs",
