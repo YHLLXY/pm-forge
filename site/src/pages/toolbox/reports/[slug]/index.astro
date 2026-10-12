@@ -9,6 +9,8 @@ import ProvenanceBanner from "@/components/ProvenanceBanner.astro";
 import ArticleEnhancements from "@/components/ArticleEnhancements.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
+import DetailColumns from "@/components/DetailColumns.astro";
+import ArticleToc from "@/components/ArticleToc.astro";
 import { sortEntries } from "@/utils/sortEntries";
 
 export async function getStaticPaths() {
@@ -31,7 +33,7 @@ const {
   inputSummary,
   generatedBy,
 } = entry.data;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 ---
 
 <PostLayout
@@ -60,28 +62,34 @@ const { Content } = await render(entry);
       }}
     />
 
-    <ProvenanceBanner
-      toolName={toolName}
-      inputSummary={inputSummary}
-      generatedBy={generatedBy}
-      promptVersion={promptVersion}
-      toolHref={`https://toolbox.yuhailinlxy.com/tools/${toolId}`}
-    />
+    <DetailColumns>
+      <Fragment slot="rail">
+        <ArticleToc {headings} />
+      </Fragment>
 
-    <article
-      id="article"
-      class:list={[
-        "mt-8 w-full",
-        "app-prose max-w-readable",
-        "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
-      ]}
-    >
-      <Content />
-    </article>
+      <ProvenanceBanner
+        toolName={toolName}
+        inputSummary={inputSummary}
+        generatedBy={generatedBy}
+        promptVersion={promptVersion}
+        toolHref={`https://toolbox.yuhailinlxy.com/tools/${toolId}`}
+      />
 
-    <hr class="my-8 border-dashed" />
+      <article
+        id="article"
+        class:list={[
+          "mt-8 w-full",
+          "app-prose max-w-readable",
+          "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
+        ]}
+      >
+        <Content />
+      </article>
 
-    <BackToTopButton />
+      <hr class="my-8 border-dashed" />
+
+      <BackToTopButton />
+    </DetailColumns>
   </main>
   <Footer />
 </PostLayout>
