@@ -425,6 +425,7 @@
 **验收证据**
 - `npm run build` 全绿：`astro check` 0 errors；内容门禁全过（案例 5 篇 / 评测记录 40 条 / 死链 125 文件 / RSS 17 item / JSON-LD 29 页 / **标题结构 29 页** / **首页证据面板** / 体积门禁）+ pagefind 29 页。
 - `npm run lh`：**13 页四类全部 ≥90，其中 12 页四类全 100；数据故事页 99/95/100/100**——与 v0.13/v0.14 基线**逐页完全一致**，A/B/C 三轨零回归，a11y 仍全面 100。
+- **reduced-motion 闸门验收（新增常驻脚本 `scripts/check-reduce-motion.mjs` / `npm run check:reduce`）**：真实浏览器对照两组偏好实测——no-preference：卡片 hover 上浮到 `0px -2px`（正好 −2px）、`scroll-behavior: smooth`；reduce：卡片**不上浮**（`translate` 保持 `none`）、`scroll-behavior: auto`、`::view-transition-*` 关停，**且阴影反馈仍然保留**（reduce 用户不是没有反馈）→ `✓ reduce 闸门全部达标`。C 轨「每次新增自定义动效都必须复测 reduce」这条纪律由此变成一条可执行的命令（手动跑，不进构建门禁——它需要真实浏览器）。
 - 真实浏览器三档宽度（390/768/1120）× 6 条路径探针：每页 `h1 == 1`、`CLS == 0`；`canScrollX == 0`（无横向滚动。768px 下 `scrollWidth - clientWidth = 17` 是 `overflow-y-scroll` 的滚动条槽，不是内容溢出）。
 - 截图走查：1120 下首页 hero 左栏（标题/说明/CTA/社交）+ 右栏证据面板并排、`<dl>` 虚分割线连续；四类详情页 banner 的 kicker/日期/大标题/facts 均不出框不重叠；390 下详情页走 card 几何，文字清晰可读。
 
