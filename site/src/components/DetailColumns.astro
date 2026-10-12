@@ -1,0 +1,29 @@
+---
+// 详情页两栏外壳。
+//
+// 窄屏（<1024px）：两个子元素都是**普通块**，不贡献任何盒模型 -> 与改动前逐像素一致。
+// >=1024px：grid 两栏。右栏 20rem / 24rem，正文列 minmax(0,1fr) 且由 #article 的
+//          max-w-readable(40em) 兜住 —— 1280px 视口下 1fr 正好 = 1088-384-64 = 640px。
+//
+// 三个不能省的点（都有规范/实测依据，见 06 篇 3）：
+// 1) items-start —— grid 子项默认 stretch（CSS Align 3 6.2.5），不写则栏高 = 行高，
+//    sticky 位移恒为 0（CSS Position 3 3.4：位移上限是包含块）；
+// 2) col-start / row-start 必须显式写 —— 否则 auto-placement 会把 aside 放进第 1 列、
+//    正文挤进第 2 列（实测：article 会变成 384px、aside 变成 640px，完全反了）；
+// 3) max-h + overflow-y —— 目录比视口高时的业界做法（Docusaurus / Nextra / MDN）。
+type Props = { bodyClass?: string };
+const { bodyClass = "" } = Astro.props;
+---
+
+<div
+  class="lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-12 xl:grid-cols-[minmax(0,1fr)_24rem] xl:gap-16"
+>
+  <aside
+    class="lg:sticky lg:top-24 lg:col-start-2 lg:row-start-1 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto"
+  >
+    <slot name="rail" />
+  </aside>
+  <div class:list={["lg:col-start-1 lg:row-start-1", bodyClass]}>
+    <slot />
+  </div>
+</div>
