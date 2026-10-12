@@ -1,0 +1,157 @@
+---
+// 详情页右栏目录。
+//
+// 数据必须来自构建期 render(entry).headings —— 绝不能在浏览器里读 heading.textContent，
+// 因为 ArticleEnhancements.astro:39-58 的 addHeadingLinks() 已经给每个 h2~h6
+// 注入了含 "#" 的锚链，读文本会带上 "#"。（详见 06 篇 2.1）
+//
+// 本组件不含任何 h1~h6：check-headings.mjs:29 会统计所有 h1~h6 并检查跳级。
+//
+// 锚点为什么必然命中：Astro 的 rehypeHeadingIds 里 slug 与 DOM id 是同一个变量
+// （@astrojs/markdown-remark/dist/rehype-collect-headings.js:50-54）。
+export type TocHeading = { depth: number; slug: string; text: string };
+
+type Props = {
+  headings: TocHeading[];
+  label?: string;
+};
+
+const { headings, label = "本文目录" } = Astro.props;
+// 只有 h2 / h3 进目录；h1 不会出现在正文（EntryHeader 负责），h4+ 本项目未使用
+const items = headings.filter(h => h.depth === 2 || h.depth === 3);
+---
+
+{
+  items.length > 1 && (
+    <nav data-article-toc aria-label={label} class="mb-7 hidden lg:block">
+      <p class="text-muted-foreground mb-2.5 text-xs font-semibold tracking-[0.08em]">
+        {label}
+      </p>
+      <ul class="m-0 list-none border-0 p-0">
+        {items.map(h => (
+          <li class="m-0">
+            <a
+              data-toc-link
+              href={"#" + h.slug}
+              class:list={[
+                "text-muted-foreground hover:text-foreground block py-1.5 pe-2 text-[13px] leading-[1.45] no-underline",
+                h.depth === 3 ? "ps-6" : "ps-3",
+              ]}
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<script is:inline data-astro-rerun>
+  (function () {
+    var MQ = "(min-width: 1024px)";
+    var OFFSET = 120;
+    var mql = window.matchMedia(MQ);
+
+    function teardown() {
+      if (window.__tocCleanup) {
+        window.__tocCleanup();
+        window.__tocCleanup = null;
+      }
+    }
+
+    function init() {
+      teardown();
+      // 窄屏：一行 DOM 查询都不做，移动端主线程开销与改动前一致
+      if (!mql.matches) return;
+      var nav = document.querySelector("[data-article-toc]");
+      if (!nav) return;
+      var links = Array.prototype.slice.call(
+        nav.querySelectorAll("[data-toc-link]")
+      );
+      if (!links.length) return;
+      var targets = [];
+      for (var i = 0; i < links.length; i++) {
+        var id = decodeURIComponent(links[i].getAttribute("href").slice(1));
+        var el = document.getElementById(id);
+        // 锚点对不上就整体不启用；构建期 check-toc.mjs 会先拦住这种情况
+        if (!el) return;
+        targets.push(el);
+      }
+
+      var current = -1;
+      var lockedUntil = 0;
+
+      function setActive(i) {
+        if (i === current) return;
+        current = i;
+        for (var k = 0; k < links.length; k++) {
+          if (k === i) links[k].setAttribute("aria-current", "true");
+          else links[k].removeAttribute("aria-current");
+        }
+      }
+
+      function indexAtOffset() {
+        var last = 0;
+        for (var i = 0; i < targets.length; i++) {
+          if (targets[i].getBoundingClientRect().top - OFFSET <= 0) last = i;
+          else break;
+        }
+        return last;
+      }
+
+      var ticking = false;
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(function () {
+          ticking = false;
+          if (Date.now() < lockedUntil) return;
+          var atBottom =
+            window.innerHeight + window.scrollY >=
+            document.documentElement.scrollHeight - 2;
+          setActive(atBottom ? targets.length - 1 : indexAtOffset());
+        });
+      }
+
+      for (var n = 0; n < links.length; n++) {
+        (function (n) {
+          links[n].addEventListener("click", function () {
+            setActive(n);
+            // html 上有全局 scroll-behavior: smooth，点击后平滑滚动期间
+            // 观察器会一路扫过中间小节 —— 用抑制位挡住，否则当前项会闪。
+            // 5 家成熟实现里只有 VitePress(ignoreScrollOnce) 与
+            // tocbot(isClick + 420ms) 做了这件事。
+            lockedUntil = Date.now() + 800;
+          });
+        })(n);
+      }
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      setActive(indexAtOffset());
+
+      window.__tocCleanup = function () {
+        window.removeEventListener("scroll", onScroll);
+        current = -1;
+      };
+    }
+
+    // 断点监听**只注册一次**，且绝不能放进 init()：
+    // 若注册在 init() 里、又在 teardown() 里被移除，那么「桌面 -> 窄屏 -> 再拉回桌面」
+    // 之后就再没有东西会调用 init() —— 目录还在、锚点仍可点，
+    // 但当前项高亮永久不动，直到刷新或站内跳转。
+    function onMqlChange() {
+      if (mql.matches) init();
+      else teardown();
+    }
+
+    if (!window.__tocListenersBound) {
+      window.__tocListenersBound = true;
+      document.addEventListener("astro:page-load", init);
+      document.addEventListener("astro:before-swap", teardown);
+      mql.addEventListener("change", onMqlChange);
+    }
+    // 立即跑一次：不能只依赖 astro:page-load（首屏可能早于监听注册）
+    init();
+  })();
+</script>

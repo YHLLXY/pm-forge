@@ -2,6 +2,7 @@
 @import "./theme.css";
 @import "./typography.css";
 @import "./report-tokens.css";
+@import "./article-toc.css";
 @import "rehype-callouts/theme/obsidian";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));

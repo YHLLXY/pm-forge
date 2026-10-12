@@ -1,0 +1,31 @@
+/* 详情页右栏目录 —— 只负责"当前项"的状态样式。
+   依据见 docs/research/2026-10-12-右栏调研-06-综合结论与推荐方案.md 4。
+
+   为什么当前项不只换颜色：WCAG 1.4.1 要求不能只靠颜色传达信息，
+   所以同时给字重 + 左侧竖条两个非颜色通道（实测 10 个真实站点里 MDN 用竖条、
+   Stripe 用加粗，都不是只换色）。
+
+   为什么竖条用 box-shadow 而不是 border：box-shadow 不占布局宽度、
+   状态切换零重排（MDN 原文技法，W3 采集）。 */
+[data-article-toc] a {
+  box-shadow: inset 2px 0 0 transparent;
+  transition:
+    color 200ms cubic-bezier(0, 0, 0.2, 1),
+    background-color 200ms cubic-bezier(0, 0, 0.2, 1),
+    box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+[data-article-toc] a[aria-current] {
+  color: var(--color-accent);
+  font-weight: 600;
+  background-color: color-mix(in srgb, var(--color-accent) 6%, transparent);
+  box-shadow: inset 2px 0 0 var(--color-accent);
+}
+
+/* 规范措辞是 "minimize the amount of non-essential motion"（W2 第 10 条），
+   我们关掉自加的过渡即可，不是移除全部动效 */
+@media (prefers-reduced-motion: reduce) {
+  [data-article-toc] a {
+    transition: none;
+  }
+}
