@@ -189,98 +189,128 @@ const ENGINE_MB = Math.round(
 
   const METRICS = ["event_count", "user_count"] as const;
 
-  // 移动端降级：视口+触控组合判定（与 story-gates.mjs 门禁口径一致），不采信 UA
-  const isMobileLike =
-    window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(max-width: 767px)").matches;
-  if (isMobileLike) {
-    document.getElementById("degrade-note")?.classList.remove("hidden");
-    document.querySelector('a[href="#explore"]')?.remove();
-    // 移动端绝不加载 WASM：查询表单整体移除，防触发引擎加载
-    document.querySelector("[data-desktop-only]")?.remove();
+  // ⚠️ 必须挂 astro:page-load：ClientRouter 下“打包后的模块脚本只执行一次”
+  //（astro@7.3.5 transitions/swap-functions.js:29-45 用 script.src / textContent 做去重键，
+  // router.js:82-98 跳过带 data-astro-exec 的脚本）。顶层写法的脚本在第二次站内跳转进入本页时
+  // 整段被跳过 → 新 DOM 上没有 IntersectionObserver、没有 scrollama、#q-run 没有监听。
+
+  // 跨站内跳转保留：WASM 引擎加载一次就够，二次进入不必重下
+  let engineReady = false;
+  // 需要在旧 DOM 被换掉之前销毁的实例（scrollama 会往 window 上挂滚动/尺寸监听，不销毁会累积）
+  let io: IntersectionObserver | null = null;
+  let scroller: ReturnType<typeof scrollama> | null = null;
+
+  function teardownStory(): void {
+    io?.disconnect();
+    io = null;
+    scroller?.destroy();
+    scroller = null;
   }
 
-  // 图表懒渲染：进视口才 fetch preset 并注图（预生成 JSON 与页面同源，首拉后走 HTTP 缓存）
-  const rendered = new Set<string>();
-  const io = new IntersectionObserver(
-    entries => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        const host = entry.target as HTMLElement;
-        const qid = host.dataset.chart;
-        if (!qid || rendered.has(qid)) continue;
-        rendered.add(qid);
-        import("@/scripts/story/charts")
-          .then(m => m.renderPreset(qid, host))
-          .catch(err => {
-            const p = document.createElement("p");
-            p.className = "text-xs text-red-700 dark:text-red-400";
-            p.textContent = `图表加载失败：${String(err)}`;
-            host.append(p);
-          });
-        io.unobserve(host);
-      }
-    },
-    { rootMargin: "200px 0px" },
-  );
-  document.querySelectorAll<HTMLElement>("figure[data-chart]").forEach(f => io.observe(f));
+  function initStory(): void {
+    const main = document.getElementById("main-content");
+    if (!main) return;
+    // 幂等：首次加载与每次站内跳转都会触发，同一份 DOM 只初始化一次
+    if (main.dataset.storyBound === "true") return;
+    main.dataset.storyBound = "true";
 
-  // 滚动叙事：进入视口中线的 section 加 is-active
-  scrollama()
-    .setup({ step: ".story-step", offset: 0.5 })
-    .onStepEnter(response => {
-      response.element.classList.add("is-active");
-    })
-    .onStepExit(response => {
-      response.element.classList.remove("is-active");
-    });
-
-  // 受限查询框：buildQuery 白名单拼装（唯一 SQL 收口）+ 懒加载引擎（仅首次拉 WASM）
-  const status = document.getElementById("q-status");
-  const runBtn = document.getElementById("q-run") as HTMLButtonElement | null;
-  let engineReady = false;
-  runBtn?.addEventListener("click", async () => {
-    if (!runBtn || !status) return;
-    status.className = "text-foreground/75 mt-2 min-h-5 text-xs";
-    try {
-      const dim = DIMS.find(d => d === (document.getElementById("q-dim") as HTMLSelectElement).value);
-      const behavior = BEHAVIORS.find(b => b === (document.getElementById("q-behavior") as HTMLSelectElement).value);
-      const metric = METRICS.find(m => m === (document.getElementById("q-metric") as HTMLSelectElement).value);
-      if (!dim || !metric) throw new Error("维度或指标取值不在白名单内");
-      const spec: QuerySpec = {
-        dim,
-        behavior,
-        metric,
-        limit: Number((document.getElementById("q-limit") as HTMLInputElement).value),
-        dayFrom: (document.getElementById("q-from") as HTMLInputElement).value || undefined,
-        dayTo: (document.getElementById("q-to") as HTMLInputElement).value || undefined,
-      };
-      const sql = buildQuery(spec);
-      runBtn.disabled = true;
-      if (!engineReady) status.textContent = "引擎加载中，仅首次需下载查询引擎…";
-      const { queryParquet } = await import("@/scripts/story/duckdb-loader");
-      const t0 = performance.now();
-      // 字节级下载进度（instantiate 原生回调）；缓存命中时 bytesTotal 可能为 0，跳过即可。
-      // 100ms 节流：进度回调触发频度高，没必要逐次重排状态行。
-      let lastPaint = 0;
-      const onProgress = (loaded: number, total: number) => {
-        if (!total) return;
-        const now = performance.now();
-        if (now - lastPaint < 100) return;
-        lastPaint = now;
-        status.textContent = `引擎加载中 ${Math.round(loaded / 1048576)} / ${Math.round(total / 1048576)}MB（${Math.round((loaded / total) * 100)}%）…`;
-      };
-      const rows = await queryParquet<{ dim: string; event_count: number; user_count: number }>(sql, onProgress);
-      engineReady = true;
-      runBtn.disabled = false;
-      status.textContent = `引擎就绪 · ${rows.length} 行 · ${(performance.now() - t0).toFixed(0)}ms`;
-      const { renderRows } = await import("@/scripts/story/charts");
-      renderRows(rows, document.getElementById("query-result")!, spec.metric);
-    } catch (err) {
-      runBtn!.disabled = false;
-      status.className = "mt-2 min-h-5 text-xs text-red-700 dark:text-red-400";
-      status.textContent = `查询失败：${err instanceof Error ? err.message : String(err)}`;
+    // 移动端降级：视口+触控组合判定（与 story-gates.mjs 门禁口径一致），不采信 UA
+    const isMobileLike =
+      window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(max-width: 767px)").matches;
+    if (isMobileLike) {
+      document.getElementById("degrade-note")?.classList.remove("hidden");
+      document.querySelector('a[href="#explore"]')?.remove();
+      // 移动端绝不加载 WASM：查询表单整体移除，防触发引擎加载
+      document.querySelector("[data-desktop-only]")?.remove();
     }
-  });
+
+    // 图表懒渲染：进视口才 fetch preset 并注图（预生成 JSON 与页面同源，首拉后走 HTTP 缓存）
+    const rendered = new Set<string>();
+    const obs = new IntersectionObserver(
+      entries => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const host = entry.target as HTMLElement;
+          const qid = host.dataset.chart;
+          if (!qid || rendered.has(qid)) continue;
+          rendered.add(qid);
+          import("@/scripts/story/charts")
+            .then(m => m.renderPreset(qid, host))
+            .catch(err => {
+              const p = document.createElement("p");
+              p.className = "text-xs text-red-700 dark:text-red-400";
+              p.textContent = `图表加载失败：${String(err)}`;
+              host.append(p);
+            });
+          obs.unobserve(host);
+        }
+      },
+      { rootMargin: "200px 0px" },
+    );
+    io = obs;
+    document.querySelectorAll<HTMLElement>("figure[data-chart]").forEach(f => obs.observe(f));
+
+    // 滚动叙事：进入视口中线的 section 加 is-active
+    scroller = scrollama()
+      .setup({ step: ".story-step", offset: 0.5 })
+      .onStepEnter(response => {
+        response.element.classList.add("is-active");
+      })
+      .onStepExit(response => {
+        response.element.classList.remove("is-active");
+      });
+
+    // 受限查询框：buildQuery 白名单拼装（唯一 SQL 收口）+ 懒加载引擎（仅首次拉 WASM）
+    const status = document.getElementById("q-status");
+    const runBtn = document.getElementById("q-run") as HTMLButtonElement | null;
+    runBtn?.addEventListener("click", async () => {
+      if (!runBtn || !status) return;
+      status.className = "text-foreground/75 mt-2 min-h-5 text-xs";
+      try {
+        const dim = DIMS.find(d => d === (document.getElementById("q-dim") as HTMLSelectElement).value);
+        const behavior = BEHAVIORS.find(b => b === (document.getElementById("q-behavior") as HTMLSelectElement).value);
+        const metric = METRICS.find(m => m === (document.getElementById("q-metric") as HTMLSelectElement).value);
+        if (!dim || !metric) throw new Error("维度或指标取值不在白名单内");
+        const spec: QuerySpec = {
+          dim,
+          behavior,
+          metric,
+          limit: Number((document.getElementById("q-limit") as HTMLInputElement).value),
+          dayFrom: (document.getElementById("q-from") as HTMLInputElement).value || undefined,
+          dayTo: (document.getElementById("q-to") as HTMLInputElement).value || undefined,
+        };
+        const sql = buildQuery(spec);
+        runBtn.disabled = true;
+        if (!engineReady) status.textContent = "引擎加载中，仅首次需下载查询引擎…";
+        const { queryParquet } = await import("@/scripts/story/duckdb-loader");
+        const t0 = performance.now();
+        // 字节级下载进度（instantiate 原生回调）；缓存命中时 bytesTotal 可能为 0，跳过即可。
+        // 100ms 节流：进度回调触发频度高，没必要逐次重排状态行。
+        let lastPaint = 0;
+        const onProgress = (loaded: number, total: number) => {
+          if (!total) return;
+          const now = performance.now();
+          if (now - lastPaint < 100) return;
+          lastPaint = now;
+          status.textContent = `引擎加载中 ${Math.round(loaded / 1048576)} / ${Math.round(total / 1048576)}MB（${Math.round((loaded / total) * 100)}%）…`;
+        };
+        const rows = await queryParquet<{ dim: string; event_count: number; user_count: number }>(sql, onProgress);
+        engineReady = true;
+        runBtn.disabled = false;
+        status.textContent = `引擎就绪 · ${rows.length} 行 · ${(performance.now() - t0).toFixed(0)}ms`;
+        const { renderRows } = await import("@/scripts/story/charts");
+        renderRows(rows, document.getElementById("query-result")!, spec.metric);
+      } catch (err) {
+        runBtn!.disabled = false;
+        status.className = "mt-2 min-h-5 text-xs text-red-700 dark:text-red-400";
+        status.textContent = `查询失败：${err instanceof Error ? err.message : String(err)}`;
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", initStory);
+  // before-swap 在旧 DOM 还在时触发，是释放 IO 与 scrollama 的唯一正确时机
+  document.addEventListener("astro:before-swap", teardownStory);
 </script>
 
 <style>
