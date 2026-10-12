@@ -5,23 +5,40 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
+import EvidencePanel from "@/components/EvidencePanel.astro";
 import Card from "@/components/Card.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import { sortEntries } from "@/utils/sortEntries";
 import { entryUrl } from "@/utils/entryUrl";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
+import { buildEvidence } from "@/utils/evidence";
 
 const t = useTranslations(Astro.currentLocale ?? config.site.lang);
+const evidence = await buildEvidence();
 const cases = sortEntries(await getCollection("caseStudies"));
 const featuredCases = cases.filter(({ data }) => data.featured).slice(0, 3);
 const latestAnalysis = sortEntries(await getCollection("analysis")).slice(0, 2);
-const latestReports = sortEntries(await getCollection("toolkitReports")).slice(0, 3);
-const latestDissections = sortEntries(await getCollection("dissections")).slice(0, 3);
+const latestReports = sortEntries(await getCollection("toolkitReports")).slice(
+  0,
+  3
+);
+const latestDissections = sortEntries(await getCollection("dissections")).slice(
+  0,
+  3
+);
 const recordCount = (await getCollection("dissectionRecords")).length;
 const toolboxTools = [
-  { id: "competitor-analysis", name: "竞品分析", desc: "证据链标注的六章竞品报告" },
-  { id: "feedback-insights", name: "用户反馈洞察", desc: "主题聚类 + 5×5 优先级矩阵" },
+  {
+    id: "competitor-analysis",
+    name: "竞品分析",
+    desc: "证据链标注的六章竞品报告",
+  },
+  {
+    id: "feedback-insights",
+    name: "用户反馈洞察",
+    desc: "主题聚类 + 5×5 优先级矩阵",
+  },
   { id: "prd-draft", name: "PRD 草稿", desc: "模板驱动，缺口标【待补充】" },
 ];
 ---
@@ -29,38 +46,50 @@ const toolboxTools = [
 <Layout>
   <Header />
   <main id="main-content" data-layout="index" class="app-layout my-1">
-    <section id="hero" class="border-border border-b pt-8 pb-6">
-      <h1 class="my-4 inline-block max-w-[13em] text-3xl leading-tight font-bold text-balance sm:my-8 sm:text-5xl">
-        把数据、工程和 AI 工具箱，变成可验证的产品决策。
-      </h1>
-      <p class="mt-2 max-w-[68ch] leading-relaxed">
-        我是余翰林，重庆邮电大学"大数据管理与应用"专业，目标产品经理。
-        这里放我的案例研究、数据分析报告，以及我自己设计实现的
-        <a
-          class="text-accent underline decoration-dashed"
-          href="https://toolbox.yuhailinlxy.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          AI PM 工具箱
-        </a>。
-      </p>
-      <div class="mt-5">
-        <LinkButton href="/interviewers/">
-          面试官快速通道（15 分钟了解这个作品集）
-          <IconArrowRight class="inline-block" />
-        </LinkButton>
-      </div>
+    <section
+      id="hero"
+      class="border-border grid grid-cols-1 gap-8 border-b pt-8 pb-10 sm:pt-12 lg:grid-cols-12 lg:gap-10 lg:pt-16"
+    >
       {
-        config.socials.length > 0 && (
-          <div class="mt-4 flex max-sm:flex-col sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">
-              {t.home.socialLinks}:
-            </div>
-            <Socials />
-          </div>
-        )
+        /* 左栏 span-7；DOM 顺序即移动端顺序：面板落在 CTA 与社交链接之后，首屏不被数字占满 */
       }
+      <div class="lg:col-span-7">
+        <h1
+          class="my-4 inline-block max-w-[13em] text-3xl leading-tight font-bold sm:my-8 sm:text-5xl"
+        >
+          把数据、工程和 AI 工具箱，变成可验证的产品决策。
+        </h1>
+        <p class="mt-2 max-w-[68ch] leading-relaxed">
+          我是余翰林，重庆邮电大学"大数据管理与应用"专业，目标产品经理。
+          这里放我的案例研究、数据分析报告，以及我自己设计实现的
+          <a
+            class="text-accent underline decoration-dashed"
+            href="https://toolbox.yuhailinlxy.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            AI PM 工具箱
+          </a>。
+        </p>
+        <div class="mt-5">
+          <LinkButton href="/interviewers/">
+            面试官快速通道（15 分钟了解这个作品集）
+            <IconArrowRight class="inline-block" />
+          </LinkButton>
+        </div>
+        {
+          config.socials.length > 0 && (
+            <div class="mt-4 flex max-sm:flex-col sm:items-center">
+              <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">
+                {t.home.socialLinks}:
+              </div>
+              <Socials />
+            </div>
+          )
+        }
+      </div>
+
+      <EvidencePanel {...evidence} />
     </section>
 
     {
@@ -136,7 +165,8 @@ const toolboxTools = [
         <section id="dissections" class="border-border border-b pt-12 pb-6">
           <h2 class="text-2xl font-semibold tracking-wide">AI 产品拆解</h2>
           <p class="mt-2">
-            共 {recordCount} 条任务实测（含陷阱探测与顺从性探测），失败案例与成功案例同等呈现，判定分布由构建门禁机械核对。
+            共 {recordCount}{" "}
+            条任务实测（含陷阱探测与顺从性探测），失败案例与成功案例同等呈现，判定分布由构建门禁机械核对。
           </p>
           <ul class="mt-4 grid gap-5 sm:grid-cols-2">
             {latestDissections.map(d => (
@@ -155,9 +185,18 @@ const toolboxTools = [
                   headline: String(d.data.claims.recordCount),
                   subline: "条实测任务",
                   facts: [
-                    { label: "成功", value: String(d.data.claims.verdicts.成功) },
-                    { label: "部分", value: String(d.data.claims.verdicts.部分) },
-                    { label: "失败", value: String(d.data.claims.verdicts.失败) },
+                    {
+                      label: "成功",
+                      value: String(d.data.claims.verdicts.成功),
+                    },
+                    {
+                      label: "部分",
+                      value: String(d.data.claims.verdicts.部分),
+                    },
+                    {
+                      label: "失败",
+                      value: String(d.data.claims.verdicts.失败),
+                    },
                   ],
                 }}
               />
@@ -176,7 +215,8 @@ const toolboxTools = [
     <section id="data-story" class="border-border border-b pt-12 pb-6">
       <h2 class="text-2xl font-semibold tracking-wide">数据故事</h2>
       <p class="mt-2">
-        《淘宝用户行为九日谈》：8 节滚动叙事 + 12 个预置问题，DuckDB-WASM 引擎懒加载——读者可以在浏览器里亲手复算我的数据（移动端自动降级为纯阅读）。
+        《淘宝用户行为九日谈》：8 节滚动叙事 + 12 个预置问题，DuckDB-WASM
+        引擎懒加载——读者可以在浏览器里亲手复算我的数据（移动端自动降级为纯阅读）。
       </p>
       <div class="my-6">
         <LinkButton href="/data-stories/userbehavior/">
@@ -189,15 +229,15 @@ const toolboxTools = [
     <section id="toolbox" class="pt-12 pb-6">
       <h2 class="text-2xl font-semibold tracking-wide">AI PM 工具箱</h2>
       <p class="mt-2">
-        我自己设计并实现的 AI 产品工具站：证据链提示词、token 预算守卫、演示模式，
-        Next.js 16 + React 19 实现，已部署上线。
+        我自己设计并实现的 AI 产品工具站：证据链提示词、token
+        预算守卫、演示模式， Next.js 16 + React 19 实现，已部署上线。
       </p>
       <ul class="not-prose mt-4 grid gap-3 sm:grid-cols-3">
         {
           toolboxTools.map(tool => (
-            <li class="rounded-lg border border-border bg-surface-1 p-4">
+            <li class="border-border bg-surface-1 rounded-lg border p-4">
               <p class="font-semibold">{tool.name}</p>
-              <p class="mt-1 text-sm text-muted-foreground">{tool.desc}</p>
+              <p class="text-muted-foreground mt-1 text-sm">{tool.desc}</p>
             </li>
           ))
         }

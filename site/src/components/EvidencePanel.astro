@@ -1,0 +1,41 @@
+---
+import Datetime from "./Datetime.astro";
+import type { EvidenceRow } from "@/utils/evidence";
+
+type Props = { rows: EvidenceRow[]; latest: Date };
+const { rows, latest } = Astro.props;
+---
+
+<aside id="evidence" class="lg:col-span-5" aria-labelledby="evidence-heading">
+  <h2
+    id="evidence-heading"
+    class="text-muted-foreground text-xs font-semibold tracking-[0.14em]"
+  >
+    本作品集包含
+  </h2>
+
+  <dl class="divide-border mt-3 divide-y divide-dashed border-t border-dashed">
+    {
+      rows.map(r => (
+        <div class="flex items-baseline justify-between gap-4 py-2.5">
+          <dt class="text-muted-foreground text-sm">
+            <a class="hover:text-accent underline-offset-4 hover:underline" href={r.href}>
+              {r.label}
+            </a>
+          </dt>
+          <dd class="text-right" data-evidence-key={r.key} data-evidence-value={String(r.value)}>
+            <span class="text-lg font-bold">{r.value}</span>
+            <span class="text-muted-foreground ml-0.5 text-xs">{r.unit}</span>
+            {r.note && <span class="text-muted-foreground mt-0.5 block text-[11px]">{r.note}</span>}
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+
+  <div class="text-muted-foreground mt-3 text-[11px]">
+    <p>以上数字由构建期从内容集合统计，每个数字都能在对应板块里逐条点开核对。</p>
+    <p class="mt-1.5">最近更新</p>
+    <Datetime pubDatetime={latest} />
+  </div>
+</aside>
