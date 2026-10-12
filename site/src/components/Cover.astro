@@ -9,9 +9,17 @@ export type CoverProps = {
   facts?: CoverFact[];
 };
 
-type Props = CoverProps;
+type Props = CoverProps & { variant?: "card" | "banner" };
 
-const { section, kicker, date, headline, subline, facts = [] } = Astro.props;
+const {
+  variant = "card",
+  section,
+  kicker,
+  date,
+  headline,
+  subline,
+  facts = [],
+} = Astro.props;
 const sectionVar = `var(--section-${section})`;
 
 const dateText = new Intl.DateTimeFormat("zh-CN", {
@@ -47,18 +55,97 @@ function fitSize(text: string, maxWidth: number, max: number, min: number) {
   return Math.max(min, Math.min(max, Math.floor(maxWidth / em)));
 }
 
-const headlineText = clip(headline, 16);
-const headlineSize = fitSize(headlineText, 400, facts.length ? 54 : 62, 22);
-const sublineText = clip(subline, 34);
-const shownFacts = facts.slice(0, 3).map(f => ({
+/**
+ * 两个变体各自一套坐标 + 独立 viewBox，**不做拉伸**：
+ * 536×301 拉到 1120 会变成 629px 高（吃掉首屏），而 preserveAspectRatio="none" 会让文字变形。
+ * card 的数值是 v0.14 已上线原值，**一个都不许改**（改一个列表页封面就会全部变样）。
+ */
+const box =
+  variant === "banner"
+    ? {
+        W: 1120,
+        H: 420,
+        padX: 56,
+        barW: 7,
+        kickerY: 58,
+        ruleY: 74,
+        ruleW: 68,
+        dateY: 58,
+        dateX: 1064,
+        headlineY: 228,
+        headlineMaxEm: 26,
+        headlineBox: 1008,
+        headlineMax: 68,
+        headlineMin: 30,
+        sublineY: 272,
+        sublineMaxEm: 62,
+        factsRuleY: 306,
+        factValueY: 356,
+        factLabelY: 378,
+        colStep: 260,
+        maxFacts: 4,
+        kickerSize: 15,
+        kickerSpacing: "4.4",
+        dateSize: 14,
+        sublineSize: 16,
+        factValueSize: 26,
+        factLabelSize: 13,
+      }
+    : {
+        W: 536,
+        H: 301,
+        padX: 30,
+        barW: 6,
+        kickerY: 46,
+        ruleY: 58,
+        ruleW: 68,
+        dateY: 46,
+        dateX: 506,
+        headlineY: 0,
+        headlineMaxEm: 16,
+        headlineBox: 400,
+        headlineMax: 62,
+        headlineMin: 22,
+        sublineY: 0,
+        sublineMaxEm: 34,
+        factsRuleY: 216,
+        factValueY: 248,
+        factLabelY: 268,
+        colStep: 168,
+        maxFacts: 3,
+        kickerSize: 13,
+        kickerSpacing: "3.2",
+        dateSize: 12.5,
+        sublineSize: 13.5,
+        factValueSize: 17,
+        factLabelSize: 11,
+      };
+const { W, H, padX, barW } = box;
+
+const headlineText = clip(headline, box.headlineMaxEm);
+const headlineSize = fitSize(
+  headlineText,
+  box.headlineBox,
+  facts.length ? box.headlineMax - 8 : box.headlineMax,
+  box.headlineMin
+);
+const sublineText = clip(subline, box.sublineMaxEm);
+const shownFacts = facts.slice(0, box.maxFacts).map(f => ({
   label: clip(f.label, 8),
   value: clip(f.value, 9),
 }));
 
-const W = 536;
-const H = 301;
+// card 的 headline/subline 基线随 facts 有无而位移（v0.14 原逻辑）；banner 空间充足，不需要位移
+const headlineY =
+  variant === "banner" ? box.headlineY : shownFacts.length ? 158 : 178;
+const sublineY =
+  variant === "banner" ? box.sublineY : shownFacts.length ? 190 : 210;
+
+// pattern id 带 variant：同一页面若同时出现 card 与 banner，id 必须不同（否则后一个 SVG 引用到前一个的 pattern）
 const patternId =
   "dots-" +
+  variant +
+  "-" +
   (section + dateText + headlineText).replace(/[^a-zA-Z0-9]/g, "").slice(0, 24);
 ---
 
@@ -69,62 +156,83 @@ const patternId =
   aria-hidden="true"
 >
   <defs>
-    <pattern id={patternId} width="16" height="16" patternUnits="userSpaceOnUse">
+    <pattern
+      id={patternId}
+      width="16"
+      height="16"
+      patternUnits="userSpaceOnUse"
+    >
       <circle cx="1.5" cy="1.5" r="1.4" fill="var(--foreground)" opacity="0.055"
       ></circle>
     </pattern>
   </defs>
   <rect width={W} height={H} fill="var(--surface-2)"></rect>
   <rect width={W} height={H} fill={`url(#${patternId})`}></rect>
-  <rect x="0" y="0" width="6" height={H} fill={sectionVar}></rect>
+  <rect x="0" y="0" width={barW} height={H} fill={sectionVar}></rect>
   <text
-    x="30"
-    y="46"
+    x={padX}
+    y={box.kickerY}
     font-family="Georgia, 'Times New Roman', serif"
-    font-size="13"
-    letter-spacing="3.2"
+    font-size={box.kickerSize}
+    letter-spacing={box.kickerSpacing}
     fill={sectionVar}>{kicker}</text
   >
-  <line x1="30" y1="58" x2="98" y2="58" stroke={sectionVar} stroke-width="2"
-  ></line>
+  <line
+    x1={padX}
+    y1={box.ruleY}
+    x2={padX + box.ruleW}
+    y2={box.ruleY}
+    stroke={sectionVar}
+    stroke-width="2"></line>
   <text
-    x="506"
-    y="46"
+    x={box.dateX}
+    y={box.dateY}
     text-anchor="end"
-    font-size="12.5"
+    font-size={box.dateSize}
     fill="var(--muted-foreground)">{dateText}</text
   >
   <text
-    x="30"
-    y={shownFacts.length ? 158 : 178}
+    x={padX}
+    y={headlineY}
     font-size={headlineSize}
     font-weight="800"
     letter-spacing="-1.5"
     fill="var(--foreground)">{headlineText}</text
   >
   <text
-    x="30"
-    y={shownFacts.length ? 190 : 210}
-    font-size="13.5"
+    x={padX}
+    y={sublineY}
+    font-size={box.sublineSize}
     fill="var(--muted-foreground)">{sublineText}</text
   >
   {
     shownFacts.length > 0 && (
       <>
         <line
-          x1="30"
-          y1="216"
-          x2="506"
-          y2="216"
+          x1={padX}
+          y1={box.factsRuleY}
+          x2={W - padX}
+          y2={box.factsRuleY}
           stroke="var(--border)"
           stroke-width="1"
         />
         {shownFacts.map((f, i) => (
-          <g transform={`translate(${30 + i * 168}, 0)`}>
-            <text x="0" y="248" font-size="17" font-weight="700" fill="var(--foreground)">
+          <g transform={`translate(${padX + i * box.colStep}, 0)`}>
+            <text
+              x="0"
+              y={box.factValueY}
+              font-size={box.factValueSize}
+              font-weight="700"
+              fill="var(--foreground)"
+            >
               {f.value}
             </text>
-            <text x="0" y="268" font-size="11" fill="var(--muted-foreground)">
+            <text
+              x="0"
+              y={box.factLabelY}
+              font-size={box.factLabelSize}
+              fill="var(--muted-foreground)"
+            >
               {f.label}
             </text>
           </g>
