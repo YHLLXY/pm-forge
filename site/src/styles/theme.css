@@ -15,9 +15,14 @@
   --color-section-dissection: var(--section-dissection);
   --color-section-story: var(--section-story);
   --color-section-toolbox: var(--section-toolbox);
-  --font-app: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
-    sans-serif;
+  /* 表面阴影：v0.14 只在 :root 定义了 --shadow-1/2，没注册进 Tailwind 的 --shadow-* 命名空间，
+     于是 Card 上的 shadow-1 / hover:shadow-2 全是空类（构建产物里 .shadow-1 / .shadow-2 命中 0）。
+     这里用不同名字映射，避免 --shadow-1: var(--shadow-1) 的自我引用 */
+  --shadow-card: var(--shadow-1);
+  --shadow-lift: var(--shadow-2);
+  --font-app:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
 }
 
 /* Light theme values —— 2026-10-09 视觉美化：暖米白底 + 表面分层 + 板块识别色
@@ -36,7 +41,8 @@
   --surface-2: #f5f2ed;
   --warm: #a24d05;
   --shadow-1: 0 1px 2px rgba(28, 27, 26, 0.05);
-  --shadow-2: 0 10px 30px -14px rgba(28, 27, 26, 0.18),
+  --shadow-2:
+    0 10px 30px -14px rgba(28, 27, 26, 0.18),
     0 2px 6px -2px rgba(28, 27, 26, 0.06);
   /* 板块识别色：只用于标签/边框/图标/引导线，不做大面积铺色（"不花哨"的技术关键） */
   --section-case: #0b5fa5;
