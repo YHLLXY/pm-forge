@@ -1,0 +1,96 @@
+{
+  "width": 1200,
+  "height": 630,
+  "images": {
+    "case-studies/agriagent": {
+      "file": "case-agriagent.png",
+      "hash": "3d85867815a66efc",
+      "bytes": 61134
+    },
+    "case-studies/couple-app": {
+      "file": "case-couple-app.png",
+      "hash": "374e02fa2cbeaf56",
+      "bytes": 53356
+    },
+    "case-studies/hongyan-group-interview-retro": {
+      "file": "case-hongyan-group-interview-retro.png",
+      "hash": "928b1d66c788317d",
+      "bytes": 59267
+    },
+    "case-studies/personal-workbench": {
+      "file": "case-personal-workbench.png",
+      "hash": "88389a66f215f3a0",
+      "bytes": 58423
+    },
+    "case-studies/student-union-platform": {
+      "file": "case-student-union-platform.png",
+      "hash": "8eb32becda152f98",
+      "bytes": 63352
+    },
+    "analysis/userbehavior-case1": {
+      "file": "analysis-userbehavior-case1.png",
+      "hash": "41af05c1d37ffc69",
+      "bytes": 53929
+    },
+    "analysis/vegetable-pricing": {
+      "file": "analysis-vegetable-pricing.png",
+      "hash": "b1fc5c4160ff9b9b",
+      "bytes": 61724
+    },
+    "dissections/deepseek-web": {
+      "file": "dissection-deepseek-web.png",
+      "hash": "b16582974e8fe106",
+      "bytes": 60205
+    },
+    "dissections/deepseek": {
+      "file": "dissection-deepseek.png",
+      "hash": "7679922ce5e775e4",
+      "bytes": 57581
+    },
+    "dissections/doubao": {
+      "file": "dissection-doubao.png",
+      "hash": "2e55d8569f045045",
+      "bytes": 57583
+    },
+    "dissections/kimi": {
+      "file": "dissection-kimi.png",
+      "hash": "3cfe06f1560ec6cd",
+      "bytes": 58526
+    },
+    "toolkit-reports/ai-toolbox-evals-baseline": {
+      "file": "toolbox-ai-toolbox-evals-baseline.png",
+      "hash": "bf6483dfdd3d9435",
+      "bytes": 59343
+    },
+    "toolkit-reports/ai-toolbox-evals-plan": {
+      "file": "toolbox-ai-toolbox-evals-plan.png",
+      "hash": "022a90b7b5984120",
+      "bytes": 60966
+    },
+    "toolkit-reports/competitor-analysis": {
+      "file": "toolbox-competitor-analysis.png",
+      "hash": "649ac447dc90cf03",
+      "bytes": 49007
+    },
+    "toolkit-reports/eval-driven-contract-fix": {
+      "file": "toolbox-eval-driven-contract-fix.png",
+      "hash": "c8cca438288a563b",
+      "bytes": 66108
+    },
+    "toolkit-reports/feedback-insights": {
+      "file": "toolbox-feedback-insights.png",
+      "hash": "0c6bad9ceb883d8e",
+      "bytes": 52914
+    },
+    "toolkit-reports/prd-draft": {
+      "file": "toolbox-prd-draft.png",
+      "hash": "e09b432014a3dc25",
+      "bytes": 52245
+    }
+  },
+  "default": {
+    "file": "og-default.png",
+    "hash": "64306c9e4f37d5e1",
+    "bytes": 39488
+  }
+}

@@ -15,6 +15,9 @@ data/
 !.env.example
 # evals 运行产物（A2：报告先落 artifacts 人工通读，再显式入库/发布）
 evals/artifacts/
+# OG 生成器用的 OFL 字体（Noto Sans SC，Google Fonts 下载，约 1.6MB/字重；只本地用，不入库）
+site/scripts/og-assets/
+
 # quarto / 报告构建产物
 analysis/reports/_site/
 # OS
