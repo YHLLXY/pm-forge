@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import PostLayout from "@/layouts/PostLayout.astro";
+import { ogImageFor } from "@/utils/ogImage";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import EntryHeader from "@/components/EntryHeader.astro";
@@ -62,6 +63,7 @@ const byGroup = (g: string) => records.filter(r => r.data.group === g);
   description={description}
   pubDatetime={pubDatetime}
   modDatetime={modDatetime}
+  ogImage={ogImageFor("dissections", entry.id)}
 >
   <Header />
   <BackButton />
