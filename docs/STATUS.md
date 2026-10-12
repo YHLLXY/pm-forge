@@ -363,4 +363,34 @@
 - **封面诚实原则**：封面数字全部取自条目真实数据（案例 `metrics`、拆解 `claims.recordCount` 与判定分布、工具报告 `toolName/promptVersion/generatedBy`），**不画"假装是数据"的图表**；超长文案按可视宽度截断（CJK 1em / 拉丁 0.56em 估算）。
 - **顺修的既有缺陷**：①案例/数据列表页 `h1 → h3` 跳级（Lighthouse a11y 98 的成因，经 dist HTML 标题序列证实为既有问题）→ 卡片改 h2；②首屏标题 `max-w-[20ch]` 用拉丁 ch 计算导致 CJK 出现"可验/证"断行 → 改 13em。
 - **验证**：`npm run build` 全绿（28 页 + 六道内容门禁 + 体积门禁）；`npm run check:story` 五场景全绿（**首次跑出现一次"引擎冒烟 类目 0 行"的偶发失败，连续两次复跑全绿——记为已知 flake**）；`npm run lh` 13 页四类全 ≥90，**其中 12 页四类全 100**（含案例/数据列表——h2 修复生效的前后对照：修复前 98，修复后 100）；story 页 99/95/100/100 与 2026-10-07 基线一致，未受本轮影响。
-- **状态**：改动在 `visual-refresh` 分支并已推远端，**等用户目检后再合并 main**（合并=Vercel 上线）。工作分支上未做的事：hero 右侧证据面板、悬停/进场动效（用户本轮明确排除）；详情页版头未加封面。
+- **状态**：改动在 `visual-refresh` 分支并已推远端，等用户目检后合并 main（合并=Vercel 上线）。**已于 2026-10-09 用户拍板合并 main（44d9c20，v0.14 上线）**。工作分支上未做的事：hero 右侧证据面板、悬停/进场动效（用户本轮明确排除）；详情页版头未加封面。
+
+
+## 2026-10-09 二期 E 轨：P0 修复「脚本只执行一次」（v0.15）
+
+**现象（线上复现，非推测）**：从首页点站内链接进 `/search/` → 输入「案例」出结果；返回首页再点进 `/search/` → 输入框能打字、**但一个字都搜不出来**，控制台 0 报错。请求数实测：首访 22 个 pagefind 请求（6 索引 + 16 个 `fragment/zh_*.pf_fragment`），二访 **0 个**。
+
+**根因**：`Layout.astro` 挂了 `<ClientRouter />`，而 Astro 官方明确「Bundled module scripts … are only ever executed once」。`astro@7.3.5` 的实现是 `transitions/swap-functions.js:29-45`（`detectScriptExecuted` 以 `script.src` 或 `textContent` 为去重键，命中即打 `data-astro-exec`）+ `router.js:82-98`（跳过带该属性的脚本）。`search.astro` 与 `data-stories/userbehavior.astro` 的初始化逻辑全写在模块顶层 → 模块被跳过时，新 DOM 上的 `#search-input`、`#q-run` 没有任何监听。故事页同理（hoisted `src` 模块走 URL 去重路径），会丢 `IntersectionObserver` / `scrollama` / 按钮监听。
+
+**上游**：调研核实 Astro 相关补丁 **#17550 是 closed 且未合并**（GitHub API `merged_at: null`）→ **升级不会自动修**。
+
+**修复**（4 个源文件）：
+- `search.astro`：整块脚本包成 `initSearch()`，DOM 引用改函数局部 + 判空，挂 `astro:page-load`；`loadPagefind()` 增加 `window.__pagefind` 复用分支（二次进入不重复注入 script）。搜索逻辑 / 5000ms 超时 / 200ms 防抖 / `slice(0,20)` / 错误文案一字未改。
+- `userbehavior.astro`：同上包成 `initStory()`；`engineReady` 提到模块级（跨跳转复用 WASM）；`before-swap` 里 `io.disconnect()` + `scroller.destroy()`；幂等标记挂 `#main-content`。
+- `global.css`：补 `@media (prefers-reduced-motion: reduce)` 下 `::view-transition-group/old/new(*)` 与 `[data-astro-transition-scope]` 的 `animation:none!important`（复刻 `astro/components/viewtransitions.css:56-66`）；`scroll-behavior: smooth` 从 html 的 Tailwind 类挪进 `@media (prefers-reduced-motion: no-preference)`。
+- `Layout.astro`：html `class` 去掉 `scroll-smooth`。
+
+**验收证据**：
+- `node scripts/check-spa-revisit.mjs --base=https://yuhailinlxy.com`（**修复前**打线上）→ **红**，且红在正确的地方：二访/三访 `status=""`、**结果行 0**、新增 fragment 请求 0、pageerror 0。这一步是证明这个脚本真能抓到这个 bug——抓不到的验收脚本等于没有。
+- `node scripts/check-spa-revisit.mjs`（修复后本地 preview，自起 4329 端口）→ 绿：
+  - `✓ 搜索页第 1 次进入：status="找到 16 条结果" 结果行=16（新增 fragment 请求 16）`
+  - `✓ 搜索页第 2 次进入：status="找到 16 条结果" 结果行=16（新增 fragment 请求 0）`
+  - `✓ 搜索页第 3 次进入：status="找到 16 条结果" 结果行=16（新增 fragment 请求 0）`
+  - `✓ 数据故事页第 1 次进入：「引擎就绪 · 4 行 · 3389ms」`
+  - `✓ 数据故事页第 2 次进入：「引擎就绪 · 4 行 · 24ms」表行=5`（`engineReady` 跨跳转保留生效：不再重下 WASM）
+  - 二访 fragment 请求 0 是**正确**行为（pagefind 命中内存缓存），所以验收断言看的是「用户可见结果」而不是请求数——用请求数当断言会在修好之后假红。
+- `npm run build` 全绿（`astro check` + 六道内容门禁 + 体积门禁 + pagefind 29 页）；`npm run check:story` 五场景全绿。
+- dist 复查：`scroll-smooth` 已从 HTML 消失；CSS 里 `@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*),[data-astro-transition-scope]{animation:none!important}}` 在位。
+
+**已知未做**：`check-spa-revisit.mjs` **不进构建门禁**（构建门禁必须离线、无浏览器依赖），手动跑；脚本在找不到 playwright 时打印 SKIP 并 exit 0（本机从 `toolkit/node_modules` 借装，实际不会跳过）。
+**顺带发现（未在本轨处理）**：push 时 GitHub 报默认分支 4 个依赖漏洞（2 高 2 中），未排查。

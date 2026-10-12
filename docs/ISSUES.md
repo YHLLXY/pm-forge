@@ -27,6 +27,7 @@
 
 | # | 问题 | 解决方案 | commit |
 |---|---|---|---|
+| 19 | `<ClientRouter />` 下「打包后的模块脚本只执行一次」，导致二次站内跳转进 `/search/` 与 `/data-stories/userbehavior/` 后初始化逻辑被跳过：搜索框能打字但零结果、故事页图表不渲染且查询按钮点不动，且控制台零报错（静默失效，线上实测二访 fragment 请求 0） | 两页初始化包成 `initSearch()`/`initStory()` 并挂 `astro:page-load`（故事页 `before-swap` 销毁 IO/scrollama、`engineReady` 提到模块级复用 WASM），顺补 reduced-motion 闸门；新增 `scripts/check-spa-revisit.mjs` 验收（修复前打线上复现红、修复后绿）。**上游 #17550 closed 未合并，升级不会自动修** | 本 commit |
 | 17 | 反馈上传 GBK 文件需手动另存 UTF-8（`file.text()` 恒按 UTF-8 宽松解码，乱码只能靠 U+FFFD 事后报错） | 新增 `decodeUpload` 纯函数：UTF-8 严格解码（fatal:true，杜绝静默 U+FFFD）+ BOM 剥离优先，GBK（WHATWG 标签 gbk=gb18030 超集，覆盖 Excel 中文导出）兜底，双失败才抛 DecodeError；feedback-form 接线（提示文案同步更新），解码单测 4 条 + 表单上传集成 2 条 | 本 commit |
 | 18 | 工具箱三工具卡为纯文字卡，作品集页缺直观产品形貌 | 一次性脚本 toolbox-shots.mjs：本地 mock 模式（MOCK_LLM=1）跑三工具演示样例，Playwright 1400×900 截工作台产出区，产物入 `site/public/assets/toolbox/*.png`（隐私口径：固定样例 + 全新 context，逐张目检无账号痕迹）；卡片接 `<img>`（lazy + width/height 防 CLS），lh /toolbox/ 保持 ≥90 | 本 commit |
 | 9 | `next build --turbopack` 在 Windows 报 EISDIR readlink（styled-jsx，Next 15 时代） | Next 16 升级专项实测：Turbopack 已成默认构建，Windows 本地裸 `next build` 直接通过，EISDIR 未复现——webpack 绕过随之退役（build 脚本本就是裸 next build，升级后自动切换） | 见 Next 16 升级 commit |
