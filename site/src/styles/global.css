@@ -47,3 +47,26 @@
 :target {
   scroll-margin-block: 1rem;
 }
+
+/* reduced-motion 闸门（调研实测：本项目的 Astro 产物里没有带上 astro 自带的 viewtransitions.css，
+   构建产物中 `view-transition` 出现 0 次，跑的是 UA 默认的根交叉淡入淡出）。下面这段逐字复刻自
+   astro/components/viewtransitions.css:56-66。
+   注：W3C CSSWG 2024-09-24 的决议方向是 reduce 时 UA 保留纯交叉淡入淡出、只去掉尺寸/位移，
+   所以这里比 UA 默认更保守；两者都属于尊重用户偏好。 */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+  [data-astro-transition-scope] {
+    animation: none !important;
+  }
+}
+
+/* 原先是 html 上的 Tailwind `scroll-smooth`，没有 reduce 门；挪到这里补上 */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
