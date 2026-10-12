@@ -38,10 +38,6 @@ import Footer from "@/components/Footer.astro";
   // 占位符（实测 ReferenceError）。改用运行时注入 module script，打包器完全不碰它。
   const PF_URL = "/pagefind/pagefind.js";
 
-  const input = document.getElementById("search-input") as HTMLInputElement;
-  const status = document.getElementById("search-status")!;
-  const list = document.getElementById("search-results")!;
-
   type Pagefind = {
     search: (q: string) => Promise<{
       results: { data: () => Promise<{ url: string; excerpt: string; meta?: { title?: string } }> }[];
@@ -53,70 +49,99 @@ import Footer from "@/components/Footer.astro";
     }
   }
 
-  let pagefind: Pagefind | null = null;
-  let loadFailed = false;
-  let timer: ReturnType<typeof setTimeout>;
+  // ⚠️ 必须包成 initSearch() 并挂 astro:page-load：ClientRouter 下“打包后的模块脚本只执行一次”
+  //（Astro 官方文档 Script re-execution；astro@7.3.5 的 transitions/swap-functions.js:29-45
+  // 用 script.src 或 textContent 做去重键，router.js:82-98 跳过带 data-astro-exec 的脚本）。
+  // 顶层写法的脚本在第二次站内跳转进入 /search/ 时会被跳过，新 DOM 上的 #search-input
+  // 不会有任何监听 → 输入框长得正常、也能打字，但一个字都搜不出来，且控制台无报错。
+  function initSearch(): void {
+    const input = document.getElementById("search-input") as HTMLInputElement | null;
+    const status = document.getElementById("search-status");
+    const list = document.getElementById("search-results");
+    // 站内跳转到别的页面时本函数也会被调用：缺任一节点就直接返回，不要 null 崩溃
+    if (!input || !status || !list) return;
+    // 幂等：首次加载与每次站内跳转都会触发本函数，同一份 DOM 只初始化一次
+    if (input.dataset.searchBound === "true") return;
+    input.dataset.searchBound = "true";
+    // 上面只是运行时兜底；下面两个别名是给内部「会被提升的 function 声明」用的——
+    // TS 不会把守卫处的窄化带进 function 声明（它可能在守卫之前被调用）。
+    const statusEl: HTMLElement = status;
+    const listEl: HTMLElement = list;
 
-  function loadPagefind(): Promise<Pagefind | null> {
-    if (pagefind) return Promise.resolve(pagefind);
-    if (loadFailed) return Promise.resolve(null);
-    return new Promise(resolve => {
-      const fail = () => {
-        loadFailed = true;
-        status.textContent = "搜索索引不可用：生产构建才包含索引（npm run build 后可用）。";
-        resolve(null);
-      };
-      const s = document.createElement("script");
-      s.type = "module";
-      s.textContent =
-        'import * as pf from "' +
-        PF_URL +
-        '"; window.__pagefind = pf; window.dispatchEvent(new Event("pagefind:ready"));';
-      s.onerror = fail;
-      window.addEventListener(
-        "pagefind:ready",
-        () => {
-          if (window.__pagefind) {
-            pagefind = window.__pagefind;
-            resolve(pagefind);
-          } else fail();
-        },
-        { once: true }
-      );
-      setTimeout(() => {
-        if (!pagefind && !loadFailed) fail();
-      }, 5000);
-      document.head.appendChild(s);
+    let pagefind: Pagefind | null = null;
+    let loadFailed = false;
+    let timer: ReturnType<typeof setTimeout>;
+
+    function loadPagefind(): Promise<Pagefind | null> {
+      if (pagefind) return Promise.resolve(pagefind);
+      // 二次进入时上一次注入的模块已经把 pf 挂到 window 上，直接复用，不要重复注入 script
+      if (window.__pagefind) {
+        pagefind = window.__pagefind;
+        return Promise.resolve(pagefind);
+      }
+      if (loadFailed) return Promise.resolve(null);
+      return new Promise(resolve => {
+        const fail = () => {
+          loadFailed = true;
+          statusEl.textContent = "搜索索引不可用：生产构建才包含索引（npm run build 后可用）。";
+          resolve(null);
+        };
+        const s = document.createElement("script");
+        s.type = "module";
+        s.textContent =
+          'import * as pf from "' +
+          PF_URL +
+          '"; window.__pagefind = pf; window.dispatchEvent(new Event("pagefind:ready"));';
+        s.onerror = fail;
+        window.addEventListener(
+          "pagefind:ready",
+          () => {
+            if (window.__pagefind) {
+              pagefind = window.__pagefind;
+              resolve(pagefind);
+            } else fail();
+          },
+          { once: true }
+        );
+        setTimeout(() => {
+          if (!pagefind && !loadFailed) fail();
+        }, 5000);
+        document.head.appendChild(s);
+      });
+    }
+
+    async function runSearch(query: string) {
+      const q = query.trim();
+      if (!q) {
+        listEl.innerHTML = "";
+        statusEl.textContent = "";
+        return;
+      }
+      const pf = await loadPagefind();
+      if (!pf) return;
+      const res = await pf.search(q);
+      const data = await Promise.all(res.results.slice(0, 20).map(r => r.data()));
+      statusEl.textContent = `找到 ${res.results.length} 条结果`;
+      listEl.innerHTML = data
+        .map(
+          d => `
+          <li class="border-border mt-3 rounded-lg border p-3">
+            <a class="text-accent font-medium underline decoration-dashed" href="${d.url}">${
+              d.meta?.title ?? d.url
+            }</a>
+            <p class="text-foreground/75 mt-1 text-sm">${d.excerpt}</p>
+          </li>`
+        )
+        .join("");
+    }
+
+    input.addEventListener("input", () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => runSearch(input.value), 200);
     });
   }
 
-  async function runSearch(query: string) {
-    const q = query.trim();
-    if (!q) {
-      list.innerHTML = "";
-      status.textContent = "";
-      return;
-    }
-    const pf = await loadPagefind();
-    if (!pf) return;
-    const res = await pf.search(q);
-    const data = await Promise.all(res.results.slice(0, 20).map(r => r.data()));
-    status.textContent = `找到 ${res.results.length} 条结果`;
-    list.innerHTML = data
-      .map(
-        d => `
-        <li class="border-border mt-3 rounded-lg border p-3">
-          <a class="text-accent font-medium underline decoration-dashed" href="${d.url}">${
-            d.meta?.title ?? d.url
-          }</a>
-          <p class="text-foreground/75 mt-1 text-sm">${d.excerpt}</p>
-        </li>`
-      )
-      .join("");
-  }
-
-  input.addEventListener("input", () => {
-    clearTimeout(timer);
-    timer = setTimeout(() => runSearch(input.value), 200);
-  });
+  // astro@7.3.5 的 transitions/router.js 用 addEventListener("load", onPageLoad) 注册，
+  // 保证首次加载也会触发，所以不需要再裸调一次 initSearch()；后续每次站内跳转在过渡完成后再次触发。
+  document.addEventListener("astro:page-load", initSearch);
 </script>
