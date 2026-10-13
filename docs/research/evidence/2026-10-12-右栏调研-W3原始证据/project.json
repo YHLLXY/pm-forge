@@ -1,0 +1,151 @@
+{
+ "case-studies/1440": 200,
+ "detail1440": {
+  "url": "/case-studies/",
+  "container": {
+   "x": 160,
+   "w": 1120,
+   "right": 1280,
+   "fs": "16px",
+   "lh": "24px",
+   "color": "rgb(28, 27, 26)",
+   "maxWidth": "1120px"
+  },
+  "body": null,
+  "firstP": null,
+  "h2Count": 0,
+  "h3Count": 0,
+  "h2Style": null,
+  "h2id": null,
+  "vw": 1440,
+  "docW": 1440
+ },
+ "sampleLinks": [
+  "/case-studies/student-union-platform/",
+  "/case-studies/hongyan-group-interview-retro/",
+  "/case-studies/agriagent/",
+  "/case-studies/couple-app/"
+ ],
+ "details": {
+  "/case-studies/student-union-platform/": {
+   "container": {
+    "x": 160,
+    "w": 1120,
+    "right": 1280,
+    "fs": "16px",
+    "lh": "24px",
+    "color": "rgb(28, 27, 26)"
+   },
+   "body": {
+    "x": 176,
+    "w": 638,
+    "right": 814,
+    "fs": "16px",
+    "lh": "28px",
+    "color": "oklch(0.373 0.034 259.733)"
+   },
+   "firstP": {
+    "x": 176,
+    "w": 638,
+    "right": 814,
+    "fs": "16px",
+    "lh": "28px",
+    "color": "rgb(28, 27, 26)"
+   },
+   "h2": 5,
+   "h3": 0,
+   "padL": "16px",
+   "padR": "16px"
+  },
+  "/case-studies/hongyan-group-interview-retro/": {
+   "container": {
+    "x": 160,
+    "w": 1120,
+    "right": 1280,
+    "fs": "16px",
+    "lh": "24px",
+    "color": "rgb(28, 27, 26)"
+   },
+   "body": {
+    "x": 176,
+    "w": 638,
+    "right": 814,
+    "fs": "16px",
+    "lh": "28px",
+    "color": "oklch(0.373 0.034 259.733)"
+   },
+   "firstP": {
+    "x": 176,
+    "w": 638,
+    "right": 814,
+    "fs": "16px",
+    "lh": "28px",
+    "color": "rgb(28, 27, 26)"
+   },
+   "h2": 5,
+   "h3": 0,
+   "padL": "16px",
+   "padR": "16px"
+  },
+  "/case-studies/agriagent/": {
+   "container": {
+    "x": 160,
+    "w": 1120,
+    "right": 1280,
+    "fs": "16px",
+    "lh": "24px",
+    "color": "rgb(28, 27, 26)"
+   },
+   "body": {
+    "x": 176,
+    "w": 638,
+    "right": 814,
+    "fs": "16px",
+    "lh": "28px",
+    "color": "oklch(0.373 0.034 259.733)"
+   },
+   "firstP": {
+    "x": 176,
+    "w": 638,
+    "right": 814,
+    "fs": "16px",
+    "lh": "28px",
+    "color": "rgb(28, 27, 26)"
+   },
+   "h2": 5,
+   "h3": 0,
+   "padL": "16px",
+   "padR": "16px"
+  },
+  "/case-studies/couple-app/": {
+   "container": {
+    "x": 160,
+    "w": 1120,
+    "right": 1280,
+    "fs": "16px",
+    "lh": "24px",
+    "color": "rgb(28, 27, 26)"
+   },
+   "body": {
+    "x": 176,
+    "w": 638,
+    "right": 814,
+    "fs": "16px",
+    "lh": "28px",
+    "color": "oklch(0.373 0.034 259.733)"
+   },
+   "firstP": {
+    "x": 176,
+    "w": 638,
+    "right": 814,
+    "fs": "16px",
+    "lh": "28px",
+    "color": "rgb(28, 27, 26)"
+   },
+   "h2": 5,
+   "h3": 0,
+   "padL": "16px",
+   "padR": "16px"
+  }
+ }
+}

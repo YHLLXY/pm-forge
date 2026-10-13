@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>pm-forge 视觉美化二期 · 方案预览稿</title>
+<style>
+  :root{
+    --background:#fbfaf8; --foreground:#1c1b1a; --accent:#0b6bcb; --muted:#f0ede8;
+    --muted-foreground:#6b655c; --border:#e6e2db; --surface-1:#ffffff; --surface-2:#f5f2ed;
+    --warm:#a24d05; --shadow-1:0 1px 2px rgb(28 27 26 / .05), 0 1px 3px rgb(28 27 26 / .04);
+    --shadow-2:0 4px 10px rgb(28 27 26 / .07), 0 2px 4px rgb(28 27 26 / .05);
+    --section-case:#0b5fa5; --section-analysis:#0f6b73; --section-dissection:#4f46b8;
+    --section-story:#a24d05; --section-toolbox:#2a6b45;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--background);color:var(--foreground);
+    font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    font-variant-numeric:tabular-nums;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+  h1,h2,h3{margin:0;line-height:1.25}
+  .doc-head{padding:40px 0 24px;border-bottom:1px solid var(--border)}
+  .doc-head h1{font-size:30px;font-weight:800;letter-spacing:-.5px}
+  .doc-head p{color:var(--muted-foreground);margin:10px 0 0;max-width:68ch}
+  .sec{padding:44px 0 8px;border-bottom:1px solid var(--border)}
+  .sec:last-child{border-bottom:0}
+  .sec > .wrap > .lbl{font-size:12px;letter-spacing:.14em;color:var(--muted-foreground);font-weight:700}
+  .sec > .wrap > h2{font-size:24px;font-weight:700;margin-top:6px}
+  .sec > .wrap > .hint{color:var(--muted-foreground);margin:8px 0 0;max-width:70ch;font-size:14px}
+  .opt{border:1px solid var(--border);background:var(--surface-1);border-radius:12px;
+    margin:26px 0;overflow:hidden;box-shadow:var(--shadow-1)}
+  .opt > header{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    padding:12px 18px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+  .opt > header .tag{font-size:11px;font-weight:700;letter-spacing:.1em;color:#fff;
+    background:var(--accent);border-radius:4px;padding:2px 7px}
+  .opt > header .name{font-weight:700}
+  .opt > header .note{font-size:13px;color:var(--muted-foreground);margin-left:auto}
+  .stage{padding:26px 18px;background:var(--background)}
+  /* --- 详情页骨架 --- */
+  .main{max-width:1120px;margin:0 auto}
+  .h1{font-size:30px;font-weight:700;color:var(--accent);letter-spacing:-.4px}
+  .kicker{font-size:11px;font-weight:700;letter-spacing:.16em}
+  .meta-row{display:flex;align-items:center;gap:8px;color:var(--muted-foreground);font-size:14px}
+  .cal{width:16px;height:16px;border:1.6px solid currentColor;border-radius:3px;position:relative;flex:none}
+  .cal::before{content:"";position:absolute;left:0;right:0;top:3px;height:1.6px;background:currentColor}
+  .cardgrid{display:grid;gap:12px;grid-template-columns:1fr 1fr;margin:16px 0}
+  .infocard{border:1px solid var(--border);background:var(--surface-1);border-radius:8px;padding:12px;font-size:14px}
+  .infocard .k{font-size:12px;color:var(--muted-foreground)}
+  .infocard .v{margin-top:4px;font-weight:500}
+  .prose{max-width:65ch;font-size:16px;margin-top:26px}
+  .prose p{margin:0 0 16px}
+  .divider{border:0;border-top:1px dashed var(--border);margin:28px 0}
+  .num-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);
+    border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:18px 0}
+  .num-strip div{background:var(--surface-1);padding:14px 16px}
+  .num-strip .v{font-size:24px;font-weight:800;letter-spacing:-.5px}
+  .num-strip .k{font-size:12px;color:var(--muted-foreground);margin-top:2px}
+  .num-strip .n{font-size:12px;color:var(--muted-foreground);margin-top:6px}
+  /* --- hero --- */
+  .hero{display:grid;gap:34px;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:start;
+    padding:34px 0 30px;border-bottom:1px solid var(--border)}
+  .hero h1{font-size:44px;font-weight:800;letter-spacing:-1.2px;max-width:13em}
+  .hero .lead{margin-top:14px;max-width:60ch;color:var(--foreground)}
+  .btn{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:9px 16px;border-radius:8px;
+    background:var(--accent);color:#fff;font-size:14px;font-weight:600;text-decoration:none}
+  .socials{margin-top:14px;font-size:13px;color:var(--muted-foreground)}
+  .panel{border:1px solid var(--border);background:var(--surface-1);border-radius:12px;
+    box-shadow:var(--shadow-1);padding:16px}
+  .panel .p-head{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--muted-foreground);
+    display:flex;justify-content:space-between;align-items:center}
+  .cellgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .cell{border:1px solid var(--border);border-radius:8px;padding:12px;background:var(--surface-2)}
+  .cell .v{font-size:26px;font-weight:800;letter-spacing:-.6px}
+  .cell .k{font-size:12px;color:var(--muted-foreground);margin-top:2px}
+  .cell .n{font-size:11px;color:var(--muted-foreground);margin-top:6px;opacity:.85}
+  .list{margin-top:10px}
+  .list .row{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-top:1px solid var(--border)}
+  .list .row:first-child{border-top:0}
+  .list .row .l{font-size:14px;color:var(--muted-foreground)}
+  .list .row .r{font-weight:700}
+  .bars{margin-top:12px}
+  .bar{display:grid;grid-template-columns:88px 1fr 34px;align-items:center;gap:10px;margin:8px 0;font-size:12px}
+  .bar .track{height:7px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+  .bar .fill{height:100%;background:var(--accent);border-radius:99px}
+  .bar .val{text-align:right;font-weight:700;color:var(--muted-foreground)}
+  .term{background:#1c1b1a;color:#f0ede8;border-radius:10px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.75}
+  .term .c{color:#8fb8e0}
+  .term .g{color:#8fd0a8}
+  .term .d{color:#9c968c}
+  .foot{color:var(--muted-foreground);font-size:13px;padding:22px 0 60px}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--muted-foreground);margin-top:10px}
+  @media (max-width:860px){ .hero{grid-template-columns:1fr} .hero h1{font-size:32px} }
+</style>
+</head>
+<body>
+
+<div class="doc-head"><div class="wrap">
+  <h1>视觉美化二期 · 方案预览稿</h1>
+  <p>两件事：<b>①详情页版头</b>（列表有封面、点进去没封面，存在视觉断层）、<b>②首页 hero 右侧证据面板</b>（现在整块是空的）。
+  本页所有数字均取自仓库真实内容，不是装饰性占位数据。全部为静态线框，用于定方案，不是最终实现。</p>
+  <div class="legend">
+    <span>真实数据口径：5 篇案例研究 · 2 篇数据分析 · 4 篇产品拆解 · 6 篇工具报告 · 40 条实测记录（30 成功 / 2 部分 / 8 失败）· 四维均分 4.3 / 4.6 / 4.1 / 4.6</span>
+  </div>
+</div></div>
+
+<!-- ============ A 详情页版头 ============ -->
+<div class="sec"><div class="wrap">
+  <div class="lbl">PART A</div>
+  <h2>详情页版头：列表已有封面，点进去却是纯文字</h2>
+  <p class="hint">共同起点：<code>&lt;main class="app-layout mt-8"&gt;</code> → h1（<code>text-accent</code>）→ <code>&lt;Datetime size="lg"/&gt;</code> → 各自的元信息块。
+  三个方案的区别只在「封面这张图怎么用」。下面用同一篇真实案例《学生会交流平台》演示。</p>
+
+  <div class="opt">
+    <header><span class="tag">A0</span><span class="name">现状</span>
+      <span class="note">h1 + 日期 + 两张信息卡 → 正文；上方 1120px 全空</span></header>
+    <div class="stage"><div class="main">
+      <h1 class="h1">学生会交流平台：给 12 个部门做一套真正能用的内部工具</h1>
+      <div class="meta-row" style="margin:8px 0"><span class="cal"></span><span>2026年9月30日</span></div>
+      <div class="cardgrid">
+        <div class="infocard"><div class="k">我的角色</div><div class="v">独立产品人与开发者：需求调研、模块规划、权限模型、前后端实现、部署与持续迭代</div></div>
+        <div class="infocard"><div class="k">技术栈</div><div class="v">React 19 · Vite · TypeScript · Ant Design · Supabase · GitHub Pages</div></div>
+      </div>
+      <div class="num-strip">
+        <div><div class="v">13 个模块</div><div class="k">功能模块</div></div>
+        <div><div class="v">v1 → v4.6.1</div><div class="k">迭代版本</div></div>
+        <div><div class="v">17 篇</div><div class="k">改进文档</div></div>
+      </div>
+      <div class="prose"><p>校学生会 12 个部门的日常协作跑在微信群和共享文档上：任务布置靠刷屏、公告触达没有回执、活动抢票靠接龙截图……</p></div>
+    </div></div>
+  </div>
+
+  <div class="opt">
+    <header><span class="tag">A1</span><span class="name">复用列表同一张封面，作为版头 hero</span>
+      <span class="note">改动最小：同一份 CoverProps 传两次</span></header>
+    <div class="stage"><div class="main">
+      <div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-1)">
+        <svg viewBox="0 0 536 301" style="display:block;width:100%;height:auto" role="presentation" aria-hidden="true">
+          <defs><pattern id="d1" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.4" fill="#1c1b1a" opacity="0.055"/></pattern></defs>
+          <rect width="536" height="301" fill="var(--surface-2)"/><rect width="536" height="301" fill="url(#d1)"/>
+          <rect x="0" y="0" width="6" height="301" fill="var(--section-case)"/>
+          <text x="30" y="46" font-family="Georgia,serif" font-size="13" letter-spacing="3.2" fill="var(--section-case)">CASE STUDY</text>
+          <line x1="30" y1="58" x2="98" y2="58" stroke="var(--section-case)" stroke-width="2"/>
+          <text x="506" y="46" text-anchor="end" font-size="12.5" fill="var(--muted-foreground)">2026-09-30</text>
+          <text x="30" y="158" font-size="54" font-weight="800" letter-spacing="-1.5" fill="var(--foreground)">13 个模块</text>
+          <text x="30" y="190" font-size="13.5" fill="var(--muted-foreground)">功能模块</text>
+          <line x1="30" y1="216" x2="506" y2="216" stroke="var(--border)" stroke-width="1"/>
+          <g transform="translate(30,0)"><text y="248" font-size="17" font-weight="700" fill="var(--foreground)">v1 → v4.6.1</text><text y="268" font-size="11" fill="var(--muted-foreground)">迭代版本</text></g>
+          <g transform="translate(198,0)"><text y="248" font-size="17" font-weight="700" fill="var(--foreground)">审视 → 17 篇</text><text y="268" font-size="11" fill="var(--muted-foreground)">改进闭环</text></g>
+        </svg>
+      </div>
+      <h1 class="h1" style="margin-top:22px">学生会交流平台：给 12 个部门做一套真正能用的内部工具</h1>
+      <div class="meta-row" style="margin:8px 0"><span class="cal"></span><span>2026年9月30日</span></div>
+      <div class="cardgrid">
+        <div class="infocard"><div class="k">我的角色</div><div class="v">独立产品人与开发者</div></div>
+        <div class="infocard"><div class="k">技术栈</div><div class="v">React 19 · Vite · TypeScript · Supabase</div></div>
+      </div>
+    </div></div>
+    <div style="padding:0 18px 18px"><div class="hint" style="max-width:none">
+      ✅ 成本最低、与列表页视觉连续。⚠️ 代价：同一张图读者刚在列表里看过一次（<b>重复感</b>）；封面里的数字 13/17 在下方 MetricCards 里又出现一次（<b>信息重复</b>）。</div></div>
+  </div>
+
+  <div class="opt">
+    <header><span class="tag">A2</span><span class="name">宽幅 banner 变体（1120 × 360）</span>
+      <span class="note">比例从 1.78 拉到 3.1，横向排版</span></header>
+    <div class="stage"><div class="main">
+      <div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-1)">
+        <svg viewBox="0 0 1120 360" style="display:block;width:100%;height:auto" role="presentation" aria-hidden="true">
+          <defs><pattern id="d2" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.4" fill="#1c1b1a" opacity="0.055"/></pattern></defs>
+          <rect width="1120" height="360" fill="var(--surface-2)"/><rect width="1120" height="360" fill="url(#d2)"/>
+          <rect x="0" y="0" width="7" height="360" fill="var(--section-case)"/>
+          <text x="52" y="62" font-family="Georgia,serif" font-size="14" letter-spacing="3.6" fill="var(--section-case)">CASE STUDY</text>
+          <line x1="52" y1="76" x2="128" y2="76" stroke="var(--section-case)" stroke-width="2"/>
+          <text x="1068" y="62" text-anchor="end" font-size="13" fill="var(--muted-foreground)">2026-09-30 · 案例研究</text>
+          <text x="52" y="168" font-size="46" font-weight="800" letter-spacing="-1.4" fill="var(--foreground)">给 12 个部门做一套真正能用的内部工具</text>
+          <text x="52" y="212" font-size="17" fill="var(--muted-foreground)">React 19 + Supabase 的 13 模块内部平台 · 独立产品人与开发者</text>
+          <line x1="52" y1="256" x2="1068" y2="256" stroke="var(--border)" stroke-width="1"/>
+          <g transform="translate(52,0)"><text y="292" font-size="26" font-weight="800" fill="var(--foreground)">13 个模块</text><text y="314" font-size="12" fill="var(--muted-foreground)">功能模块</text></g>
+          <g transform="translate(392,0)"><text y="292" font-size="26" font-weight="800" fill="var(--foreground)">v1 → v4.6.1</text><text y="314" font-size="12" fill="var(--muted-foreground)">迭代版本</text></g>
+          <g transform="translate(732,0)"><text y="292" font-size="26" font-weight="800" fill="var(--foreground)">17 篇</text><text y="314" font-size="12" fill="var(--muted-foreground)">改进文档</text></g>
+        </svg>
+      </div>
+      <h1 class="h1" style="margin-top:22px">学生会交流平台：给 12 个部门做一套真正能用的内部工具</h1>
+      <div class="meta-row" style="margin:8px 0"><span class="cal"></span><span>2026年9月30日</span></div>
+    </div></div>
+    <div style="padding:0 18px 18px"><div class="hint" style="max-width:none">
+      ✅ 版头有仪式感，横向信息密度高，适合「一篇报告」的叙事；h1 已进图、下方可只用小标题。⚠️ 需要给 Cover 增加一个 <code>variant="banner"</code>，并且要处理 <b>h1 与图内标题重复</b> 与 SEO 语义（图内文字是 SVG，爬虫不读）。</div></div>
+  </div>
+
+  <div class="opt">
+    <header><span class="tag">A3</span><span class="name">详情页不用封面，改用「关键数字条」</span>
+      <span class="note">把已有的 MetricCards 提到 h1 之下</span></header>
+    <div class="stage"><div class="main">
+      <div class="kicker" style="color:var(--section-case)">案例研究</div>
+      <h1 class="h1" style="margin-top:8px">学生会交流平台：给 12 个部门做一套真正能用的内部工具</h1>
+      <div class="meta-row" style="margin:10px 0 0"><span class="cal"></span><span>2026年9月30日</span><span style="color:var(--border)">|</span><span>阅读约 12 分钟</span></div>
+      <div class="num-strip" style="margin-top:18px">
+        <div><div class="v">13 个模块</div><div class="k">功能模块</div><div class="n">任务/公告/论坛/抢票/权限/通知/搜索/PWA</div></div>
+        <div><div class="v">v1 → v4.6.1</div><div class="k">迭代版本</div><div class="n">2026-06 立项至 09 月，四个大版本</div></div>
+        <div><div class="v">审视 → 17 篇</div><div class="k">改进闭环</div><div class="n">双视角审视暴露 5 类紧急问题，分两轮落地</div></div>
+      </div>
+      <div class="prose" style="margin-top:22px"><p>校学生会 12 个部门的日常协作跑在微信群和共享文档上……</p></div>
+    </div></div>
+    <div style="padding:0 18px 18px"><div class="hint" style="max-width:none">
+      ✅ 零新组件（<code>MetricCards</code> 已在用）、零图片、零 CLS、信息全是真实字段、移动端天然可读。✅ 与列表页封面不重复。⚠️ 失去「一眼认出这篇」的图像识别度；版头偏「报告」不偏「杂志」。</div></div>
+  </div>
+</div></div>
+
+<!-- ============ B hero 证据面板 ============ -->
+<div class="sec"><div class="wrap">
+  <div class="lbl">PART B</div>
+  <h2>首页 hero 右侧证据面板</h2>
+  <p class="hint">hero 现在是左对齐标题 + 说明，右侧到 1120px 是空的。前提：面板里的每个数字都必须能从内容集合真实生成。</p>
+
+  <div class="opt">
+    <header><span class="tag">B1</span><span class="name">数字卡 2×2</span><span class="note">最直白，一眼看到「有多少货」</span></header>
+    <div class="stage">
+      <div class="hero">
+        <div>
+          <h1>把数据、工程和 AI 工具箱，变成可验证的产品决策。</h1>
+          <p class="lead">我是余翰林，重庆邮电大学「大数据管理与应用」专业，目标产品经理。</p>
+          <a class="btn" href="#">面试官快速通道（15 分钟）→</a>
+          <div class="socials">社交链接: GitHub</div>
+        </div>
+        <div class="panel">
+          <div class="p-head"><span>EVIDENCE</span><span>2026-10-09 更新</span></div>
+          <div class="cellgrid">
+            <div class="cell"><div class="v">5</div><div class="k">案例研究</div><div class="n">含 3 个线上可访问产品</div></div>
+            <div class="cell"><div class="v">2</div><div class="k">数据分析报告</div><div class="n">DuckDB + RFM + 建模</div></div>
+            <div class="cell"><div class="v">40</div><div class="k">AI 实测记录</div><div class="n">30 成功 / 2 部分 / 8 失败</div></div>
+            <div class="cell"><div class="v">6</div><div class="k">工具实跑报告</div><div class="n">自研 AI PM 工具产出</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="opt">
+    <header><span class="tag">B2</span><span class="name">编辑式清单（不用卡片）</span><span class="note">更克制，像数据刊物的统计页眉</span></header>
+    <div class="stage">
+      <div class="hero">
+        <div>
+          <h1>把数据、工程和 AI 工具箱，变成可验证的产品决策。</h1>
+          <p class="lead">我是余翰林，重庆邮电大学「大数据管理与应用」专业，目标产品经理。</p>
+          <a class="btn" href="#">面试官快速通道（15 分钟）→</a>
+        </div>
+        <div class="panel" style="background:transparent;border:0;box-shadow:none;padding:0">
+          <div class="p-head"><span>本作品集包含</span><span>截至 2026-10-09</span></div>
+          <div class="list">
+            <div class="row"><span class="l">案例研究</span><span class="r">5 篇</span></div>
+            <div class="row"><span class="l">数据分析报告</span><span class="r">2 篇</span></div>
+            <div class="row"><span class="l">AI 产品拆解实测</span><span class="r">40 条</span></div>
+            <div class="row"><span class="l">工具实跑报告</span><span class="r">6 篇</span></div>
+          </div>
+          <div class="bars">
+            <div class="bar"><span>事实性</span><span class="track"><span class="fill" style="width:86%"></span></span><span class="val">4.3</span></div>
+            <div class="bar"><span>结构化</span><span class="track"><span class="fill" style="width:92%"></span></span><span class="val">4.6</span></div>
+            <div class="bar"><span>可执行性</span><span class="track"><span class="fill" style="width:82%"></span></span><span class="val">4.1</span></div>
+            <div class="bar"><span>指令遵守</span><span class="track"><span class="fill" style="width:92%"></span></span><span class="val">4.6</span></div>
+          </div>
+          <div class="n" style="font-size:11px;color:var(--muted-foreground);margin-top:10px">四维 rubric 均分（满分 5），40 条记录聚合</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="opt">
+    <header><span class="tag">B3</span><span class="name">终端 / 校验清单风格</span><span class="note">强调「每个结论都有证据链」</span></header>
+    <div class="stage">
+      <div class="hero">
+        <div>
+          <h1>把数据、工程和 AI 工具箱，变成可验证的产品决策。</h1>
+          <p class="lead">我是余翰林，重庆邮电大学「大数据管理与应用」专业，目标产品经理。</p>
+          <a class="btn" href="#">面试官快速通道（15 分钟）→</a>
+        </div>
+        <div class="term">
+          <div class="d">$ pm-forge status</div>
+          <div><span class="g">✓</span> 案例研究 <span class="c">5</span> 篇 · 3 个可在线访问</div>
+          <div><span class="g">✓</span> 数据分析 <span class="c">2</span> 篇 · 68 项口径核对</div>
+          <div><span class="g">✓</span> AI 拆解 <span class="c">40</span> 条实测 · 失败 <span class="c">8</span> 条同等呈现</div>
+          <div><span class="g">✓</span> 工具报告 <span class="c">6</span> 篇 · 全部实跑产出</div>
+          <div><span class="g">✓</span> 构建门禁 <span class="c">7</span> 项 · 全部通过</div>
+          <div class="d">最后更新 2026-10-09</div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:0 18px 18px"><div class="hint" style="max-width:none">
+      ✅ 与「证据链」定位最贴，深色块在暖米白底上是强锚点。⚠️ 深色终端块在浅色主题里是「第二种底色」（现在是暖米白 + 白卡），需要谨慎；且黑底白字对暖色调的克制气质是挑战。</div></div>
+  </div>
+</div></div>
+
+<div class="foot"><div class="wrap">
+  数字口径来源：<code>site/src/content/</code> 下 4 个内容集合与 <code>dissection-records</code> 的 40 个 JSON；四维均分由 40 条记录直接聚合（4.3 / 4.6 / 4.1 / 4.6）。
+  「构建门禁 7 项」对应 <code>site/package.json</code> build 链里的 7 个校验脚本 —— 如果采用，该数字必须由脚本真实统计，不能手写。
+</div></div>
+
+</body>
+</html>

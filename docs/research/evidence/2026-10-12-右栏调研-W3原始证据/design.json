@@ -1,0 +1,2325 @@
+{
+ "awwwards": {
+  "url": "https://www.awwwards.com/",
+  "ok": true,
+  "status": 200,
+  "finalUrl": "https://www.awwwards.com/",
+  "pageTitle": "Awwwards - Website Awards - Best Web Design Trends",
+  "home": {
+   "vw": 1440,
+   "url": "https://www.awwwards.com/",
+   "title": "Awwwards - Website Awards - Best Web Design Trends",
+   "grids": [
+    {
+     "cls": "grid-cards",
+     "box": {
+      "x": 52,
+      "y": 1956,
+      "w": 1336,
+      "h": 1709,
+      "right": 1388
+     },
+     "gtc": "658px 658px",
+     "gap": "30px 20px",
+     "maxWidth": "none"
+    },
+    {
+     "cls": "grid-cards",
+     "box": {
+      "x": 52,
+      "y": 8067,
+      "w": 1336,
+      "h": 851,
+      "right": 1388
+     },
+     "gtc": "432px 432px 432px",
+     "gap": "30px 20px",
+     "maxWidth": "none"
+    },
+    {
+     "cls": "grid-courses grid-courses--one-row",
+     "box": {
+      "x": 52,
+      "y": 9433,
+      "w": 1336,
+      "h": 678,
+      "right": 1388
+     },
+     "gtc": "432px 432px 432px",
+     "gap": "20px",
+     "maxWidth": "none"
+    },
+    {
+     "cls": "grid-courses grid-courses--one-row",
+     "box": {
+      "x": 52,
+      "y": 4179,
+      "w": 1336,
+      "h": 630,
+      "right": 1388
+     },
+     "gtc": "432px 432px 432px",
+     "gap": "20px",
+     "maxWidth": "none"
+    }
+   ],
+   "rightColumns": [
+    {
+     "cls": "",
+     "tag": "li",
+     "id": null,
+     "box": {
+      "x": 956,
+      "y": 9433,
+      "w": 432,
+      "h": 648,
+      "right": 1388
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "15px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "card-academy",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 956,
+      "y": 9433,
+      "w": 432,
+      "h": 648,
+      "right": 1388
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(255, 255, 255, 0.9)",
+     "fs": "15px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "",
+     "tag": "li",
+     "id": null,
+     "box": {
+      "x": 956,
+      "y": 4179,
+      "w": 432,
+      "h": 600,
+      "right": 1388
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "15px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "card-course card-academy",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 956,
+      "y": 4179,
+      "w": 432,
+      "h": 600,
+      "right": 1388
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(255, 255, 255, 0.9)",
+     "fs": "15px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "",
+     "tag": "li",
+     "id": null,
+     "box": {
+      "x": 956,
+      "y": 8067,
+      "w": 432,
+      "h": 420,
+      "right": 1388
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "card-course",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 956,
+      "y": 8067,
+      "w": 432,
+      "h": 420,
+      "right": 1388
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgb(255, 255, 255)",
+     "fs": "14px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "card-academy__figure",
+     "tag": "figure",
+     "id": null,
+     "box": {
+      "x": 956,
+      "y": 9433,
+      "w": 432,
+      "h": 329,
+      "right": 1388
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "15px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "",
+     "tag": "a",
+     "id": null,
+     "box": {
+      "x": 956,
+      "y": 9433,
+      "w": 432,
+      "h": 329,
+      "right": 1388
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "15px",
+     "color": "rgb(34, 34, 34)"
+    }
+   ],
+   "textCol": {
+    "w": 78,
+    "x": 148,
+    "fs": "14px",
+    "lh": "28px",
+    "color": "rgb(34, 34, 34)",
+    "sample": "Explore\n\t\t\t\t\t\t\t\t\t        \n        \n    \n\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t"
+   },
+   "asides": [
+    {
+     "tag": "nav",
+     "cls": "nav-header-main",
+     "box": {
+      "w": 362,
+      "x": 148,
+      "h": 54
+     },
+     "pos": "static",
+     "display": "block"
+    },
+    {
+     "tag": "nav",
+     "cls": "search-inspiration__nav",
+     "box": {
+      "w": 180,
+      "x": 112,
+      "h": 208
+     },
+     "pos": "static",
+     "display": "block"
+    }
+   ],
+   "containerWidths": [
+    1440,
+    1336,
+    432,
+    0,
+    343,
+    580,
+    60,
+    407,
+    89
+   ]
+  },
+  "followed": "https://www.awwwards.com/sites/heron-ai",
+  "detail": {
+   "vw": 1440,
+   "url": "https://www.awwwards.com/sites/heron-ai",
+   "title": "Heron AI - Awwwards SOTD",
+   "grids": [
+    {
+     "cls": "swiper-wrapper",
+     "box": {
+      "x": 52,
+      "y": 17841,
+      "w": 1336,
+      "h": 337,
+      "right": 1388
+     },
+     "gtc": "160.359px 160.359px 186.984px 178.953px 160.359px 168.266px 160.359px 160.359px",
+     "gap": "normal",
+     "maxWidth": "none"
+    }
+   ],
+   "rightColumns": [
+    {
+     "cls": "swiper-slide",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 739,
+      "y": 17841,
+      "w": 160,
+      "h": 337,
+      "right": 899
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "swiper-slide",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 899,
+      "y": 17841,
+      "w": 168,
+      "h": 337,
+      "right": 1067
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "card-slide ",
+     "tag": "div",
+     "id": "586776bfe138232ec01df103",
+     "box": {
+      "x": 899,
+      "y": 17841,
+      "w": 168,
+      "h": 337,
+      "right": 1067
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "swiper-slide",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1067,
+      "y": 17841,
+      "w": 160,
+      "h": 337,
+      "right": 1228
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "swiper-slide",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1228,
+      "y": 17841,
+      "w": 160,
+      "h": 337,
+      "right": 1388
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "card-slide ",
+     "tag": "div",
+     "id": "585d0b36e138232d75414a21",
+     "box": {
+      "x": 739,
+      "y": 17841,
+      "w": 160,
+      "h": 331,
+      "right": 899
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "card-slide ",
+     "tag": "div",
+     "id": "58738a62e13823641d3f11d1",
+     "box": {
+      "x": 1067,
+      "y": 17841,
+      "w": 160,
+      "h": 303,
+      "right": 1228
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(34, 34, 34)"
+    },
+    {
+     "cls": "card-slide ",
+     "tag": "div",
+     "id": "58a2e457e138232c9b068106",
+     "box": {
+      "x": 1228,
+      "y": 17841,
+      "w": 160,
+      "h": 303,
+      "right": 1388
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(34, 34, 34)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(34, 34, 34)"
+    }
+   ],
+   "textCol": {
+    "w": 78,
+    "x": 148,
+    "fs": "14px",
+    "lh": "28px",
+    "color": "rgb(34, 34, 34)",
+    "sample": "Explore\n\t\t\t\t\t\t\t\t\t        \n        \n    \n\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t"
+   },
+   "asides": [
+    {
+     "tag": "nav",
+     "cls": "nav-header-main",
+     "box": {
+      "w": 362,
+      "x": 148,
+      "h": 54
+     },
+     "pos": "static",
+     "display": "block"
+    },
+    {
+     "tag": "nav",
+     "cls": "search-inspiration__nav",
+     "box": {
+      "w": 180,
+      "x": 112,
+      "h": 208
+     },
+     "pos": "static",
+     "display": "block"
+    }
+   ],
+   "containerWidths": [
+    1440,
+    406,
+    1336
+   ]
+  },
+  "mobile": {
+   "vw": 390,
+   "asides": [
+    {
+     "cls": "nav-header-main",
+     "w": 390,
+     "x": 0,
+     "display": "flex",
+     "pos": "fixed"
+    },
+    {
+     "cls": "search-inspiration__nav",
+     "w": 390,
+     "x": 0,
+     "display": "block",
+     "pos": "static"
+    }
+   ]
+  }
+ },
+ "godly->recent.design": {
+  "url": "https://godly.website/",
+  "ok": true,
+  "status": 200,
+  "finalUrl": "https://recent.design/?ref=godly",
+  "pageTitle": "Recent — Design Inspiration",
+  "home": {
+   "vw": 1440,
+   "url": "https://recent.design/?ref=godly",
+   "title": "Recent — Design Inspiration",
+   "grids": [],
+   "rightColumns": [
+    {
+     "cls": "x98rzlu xeuugli",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1133,
+      "y": 104,
+      "w": 276,
+      "h": 1869,
+      "right": 1409
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(11, 11, 11)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "13px",
+     "color": "rgb(11, 11, 11)"
+    },
+    {
+     "cls": "x98rzlu xeuugli",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 845,
+      "y": 104,
+      "w": 276,
+      "h": 1532,
+      "right": 1121
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(11, 11, 11)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "13px",
+     "color": "rgb(11, 11, 11)"
+    },
+    {
+     "cls": "xpkksdo xsm0vga xc8icb0 x1wbi0ko",
+     "tag": "aside",
+     "id": null,
+     "box": {
+      "x": 1133,
+      "y": 104,
+      "w": 276,
+      "h": 438,
+      "right": 1409
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(11, 11, 11)",
+     "bg": "oklch(0 0 0 / 0.024)",
+     "fs": "13px",
+     "color": "rgb(11, 11, 11)"
+    },
+    {
+     "cls": "x78zum5 xdt5ytf xrobg6s x1at0wqz x18gq9m9",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1133,
+      "y": 104,
+      "w": 276,
+      "h": 403,
+      "right": 1409
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(11, 11, 11)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "13px",
+     "color": "rgb(11, 11, 11)"
+    },
+    {
+     "cls": "x78zum5 xdt5ytf",
+     "tag": "ul",
+     "id": null,
+     "box": {
+      "x": 1149,
+      "y": 156,
+      "w": 244,
+      "h": 339,
+      "right": 1393
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(11, 11, 11)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "13px",
+     "color": "rgb(11, 11, 11)"
+    },
+    {
+     "cls": "x1qgqlal x1wbi0ko",
+     "tag": "article",
+     "id": null,
+     "box": {
+      "x": 845,
+      "y": 1348,
+      "w": 276,
+      "h": 276,
+      "right": 1121
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(11, 11, 11)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "13px",
+     "color": "rgb(11, 11, 11)"
+    },
+    {
+     "cls": "x1ghqbdy xffmn05 x1iarwy xsm0vga xc8icb0 xb3r6kr x1n2onr6 x1g0ag68 xdccri7 x11xpdln x7gonq5 x1qzofti x12w9bfk xrup0hg x1t0i980 x107k71w xe40",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 845,
+      "y": 1348,
+      "w": 276,
+      "h": 276,
+      "right": 1121
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(11, 11, 11)",
+     "bg": "oklch(0.97 0 0)",
+     "fs": "13px",
+     "color": "rgb(11, 11, 11)"
+    },
+    {
+     "cls": "x1lliihq x5yr21d xh8yej3",
+     "tag": "span",
+     "id": null,
+     "box": {
+      "x": 845,
+      "y": 1348,
+      "w": 276,
+      "h": 276,
+      "right": 1121
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(11, 11, 11)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "13px",
+     "color": "rgb(11, 11, 11)"
+    }
+   ],
+   "asides": [
+    {
+     "tag": "aside",
+     "cls": "x7a106z xrvj5dj xqtt2cb x1o61qjw x16q0uzb x1cjqih5 x1cxnrsr xoihae8 x1h52sqi xc1n78f x1nocgrb x1mlnhw6 x1myq7io x18eaek ",
+     "box": {
+      "w": 220,
+      "x": 16,
+      "h": 900
+     },
+     "pos": "fixed",
+     "display": "flex"
+    },
+    {
+     "tag": "nav",
+     "cls": "x1cy8zhl xdt5ytf x1oay62h x1xdureb x1agbcgv x1s85apg x1cxnrsr",
+     "box": {
+      "w": 220,
+      "x": 16,
+      "h": 276
+     },
+     "pos": "static",
+     "display": "flex"
+    },
+    {
+     "tag": "nav",
+     "cls": "x6s0dn4 x78zum5 xrobg6s",
+     "box": {
+      "w": 88,
+      "x": 148,
+      "h": 18
+     },
+     "pos": "static",
+     "display": "flex"
+    },
+    {
+     "tag": "nav",
+     "cls": "xc8icb0 x1n2onr6 xf5e64p",
+     "box": {
+      "w": 64,
+      "x": 1345,
+      "h": 28
+     },
+     "pos": "relative",
+     "display": "block"
+    },
+    {
+     "tag": "aside",
+     "cls": "xpkksdo xsm0vga xc8icb0 x1wbi0ko",
+     "box": {
+      "w": 276,
+      "x": 1133,
+      "h": 438
+     },
+     "pos": "static",
+     "display": "block"
+    },
+    {
+     "tag": "nav",
+     "cls": "x6s0dn4 x78zum5 xrobg6s",
+     "box": {
+      "w": 0,
+      "x": 0,
+      "h": 0
+     },
+     "pos": "static",
+     "display": "flex"
+    }
+   ],
+   "containerWidths": [
+    1141
+   ]
+  },
+  "mobile": {
+   "vw": 390,
+   "asides": [
+    {
+     "cls": "x7a106z xrvj5dj xqtt2cb x1o61qjw x16q0uzb x1cjqih5 x1cxnrsr xoihae8 x1",
+     "w": 343,
+     "x": 16,
+     "display": "grid",
+     "pos": "static"
+    },
+    {
+     "cls": "x1cy8zhl xdt5ytf x1oay62h x1xdureb x1agbcgv x1s85apg x1cxnrsr",
+     "w": 0,
+     "x": 0,
+     "display": "none",
+     "pos": "static"
+    },
+    {
+     "cls": "x6s0dn4 x78zum5 xrobg6s",
+     "w": 0,
+     "x": 0,
+     "display": "flex",
+     "pos": "static"
+    },
+    {
+     "cls": "xc8icb0 x1n2onr6 xf5e64p",
+     "w": 0,
+     "x": 0,
+     "display": "block",
+     "pos": "relative"
+    },
+    {
+     "cls": "xpkksdo xsm0vga xc8icb0 x1wbi0ko",
+     "w": 343,
+     "x": 16,
+     "display": "block",
+     "pos": "static"
+    },
+    {
+     "cls": "x6s0dn4 x78zum5 xrobg6s",
+     "w": 88,
+     "x": 271,
+     "display": "flex",
+     "pos": "static"
+    }
+   ]
+  }
+ },
+ "land-book": {
+  "url": "https://land-book.com/",
+  "ok": true,
+  "status": 200,
+  "finalUrl": "https://land-book.com/",
+  "pageTitle": "Landbook - website design inspiration gallery",
+  "home": {
+   "vw": 1440,
+   "url": "https://land-book.com/",
+   "title": "Landbook - website design inspiration gallery",
+   "grids": [
+    {
+     "cls": "\n                 websites\n                                                                                     ",
+     "box": {
+      "x": 16,
+      "y": 538,
+      "w": 1408,
+      "h": 5553,
+      "right": 1424
+     },
+     "gtc": "336.391px 336.406px 336.406px 336.406px",
+     "gap": "20.8px",
+     "maxWidth": "none"
+    }
+   ],
+   "rightColumns": [
+    {
+     "cls": "website-item-wrapper",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 730,
+      "y": 538,
+      "w": 336,
+      "h": 974,
+      "right": 1067
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(43, 42, 42)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(43, 42, 42)"
+    },
+    {
+     "cls": "website-item\n                                                ",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 730,
+      "y": 538,
+      "w": 336,
+      "h": 974,
+      "right": 1067
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(43, 42, 42)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(43, 42, 42)"
+    },
+    {
+     "cls": "campaign-ad-link",
+     "tag": "a",
+     "id": "framer-v9-thumbnail",
+     "box": {
+      "x": 1088,
+      "y": 538,
+      "w": 336,
+      "h": 974,
+      "right": 1424
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(43, 42, 42)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(43, 42, 42)"
+    },
+    {
+     "cls": "campaign-ad-wrapper",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1088,
+      "y": 538,
+      "w": 336,
+      "h": 974,
+      "right": 1424
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(43, 42, 42)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(43, 42, 42)"
+    },
+    {
+     "cls": "d-flex flex-column h-100",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1088,
+      "y": 538,
+      "w": 336,
+      "h": 974,
+      "right": 1424
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(43, 42, 42)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(43, 42, 42)"
+    },
+    {
+     "cls": "website-item-wrapper",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 730,
+      "y": 1549,
+      "w": 336,
+      "h": 958,
+      "right": 1067
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(43, 42, 42)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(43, 42, 42)"
+    },
+    {
+     "cls": "website-item-wrapper",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1088,
+      "y": 1549,
+      "w": 336,
+      "h": 958,
+      "right": 1424
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(43, 42, 42)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(43, 42, 42)"
+    },
+    {
+     "cls": "website-item\n                                                ",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1088,
+      "y": 1549,
+      "w": 336,
+      "h": 958,
+      "right": 1424
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(43, 42, 42)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "rgb(43, 42, 42)"
+    }
+   ],
+   "textCol": {
+    "w": 812,
+    "x": 24,
+    "fs": "14px",
+    "lh": "21px",
+    "color": "rgb(43, 42, 42)",
+    "sample": "Find the best hand-picked website design inspiration. We're "
+   },
+   "asides": [
+    {
+     "tag": "body",
+     "cls": "sidebar-show",
+     "box": {
+      "w": 1440,
+      "x": 0,
+      "h": 6596
+     },
+     "pos": "static",
+     "display": "block"
+    },
+    {
+     "tag": "nav",
+     "cls": "navbar flex-nowrap",
+     "box": {
+      "w": 1424,
+      "x": 8,
+      "h": 45
+     },
+     "pos": "relative",
+     "display": "flex"
+    },
+    {
+     "tag": "nav",
+     "cls": "nav flex-column py-2",
+     "box": {
+      "w": 0,
+      "x": 0,
+      "h": 0
+     },
+     "pos": "static",
+     "display": "flex"
+    },
+    {
+     "tag": "div",
+     "cls": "sidebar-user-toolbox bg-surface shadow-sm rounded pt-2 pb-1 px-1 mb-1",
+     "box": {
+      "w": 366,
+      "x": 1449,
+      "h": 81
+     },
+     "pos": "static",
+     "display": "block"
+    }
+   ],
+   "containerWidths": [
+    1424,
+    425,
+    1440,
+    1432,
+    1408,
+    1155,
+    253,
+    336,
+    0
+   ]
+  },
+  "followed": "https://land-book.com/damianskotzke",
+  "detail": {
+   "vw": 1440,
+   "url": "https://land-book.com/damianskotzke",
+   "title": "Just a moment...",
+   "grids": [],
+   "rightColumns": [],
+   "textCol": {
+    "w": 896,
+    "x": 272,
+    "fs": "16px",
+    "lh": "24px",
+    "color": "rgb(49, 49, 49)",
+    "sample": "This website uses a security service to protect against mali"
+   },
+   "asides": [],
+   "containerWidths": [
+    1440,
+    286
+   ]
+  },
+  "mobile": {
+   "vw": 390,
+   "asides": []
+  }
+ },
+ "siteinspire": {
+  "url": "https://www.siteinspire.com/",
+  "ok": true,
+  "status": 200,
+  "finalUrl": "https://www.siteinspire.com/",
+  "pageTitle": "Best Website Design Inspiration | Siteinspire",
+  "home": {
+   "vw": 1440,
+   "url": "https://www.siteinspire.com/",
+   "title": "Best Website Design Inspiration | Siteinspire",
+   "grids": [
+    {
+     "cls": "grid grid-cols-12 gap-x-6 gap-y-6 lg:gap-x-16 lg:gap-y-12",
+     "box": {
+      "x": 32,
+      "y": 924,
+      "w": 1376,
+      "h": 4918,
+      "right": 1408
+     },
+     "gtc": "56px 56px 56px 56px 56px 56px 56px 56px 56px 56px 56px 56px",
+     "gap": "48px 64px",
+     "maxWidth": "none"
+    },
+    {
+     "cls": "mb-6 grid grid-cols-12 gap-x-6 gap-y-6 lg:mb-12 lg:gap-x-16 lg:gap-y-12",
+     "box": {
+      "x": 32,
+      "y": 392,
+      "w": 1376,
+      "h": 484,
+      "right": 1408
+     },
+     "gtc": "56px 56px 56px 56px 56px 56px 56px 56px 56px 56px 56px 56px",
+     "gap": "48px 64px",
+     "maxWidth": "none"
+    },
+    {
+     "cls": "grid grid-cols-12 lg:pt-3",
+     "box": {
+      "x": 0,
+      "y": 112,
+      "w": 1440,
+      "h": 232,
+      "right": 1440
+     },
+     "gtc": "120px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px",
+     "gap": "normal",
+     "maxWidth": "none"
+    },
+    {
+     "cls": "Filter grid grid-cols-12",
+     "box": {
+      "x": 0,
+      "y": 124,
+      "w": 1440,
+      "h": 220,
+      "right": 1440
+     },
+     "gtc": "120px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px 120px",
+     "gap": "normal",
+     "maxWidth": "none"
+    }
+   ],
+   "rightColumns": [
+    {
+     "cls": "col-span-12 sm:col-span-6 lg:col-span-4 3xl:col-span-3",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 992,
+      "y": 924,
+      "w": 416,
+      "h": 334,
+      "right": 1408
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px lab(90.6853 0.399232 -1.45452)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "lab(8.30603 0.618205 -2.16572)"
+    },
+    {
+     "cls": "col-span-12 sm:col-span-6 lg:col-span-4 3xl:col-span-3",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 992,
+      "y": 1306,
+      "w": 416,
+      "h": 334,
+      "right": 1408
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px lab(90.6853 0.399232 -1.45452)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "lab(8.30603 0.618205 -2.16572)"
+    },
+    {
+     "cls": "WebsiteCard group @container",
+     "tag": "article",
+     "id": null,
+     "box": {
+      "x": 992,
+      "y": 1306,
+      "w": 416,
+      "h": 334,
+      "right": 1408
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px lab(90.6853 0.399232 -1.45452)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "lab(8.30603 0.618205 -2.16572)"
+    },
+    {
+     "cls": "",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 992,
+      "y": 1306,
+      "w": 416,
+      "h": 334,
+      "right": 1408
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px lab(90.6853 0.399232 -1.45452)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "lab(8.30603 0.618205 -2.16572)"
+    },
+    {
+     "cls": "WebsiteCard__content relative flex gap-x-4 gap-y-1 flex-col",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 992,
+      "y": 1306,
+      "w": 416,
+      "h": 334,
+      "right": 1408
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px lab(90.6853 0.399232 -1.45452)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "lab(8.30603 0.618205 -2.16572)"
+    },
+    {
+     "cls": "col-span-12 sm:col-span-6 lg:col-span-4 3xl:col-span-3",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 992,
+      "y": 1688,
+      "w": 416,
+      "h": 334,
+      "right": 1408
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px lab(90.6853 0.399232 -1.45452)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "lab(8.30603 0.618205 -2.16572)"
+    },
+    {
+     "cls": "WebsiteCard group @container",
+     "tag": "article",
+     "id": null,
+     "box": {
+      "x": 992,
+      "y": 1688,
+      "w": 416,
+      "h": 334,
+      "right": 1408
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px lab(90.6853 0.399232 -1.45452)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "lab(8.30603 0.618205 -2.16572)"
+    },
+    {
+     "cls": "",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 992,
+      "y": 1688,
+      "w": 416,
+      "h": 334,
+      "right": 1408
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px lab(90.6853 0.399232 -1.45452)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "14px",
+     "color": "lab(8.30603 0.618205 -2.16572)"
+    }
+   ],
+   "asides": [
+    {
+     "tag": "nav",
+     "cls": "z-10 flex max-w-max flex-1 items-center justify-center relative -left-4",
+     "box": {
+      "w": 524,
+      "x": 496,
+      "h": 40
+     },
+     "pos": "relative",
+     "display": "flex"
+    },
+    {
+     "tag": "nav",
+     "cls": "w-1/2 px-6 lg:w-3/12 lg:px-8",
+     "box": {
+      "w": 360,
+      "x": 480,
+      "h": 236
+     },
+     "pos": "static",
+     "display": "block"
+    },
+    {
+     "tag": "nav",
+     "cls": "w-1/2 px-6 lg:w-3/12 lg:px-8",
+     "box": {
+      "w": 360,
+      "x": 840,
+      "h": 236
+     },
+     "pos": "static",
+     "display": "block"
+    },
+    {
+     "tag": "nav",
+     "cls": "w-1/2 px-6 lg:w-2/12 lg:px-8",
+     "box": {
+      "w": 240,
+      "x": 1200,
+      "h": 236
+     },
+     "pos": "static",
+     "display": "block"
+    }
+   ],
+   "containerWidths": [
+    1440,
+    960,
+    656,
+    416
+   ]
+  },
+  "mobile": {
+   "vw": 390,
+   "asides": [
+    {
+     "cls": "z-10 flex max-w-max flex-1 items-center justify-center relative -left-",
+     "w": 0,
+     "x": 0,
+     "display": "flex",
+     "pos": "relative"
+    },
+    {
+     "cls": "w-1/2 px-6 lg:w-3/12 lg:px-8",
+     "w": 195,
+     "x": 0,
+     "display": "block",
+     "pos": "static"
+    },
+    {
+     "cls": "w-1/2 px-6 lg:w-3/12 lg:px-8",
+     "w": 195,
+     "x": 195,
+     "display": "block",
+     "pos": "static"
+    },
+    {
+     "cls": "w-1/2 px-6 lg:w-2/12 lg:px-8",
+     "w": 195,
+     "x": 0,
+     "display": "block",
+     "pos": "static"
+    }
+   ]
+  }
+ },
+ "minimal-gallery": {
+  "url": "https://minimal.gallery/",
+  "ok": true,
+  "status": 200,
+  "finalUrl": "https://minimal.gallery/",
+  "pageTitle": "Minimal Gallery – Hand-picked web design inspiration, premium templates, tools and more",
+  "home": {
+   "vw": 1440,
+   "url": "https://minimal.gallery/",
+   "title": "Minimal Gallery – Hand-picked web design inspiration, premium templates, tools and more",
+   "grids": [
+    {
+     "cls": "posts websites",
+     "box": {
+      "x": 0,
+      "y": 461,
+      "w": 1440,
+      "h": 2522,
+      "right": 1440
+     },
+     "gtc": "426.656px 426.672px 426.656px",
+     "gap": "44px 40px",
+     "maxWidth": "none"
+    }
+   ],
+   "rightColumns": [
+    {
+     "cls": "post sponsor sponsor-thumbnail-label sponsor-thumbnail-label-top-right sponsor-thumbnail-label-color-light plausible-event-name=Readymag+Spo",
+     "tag": "div",
+     "id": "post-28267",
+     "box": {
+      "x": 973,
+      "y": 461,
+      "w": 427,
+      "h": 277,
+      "right": 1400
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(179, 179, 179)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "17px",
+     "color": "rgb(179, 179, 179)"
+    },
+    {
+     "cls": "post website",
+     "tag": "div",
+     "id": "post-28417",
+     "box": {
+      "x": 973,
+      "y": 782,
+      "w": 427,
+      "h": 277,
+      "right": 1400
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(179, 179, 179)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "17px",
+     "color": "rgb(179, 179, 179)"
+    },
+    {
+     "cls": "post website",
+     "tag": "div",
+     "id": "post-27785",
+     "box": {
+      "x": 973,
+      "y": 1102,
+      "w": 427,
+      "h": 277,
+      "right": 1400
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(179, 179, 179)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "17px",
+     "color": "rgb(179, 179, 179)"
+    },
+    {
+     "cls": "post website",
+     "tag": "div",
+     "id": "post-27794",
+     "box": {
+      "x": 973,
+      "y": 1423,
+      "w": 427,
+      "h": 277,
+      "right": 1400
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(179, 179, 179)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "17px",
+     "color": "rgb(179, 179, 179)"
+    },
+    {
+     "cls": "post website",
+     "tag": "div",
+     "id": "post-27866",
+     "box": {
+      "x": 973,
+      "y": 1744,
+      "w": 427,
+      "h": 277,
+      "right": 1400
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(179, 179, 179)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "17px",
+     "color": "rgb(179, 179, 179)"
+    },
+    {
+     "cls": "post website",
+     "tag": "div",
+     "id": "post-28183",
+     "box": {
+      "x": 973,
+      "y": 2065,
+      "w": 427,
+      "h": 277,
+      "right": 1400
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(179, 179, 179)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "17px",
+     "color": "rgb(179, 179, 179)"
+    },
+    {
+     "cls": "post website",
+     "tag": "div",
+     "id": "post-28186",
+     "box": {
+      "x": 973,
+      "y": 2385,
+      "w": 427,
+      "h": 277,
+      "right": 1400
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(179, 179, 179)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "17px",
+     "color": "rgb(179, 179, 179)"
+    },
+    {
+     "cls": "post website",
+     "tag": "div",
+     "id": "post-27962",
+     "box": {
+      "x": 973,
+      "y": 2706,
+      "w": 427,
+      "h": 277,
+      "right": 1400
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(179, 179, 179)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "17px",
+     "color": "rgb(179, 179, 179)"
+    }
+   ],
+   "textCol": {
+    "w": 417,
+    "x": 93,
+    "fs": "17px",
+    "lh": "23.8px",
+    "color": "rgb(179, 179, 179)",
+    "sample": "Minimal Gallery is a curated source of website design inspir"
+   },
+   "asides": [],
+   "containerWidths": [
+    420,
+    1,
+    348,
+    1261
+   ]
+  },
+  "mobile": {
+   "vw": 390,
+   "asides": []
+  }
+ },
+ "dribbble": {
+  "url": "https://dribbble.com/",
+  "ok": true,
+  "status": 202,
+  "finalUrl": "https://dribbble.com/",
+  "pageTitle": "",
+  "home": {
+   "vw": 1440,
+   "url": "https://dribbble.com/",
+   "title": "",
+   "grids": [],
+   "rightColumns": [],
+   "asides": [],
+   "containerWidths": []
+  },
+  "mobile": {
+   "vw": 1440,
+   "asides": []
+  }
+ },
+ "behance": {
+  "url": "https://www.behance.net/",
+  "ok": true,
+  "status": 403,
+  "finalUrl": "https://www.behance.net/",
+  "pageTitle": "Search Projects :: Photos, videos, logos, illustrations and branding :: Behance",
+  "home": {
+   "vw": 1440,
+   "url": "https://www.behance.net/",
+   "title": "Search Projects :: Photos, videos, logos, illustrations and branding :: Behance",
+   "grids": [
+    {
+     "cls": "CSSGrid-grid-JnH CSSGrid-gridContainer-Csa Projects-exploreGrid-kDa items-container",
+     "box": {
+      "x": 24,
+      "y": 880,
+      "w": 1392,
+      "h": 2067,
+      "right": 1416
+     },
+     "gtc": "20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px 20.25px",
+     "gap": "24px",
+     "maxWidth": "2968px"
+    },
+    {
+     "cls": "StaticFooter-sectionContainer-Kyo",
+     "box": {
+      "x": 440,
+      "y": 3609,
+      "w": 950,
+      "h": 409,
+      "right": 1390
+     },
+     "gtc": "200px 200px 200px 200px",
+     "gap": "40px 50px",
+     "maxWidth": "none"
+    }
+   ],
+   "rightColumns": [
+    {
+     "cls": "CreatorProPageBanner-rightSection-pt9",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1108,
+      "y": 99,
+      "w": 396,
+      "h": 576,
+      "right": 1504
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(25, 25, 25)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12px",
+     "color": "rgb(25, 25, 25)"
+    },
+    {
+     "cls": "CreatorProPageBanner-imageGrid-sbG",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1108,
+      "y": 99,
+      "w": 396,
+      "h": 576,
+      "right": 1504
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(25, 25, 25)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12px",
+     "color": "rgb(25, 25, 25)"
+    },
+    {
+     "cls": "StaticFooter-footerSection-E69",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 940,
+      "y": 3609,
+      "w": 200,
+      "h": 409,
+      "right": 1140
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(25, 25, 25)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12px",
+     "color": "rgb(25, 25, 25)"
+    },
+    {
+     "cls": "StaticFooter-footerSection-E69",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1190,
+      "y": 3609,
+      "w": 200,
+      "h": 409,
+      "right": 1390
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(25, 25, 25)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12px",
+     "color": "rgb(25, 25, 25)"
+    },
+    {
+     "cls": "",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 940,
+      "y": 3679,
+      "w": 200,
+      "h": 339,
+      "right": 1140
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(25, 25, 25)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12px",
+     "color": "rgb(25, 25, 25)"
+    },
+    {
+     "cls": "",
+     "tag": "ul",
+     "id": null,
+     "box": {
+      "x": 940,
+      "y": 3679,
+      "w": 200,
+      "h": 339,
+      "right": 1140
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(25, 25, 25)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12px",
+     "color": "rgb(25, 25, 25)"
+    },
+    {
+     "cls": "Layout-gridItem-OTU",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 732,
+      "y": 880,
+      "w": 330,
+      "h": 317,
+      "right": 1062
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(25, 25, 25)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12px",
+     "color": "rgb(25, 25, 25)"
+    },
+    {
+     "cls": "Layout-gridItem-OTU",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1086,
+      "y": 880,
+      "w": 330,
+      "h": 317,
+      "right": 1416
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(25, 25, 25)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12px",
+     "color": "rgb(25, 25, 25)"
+    }
+   ],
+   "asides": [
+    {
+     "tag": "nav",
+     "cls": "PrimaryNav-root-GKW PrimaryNav-useTransparencyAtBreakpoint-OuV PrimaryNav-hideSearchInput-Edq js-primary-navigation",
+     "box": {
+      "w": 1440,
+      "x": 0,
+      "h": 0
+     },
+     "pos": "relative",
+     "display": "block"
+    },
+    {
+     "tag": "div",
+     "cls": "SearchTypeahead-searchContainer-Owv SearchTypeahead-isSubmittable-JcY SearchTypeahead-forSidebar-vLM SearchTypeahead-exp",
+     "box": {
+      "w": 1097,
+      "x": 151,
+      "h": 44
+     },
+     "pos": "relative",
+     "display": "block"
+    },
+    {
+     "tag": "nav",
+     "cls": "",
+     "box": {
+      "w": 1440,
+      "x": 0,
+      "h": 44
+     },
+     "pos": "static",
+     "display": "block"
+    }
+   ],
+   "containerWidths": [
+    1440,
+    154,
+    1392,
+    330,
+    81
+   ]
+  },
+  "mobile": {
+   "vw": 390,
+   "asides": [
+    {
+     "cls": "PrimaryNav-root-GKW PrimaryNav-useTransparencyAtBreakpoint-OuV Primary",
+     "w": 390,
+     "x": 0,
+     "display": "block",
+     "pos": "relative"
+    },
+    {
+     "cls": "Explore-sidebarWrapper-Rm2 Explore-noSidebarWidth-OJ2 Explore-animated",
+     "w": 0,
+     "x": 0,
+     "display": "none",
+     "pos": "static"
+    },
+    {
+     "cls": "Explore-sidebar-iN6",
+     "w": 0,
+     "x": 0,
+     "display": "block",
+     "pos": "sticky"
+    },
+    {
+     "cls": "",
+     "w": 390,
+     "x": 0,
+     "display": "block",
+     "pos": "static"
+    }
+   ]
+  }
+ },
+ "mobbin": {
+  "url": "https://mobbin.com/",
+  "ok": true,
+  "status": 200,
+  "finalUrl": "https://mobbin.com/",
+  "pageTitle": "Mobbin — UI & UX design inspiration for mobile & web apps",
+  "home": {
+   "vw": 1440,
+   "url": "https://mobbin.com/",
+   "title": "Mobbin — UI & UX design inspiration for mobile & web apps",
+   "grids": [
+    {
+     "cls": "mx-auto grid w-full max-w-(--breakpoint-min-1728) self-stretch px-20 grid-rows-[repeat(1,fit-content(100%))] gap-x-20 gap-y-[var(--grid-row-",
+     "box": {
+      "x": 0,
+      "y": 2248,
+      "w": 1440,
+      "h": 856,
+      "right": 1440
+     },
+     "gtc": "68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px",
+     "gap": "80px 20px",
+     "maxWidth": "1728px"
+    },
+    {
+     "cls": "mx-auto grid w-full max-w-(--breakpoint-min-1728) self-stretch px-20 grid-rows-[repeat(1,fit-content(100%))] gap-x-20 gap-y-[var(--grid-row-",
+     "box": {
+      "x": 0,
+      "y": 4096,
+      "w": 1440,
+      "h": 675,
+      "right": 1440
+     },
+     "gtc": "68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px",
+     "gap": "80px 20px",
+     "maxWidth": "1728px"
+    },
+    {
+     "cls": "mx-auto grid w-full max-w-(--breakpoint-min-1728) self-stretch px-20 grid-rows-[repeat(1,fit-content(100%))] gap-x-20 gap-y-[var(--grid-row-",
+     "box": {
+      "x": 0,
+      "y": 3264,
+      "w": 1440,
+      "h": 513,
+      "right": 1440
+     },
+     "gtc": "68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px",
+     "gap": "80px 20px",
+     "maxWidth": "1728px"
+    },
+    {
+     "cls": "mx-auto grid w-full max-w-(--breakpoint-min-1728) self-stretch px-20 grid-rows-[repeat(1,fit-content(100%))] gap-x-20 gap-y-[var(--grid-row-",
+     "box": {
+      "x": 0,
+      "y": 1590,
+      "w": 1440,
+      "h": 498,
+      "right": 1440
+     },
+     "gtc": "68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px 68.75px",
+     "gap": "64px 20px",
+     "maxWidth": "1728px"
+    }
+   ],
+   "rightColumns": [
+    {
+     "cls": "absolute top-24 left-24 min-768:top-32 min-768:left-32 w-[160px] aspect-[207/448.7633972167969] rounded-[12.22%_/_5.65%] min-768:w-[240px]",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1524,
+      "y": 1736,
+      "w": 240,
+      "h": 520,
+      "right": 1764
+     },
+     "pos": "absolute",
+     "top": "32px",
+     "borderLeft": "0px rgb(20, 20, 20)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "16px",
+     "color": "rgb(20, 20, 20)"
+    },
+    {
+     "cls": "absolute inset-0 overflow-hidden rounded-[inherit] drop-shadow-[0px_8.989px_13.483px_rgba(0,0,0,0.04)]",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1524,
+      "y": 1736,
+      "w": 240,
+      "h": 520,
+      "right": 1764
+     },
+     "pos": "absolute",
+     "top": "0px",
+     "borderLeft": "0px rgb(20, 20, 20)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "16px",
+     "color": "rgb(20, 20, 20)"
+    },
+    {
+     "cls": "object-cover",
+     "tag": "img",
+     "id": null,
+     "box": {
+      "x": 1524,
+      "y": 1736,
+      "w": 240,
+      "h": 520,
+      "right": 1764
+     },
+     "pos": "absolute",
+     "top": "0px",
+     "borderLeft": "0px rgba(0, 0, 0, 0)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "16px",
+     "color": "rgba(0, 0, 0, 0)"
+    },
+    {
+     "cls": "absolute top-24 left-24 min-768:top-32 min-768:left-32 w-[160px] aspect-[207/448.7633972167969] rounded-[12.22%_/_5.65%] min-768:w-[240px]",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1524,
+      "y": 1752,
+      "w": 240,
+      "h": 520,
+      "right": 1764
+     },
+     "pos": "absolute",
+     "top": "32px",
+     "borderLeft": "0px rgb(20, 20, 20)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "16px",
+     "color": "rgb(20, 20, 20)"
+    },
+    {
+     "cls": "absolute inset-0 overflow-hidden rounded-[inherit] drop-shadow-[0px_8.989px_13.483px_rgba(0,0,0,0.04)]",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1524,
+      "y": 1752,
+      "w": 240,
+      "h": 520,
+      "right": 1764
+     },
+     "pos": "absolute",
+     "top": "0px",
+     "borderLeft": "0px rgb(20, 20, 20)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "16px",
+     "color": "rgb(20, 20, 20)"
+    },
+    {
+     "cls": "object-cover",
+     "tag": "img",
+     "id": null,
+     "box": {
+      "x": 1524,
+      "y": 1752,
+      "w": 240,
+      "h": 520,
+      "right": 1764
+     },
+     "pos": "absolute",
+     "top": "0px",
+     "borderLeft": "0px rgba(0, 0, 0, 0)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "16px",
+     "color": "rgba(0, 0, 0, 0)"
+    },
+    {
+     "cls": "absolute top-24 left-24 min-768:top-32 min-768:left-32 w-[160px] aspect-[207/448.7633972167969] rounded-[12.22%_/_5.65%] min-768:w-[240px]",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1524,
+      "y": 1752,
+      "w": 240,
+      "h": 520,
+      "right": 1764
+     },
+     "pos": "absolute",
+     "top": "32px",
+     "borderLeft": "0px rgb(20, 20, 20)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "16px",
+     "color": "rgb(20, 20, 20)"
+    },
+    {
+     "cls": "absolute inset-0 overflow-hidden rounded-[inherit] drop-shadow-[0px_8.989px_13.483px_rgba(0,0,0,0.04)]",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 1524,
+      "y": 1752,
+      "w": 240,
+      "h": 520,
+      "right": 1764
+     },
+     "pos": "absolute",
+     "top": "0px",
+     "borderLeft": "0px rgb(20, 20, 20)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "16px",
+     "color": "rgb(20, 20, 20)"
+    }
+   ],
+   "textCol": {
+    "w": 415,
+    "x": 513,
+    "fs": "20px",
+    "lh": "26px",
+    "color": "rgb(112, 112, 112)",
+    "sample": "The design reference library for apps and sites. 621,500 shi"
+   },
+   "asides": [
+    {
+     "tag": "nav",
+     "cls": "Header-module__KHjLKa__primaryNav relative z-10 hidden flex-col justify-center min-768:flex",
+     "box": {
+      "w": 1440,
+      "x": 0,
+      "h": 92
+     },
+     "pos": "relative",
+     "display": "flex"
+    },
+    {
+     "tag": "nav",
+     "cls": "Header-module__KHjLKa__mobileNav relative z-10 min-768:hidden",
+     "box": {
+      "w": 0,
+      "x": 0,
+      "h": 0
+     },
+     "pos": "relative",
+     "display": "none"
+    }
+   ],
+   "containerWidths": [
+    1440,
+    335
+   ]
+  },
+  "mobile": {
+   "vw": 390,
+   "asides": [
+    {
+     "cls": "Header-module__KHjLKa__primaryNav relative z-10 hidden flex-col justif",
+     "w": 0,
+     "x": 0,
+     "display": "none",
+     "pos": "relative"
+    },
+    {
+     "cls": "Header-module__KHjLKa__mobileNav relative z-10 min-768:hidden",
+     "w": 390,
+     "x": 0,
+     "display": "block",
+     "pos": "relative"
+    }
+   ]
+  }
+ },
+ "lapa-ninja": {
+  "url": "https://www.lapaninja.com/",
+  "ok": false,
+  "error": "Error: page.goto: net::ERR_CONNECTION_CLOSED at https://www.lapaninja.com/\nCall log:\n\u001b[2m  - navigating to \"https://www.lapaninja.com/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+ },
+ "onepagelove": {
+  "url": "https://onepagelove.com/",
+  "ok": true,
+  "status": 200,
+  "finalUrl": "https://onepagelove.com/",
+  "pageTitle": "One Page Love — One Page Website Inspiration and Templates",
+  "home": {
+   "vw": 1440,
+   "url": "https://onepagelove.com/",
+   "title": "One Page Love — One Page Website Inspiration and Templates",
+   "grids": [
+    {
+     "cls": "archive-container grid is-masonry",
+     "box": {
+      "x": 40,
+      "y": 425,
+      "w": 1360,
+      "h": 1236,
+      "right": 1400
+     },
+     "gtc": "440px 440px 440px",
+     "gap": "normal",
+     "maxWidth": "1360px"
+    }
+   ],
+   "rightColumns": [
+    {
+     "cls": "thumb-wrap thumb-loop",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 940,
+      "y": 425,
+      "w": 440,
+      "h": 627,
+      "right": 1380
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(45, 37, 31)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12.75px",
+     "color": "rgb(45, 37, 31)"
+    },
+    {
+     "cls": "thumb thumb-sponsor",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 960,
+      "y": 445,
+      "w": 400,
+      "h": 587,
+      "right": 1360
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(45, 37, 31)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12.75px",
+     "color": "rgb(45, 37, 31)"
+    },
+    {
+     "cls": "thumb-image",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 960,
+      "y": 445,
+      "w": 400,
+      "h": 535,
+      "right": 1360
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(45, 37, 31)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12.75px",
+     "color": "rgb(45, 37, 31)"
+    },
+    {
+     "cls": "link-image-long",
+     "tag": "a",
+     "id": null,
+     "box": {
+      "x": 960,
+      "y": 445,
+      "w": 400,
+      "h": 535,
+      "right": 1360
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(217, 79, 92)",
+     "bg": "rgb(255, 255, 255)",
+     "fs": "12.75px",
+     "color": "rgb(217, 79, 92)"
+    },
+    {
+     "cls": "image-height-long",
+     "tag": "img",
+     "id": null,
+     "box": {
+      "x": 960,
+      "y": 445,
+      "w": 402,
+      "h": 535,
+      "right": 1362
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "1px rgb(0, 0, 0)",
+     "bg": "rgb(0, 0, 0)",
+     "fs": "12.75px",
+     "color": "rgb(217, 79, 92)"
+    },
+    {
+     "cls": "thumb-wrap thumb-loop",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 940,
+      "y": 1053,
+      "w": 440,
+      "h": 345,
+      "right": 1380
+     },
+     "pos": "relative",
+     "top": "0px",
+     "borderLeft": "0px rgb(45, 37, 31)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12.75px",
+     "color": "rgb(45, 37, 31)"
+    },
+    {
+     "cls": "thumb thumb-inspiration",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 960,
+      "y": 1073,
+      "w": 400,
+      "h": 305,
+      "right": 1360
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(45, 37, 31)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12.75px",
+     "color": "rgb(45, 37, 31)"
+    },
+    {
+     "cls": "thumb-image",
+     "tag": "div",
+     "id": null,
+     "box": {
+      "x": 960,
+      "y": 1073,
+      "w": 400,
+      "h": 253,
+      "right": 1360
+     },
+     "pos": "static",
+     "top": "auto",
+     "borderLeft": "0px rgb(45, 37, 31)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fs": "12.75px",
+     "color": "rgb(45, 37, 31)"
+    }
+   ],
+   "textCol": {
+    "w": 85,
+    "x": 515,
+    "fs": "12.75px",
+    "lh": "12.75px",
+    "color": "rgb(126, 104, 88)",
+    "sample": "Websites\n        \n\t\n\t\n\tCategory\n\t\t\t\t★Portfolio 3786\n\t\t\t\t\t★La"
+   },
+   "asides": [
+    {
+     "tag": "nav",
+     "cls": "main-nav opl-mega-js",
+     "box": {
+      "w": 1440,
+      "x": 0,
+      "h": 86
+     },
+     "pos": "static",
+     "display": "block"
+    },
+    {
+     "tag": "nav",
+     "cls": "site-footer__col",
+     "box": {
+      "w": 264,
+      "x": 80,
+      "h": 176
+     },
+     "pos": "static",
+     "display": "block"
+    },
+    {
+     "tag": "nav",
+     "cls": "site-footer__col",
+     "box": {
+      "w": 264,
+      "x": 384,
+      "h": 176
+     },
+     "pos": "static",
+     "display": "block"
+    },
+    {
+     "tag": "nav",
+     "cls": "site-footer__col",
+     "box": {
+      "w": 264,
+      "x": 687,
+      "h": 176
+     },
+     "pos": "static",
+     "display": "block"
+    }
+   ],
+   "containerWidths": [
+    1360
+   ]
+  },
+  "mobile": {
+   "vw": 390,
+   "asides": [
+    {
+     "cls": "main-nav opl-mega-js",
+     "w": 390,
+     "x": 0,
+     "display": "block",
+     "pos": "static"
+    },
+    {
+     "cls": "site-footer__col",
+     "w": 350,
+     "x": 20,
+     "display": "block",
+     "pos": "static"
+    },
+    {
+     "cls": "site-footer__col",
+     "w": 350,
+     "x": 20,
+     "display": "block",
+     "pos": "static"
+    },
+    {
+     "cls": "site-footer__col",
+     "w": 350,
+     "x": 20,
+     "display": "block",
+     "pos": "static"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<style>
+  :root{
+    --bg:#fbfaf8; --fg:#1c1b1a; --surface-1:#ffffff; --surface-2:#f4f2ee; --border:#e6e2db;
+    --muted-fg:#6f6a63; --accent:#0b6bcb; --warm:#b45309;
+    --c-case:#0b6bcb; --c-data:#0d7c86; --c-dis:#5b5bd6; --c-story:#b45309; --c-tool:#2f7d4f;
+    --shadow-1:0 1px 2px rgba(28,27,26,.05);
+    --shadow-2:0 10px 30px -14px rgba(28,27,26,.18),0 2px 6px -2px rgba(28,27,26,.06);
+    --sans:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC",ui-sans-serif,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+  .wrap{padding:28px 32px 40px}
+  .caption{font:600 12px/1 var(--sans);letter-spacing:.14em;color:var(--muted-fg);text-transform:uppercase;margin:0 0 14px}
+  .frame{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--bg);max-width:1280px;margin:0 auto}
+  .intro{max-width:1280px;margin:0 auto;padding:34px 32px 6px}
+  .intro h1{font-size:24px;margin:0 0 8px;letter-spacing:-.01em}
+  .intro p{font-size:13.5px;line-height:1.7;color:#4a463f;margin:0 0 6px}
+  /* ---------- BEFORE ---------- */
+  .before{max-width:768px;margin:0 auto;padding:8px 16px 24px}
+  .b-nav{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding:14px 0;font-size:13px}
+  .b-nav b{font-size:17px}
+  .b-nav span{color:#3f3d3a}
+  .b-h1{font-size:40px;line-height:1.25;font-weight:700;margin:30px 0 14px}
+  .b-p{font-size:15px;line-height:1.75;margin:0 0 12px}
+  .b-h2{font-size:22px;font-weight:600;margin:34px 0 4px}
+  .b-card{margin:20px 0 0;padding:0 0 14px;border-bottom:1px solid transparent}
+  .b-card a{color:var(--accent);text-decoration:underline;text-decoration-style:dashed;text-underline-offset:4px;font-size:17px;font-weight:500}
+  .b-date{color:var(--muted-fg);font-size:12px;margin:5px 0}
+  .b-desc{font-size:14px;line-height:1.7;margin:0}
+  .b-tags{display:flex;gap:8px;margin-top:8px}
+  .b-tags i{font-style:normal;font-size:11px;color:var(--muted-fg);background:#f1efec;border:1px solid var(--border);border-radius:4px;padding:1px 7px}
+  /* ---------- AFTER ---------- */
+  .after{padding:20px 32px 40px}
+  .a-nav{display:flex;justify-content:space-between;align-items:center;padding:10px 0 16px}
+  .a-brand{font-size:18px;font-weight:700;letter-spacing:-.01em}
+  .a-brand em{font-style:normal;color:var(--accent)}
+  .a-menu{display:flex;gap:22px;font-size:13.5px;color:#4a463f}
+  .a-menu u{text-decoration:none;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:2px}
+  .a-hero{display:grid;grid-template-columns:1.25fr .95fr;gap:40px;align-items:center;padding:34px 0 40px;border-bottom:1px solid var(--border)}
+  .eyebrow{font:600 11.5px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--warm);margin:0 0 16px}
+  .a-h1{font-size:52px;line-height:1.14;letter-spacing:-.022em;font-weight:800;margin:0 0 18px}
+  .a-sub{font-size:15.5px;line-height:1.8;color:#3d3a35;max-width:56ch;margin:0 0 22px}
+  .cta{display:inline-flex;align-items:center;gap:8px;background:var(--fg);color:#fff;border-radius:9px;padding:11px 18px;font-size:14px;font-weight:600;box-shadow:var(--shadow-1)}
+  .cta.ghost{background:transparent;color:var(--fg);border:1px solid var(--border);box-shadow:none;margin-left:10px}
+  .evidence{background:var(--surface-1);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow-2)}
+  .evidence .h{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-fg);margin:0 0 14px}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stat{background:var(--surface-2);border-radius:11px;padding:12px 13px}
+  .stat b{display:block;font-size:26px;letter-spacing:-.02em;line-height:1.1}
+  .stat span{font-size:11.5px;color:var(--muted-fg)}
+  .spark{display:flex;align-items:flex-end;gap:3px;height:44px;margin-top:16px}
+  .spark i{flex:1;background:color-mix(in srgb,var(--accent) 78%,transparent);border-radius:2px 2px 0 0}
+  .spark i.w{background:color-mix(in srgb,var(--warm) 78%,transparent)}
+  .sec-h{display:flex;align-items:baseline;justify-content:space-between;margin:38px 0 6px}
+  .sec-h h2{font-size:26px;letter-spacing:-.015em;font-weight:700;margin:0}
+  .sec-h a{font-size:13px;color:var(--accent);text-decoration:none}
+  .sec-rule{height:1px;background:var(--border);margin-bottom:22px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .card{background:var(--surface-1);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-1)}
+  .card .cover{position:relative;aspect-ratio:16/9;background:var(--surface-2)}
+  .card .body{padding:16px 18px 18px}
+  .card .meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted-fg);margin-bottom:8px}
+  .card h3{font-size:18.5px;line-height:1.35;letter-spacing:-.012em;margin:0 0 8px;font-weight:700}
+  .card p{font-size:13.5px;line-height:1.7;color:#4a463f;margin:0 0 12px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--border);background:var(--surface-2);border-radius:7px;padding:5px 9px;font-size:11.5px;color:#4a463f}
+  .chip b{font-size:13px;display:block;letter-spacing:-.01em;color:var(--fg)}
+  .role{margin-top:14px;padding-top:11px;border-top:1px dashed var(--border);font-size:11.5px;color:var(--muted-fg)}
+</style></head><body>
+<div class="intro">
+  <h1>pm-forge 作品集 · 视觉美化方向预览稿</h1>
+  <p>这是一份<strong>纯静态模拟稿</strong>（不接真实站点，不含真实字体文件），用于和你就"美化方向"对齐审美；卡片封面是<strong>用条目真实数据生成的 SVG</strong>（版式与图形均为示意）。</p>
+  <p>上下两块为"现状 → 提案"的前后对比；用浏览器打开本文件即可（建议窗口宽度 ≥1280px）。生成日期 2026-10-09。</p>
+</div>
+
+<p class="caption" style="max-width:1280px;margin:0 auto 12px;padding:0 32px">① 现状 · Before（当前线上观感：纯文字卡片 + 768px 窄版心 + 单层表面）</p>
+<div id="before" class="frame">
+  <div class="before">
+    <div class="b-nav"><b>余翰林 · 产品作品集</b><span>首页　案例　数据　拆解　故事　工具箱　关于　🔍　🌙</span></div>
+    <div class="b-h1">把数据、工程和 AI 工具箱，变成可验证的产品决策。</div>
+    <div class="b-p">我是余翰林，重庆邮电大学"大数据管理与应用"专业，目标产品经理。这里放我的案例研究、数据分析报告，以及我自己设计实现的 AI PM 工具箱。</div>
+    <div class="b-p" style="color:#0b6bcb">面试官快速通道（15 分钟了解这个作品集） →</div>
+    <div class="b-h2">精选案例</div>
+    <div class="b-card"><a href="#">红岩网校群面复盘：把一次落选当成产品设计题</a><div class="b-date num">📅 2026年9月28日</div><div class="b-desc">校工作室招新群面最后一轮被刷之后：用产品方法论拆解群面、六轮 AI 模拟验证、沉淀一套可复用的操作手册——2027 秋再战。</div><div class="b-tags"><i>复盘</i><i>群面</i><i>方法论</i></div></div>
+    <div class="b-card"><a href="#">个人工作台：4 周迭代 22 个版本的自我管理产品</a><div class="b-date num">📅 2026年9月28日</div><div class="b-desc">React 19 + Supabase 的个人效率工作台：模块注册表架构、双适配器数据层、体积预算门禁，从 v1.0 到 v1.22 的完整产品过程。</div><div class="b-tags"><i>产品设计</i><i>React</i><i>架构</i></div></div>
+    <div class="b-h2" style="margin-top:30px">数据分析</div>
+    <div class="b-card"><a href="#">电商用户行为：指标树、转化漏斗与 RFM 分层</a><div class="b-date num">📅 2026年9月27日</div><div class="b-desc">天池 UserBehavior 10 万行抽样：OSM + AARRR 指标体系、漏斗与 RFM 分层，全链一条命令复现。</div></div>
+  </div>
+</div>
+
+<div style="height:34px"></div>
+
+<p class="caption" style="max-width:1280px;margin:0 auto 12px;padding:0 32px">② 提案 · After（数据驱动封面 + 1120px 版心 + 表面分层 + 等宽数字 + 板块识别色）</p>
+<div id="after" class="frame">
+  <div class="after">
+    <div class="a-nav"><div class="a-brand">余翰林 <em>·</em> 产品作品集</div><div class="a-menu"><u>首页</u><span>案例</span><span>数据</span><span>拆解</span><span>故事</span><span>工具箱</span><span>关于</span><span>🔍</span></div></div>
+    <div class="a-hero">
+      <div>
+        <p class="eyebrow">Data-driven Product Portfolio</p>
+        <h1 class="a-h1">把数据、工程和 AI 工具箱，<br>变成可验证的产品决策。</h1>
+        <p class="a-sub">我是余翰林，重庆邮电大学"大数据管理与应用"专业，目标产品经理。这里的每一篇报告都能复算、每一条结论都带证据链、每一次发布都过门禁。</p>
+        <a class="cta">面试官快速通道 · 15 分钟 →</a><a class="cta ghost">打开 AI 工具箱 ↗</a>
+      </div>
+      <div class="evidence">
+        <p class="h">站点证据总览</p>
+        <div class="stats">
+          <div class="stat"><b class="num">30</b><span>AI 产品实测任务</span></div>
+          <div class="stat"><b class="num">66</b><span>工具评测用例</span></div>
+          <div class="stat"><b class="num">12</b><span>可复算预置问题</span></div>
+          <div class="stat"><b class="num">8</b><span>构建期质量门禁</span></div>
+        </div>
+        <div class="spark" id="spark"></div>
+      </div>
+    </div>
+    <div class="sec-h"><h2>精选案例</h2><a>全部案例 →</a></div>
+    <div class="sec-rule"></div>
+    <div class="grid" id="cards"></div>
+  </div>
+</div>
+
+<script>
+const CASES = [
+  { tag:"案例研究", date:"2026-09-28", hue:"#0b6bcb",
+    title:"个人工作台：4 周迭代 22 个版本的自我管理产品",
+    desc:"React 19 + Supabase 的个人效率工作台：模块注册表架构、双适配器数据层、体积预算门禁。",
+    metrics:[["22","迭代版本"],["7","功能模块"],["98","单测 + E2E"]],
+    big:"22", unit:"个版本 · 约 4 周", bars:22,
+    role:"独立产品人与开发者：需求定义、模块规划、技术选型、迭代节奏与全部实现" },
+  { tag:"案例研究", date:"2026-09-28", hue:"#5b5bd6",
+    title:"情侣心愿 App：3 天 5 阶段交付一个双人产品",
+    desc:"Vue 3 + Pinia + Supabase 的情侣互动应用：心愿闭环、积分与共同日记，从骨架到上线。",
+    metrics:[["3 天","交付周期"],["5","阶段拆解"],["5","功能模块"]],
+    big:"3", unit:"天 · 5 阶段交付", bars:5,
+    role:"独立开发者：需求定义、五阶段拆解、全部前后端实现与部署" }
+];
+
+function coverSVG(c, idx){
+  const n = Math.min(c.bars, 24);
+  let bars = "";
+  for (let i = 0; i < n; i++){
+    const h = 22 + Math.round((i + 1) / n * 58 + (i % 3 === 0 ? 6 : 0));
+    const op = (0.32 + 0.55 * (i + 1) / n).toFixed(2);
+    bars += '<rect x="' + (i * 9) + '" y="' + (68 - h) + '" width="5.4" height="' + h + '" rx="1.6" fill="' + c.hue + '" opacity="' + op + '"/>';
+  }
+  return '<svg viewBox="0 0 536 301" width="100%" height="100%" style="display:block">'
+    + '<defs>'
+    + '<pattern id="dot' + idx + '" width="16" height="16" patternUnits="userSpaceOnUse">'
+    + '<circle cx="1.5" cy="1.5" r="1.4" fill="#1c1b1a" opacity="0.055"/></pattern>'
+    + '</defs>'
+    + '<rect width="536" height="301" fill="#f7f5f1"/>'
+    + '<rect width="536" height="301" fill="url(#dot' + idx + ')"/>'
+    + '<rect x="0" y="0" width="6" height="301" fill="' + c.hue + '"/>'
+    + '<text x="30" y="46" font-family="Georgia, serif" font-size="13" letter-spacing="3.2" fill="' + c.hue + '">CASE STUDY</text>'
+    + '<line x1="30" y1="60" x2="98" y2="60" stroke="' + c.hue + '" stroke-width="2"/>'
+    + '<text x="508" y="46" text-anchor="end" font-size="12.5" fill="#6f6a63">' + c.date + '</text>'
+    + '<g transform="translate(330, 150)">' + bars + '</g>'
+    + '<text x="30" y="216" font-size="64" font-weight="800" letter-spacing="-2.5" fill="#1c1b1a">' + c.big + '</text>'
+    + '<text x="30" y="246" font-size="14" fill="#6f6a63">' + c.unit + '</text>'
+    + '</svg>';
+}
+
+function cardHTML(c, idx){
+  const chips = c.metrics.map(m => '<span class="chip"><b class="num">' + m[0] + '</b>' + m[1] + '</span>').join('');
+  return '<article class="card">'
+    + '<div class="cover">' + coverSVG(c, idx) + '</div>'
+    + '<div class="body">'
+    + '<div class="meta"><span style="color:' + c.hue + ';font-weight:600">' + c.tag + '</span><span class="num">' + c.date + '</span></div>'
+    + '<h3>' + c.title + '</h3>'
+    + '<p>' + c.desc + '</p>'
+    + '<div class="chips">' + chips + '</div>'
+    + '<div class="role">我的角色 · ' + c.role + '</div>'
+    + '</div></article>';
+}
+
+document.getElementById("cards").innerHTML = CASES.map(cardHTML).join("");
+
+const sparkVals = [6, 9, 7, 12, 11, 15, 13, 18, 17, 21, 19, 24, 22, 26];
+document.getElementById("spark").innerHTML = sparkVals.map((v, i) =>
+  '<i class="' + (i % 4 === 3 ? 'w' : '') + '" style="height:' + Math.round(v / 26 * 100) + '%"></i>'
+).join("");
+</script>
+</body></html>

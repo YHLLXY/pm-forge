@@ -1,0 +1,290 @@
+{
+ "tailwind-docs": {
+  "url": "https://tailwindcss.com/docs/installation/using-vite",
+  "ok": true,
+  "status": 200,
+  "finalUrl": "https://tailwindcss.com/docs/installation/using-vite",
+  "data": {
+   "url": "https://tailwindcss.com/docs/installation/using-vite",
+   "vw": 1440,
+   "docH": 2547,
+   "tocHeadings": [],
+   "body": {
+    "cls": "prose relative z-10 mb-10 max-w-3xl",
+    "box": {
+     "x": 376,
+     "y": -576,
+     "w": 768,
+     "h": 56,
+     "right": 1144
+    },
+    "maxWidth": "768px",
+    "fs": "14px",
+    "lh": "28px",
+    "color": "lab(27.1134 -0.956401 -12.3224)"
+   },
+   "leftRail": {
+    "tag": "nav",
+    "cls": "flex flex-col gap-8",
+    "box": {
+     "x": 24,
+     "y": 81,
+     "w": 240,
+     "h": 7408,
+     "right": 264
+    },
+    "pos": "static",
+    "top": "auto",
+    "maxHeight": "none",
+    "overflowY": "visible",
+    "borderRight": "0px solid rgb(0, 0, 0)"
+   }
+  }
+ },
+ "vercel-docs": {
+  "url": "https://vercel.com/docs/frameworks/frontend/astro",
+  "ok": true,
+  "status": 200,
+  "finalUrl": "https://vercel.com/docs/frameworks/frontend/astro",
+  "data": {
+   "url": "https://vercel.com/docs/frameworks/frontend/astro",
+   "vw": 1440,
+   "docH": 15619,
+   "tocHeadings": [
+    {
+     "t": "On this page",
+     "tag": "h2",
+     "cls": "m-0 pb-2 text-label-14 font-normal text-gray-800",
+     "box": {
+      "x": 1169,
+      "y": 88,
+      "w": 240,
+      "h": 28,
+      "right": 1409
+     },
+     "inRightHalf": true,
+     "fs": "14px",
+     "lh": "20px",
+     "fw": "400",
+     "color": "rgb(125, 125, 125)",
+     "tt": "none",
+     "ls": "normal",
+     "mb": "0px"
+    },
+    {
+     "t": "On this page",
+     "tag": "span",
+     "cls": "hidden sm:inline",
+     "box": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0,
+      "right": 0
+     },
+     "inRightHalf": false,
+     "fs": "14px",
+     "lh": "21px",
+     "fw": "500",
+     "color": "rgb(23, 23, 23)",
+     "tt": "none",
+     "ls": "normal",
+     "mb": "0px"
+    }
+   ],
+   "rail": {
+    "tag": "aside",
+    "cls": "h-[calc(100vh-var(--header-height))] w-[240px] max-w-[240px] shrink-0 mr-4 order-last sticky top-[var(--docs-content-sticky-top)] hidden lg:",
+    "box": {
+     "x": 1169,
+     "y": 88,
+     "w": 240,
+     "h": 836,
+     "right": 1409
+    },
+    "pos": "sticky",
+    "top": "88px",
+    "maxHeight": "none",
+    "overflowY": "visible",
+    "padding": "0px",
+    "borderLeft": "0px solid rgb(235, 235, 235)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "display": "block",
+    "gap": "normal",
+    "fontSize": "16px",
+    "rules": [],
+    "linkRules": [],
+    "activeRules": [],
+    "plainLink": {
+     "t": "Get Started with Astro on Vercel",
+     "cls": "cursor-pointer focus-visible:outline-2 outline-[var(--ds-focus-color)] outline-offset-4 block min-w-0 truncate",
+     "aria": null,
+     "fs": "14px",
+     "lh": "20px",
+     "fw": "500",
+     "color": "rgb(23, 23, 23)",
+     "bg": "rgba(0, 0, 0, 0)",
+     "padL": "0px",
+     "pad": "0px",
+     "borderLeft": "0px solid rgb(235, 235, 235)",
+     "opacity": "1",
+     "before": {
+      "content": "none",
+      "bg": "rgba(0, 0, 0, 0)",
+      "w": "auto",
+      "h": "auto",
+      "pos": "static",
+      "radius": "0px"
+     },
+     "after": {
+      "content": "none",
+      "bg": "rgba(0, 0, 0, 0)",
+      "w": "auto",
+      "h": "auto",
+      "pos": "static",
+      "radius": "0px"
+     }
+    },
+    "activeLink": null,
+    "linkCount": 22
+   },
+   "body": {
+    "cls": "max-w-3xl mx-auto w-full",
+    "box": {
+     "x": 333,
+     "y": -6160,
+     "w": 768,
+     "h": 14766,
+     "right": 1101
+    },
+    "maxWidth": "768px",
+    "fs": "16px",
+    "lh": "24px",
+    "color": "rgb(23, 23, 23)"
+   },
+   "bodyToRailGap": 68,
+   "leftRail": {
+    "tag": "nav",
+    "cls": "",
+    "box": {
+     "x": 24,
+     "y": 8801,
+     "w": 1377,
+     "h": 700,
+     "right": 1401
+    },
+    "pos": "static",
+    "top": "auto",
+    "maxHeight": "none",
+    "overflowY": "visible",
+    "borderRight": "0px solid rgb(235, 235, 235)"
+   }
+  }
+ },
+ "linear-docs": {
+  "url": "https://linear.app/docs/keyboard-shortcuts",
+  "ok": true,
+  "status": 404,
+  "finalUrl": "https://linear.app/docs/keyboard-shortcuts",
+  "data": {
+   "url": "https://linear.app/docs/keyboard-shortcuts",
+   "vw": 1440,
+   "docH": 900,
+   "tocHeadings": [],
+   "leftRail": {
+    "tag": "nav",
+    "cls": "eKExYq_container",
+    "box": {
+     "x": 0,
+     "y": 0,
+     "w": 280,
+     "h": 900,
+     "right": 280
+    },
+    "pos": "fixed",
+    "top": "0px",
+    "maxHeight": "none",
+    "overflowY": "hidden",
+    "borderRight": "1px solid rgb(35, 37, 42)"
+   }
+  }
+ },
+ "smashing": {
+  "url": "https://www.smashingmagazine.com/2026/10/how-name-things/",
+  "ok": true,
+  "status": 200,
+  "finalUrl": "https://www.smashingmagazine.com/2026/10/how-name-things/",
+  "data": {
+   "url": "https://www.smashingmagazine.com/2026/10/how-name-things/",
+   "vw": 1440,
+   "docH": 13739,
+   "tocHeadings": [],
+   "body": {
+    "cls": "",
+    "box": {
+     "x": 132,
+     "y": -64,
+     "w": 700,
+     "h": 168,
+     "right": 832
+    },
+    "maxWidth": "none",
+    "fs": "20.4086px",
+    "lh": "33.4929px",
+    "color": "rgb(51, 51, 51)"
+   }
+  }
+ },
+ "overreacted": {
+  "url": "https://overreacted.io/how-i-vibed-a-proof-of-conways-conjecture/",
+  "ok": true,
+  "status": 200,
+  "finalUrl": "https://overreacted.io/how-i-vibed-a-proof-of-conways-conjecture/",
+  "data": {
+   "url": "https://overreacted.io/how-i-vibed-a-proof-of-conways-conjecture/",
+   "vw": 1440,
+   "docH": 27574,
+   "tocHeadings": [],
+   "body": {
+    "cls": "",
+    "box": {
+     "x": 404,
+     "y": -10894,
+     "w": 632,
+     "h": 27390,
+     "right": 1036
+    },
+    "maxWidth": "none",
+    "fs": "16px",
+    "lh": "24px",
+    "color": "rgb(34, 34, 34)"
+   }
+  }
+ },
+ "leerob": {
+  "url": "https://leerob.com/cursor",
+  "ok": true,
+  "status": 200,
+  "finalUrl": "https://leerob.com/cursor",
+  "data": {
+   "url": "https://leerob.com/cursor",
+   "vw": 1440,
+   "docH": 1573,
+   "tocHeadings": [],
+   "body": {
+    "cls": "content-frame",
+    "box": {
+     "x": 415,
+     "y": -580,
+     "w": 600,
+     "h": 1452,
+     "right": 1015
+    },
+    "maxWidth": "none",
+    "fs": "17px",
+    "lh": "27.2px",
+    "color": "rgb(40, 40, 40)"
+   }
+  }
+ }
+}
