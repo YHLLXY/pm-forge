@@ -360,6 +360,65 @@ for (const w of [390, 768]) {
   await p.close();
 }
 
+// ---- 断言 11：站内软跳转（ClientRouter）后目录仍然可用 ----
+// 为什么必须有这条：本项目 v0.15 的 P0 就是「ClientRouter 下打包脚本只执行一次」，
+// 表现为「页面看着正常、其实监听器全没了」。目录的 scroll 监听器同样跑在
+// astro:page-load / before-swap 上，所以必须真的软跳一次、真的滚一下才算验过。
+{
+  const p = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await p.goto(BASE + PAGE, { waitUntil: "networkidle" });
+  await p.waitForTimeout(300);
+
+  const softNav = async target => {
+    const href = await p.evaluate(t => {
+      const a = [...document.querySelectorAll("a[href]")].find(x => {
+        const h = x.getAttribute("href");
+        return h && (h === t || h.endsWith(t));
+      });
+      return a ? a.getAttribute("href") : null;
+    }, target);
+    if (!href) return false;
+    await Promise.all([
+      p.waitForFunction(t => location.pathname === t, target, { timeout: 15000 }),
+      p.evaluate(h => {
+        [...document.querySelectorAll("a[href]")].find(x => x.getAttribute("href") === h).click();
+      }, href),
+    ]);
+    await p.waitForTimeout(700);
+    return true;
+  };
+
+  // 详情页 -> 列表页 -> 另一个详情页：恰好经过一次 teardown 与一次 init
+  const okList = await softNav("/case-studies/");
+  const okDetail = await softNav("/case-studies/couple-app/");
+  const r = await p.evaluate(async () => {
+    const nav = document.querySelector("[data-article-toc]");
+    if (!nav) return { nav: false };
+    const a = document.getElementById("article");
+    const y = a.getBoundingClientRect().top + window.scrollY + a.getBoundingClientRect().height * 0.6;
+    await new Promise(res => {
+      window.scrollTo({ top: Math.round(y), behavior: "instant" });
+      requestAnimationFrame(() => requestAnimationFrame(res));
+    });
+    await new Promise(res => setTimeout(res, 250));
+    const cur = [...nav.querySelectorAll("a[aria-current]")];
+    return {
+      nav: true,
+      navCount: document.querySelectorAll("[data-article-toc]").length,
+      allCount: document.querySelectorAll("[aria-current]").length,
+      curCount: cur.length,
+      idx: cur.length === 1 ? [...nav.querySelectorAll("a")].indexOf(cur[0]) : -1,
+      scrollY: Math.round(window.scrollY),
+    };
+  });
+  check(
+    "断言 11：软跳转（详情页→列表→详情页）后目录仍唯一、当前项仍跟着滚动走",
+    okList && okDetail && r.nav && r.navCount === 1 && r.allCount === 1 && r.curCount === 1 && r.scrollY > 0 && r.idx > 0,
+    "okList=" + okList + " okDetail=" + okDetail + " " + JSON.stringify(r)
+  );
+  await p.close();
+}
+
 // ---- --shots：五张验收图 ----
 if (SHOTS) {
   if (!existsSync(SHOT_DIR)) mkdirSync(SHOT_DIR, { recursive: true });
@@ -401,4 +460,4 @@ if (failures.length) {
   for (const f of failures) console.error("  " + f);
   process.exit(1);
 }
-console.log("✓ 右栏验收全部通过（10 条断言）" + (SHOTS ? "，并已输出 5 张截图" : ""));
+console.log("✓ 右栏验收全部通过（11 条断言）" + (SHOTS ? "，并已输出 5 张截图" : ""));
