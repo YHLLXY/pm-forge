@@ -460,3 +460,48 @@
 - 18 张图抽检（代表性的 4 张逐张看图）：中文无豆腐块、无缺字、无溢出、无压字。
 
 **未核实（照抄调研，不自己补数字）**：X/Twitter 与 Facebook 的 OG 尺寸/格式要求（官方文档 4 个域名本机全部不可达）；LinkedIn 官方尺寸；微信/飞书抓取规则（无官方文档，只能实测）。**平台侧人工复验（LinkedIn Post Inspector / Facebook Sharing Debugger / 直接发微信与飞书各一次）需要用户在能访问的网络下过一遍**——本机只能保证 meta 与图片本身正确。
+
+## 2026-10-12 详情页桌面右栏 + 正文长度单位修正（v0.18）
+
+**问题**：18 个详情页容器 1120px，正文被 `max-w-readable`（68ch）锁死在 **638px 且左对齐**，**右侧恒定空出 466px（占容器 42%）**，在 1280 / 1440 / 1600 / 1920 四个视口下分毫不差 —— 这是模板结构问题，不是屏幕问题。
+
+**做了什么**：
+- 新增 `DetailColumns.astro`（窄屏两个普通块 / ≥1024px 两栏栅格，`items-start` + 显式 `col-start/row-start` + `max-h`/`overflow-y`）与 `ArticleToc.astro`（构建期 `render(entry).headings` 渲染目录 + 当前项追踪）。
+- 五类页面接线，右栏**只搬既有元信息块，不新增任何内容**：案例研究（目录 + 角色/技术栈 + 链接 + 指标卡）、数据分析（目录 + 数据集卡；报告 iframe 留在正文列）、AI 拆解（目录 + 被测产品/评测口径 + 版本口径；正文后 4 个手写小节加 id 并进目录）、拆解章程（6 个 h2 的 id 与目录文本共用同一份 `sections` 常量）、工具箱报告（只有目录；`ProvenanceBanner` 留在正文列）。
+- `max-w-readable`：`68ch` → `40em`。依据：`ch` 是西文数字 "0" 的前进宽度，实测同一份 68ch 在 **10 种字体栈之间摆动 586.5–638.0px（8.8%）**；`40em` = 每行**整 40 个汉字**，同时满足 W3C clreq 7.1.1.4「行长宜为字号整数倍」与日文 jlreq 2.4.2 的 40 字上限。**刻意不加宽正文**（现状已是 39.9 字）。
+- 新增 `check-toc.mjs` 构建门禁（`check-links.mjs:7` 的 SKIP 正则把 `#` 锚点整个跳过，站内锚点从来不校验）；新增 `npm run check:rail` 手动验收（11 条断言 + `--shots` 五张图）；`check-reduce-motion.mjs` 补上目录过渡的复测。
+- 摘掉 `remarkToc`/`remarkCollapse`（会在正文里匹配 `## Contents`/`## TOC` 生成**正文内目录**并包进英文 `details/summary`，与右栏重复；实测 19 个内容文件 / 109 个标题命中 0）。
+
+**实测数字**（`npm run check:rail`，12 个真实浏览器视口断言）：
+
+| 视口 | aside | article | gutter | 右侧余量 |
+|---|---|---|---|---|
+| 1440×900 | 384 | 640 | 64 | **0** |
+| 1920×900 | 384 | 640 | 64 | **0** |
+| 1024×900 | 320 | 624 | 48 | **0** |
+| 390×844 | 358（普通块，与容器内容宽相等） | 358 | — | 0 |
+
+- 粘性：滚动到正文中段后 `aside.getBoundingClientRect().top === 96`（`top-24`）。
+- 当前项：全页 `[aria-current]` **恰好 1 个**且是目录里的 `a`；当前项与默认项的 `color` / `fontWeight` / `box-shadow` **都不同**（防「类名空转」，本项目踩过 `--shadow-*` 的坑）；竖条走 `box-shadow` 不占布局。
+- 矮视口 1440×700：右栏高 554 ≤ 572，超出时内部可滚。
+- 正文长度：1440 下 `#article` 计算宽度 **恰好 640px**、每行 40 字（不是 `.app-prose` 的 65ch = 609.7px）。
+
+**窄屏逐像素不变（实测，非推断）**：390 与 768 × 7 条稳定选择器的几何四元组与「只改完 40em、页面 DOM 还没动」时的基线比对 —— **6 条逐项相等**；第 7 条 `#btt-btn-container` 是 `position: sticky; float: inline-end`，scrollY=0 时文档坐标受包含块顶部钳制（768 下 1016 → 1166），但该元素此时 `opacity: 0` + `translate-y-14` **根本不可见**，而在任何可见滚动位置其**视口坐标与单栏版本逐像素相同**（768 与 1024 × 0.35/0.6/0.9 九个采样点，`viewTop` 全为 970/960/960）→ 断言改为「0.6 滚动比例下的视口坐标 = {top:960, left:660}」。
+
+**验收证据**：
+- `npm run build` 全绿，含新门禁：`✓ 目录检查通过（18 个页面 / 122 条锚点全部命中）`。
+- `check-toc.mjs` **两次反向验证**都真的红过：①正向（未接线时）报 13 项「详情页没有目录」；②把组件 `href` 临时改成 `+ "--mutated"` 后报 **25 行「找不到 id」**（5 页 × 5 条）；还原后 `git diff --stat` 无输出、`找不到 id` 行数回到 0。
+- `npm run check:rail` → `✓ 右栏验收全部通过（11 条断言）`（第 11 条是软跳转：详情页→列表→详情页后目录仍唯一、当前项仍跟着滚动走 —— 本项目 v0.15 的 P0 正是这类「看着正常、监听器全没了」）。
+- `npm run check:reduce` → `✓ reduce 闸门全部达标`，含新增项：目录项 `transition-property` 在 no-preference 下为 `color, background-color, box-shadow`、reduce 下为 `none`。
+- `npm run lh`：13 页中 **12 页四类 100**；`/dissections/doubao/` performance **99**（其余三类 100）；`/data-stories/userbehavior/` 99/95/100/100 与既有基线**一致**。
+- 截图（`docs/research/shots/`）：`rail-1440-article-top.png`、`rail-1440-article-bottom.png`（专门看 `hr` / 标签 / 回到顶部收进 640px 后是否仍合理 —— 回到顶部按钮因此不再压在右栏上）、`rail-1024-article-top.png`、`rail-1440-short.png`、`rail-390-article.png`。
+
+**已知且已查清的一处分数变化（`/dissections/doubao/` performance 100 → 99）**：
+- 现象：TBT 从 0ms 变 ~100ms；**Lighthouse 全部审计项无一失败**（`failing: []`），a11y/bp/seo 仍 100。
+- 定位过程（同一次会话内交替 A/B/A，排除机器状态漂移）：删掉目录的内联 `<script>` → TBT **0ms / perf 100，6/6 次**；装回去 → TBT **~100ms / perf 99，3/3 次**。
+- 但**不是脚本干了重活**：把脚本换成「只做 10 次 `getElementById`、不注册任何监听器、不设任何属性」的空壳，TBT 依旧是 ~100ms（3/3）。同时该 inline script 会让 FCP 提前约 10ms（1206 vs 1219）—— TBT 只统计 **FCP 之后**的主线程任务，FCP 提前把页面本就存在的 ClientRouter 启动任务（`bootup-time` 里 ~250ms，与目录无关）挪进了统计窗口。
+- 结论：**不是用户可感知的退化**（TTI 1358ms 两边一致，FCP 反而更早），是 Lighthouse 打分曲线的边界效应。**未做进一步"优化"**——三个尝试（推迟到 load 再跑、去掉 `data-astro-rerun`、去掉初始高亮）实测都无效，已全部回退到经过评审的原形，不留没有依据的改动。
+
+**本轨顺带发现并订正的计划缺陷**：`check-toc.mjs` 的正向断言要求「所有详情页都有目录」，而计划原本要在只接了 5/18 页时就把它挂进 build 链 → 构建会从 Task 5 一路红到 Task 9。已改为**页面全部接线后才挂链**，并在计划里记下。
+
+**有意不改（记入 ISSUES）**：`max-w-headline`（46ch）/`max-w-deck`（52ch）同属 ch 单位的病但约束的是标题/导语；`dissections/charter` 的目录条数不会自动等于 h2 数。
