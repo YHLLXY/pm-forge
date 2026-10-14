@@ -16,9 +16,10 @@
 
 ## P2 演进项（v1 明确不做，非缺陷）
 
+> 原「作品集外链域名绑定」一条已于 2026-10-14 完成，移入「已修复」#27。
+
 | 项 | 说明 |
 |---|---|
-| 作品集外链域名绑定（用户自行操作） | personal-workbench 的"在线访问"指向 `*.vercel.app` 被墙，国内点击无响应（2026-09-30 用户确认自己解决）。**2026-10-13 复测仍不通**：`personal-workbench-lilac.vercel.app` 与 `pm-forge-rose.vercel.app` 走两条独立路径（直连 + 代理）均 `UND_ERR_CONNECT_TIMEOUT`，而同一时刻 `vercel.com`/`nextjs.org`/`www.yuhailinlxy.com`/`toolbox.yuhailinlxy.com`/`yhllxy.github.io` 全部 200 —— 只有 `*.vercel.app` 不通。判定是**域名被阻断而非部署被删**（部署被删会由边缘秒回 `404 DEPLOYMENT_NOT_FOUND`，而这里是 TCP 连接超时；且 `pm-forge-rose` 与 `www.yuhailinlxy.com` 是同一套站点，后者活着）。**下一步（按 toolbox 已验证的方案照抄）**：Vercel 给 personal-workbench 项目绑子域名（如 `workbench.yuhailinlxy.com`）→ 阿里云解析加两条 A 记录钉死 `76.76.21.21` + `64.29.17.65`（**不要用 CNAME**，见已修复 #8）→ 绑定后把站上 `links.live` 与正文两处链接一并换掉；同时把 GitHub 仓库 homepage 从 `pm-forge-rose.vercel.app` 改为 `https://www.yuhailinlxy.com` |
 | 反馈 CSV 列映射 | 上传已支持 UTF-8/GBK 自动解码（2026-10-07，见已修复 #17）；列映射仍不做——从表格粘贴多列时需用户先删掉与内容无关的列（表单 hint 已引导） |
 | Supabase 持久化 | 运行历史目前仅 localStorage（每工具 10 条）；云端同步待用户量需求 |
 | 反馈工具上传/导出图表 | 优先级矩阵为 CSS 网格，ECharts 可视化待 v2 |
@@ -31,6 +32,7 @@
 
 | # | 问题 | 解决方案 | commit |
 |---|---|---|---|
+| 27 | 案例页「产品在线运行」链接指向 `*.vercel.app`，国内点不开——2026-09-30 登记为 P2 留档，**13 天未收口**；且构建链里**本该拦住它的门禁根本没写**（`门禁体检.md` 却写成已加） | ①用户绑 `workbench.yuhailinlxy.com`：Vercel 加域名 + 阿里云两条 A 记录 `76.76.21.21`/`64.29.17.65`（**不用 CNAME**，同 #8）；实测 DNS 正确、HTTPS 10/10=200、深路由与 `/api/check-reminders` 401 均符合预期。②案例页 `links.live` + 正文两处换链，**删掉已不成立的「需代理」标注**。③补门禁：`check-links.mjs` 另开一趟**不套 `SKIP`** 的扫描禁止内容出现 `*.vercel.app` 链接（原 `SKIP` 正则把一切外链显式跳过，这正是它 13 天没被抓到的原因），并以真实旧 `dist` 证明**能红**（2 条命中、退出码 1） | 本 commit |
 | 26 | 迁移承诺的"旧位置指针文件"从未创建：迁移 commit `47dc1b9` 的 `README.md` 写明「原位置 `E:\homework\开发\pm-forge` … 已整体迁移；**E 盘仅留本说明的指针文件**」，但该 commit 只改了仓库自己的 README，旧位置**没有留下任何文件**；`E:\homework` 深度 3 全盘扫描也找不到任何提到 pm-forge 或 `C:\dev` 的说明。**后果已被真实观测到**：外部读者照 `docs/research` 里的 `site/src/...` 相对路径去 E 盘找仓库 → 扑空 → 误判成"代码丢了、优先级最高是恢复" | 在旧位置建 `E:\homework\开发\pm-forge\README.md`：首行即声明"这里没有代码"，给出真实路径 `C:\dev\pm-forge`、迁移原因（exFAT `readlink`）、迁移 commit，并解释 `site/src/...` 是**仓库相对**路径（实测工作区 15 个 md / 151 处）。另在工作区根建 README 做同类指路 | 本 commit |
 | 19 | `<ClientRouter />` 下「打包后的模块脚本只执行一次」，导致二次站内跳转进 `/search/` 与 `/data-stories/userbehavior/` 后初始化逻辑被跳过：搜索框能打字但零结果、故事页图表不渲染且查询按钮点不动，且控制台零报错（静默失效，线上实测二访 fragment 请求 0） | 两页初始化包成 `initSearch()`/`initStory()` 并挂 `astro:page-load`（故事页 `before-swap` 销毁 IO/scrollama、`engineReady` 提到模块级复用 WASM），顺补 reduced-motion 闸门；新增 `scripts/check-spa-revisit.mjs` 验收（修复前打线上复现红、修复后绿）。**上游 #17550 closed 未合并，升级不会自动修** | 本 commit |
 | 20 | v0.14 的「表面分层」从未真正生效：`theme.css` 只在 `:root` 定义了 `--shadow-1/2`，没有注册进 Tailwind 的 `--shadow-*` 命名空间，于是 `Card.astro` 的 `shadow-1`/`hover:shadow-2` 与 `toolbox/index.astro` 的 `shadow-1` 全是空类（构建产物 `.shadow-1`/`.shadow-2` 命中 0） | 在 `@theme inline` 里注册 `--shadow-card: var(--shadow-1)` / `--shadow-lift: var(--shadow-2)`（不同名字映射，避免自我引用）并全站换用；C 轨的卡片 hover/focus 反馈因此才真的有阴影可动 | 本 commit |

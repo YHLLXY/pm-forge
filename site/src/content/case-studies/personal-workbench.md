@@ -2,13 +2,13 @@
 title: "个人工作台：4 周迭代 22 个版本的自我管理产品"
 description: "React 19 + Supabase 的个人效率工作台：模块注册表架构、双适配器数据层、体积预算门禁，从 v1.0 到 v1.22 的完整产品过程。"
 pubDatetime: 2026-09-28T12:00:00+08:00
-modDatetime: 2026-09-28T12:00:00+08:00
+modDatetime: 2026-10-14T23:50:00+08:00
 featured: true
 tags: ["产品设计", "React", "架构"]
 projectRole: "独立产品人与开发者：需求定义、模块规划、技术选型、迭代节奏与全部实现"
 stack: ["React 19", "Vite", "TypeScript", "Tailwind v4", "shadcn/ui", "Supabase", "TanStack Query", "Vercel"]
 links:
-  live: "https://personal-workbench-lilac.vercel.app"
+  live: "https://workbench.yuhailinlxy.com"
 metrics:
   - label: "迭代版本"
     value: "v1.0 → v1.22"
@@ -47,7 +47,7 @@ metrics:
 
 - **4 周内发布 22 个版本**（v1.0 → v1.22），从 5 模块长到 7 大主模块（总览、学习与科研、自我提升、资讯与资料、健康、复盘、我的），全程每个 commit 可构建。
 - **质量门禁全绿**：98 个单元测试 + Playwright 端到端 + 体积预算门禁（拦下 123KB 的劣化方案）。
-- 产品在线运行：[personal-workbench-lilac.vercel.app](https://personal-workbench-lilac.vercel.app)（注：*.vercel.app 域名国内直连需代理）。支持 PWA 安装、Web Push / Server酱 提醒、备份导出导入、云端多设备同步。
+- 产品在线运行：[workbench.yuhailinlxy.com](https://workbench.yuhailinlxy.com)。支持 PWA 安装、Web Push / Server酱 提醒、备份导出导入、云端多设备同步。
 - **诚实交代**：这是 N=1 的自用产品，没有外部用户数据。它的价值在于**完整产品过程的证据**——版本制度、发版 checklist、验收清单、体积预算，这套流程可以直接复用到团队场景。
 
 ## 五、复盘与反思

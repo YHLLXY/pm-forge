@@ -525,3 +525,35 @@
 **顺带发现**：`check-dissections.mjs` 每次运行都打印 `⚠ 私有隐私词表未加载…防御不完整`——`site/out/dissection-privacy-lexicon.txt` 本机不存在，隐私扫描只剩"模式层"（手机号/身份证号正则），**"人名词表层"整体跳过**。这不是设计缺陷（词表**故意**不入库，`site/.gitignore:5: out/` 忽略正确、`git log -- site/out/*` 显示从未跟踪），但是**真实缺口**：这道防线在本机只有一半，且它在构建里**永远是绿的**（缺失只 `warn` 不 `fail`），没人会注意到。
 
 **未收口（用户侧）**：`*.vercel.app` 外链域名绑定（ISSUES P2 已更新为带精确下一步的待办）。本机复测仍不通，判定为域名阻断而非部署被删。
+
+> **已于 2026-10-14 收口** —— 见下节。
+---
+
+## 2026-10-14 外链域名落地 + 门禁补做（v0.20）
+
+**触发**：上节「未收口（用户侧）」那条，用户当日执行完毕。
+
+**用户侧完成**：绑定 `workbench.yuhailinlxy.com` —— Vercel 给 `personal-workbench` 项目加域名 + 阿里云加两条 A 记录 `76.76.21.21` / `64.29.17.65`（**未用 CNAME**）。
+
+**本机复测（全绿）**：DNS 两条 A 记录正确且无 CNAME；HTTPS **10/10 = 200**；`<title>` = 个人工作台（确认不是 pm-forge 站点）；SPA 深路由 `/login` `/today` `/papers` **全 200**（rewrites 在新域名上生效）；`/api/check-reminders` 无 token → **401**（与 `docs/VERIFY.md` 记录一致）；首页 15 个静态资源全部 200；`www` / `toolbox` 对照各 3/3，未受影响。
+
+**根因（这次拿到硬证据）**：`*.vercel.app` 在国内不是「偶尔连不上」，而是**整片域被 DNS 污染** —— 用阿里云 DoH（用户域名的解析商）实测：`pm-forge-rose.vercel.app` → `31.13.94.23`（**Facebook 网段**）、`vercel.app` 根域 → `128.242.240.189`（同样不是 Vercel 真实 IP）、`personal-workbench-lilac.vercel.app` → **SERVFAIL**。对照：4 个伪造 ref 一律 NXDOMAIN，说明是解析结果被**替换**而非域名不存在。**唯一解法是绑自定义域名** —— 这正是 2026-09-27 那条 A 记录经验能直接复用的原因。
+
+**代码侧（本 commit）**：
+
+1. **案例页换链**：`personal-workbench.md` 的 `links.live` + 正文两处 → `https://workbench.yuhailinlxy.com`；**删掉已不成立的「（注：`*.vercel.app` 域名国内直连需代理）」**；`modDatetime` → 2026-10-14。
+2. **补做 Task 4 第 4 条**（即上节「没做却被写成做了」那件）：`check-links.mjs` **49 → 70 行**，新增第二趟扫描 —— **不套原有 `SKIP` 正则**（它把一切外链显式跳过，这正是该缺陷 13 天没被抓到的原因），命中 `href="…*.vercel.app…"` 即 `exit 1`。
+3. **「能红」是实测的**：对**改动前的真实旧 `dist`** 跑，报出 2 条 `personal-workbench-lilac.vercel.app`、退出码 1；重建后转绿。**不是造个假链接验的。**
+4. **更正假声明**：`docs/门禁体检.md` 加勘误段（写明 2026-10-13 写成时该检查并不存在，与 D1 指针文件是**同一失效模式、同一轮犯了两次**）；`docs/lessons-learned.md:132` 就地更正。
+5. **补完实施计划 §6**：Task 3/4/5 三个任务回填（原先只回填到 Task 2），并新增 §7 记录本日收尾。
+6. `ISSUES.md`：P2 那条移入「已修复 **#27**」，P2 区顶部留一行去向说明，避免以后有人以为它凭空消失。
+
+**全量构建**：**退出码 0 / 64.8s / 28 页 / 10 门禁全绿**；`check-links` 输出新增尾注「扫描 146 个产物文件；无 `*.vercel.app` 链接」。
+
+**数字口径说明**：`docs/research` 实为 **35 文件 / 992.0KB**（含 `_Index.md` 与 `_MANIFEST.md`）；正文 33 个 / 985.1KB —— 上节记的「985KB」用的是后者口径，两者一致，**不是漂移**。
+
+**仍待用户操作（非阻塞，两项）**：
+
+1. 两个 GitHub 仓库的 homepage 仍指向 `*.vercel.app`：`YHLLXY/-personal-workbench` → `personal-workbench-lilac.vercel.app`；`YHLLXY/pm-forge` → `pm-forge-rose.vercel.app`。本机 `gh` CLI **未安装**，需在网页端 Settings 修改。
+2. `VITE_SUPABASE_URL` 被设成 Sensitive，导致用户**自己也读不到**（本次配 Supabase 回调白名单时卡在这里）。呼应 vault 手册修复清单 #8「**`VITE_` 前缀绝不开 Sensitive**」——该值构建期内联进前端包，本就是公开的，开 Sensitive 是纯自伤。可选清理。
+

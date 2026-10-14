@@ -46,4 +46,25 @@ if (broken.length) {
   );
   process.exit(1);
 }
-console.log(`死链检查通过 ✓（扫描 ${distFiles.size} 个产物文件）`);
+
+// 第二趟：内容里不得出现指向 *.vercel.app 的可点击链接。
+// 为什么必须另开一趟：上面的 SKIP 正则 /^(https?:|...)/ 把一切外链显式跳过 —— 也就是说
+// 「能过门禁、但在国内点不开」的链接，本脚本原来一条都抓不到。这正是本次的漏洞成因。
+// 为什么要禁：*.vercel.app 整片域在国内被 DNS 污染（实测解析到 Facebook 网段 / SERVFAIL），
+// 且 Vercel 边缘不会回 404，表现为 TCP 连接超时 —— 对读者形同死链。绑自定义域名即可解决。
+const vercelLinks = [];
+for (const p of [...distFiles].filter(f => f.endsWith(".html"))) {
+  const html = readFileSync(join(DIST, p), "utf8");
+  for (const m of html.matchAll(/href="(https?:\/\/[^"]*\.vercel\.app[^"]*)"/gi)) {
+    vercelLinks.push(`${p} -> ${m[1]}`);
+  }
+}
+if (vercelLinks.length) {
+  console.error(
+    `内容里出现 *.vercel.app 链接 ${vercelLinks.length} 条（该域国内被 DNS 污染，点不开）：\n` +
+    vercelLinks.map(b => `  - ${b}`).join("\n")
+  );
+  process.exit(1);
+}
+
+console.log(`死链检查通过 ✓（扫描 ${distFiles.size} 个产物文件；无 *.vercel.app 链接）`);
