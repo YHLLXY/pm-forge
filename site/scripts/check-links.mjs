@@ -52,17 +52,25 @@ if (broken.length) {
 // 「能过门禁、但在国内点不开」的链接，本脚本原来一条都抓不到。这正是本次的漏洞成因。
 // 为什么要禁：*.vercel.app 整片域在国内被 DNS 污染（实测解析到 Facebook 网段 / SERVFAIL），
 // 且 Vercel 边缘不会回 404，表现为 TCP 连接超时 —— 对读者形同死链。绑自定义域名即可解决。
-const vercelLinks = [];
+const vercelRefs = [];
 for (const p of [...distFiles].filter(f => f.endsWith(".html"))) {
   const html = readFileSync(join(DIST, p), "utf8");
-  for (const m of html.matchAll(/href="(https?:\/\/[^"]*\.vercel\.app[^"]*)"/gi)) {
-    vercelLinks.push(`${p} -> ${m[1]}`);
+  // 判据用 URL 解析而不是正则：能正确处理协议相对（//x.vercel.app）、大小写与裸根域，
+  // 且不会把 vercel.app.evil.com 这类「只是长得像」的域名误判。
+  // （正则版实测 3 漏 + 1 误报：漏协议相对/漏 src/漏裸根域，误报 *.vercel.app.* 后缀域名。）
+  // href 与 src 都查：外链图片同样点不开。
+  for (const m of html.matchAll(/(?:href|src)="([^"]+)"/gi)) {
+    let host;
+    try { host = new URL(m[1], "https://x.invalid/").hostname; } catch { continue; }
+    if (host === "vercel.app" || host.endsWith(".vercel.app")) {
+      vercelRefs.push(`${p} -> ${m[1]}`);
+    }
   }
 }
-if (vercelLinks.length) {
+if (vercelRefs.length) {
   console.error(
-    `内容里出现 *.vercel.app 链接 ${vercelLinks.length} 条（该域国内被 DNS 污染，点不开）：\n` +
-    vercelLinks.map(b => `  - ${b}`).join("\n")
+    `内容里出现指向 *.vercel.app 的链接/资源 ${vercelRefs.length} 条（该域国内被 DNS 污染，点不开）：\n` +
+    vercelRefs.map(b => `  - ${b}`).join("\n")
   );
   process.exit(1);
 }
