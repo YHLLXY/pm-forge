@@ -554,7 +554,7 @@
 
 **仍待用户操作（非阻塞，两项）**：
 
-1. ~~两个 GitHub 仓库的 homepage 仍指向 `*.vercel.app`~~ —— **2026-10-16 复核已解决**（本机用 `git credential fill` 取 token 走 API 实查）：`YHLLXY/-personal-workbench` → `https://workbench.yuhailinlxy.com`、`YHLLXY/pm-forge` → `https://www.yuhailinlxy.com`，两条都已是自定义域名。仍缺的是 **pm-forge 仓库的 description 与 topics 为空**（作品站把它当「公开仓库」证据链的一环，建议补）。
+1. ~~两个 GitHub 仓库的 homepage 仍指向 `*.vercel.app`~~ —— **2026-10-16 复核已解决**（本机用 `git credential fill` 取 token 走 API 实查）：`YHLLXY/-personal-workbench` → `https://workbench.yuhailinlxy.com`、`YHLLXY/pm-forge` → `https://www.yuhailinlxy.com`，两条都已是自定义域名。同轮**已补**：`YHLLXY/pm-forge` 的 description 与 12 个 topics 已通过 API 写入（作品站把「公开仓库」当证据链的一环，仓库首页信息为空与这个主张不匹配）。
 2. `VITE_SUPABASE_URL` 被设成 Sensitive，导致用户**自己也读不到**（本次配 Supabase 回调白名单时卡在这里）。呼应 vault 手册修复清单 #8「**`VITE_` 前缀绝不开 Sensitive**」——该值构建期内联进前端包，本就是公开的，开 Sensitive 是纯自伤。可选清理。
 
 ## 2026-10-16 作品站「个人工作台」案例同步（v0.21）
