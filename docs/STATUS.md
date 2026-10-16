@@ -554,6 +554,41 @@
 
 **仍待用户操作（非阻塞，两项）**：
 
-1. 两个 GitHub 仓库的 homepage 仍指向 `*.vercel.app`：`YHLLXY/-personal-workbench` → `personal-workbench-lilac.vercel.app`；`YHLLXY/pm-forge` → `pm-forge-rose.vercel.app`。本机 `gh` CLI **未安装**，需在网页端 Settings 修改。
+1. ~~两个 GitHub 仓库的 homepage 仍指向 `*.vercel.app`~~ —— **2026-10-16 复核已解决**（本机用 `git credential fill` 取 token 走 API 实查）：`YHLLXY/-personal-workbench` → `https://workbench.yuhailinlxy.com`、`YHLLXY/pm-forge` → `https://www.yuhailinlxy.com`，两条都已是自定义域名。仍缺的是 **pm-forge 仓库的 description 与 topics 为空**（作品站把它当「公开仓库」证据链的一环，建议补）。
 2. `VITE_SUPABASE_URL` 被设成 Sensitive，导致用户**自己也读不到**（本次配 Supabase 回调白名单时卡在这里）。呼应 vault 手册修复清单 #8「**`VITE_` 前缀绝不开 Sensitive**」——该值构建期内联进前端包，本就是公开的，开 Sensitive 是纯自伤。可选清理。
+
+## 2026-10-16 作品站「个人工作台」案例同步（v0.21）
+
+**触发**：用户「现在同步一下我的作品站上的有关于个人工作台的部分吧」。
+
+**盘点（先枚举，再动手）**：全站扫「工作台 / workbench / 版本号形态」，6 处命中里**只有 2 处**需要同步 —— `site/src/content/case-studies/personal-workbench.md`（案例页）与 `site/src/content/pages/about.md`（能力域证据 + 时间线）；另 4 处是无关文案（toolbox 截图的 `alt`、搜索框 `placeholder` 等），**判定不改**。案例停在 **v1.22（2026-09-01）**，项目已到 **v1.30.3（2026-10-16）**。
+
+**权威数字（全部现跑，不引用记忆/文档）**：
+
+- 版本：changelog 逐条解析 → **47 个版本**（`v1.0.0` 2026-08-04 → `v1.30.3` 2026-10-16），分三段 **23 + 6 + 18**（前 4 周密集 / 9 月按需 / 10 月两天 AI 日报专项）
+- 测试：`npm test` → **625 通过 / 69 文件**；E2E `e2e/smoke.spec.ts` **12 条**（单 chromium project）
+- 模块：`src/registry.ts` → **6 主模块 / 12 子模块** + 一个「我的」页
+- 体积预算（`scripts/check-bundle.mjs` 常量）：首屏 **790** / 总量 **1150** / 单 chunk **340** KB
+- AI 日报：`api/hot.ts` 的 `SOURCES` **25 个源**（与线上自检报的「60 条 / 25 源」一致）；`api/digest.ts` `buildReport` 的 `items` = 事件条目数，交付当日全自动运行 `{items:14, sources:5}`
+- 发布链：日报 `0 20 * * *`（北京 04:00）、提醒 `*/20 * * * *`
+
+**改了什么**：
+
+1. **案例页**：标题 → `个人工作台：10 周 47 个版本的自我管理产品`；description / `modDatetime` / tags / stack（+DeepSeek API）同步；`metrics` 重选；新增 **取舍 5**（AI 进产品：状态机+幂等 / 时间预算按剩余 60-40 切 / 空闲计费 + 关思考模式）与 **取舍 6**（平台不保证准时 → 日报提前 04:00、提醒每 20 分钟、删掉 UI 里「每天 06:00」的承诺）；结果区数字全部换成现跑值；复盘区新增「代价最贵的一课」（替身比真库宽松）与新的「下次会验证的」。
+2. **`about.md`**：能力域「工程交付」补「AI 功能编排与上线自检」；时间线加 2026-10 的个人工作台，8 月那条 **22 → 23 版**。
+3. **`links.repo`**：仓库本就公开（匿名 API 200）。加链前做体检 —— 跟踪文件只有 `.env.example` / `.env.test`（VAPID **公钥**，设计上公开），历史 `-G 'sk-[A-Za-z0-9]{24,}'` 与 JWT 形态 **0 命中**。
+4. **OG 图重生**：`npm run og` → 18 张（底排最紧 agriagent 94%，本页 **88.6%**）。
+
+**踩到的门禁（值得记）**：`metrics` 不只是数据、**同时是封面底排文案**。指标值一加长，`npm run og` 直接红：`✗ 底排出框：personal-workbench 1210>1026`（`scripts/og/card.mjs` 的 `estimateWidth` 拿 headline+facts+域名 与可用宽 1026 比）。**不放宽版式**，改为按预算重选指标值（「625 单测 + E2E」→「625 单测」，细节挪进 `note`）。约束在脚本里、不在写内容的人会读的地方。
+
+**验证**：
+
+- `npm run build` **退出码 0 / 28 页 / 10 门禁全绿**：案例 5 篇 × 四段式 · 死链（146 文件，无 `*.vercel.app`）· RSS 17 条 · JSON-LD（29 页 / 17 个 BlogPosting）· 标题结构（29 页恰好一个 h1、无跳级）· 目录（18 页 / 122 锚点）· 首页证据面板 · OG（18 图 / 28 页）· 体积（duckdb 33.39MB / story 2.03MB）
+- **真实浏览器截图 6 张**（1440 桌面整页+折叠位、390 移动整页、首页、案例列表、关于）**零 console 错误**；页面渲染与右栏「在线访问 / 源码仓库」双链均确认
+- 尺寸自检：标题 **20.92 em** ≤ 28、description **67.44 em** ≤ 76（均不触发截断）
+
+**登记不改**：ISSUES **#28** —— `site/.github/workflows/ci.yml` 是 AstroPaper 模板遗留，**GitHub 只读仓库根目录的 `.github/workflows/`**，嵌套那份从未被调度，故 `site/` 的 `lint`（实测 186 个 `no-console`）与 `format:check`（144 文件）从没被任何 CI 跑过；与 #24 同源。构建链不受影响。
+
+**本机待留意**：`site/public/duckdb/duckdb-browser-eh.worker.js` 每次 `npm run build` 都会被 `copy-duckdb-assets.mjs` 重写成 CRLF，于是 `git status` 常年显示 ` M` 而 `git diff` 为空（行尾归一化）。**不要把它一起提交**。
+
 

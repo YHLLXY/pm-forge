@@ -13,6 +13,7 @@
 | 23 | dissections/charter 的目录条目数不会自动等于正文 h2 数 | 该页 h2 是手写的；目录与 id 虽共用同一份 sections 常量，但「正文里加了小节却忘了加进常量」没有任何自动信号 —— check-toc.mjs 只校验「目录里的锚点在本页存在」，是单向的 | 新增小节可能不进目录（页面看着正常，只是漏了一条） | 低 | 常量上方已写注释提醒；若要机械化，需给手写页补一条「正文 h2 数 vs 目录条目数」断言 |
 | 24 | 本机 npm run format:check 全红，报一堆文件格式不符 | .prettierrc 是 endOfLine: "lf"，而 core.autocrlf=true 把检出文件全变成 CRLF（实测未改过的 typography.css / index.astro / Footer.astro 同样报红） | 无法用 prettier 做提交前检查（**它不是构建链门禁，构建与发布不受影响**） | 低 | **不处理**：不要为了让 prettier 变绿去改行尾（会造出整文件级 diff，且下次检出又被 autocrlf 打回）。要修就统一改 .prettierrc 或关 autocrlf，另开一轮 |
 | 25 | 本机两条 PowerShell **假信号**：①npm run 报 UnauthorizedAccess（禁止运行脚本）；②cmd 2>&1 \| Select-Object 让 pwsh 进程报 [exit 1]，而命令其实成功 | ①执行策略禁止运行 npm.ps1；②PS 把原生命令的 stderr 包成 NativeCommandError，经管道收尾后影响进程退出码 | 会把成功误判为失败、把绿门禁误判成红，然后去「修」根本没坏的东西 | 低 | ①一律写 npm.cmd；②不接管道，或 cmd *> 日志文件 再 Get-Content，并显式读 $LASTEXITCODE。已写入 v0.18 实施计划的「本机执行环境的三个坑」 |
+| 28 | `site/` 的 `npm run lint` 与 `npm run format:check` 全红（2026-10-16 实测：format **144 文件**不符、lint **186 个 `no-console`** 错误），且**从未被任何 CI 跑过** | `site/.github/workflows/ci.yml` 是 AstroPaper 模板遗留——**GitHub 只读仓库根目录的 `.github/workflows/`**，嵌套目录里的工作流永远不会被调度（根 CI 只跑 `site/` 的 `npm run build`）。#24 记的 `format:check` 红与此同源（`endOfLine: lf` vs `core.autocrlf=true`）；lint 红是 eslint 配置没给 `scripts/*.mjs`（CLI 脚本，天然要 `console.log`）留 override | 这两条检查**形同不存在**：写坏格式、给脚本加 `console.log` 没有任何东西会拦（**构建链与发布不受影响**） | 低 | 登记不改：要修就一并处理（删掉嵌套 `ci.yml` 或挪进根工作流 + 给 `scripts` 加 eslint override），另开一轮。**注意别把它当成「这次改动弄红的」** |
 
 ## P2 演进项（v1 明确不做，非缺陷）
 
