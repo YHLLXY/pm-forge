@@ -10,13 +10,13 @@ import { entryUrl } from "@/utils/entryUrl";
 const cases = sortEntries(await getCollection("caseStudies"));
 ---
 
-<Layout title="案例研究 | 余翰林的作品集" description="把做过的项目写成产品视角的案例：背景与问题、我的角色、关键取舍、量化结果、复盘反思。">
+<Layout title="案例研究 | 余翰林的作品集" description="把做过的项目写成产品视角的案例：背景与问题、我的角色、关键取舍、量化结果，外加可选复盘。">
   <Header />
   <main id="main-content" class="app-layout my-8">
     <h1 class="text-3xl font-bold">案例研究</h1>
     <p class="text-foreground/75 mt-3">
-      把做过的项目写成产品视角的案例。每篇固定五段式：背景与问题 → 我的角色 → 过程与关键取舍 → 结果与量化 → 复盘反思；
-      数字标注口径，没验证过的如实说“没验证”。
+      把做过的项目写成产品视角的案例。每篇固定四段：背景与问题 → 我的角色 →
+      过程与关键取舍 → 结果与量化，第五段「复盘与反思」可选；数字标注口径，没验证过的如实说“没验证”。
     </p>
     <ul class="mt-6 grid gap-5 sm:grid-cols-2">
       {

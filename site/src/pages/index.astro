@@ -1,12 +1,15 @@
 ---
 import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import toolboxShot from "@/assets/covers/toolbox.webp";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
 import EvidencePanel from "@/components/EvidencePanel.astro";
 import Card from "@/components/Card.astro";
+import Section from "@/components/Section.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import { sortEntries } from "@/utils/sortEntries";
 import { entryUrl } from "@/utils/entryUrl";
@@ -71,11 +74,27 @@ const toolboxTools = [
             AI PM 工具箱
           </a>。
         </p>
-        <div class="mt-5">
-          <LinkButton href="/interviewers/">
+        {
+          /* 三条读者路径都摆在首屏：主入口做成"安静的小卡片"而不是纯文字链接，
+             否则它和下面的次级链接完全同重，读者分不出哪个是推荐路径。
+             次级链接只给已有页面（/dissections/、/case-studies/），不新增任何路由。 */
+        }
+        <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <LinkButton
+            href="/interviewers/"
+            class="border-border bg-surface-1 shadow-card hover:shadow-lift rounded-lg border px-3.5 py-2 text-sm font-semibold"
+          >
             面试官快速通道（15 分钟了解这个作品集）
             <IconArrowRight class="inline-block" />
           </LinkButton>
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+            <a class="text-accent underline-offset-4 hover:underline" href="/dissections/">
+              看方法论 <span aria-hidden="true">→</span>
+            </a>
+            <a class="text-accent underline-offset-4 hover:underline" href="/case-studies/">
+              看最近更新 <span aria-hidden="true">→</span>
+            </a>
+          </div>
         </div>
         {
           config.socials.length > 0 && (
@@ -94,12 +113,20 @@ const toolboxTools = [
 
     {
       featuredCases.length > 0 && (
-        <section id="featured" class="border-border border-b pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">精选案例</h2>
-          <ul class="mt-4 grid gap-5 sm:grid-cols-2">
-            {featuredCases.map(c => (
+        <Section
+          id="featured"
+          index="01"
+          zh="精选案例"
+          en="SELECTED CASES"
+          accent="case"
+          more={{ href: "/case-studies/", label: "全部案例" }}
+        >
+          <ul class="mt-5 grid gap-5 sm:grid-cols-2">
+            {featuredCases.map((c, i) => (
               <Card
                 variant="h3"
+                class={i === 0 ? "sm:col-span-2" : undefined}
+                wide={i === 0}
                 href={entryUrl("case-studies", c.id)}
                 title={c.data.title}
                 description={c.data.description}
@@ -117,21 +144,21 @@ const toolboxTools = [
               />
             ))}
           </ul>
-          <div class="my-6">
-            <LinkButton href="/case-studies/">
-              全部案例
-              <IconArrowRight class="inline-block" />
-            </LinkButton>
-          </div>
-        </section>
+        </Section>
       )
     }
 
     {
       latestAnalysis.length > 0 && (
-        <section id="analysis" class="border-border border-b pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">数据分析</h2>
-          <ul class="mt-4 grid gap-5 sm:grid-cols-2">
+        <Section
+          id="analysis"
+          index="02"
+          zh="数据分析"
+          en="DATA ANALYSIS"
+          accent="analysis"
+          more={{ href: "/analysis/", label: "全部报告" }}
+        >
+          <ul class="mt-5 grid gap-5 sm:grid-cols-2">
             {latestAnalysis.map(a => (
               <Card
                 variant="h3"
@@ -150,21 +177,21 @@ const toolboxTools = [
               />
             ))}
           </ul>
-          <div class="my-6">
-            <LinkButton href="/analysis/">
-              全部报告
-              <IconArrowRight class="inline-block" />
-            </LinkButton>
-          </div>
-        </section>
+        </Section>
       )
     }
 
     {
       latestDissections.length > 0 && (
-        <section id="dissections" class="border-border border-b pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">AI 产品拆解</h2>
-          <p class="mt-2">
+        <Section
+          id="dissections"
+          index="03"
+          zh="AI 产品拆解"
+          en="AI TEARDOWN"
+          accent="dissection"
+          more={{ href: "/dissections/", label: "全部拆解" }}
+        >
+          <p class="mt-3 max-w-deck">
             共 {recordCount}{" "}
             条任务实测（含陷阱探测与顺从性探测），失败案例与成功案例同等呈现，判定分布由构建门禁机械核对。
           </p>
@@ -202,19 +229,18 @@ const toolboxTools = [
               />
             ))}
           </ul>
-          <div class="my-6">
-            <LinkButton href="/dissections/">
-              全部拆解
-              <IconArrowRight class="inline-block" />
-            </LinkButton>
-          </div>
-        </section>
+        </Section>
       )
     }
 
-    <section id="data-story" class="border-border border-b pt-12 pb-6">
-      <h2 class="text-2xl font-semibold tracking-wide">数据故事</h2>
-      <p class="mt-2">
+    <Section
+      id="data-story"
+      index="04"
+      zh="数据故事"
+      en="DATA STORY"
+      accent="story"
+    >
+      <p class="mt-3 max-w-deck">
         《淘宝用户行为九日谈》：8 节滚动叙事 + 12 个预置问题，DuckDB-WASM
         引擎懒加载——读者可以在浏览器里亲手复算我的数据（移动端自动降级为纯阅读）。
       </p>
@@ -224,24 +250,53 @@ const toolboxTools = [
           <IconArrowRight class="inline-block" />
         </LinkButton>
       </div>
-    </section>
+    </Section>
 
-    <section id="toolbox" class="pt-12 pb-6">
-      <h2 class="text-2xl font-semibold tracking-wide">AI PM 工具箱</h2>
-      <p class="mt-2">
+    <Section
+      id="toolbox"
+      index="05"
+      zh="AI PM 工具箱"
+      en="TOOLKIT"
+      accent="toolbox"
+      divider={false}
+    >
+      <p class="mt-3 max-w-deck">
         我自己设计并实现的 AI 产品工具站：证据链提示词、token
         预算守卫、演示模式， Next.js 16 + React 19 实现，已部署上线。
       </p>
-      <ul class="not-prose mt-4 grid gap-3 sm:grid-cols-3">
+      <div class="not-prose mt-5 grid gap-5 sm:grid-cols-12">
         {
-          toolboxTools.map(tool => (
-            <li class="border-border bg-surface-1 rounded-lg border p-4">
-              <p class="font-semibold">{tool.name}</p>
-              <p class="text-muted-foreground mt-1 text-sm">{tool.desc}</p>
-            </li>
-          ))
+          /* 全站第一张真实产品画面：PM Forge 首页（公开可访问，抓于 2026-10-27）。
+             个人工作台封面仍缺——它的线上站要登录，这一格等用户提供登录后截图再补，
+             不拿登录页冒充"产品界面"。 */
         }
-      </ul>
+        <a
+          href="https://toolbox.yuhailinlxy.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="border-border shadow-card hover:shadow-lift block overflow-hidden rounded-xl border sm:col-span-7"
+        >
+          <Image
+            src={toolboxShot}
+            alt="PM Forge 首页：三个工具入口（竞品分析 / 用户反馈洞察 / PRD 草稿）与「已连接 · deepseek-chat」状态条"
+            widths={[640, 1280]}
+            sizes="(min-width: 640px) 58vw, 92vw"
+            class="h-auto w-full"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+        <ul class="grid gap-3 sm:col-span-5">
+          {
+            toolboxTools.map(tool => (
+              <li class="border-border bg-surface-1 rounded-lg border p-4">
+                <p class="font-semibold">{tool.name}</p>
+                <p class="text-muted-foreground mt-1 text-sm">{tool.desc}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
       <div class="my-6 flex flex-wrap gap-4">
         <LinkButton
           href="https://toolbox.yuhailinlxy.com"
@@ -274,7 +329,7 @@ const toolboxTools = [
           </div>
         )
       }
-    </section>
+    </Section>
   </main>
   <Footer />
 </Layout>

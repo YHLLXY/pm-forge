@@ -1,0 +1,63 @@
+---
+// Section.astro —— 首页板块外壳：章节坐标（§ 编号）+ 英文 eyebrow + 中文标题 + 可选"更多"出口
+// 依据：docs/research/2026-10-27-拆解-01-法典fadian.md §2（编号建立"位置感"）、
+//       -02-CQUPTHUB官网.md §8.1（中英双语 eyebrow）、-04-联合学院官网.md §5.3（"更多 >"统一出口）
+// 门禁约束：check-headings.mjs —— 每页恰好 1 个 h1、标题不跳级。这里只允许 h2；
+// "§ 编号 / 英文 eyebrow" 必须是 <p>，写成 h3 会在「h2 → h3 → 下一个 h2」的页面上触发跳级判定。
+type Props = {
+  id: string;
+  /** 章节序号，两位数字符串（"01"），显示为 "§ 01" */
+  index: string;
+  zh: string;
+  en: string;
+  /** 板块级出口：统一放标题行右侧，替代原先沉在板块底部的各说各话的链接 */
+  more?: { href: string; label: string };
+  /** 板块识别色，取 --section-* 的 5 个键之一；只染 § 编号这一处，不做大面积铺色 */
+  accent?: "case" | "analysis" | "dissection" | "story" | "toolbox";
+  /** 最后一个板块关掉底部横线（页面收口交给 Footer 自己的 border-t） */
+  divider?: boolean;
+};
+
+const { id, index, zh, en, more, accent, divider = true } = Astro.props;
+const headingId = `section-${id}-heading`;
+---
+
+<section
+  id={id}
+  aria-labelledby={headingId}
+  class:list={["border-border pt-12 pb-6", { "border-b": divider }]}
+>
+  <p
+    class="text-muted-foreground flex items-center gap-2 font-mono text-[11px] tracking-[0.08em]"
+  >
+    <span
+      aria-hidden="true"
+      style={accent ? `color: var(--section-${accent})` : undefined}
+    >
+      § {index}
+    </span>
+    <span aria-hidden="true" class="opacity-40">·</span>
+    <span class="tracking-[0.14em] uppercase">{en}</span>
+  </p>
+  {
+    /* 出口与 h2 同一行：若把 eyebrow 和 h2 包进同一个 flex 子项，align-items-baseline
+       对齐的是该子项的**首行**（eyebrow），链接会飘在标题上方。所以 eyebrow 独立成行，
+       只有 h2 与链接组成 baseline 行。 */
+  }
+  <div class="mt-0.5 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+    <h2 id={headingId} class="text-2xl font-semibold tracking-wide">
+      {zh}
+    </h2>
+    {
+      more && (
+        <a
+          href={more.href}
+          class="text-accent shrink-0 text-sm whitespace-nowrap hover:underline"
+        >
+          {more.label} <span aria-hidden="true">→</span>
+        </a>
+      )
+    }
+  </div>
+  <slot />
+</section>

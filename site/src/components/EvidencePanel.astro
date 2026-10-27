@@ -1,4 +1,10 @@
 ---
+// 首页证据面板：5 个"可核对的数"+ 最近更新，排成 6 格网格。
+// 为什么不保留原来的单列明细：2026-10-27 迭代实测，18px 数字夹在 14px 标签旁，
+// 读者扫不出"体量"（三个真问题之二）。这里把数字放大到 28–38px 并网格化。
+// 为什么不做"大数字带 + 明细表"两层：同一屏同一组数字出现两遍会被读成 bug，不是层级。
+// 门禁契约（check-home-metrics.mjs:61）：每个 key 的 dd 上必须同时有
+// data-evidence-key / data-evidence-value 且全页各出现一次 —— 所以数字只渲染这一处。
 import Datetime from "./Datetime.astro";
 import type { EvidenceRow } from "@/utils/evidence";
 
@@ -14,28 +20,42 @@ const { rows, latest } = Astro.props;
     本作品集包含
   </h2>
 
-  <dl class="divide-border mt-3 divide-y divide-dashed border-t border-dashed">
+  <dl class="mt-4 grid grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-3">
     {
       rows.map(r => (
-        <div class="flex items-baseline justify-between gap-4 py-2.5">
-          <dt class="text-muted-foreground text-sm">
+        <div class="flex flex-col-reverse">
+          {/* DOM 顺序 dt → dd（2026-09-28 a11y 修复项），视觉顺序交给 col-reverse。
+              note 放在 dt 里，视觉上落在标签下方，读作"这个数怎么来的"脚注。 */}
+          <dt class="text-muted-foreground mt-1 text-[11px] leading-tight">
             <a class="hover:text-accent underline-offset-4 hover:underline" href={r.href}>
               {r.label}
             </a>
+            {r.note && (
+              <span class="text-muted-foreground mt-0.5 block text-[10px] leading-tight">
+                {r.note}
+              </span>
+            )}
           </dt>
-          <dd class="text-right" data-evidence-key={r.key} data-evidence-value={String(r.value)}>
-            <span class="text-lg font-bold">{r.value}</span>
-            <span class="text-muted-foreground ml-0.5 text-xs">{r.unit}</span>
-            {r.note && <span class="text-muted-foreground mt-0.5 block text-[11px]">{r.note}</span>}
+          <dd data-evidence-key={r.key} data-evidence-value={String(r.value)}>
+            <span class="text-[clamp(28px,3.4vw,38px)] leading-none font-bold tabular-nums">
+              {r.value}
+            </span>
+            <span class="text-muted-foreground ml-0.5 align-top text-[11px]">
+              {r.unit}
+            </span>
           </dd>
         </div>
       ))
     }
+    <div class="flex flex-col-reverse">
+      <dt class="text-muted-foreground mt-1 text-[11px] leading-tight">最近更新</dt>
+      <dd class="font-semibold">
+        <Datetime pubDatetime={latest} size="xs" class="whitespace-nowrap" />
+      </dd>
+    </div>
   </dl>
 
-  <div class="text-muted-foreground mt-3 text-[11px]">
-    <p>以上数字由构建期从内容集合统计，每个数字都能在对应板块里逐条点开核对。</p>
-    <p class="mt-1.5">最近更新</p>
-    <Datetime pubDatetime={latest} />
-  </div>
+  <p class="text-muted-foreground mt-4 text-[11px]">
+    以上数字由构建期从内容集合统计，每个数字都能在对应板块里逐条点开核对。
+  </p>
 </aside>

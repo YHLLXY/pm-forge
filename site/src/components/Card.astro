@@ -12,6 +12,10 @@ type Props = {
   variant?: "h2" | "h3";
   cover?: CoverProps | null;
   note?: string;
+  /** 透传到 <li>：列表页用 sm:col-span-2 让首卡通栏 */
+  class?: string;
+  /** 通栏首卡：sm 起换 1120×420 的 banner 几何，小屏仍用 card 几何（同 EntryHeader 的做法） */
+  wide?: boolean;
 };
 
 const {
@@ -24,6 +28,8 @@ const {
   variant: Heading = "h2",
   cover = null,
   note,
+  class: className,
+  wide = false,
 } = Astro.props;
 
 const sectionLabel: Record<string, string> = {
@@ -35,12 +41,26 @@ const sectionLabel: Record<string, string> = {
 };
 ---
 
-<li class="my-0">
+<li class:list={["my-0", className]}>
   <a
     href={href}
     class="border-border bg-surface-1 shadow-card group hover:shadow-lift focus-visible:shadow-lift flex h-full flex-col overflow-hidden rounded-xl border transition-[box-shadow,translate] duration-200 ease-out focus-visible:no-underline motion-safe:hover:-translate-y-0.5 motion-safe:focus-visible:-translate-y-0.5"
   >
-    {cover && <Cover {...cover} />}
+    {
+      cover &&
+        (wide ? (
+          <>
+            <div class="sm:hidden">
+              <Cover {...cover} variant="card" />
+            </div>
+            <div class="hidden sm:block">
+              <Cover {...cover} variant="banner" />
+            </div>
+          </>
+        ) : (
+          <Cover {...cover} />
+        ))
+    }
     <div class="flex flex-1 flex-col p-4 sm:p-5">
       <div
         class="text-muted-foreground mb-2 flex items-center justify-between gap-3 text-xs"

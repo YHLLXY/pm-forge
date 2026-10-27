@@ -14,35 +14,66 @@ export type TocHeading = { depth: number; slug: string; text: string };
 type Props = {
   headings: TocHeading[];
   label?: string;
+  /**
+   * steps：案例研究专用。当正文前四节正好是 check-case-studies.mjs 的 REQUIRED 四项时，
+   * 目录渲染成 01–04 的序号节点，标题改成「四段式速览」；任一不符就退回普通目录。
+   * 注意不能换掉 <a data-toc-link href="#slug"> 这个契约 —— check-toc.mjs 与页内脚本都按它取锚点。
+   */
+  variant?: "list" | "steps";
 };
 
-const { headings, label = "本文目录" } = Astro.props;
+const STEP_ORDER = ["背景与问题", "我的角色", "过程与关键取舍", "结果与量化"];
+
+const { headings, label, variant = "list" } = Astro.props;
 // 只有 h2 / h3 进目录；h1 不会出现在正文（EntryHeader 负责），h4+ 本项目未使用
 const items = headings.filter(h => h.depth === 2 || h.depth === 3);
+
+// 正文标题带中文章节序号（"一、背景与问题"），口径与 check-case-studies.mjs 一致：
+// 那边用 includes 判定，这边也必须是"包含"而不是"等于"，否则永远命中不了。
+const stripOrdinal = (text: string) =>
+  text.trim().replace(/^[一二三四五六七八九十百0-9]+[、.．]\s*/, "");
+
+const stepNoOf = (text: string) => {
+  const i = STEP_ORDER.findIndex(s => text.includes(s));
+  return i >= 0 ? String(i + 1).padStart(2, "0") : null;
+};
+const isSteps =
+  variant === "steps" &&
+  items.length >= 4 &&
+  STEP_ORDER.every((s, i) => items[i].depth === 2 && items[i].text.includes(s));
+const tocLabel = label ?? (isSteps ? "四段式速览" : "本文目录");
 ---
 
 {
   items.length > 1 && (
-    <nav data-article-toc aria-label={label} class="mb-7 hidden lg:block">
+    <nav data-article-toc aria-label={tocLabel} class="mb-7 hidden lg:block">
       <p class="text-muted-foreground mb-2.5 text-xs font-semibold tracking-[0.08em]">
-        {label}
+        {tocLabel}
       </p>
-      <ul class="m-0 list-none border-0 p-0">
-        {items.map(h => (
-          <li class="m-0">
-            <a
-              data-toc-link
-              href={"#" + h.slug}
-              class:list={[
-                "text-muted-foreground hover:text-foreground block py-1.5 pe-2 text-[13px] leading-[1.45] no-underline",
-                h.depth === 3 ? "ps-6" : "ps-3",
-              ]}
-            >
-              {h.text}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <ol class="m-0 list-none border-0 p-0">
+        {items.map(h => {
+          const no = isSteps ? stepNoOf(h.text) : null;
+          return (
+            <li class="m-0">
+              <a
+                data-toc-link
+                href={"#" + h.slug}
+                class:list={[
+                  "text-muted-foreground hover:text-foreground flex gap-2 py-1.5 pe-2 text-[13px] leading-[1.45] no-underline",
+                  h.depth === 3 ? "ps-6" : "ps-3",
+                ]}
+              >
+                {no && (
+                  <span class="font-mono text-[11px] opacity-60 tabular-nums">{no}</span>
+                )}
+                {/* steps 模式下整列都剥掉「一、」这类序号：否则出现「01 背景与问题」和
+                    「五、复盘与反思」混排，同一列两种编号体系 */}
+                <span>{isSteps ? stripOrdinal(h.text) : h.text}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ol>
     </nav>
   )
 }

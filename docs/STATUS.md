@@ -2,6 +2,37 @@
 
 > AI 连续工作协议核心文件（AGENTS.md 仓库特化规则 4）：每次会话开工先读本文件，收工必更新并 commit+push。
 
+## 2026-10-27 · 作品集站迭代 v2（已定稿，待开工）
+
+**下一轮开工直接从这里接**：
+
+- 计划：`docs/plans/2026-10-27-作品集站迭代计划.md`（**v2 已自审**，含 §5/§6 勾选清单 + §9 断点续做协议）
+- 依据：`docs/research/2026-10-27-拆解-01..04`（对外四站拆解）+ 本站同批实机复测
+- 范围：P0 四项 6h（Section 组件化 / 证据面板战果带 / 案例真图 1 张 / `check-tokens` 门禁）+ P1 五项 11h
+- 开工第一步：计划 §1 基线 —— `npm run build` + `npm run lh` + `git status --short`，结果回填本节；**基线不过不开工**
+- 状态：**代码零改动**。计划 §4 已给定 5 项默认决策（视觉方向 A / 英文 eyebrow 不进导航 / 证据明细不折叠 / 真图只做 1 张 / 根域枢纽本轮不做）
+- 进场已知脏文件：`site/public/duckdb/duckdb-browser-eh.worker.js`（**非本轮改动**，勿计入）
+
+### 本轮基线（2026-10-27 09:42 实测，计划 §1 / D0）
+
+- `git status --short`：M `docs/STATUS.md`、M `docs/research/_Index.md`、M `docs/research/_MANIFEST.md`、M `site/public/duckdb/duckdb-browser-eh.worker.js`（既有，非本轮改动）；未跟踪：本轮计划 + 4 篇拆解 + evidence 目录 + `docs/tools/`
+- `npm.cmd run build`：**10 道门禁全绿 + pagefind**（案例 5 篇四段式 / 评测 40 条记录 8 条失败 / 死链 146 产物 / RSS 17 item / JSON-LD 29 页 / 标题 29 页每页恰好一个 h1 / 目录 122 锚点 / 首页面板 5 项数字 + 判定分布「成功 30 · 部分 2 · 失败 8」/ OG 18 图 28 页 / 预算 duckdb 33.39MB、userbehavior 2.03MB）
+- `npm.cmd run lh`：13 页四类全 ≥95，**验收通过**。四类全 100：`/`、`/case-studies/`、`/analysis/`、`/dissections/`、`/toolbox/`、`/about/`、`/interviewers/`、`/search/`、`/case-studies/agriagent/`、`/dissections/charter/`；性能 99：`/dissections/doubao/`、`/dissections/deepseek-web/`、`/data-stories/userbehavior/`（后者 a11y **95**，既有短板，非本轮引入）
+- 体积基线：`dist/index.html` **49,715 B**；主 CSS **64,062 B**；`dist` 194 文件 48,467,853 B；证据图 30 张 PNG 6,156,128 B
+- 截图基线：`E:\homework\“余粮”项目\docs\research\shots\2026-10-27-迭代\00-基线\`（home / interviewers × 1440·390 × 首屏·整页）
+- 环境注：本机 PowerShell 执行策略禁止 `npm.ps1`，构建命令一律写 `npm.cmd run build`（或 `cmd /c`）
+
+### 本轮进展（2026-10-27 10:20）
+
+- **9 项里完成 8 项**：P0-1 `Section.astro` / P0-2 证据面板 6 格数字 / P0-3 **部分**（PM Forge 真图已接，个人工作台封面等素材）/ P0-4 `check-tokens` 第 11 道门禁 / P1-0 文案与 README / P1-1 hero 三条路径 / P1-2 首卡通栏 / P1-3 证据图 webp / P1-4 四段式速览
+- **门禁**：11 道全绿 + pagefind 29 页；**Lighthouse 13 页零回退**（首页仍 100/100/100/100）
+- **硬数字**：证据图 5.87 MB → **1.26 MB（省 79%）**；首页 HTML 49,715 → 54,376 B；主 CSS 64,062 → 64,836 B
+- 实测记录：`docs/reviews/2026-10-27-迭代-实测记录.md`（含 5 处与计划的偏离及原因、踩坑、复跑命令）
+- 新增工具：`docs/tools/shots.mjs`（静态产物截图，1440/390、首屏/整页、`--eval`）、`docs/tools/shoot-url.mjs`（远程页，`--click` 跳过启动页）
+- 截图：`E:\homework\“余粮”项目\docs\research\shots\2026-10-27-迭代\`（00-基线 … final，含深色两张）
+- **未推送**：本地提交后停下，推送即触发 Vercel 上线，等用户点头
+- 下一轮从这里接：用户给「个人工作台」登录后首屏截图（1440×810，打码）→ 接 `Card` 的 `wide` 首卡；然后可开 P2
+
 ## 当前任务卡
 
 - **M4 vault-tools 正式收工（2026-09-29 复检通过）**：验收①②③全达成——① 37 pytest 全绿；② 用户经 Obsidian agent 两轮修复后复检 **真孤儿 0 / 悬空 0 / 漏收仅余声明覆盖 135**（复检报告 vault `91-MOC/2026-09-29-vault-体检报告-复检.md`，vault commit 7e9d1ac77）；③ 扫描零修改验证通过。**巡检三件套转入季度节奏（`report --crosscheck`），P2 存量：裸名链接 36 处全路径化**

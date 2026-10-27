@@ -15,6 +15,18 @@ const SHOT_DIMS: Record<string, [number, number]> = (() => {
   }
 })();
 
+// webp 旁路清单（scripts/make-webp.mjs 产出）。与上面那份分开：manifest.json 是 PNG 生产端的口径，
+// 这份只是"哪些图有 webp 版本"的索引，缺了就让 <picture> 不渲染 <source>，浏览器回落 PNG。
+const WEBP_DIMS: Record<string, [number, number]> = (() => {
+  try {
+    return JSON.parse(
+      readFileSync(new URL("../../../public/assets/dissections/manifest-webp.json", import.meta.url), "utf8")
+    );
+  } catch {
+    return {};
+  }
+})();
+
 type RecordShape = {
   id: string;
   product: string;
@@ -45,6 +57,9 @@ const { record } = Astro.props;
 
 // 发布截图尺寸（缺清单项则不渲染，防 404）
 const shotDims = record.screenshot ? (SHOT_DIMS[record.screenshot.replace(/\.png$/, "")] ?? null) : null;
+// webp 与 PNG 同尺寸，只认清单里登记过的条目（防 404）
+const shotBase = record.screenshot ? record.screenshot.replace(/\.png$/, "") : null;
+const hasWebp = shotBase ? shotBase in WEBP_DIMS : false;
 const verdictColor =
   record.verdict === "成功"
     ? "var(--report-verdict-success)"
@@ -85,15 +100,25 @@ const verdictColor =
   {
     shotDims && (
       <figure class="not-prose mt-3">
-        <img
-          src={`/assets/dissections/${record.screenshot}`}
-          width={shotDims[0]}
-          height={shotDims[1]}
-          loading="lazy"
-          decoding="async"
-          alt={`实测截图：${record.task}`}
-          class="border-border rounded-lg border"
-        />
+        <picture>
+          {
+            hasWebp && (
+              <source
+                type="image/webp"
+                srcset={`/assets/dissections/${shotBase}.webp`}
+              />
+            )
+          }
+          <img
+            src={`/assets/dissections/${record.screenshot}`}
+            width={shotDims[0]}
+            height={shotDims[1]}
+            loading="lazy"
+            decoding="async"
+            alt={`实测截图：${record.task}`}
+            class="border-border rounded-lg border"
+          />
+        </picture>
         <figcaption class="text-foreground/75 mt-1 text-xs">
           来源：{PRODUCT_NAMES[record.product] ?? record.product}，截图日期 {record.evalDate}；已脱敏（侧栏与账号信息已裁除）
         </figcaption>
