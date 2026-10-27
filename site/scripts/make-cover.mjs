@@ -15,6 +15,9 @@ const IN = arg("in");
 const OUT = arg("out");
 const WIDTH = Number(arg("width", "1440"));
 const QUALITY = Number(arg("quality", "82"));
+// --crop x,y,w,h（原图像素）：产品截图常要裁掉浏览器工具条/个人信息后再入封面。
+// 先裁后缩，避免先缩再裁把目标区域切偏。
+const CROP = arg("crop", "");
 
 if (!IN || !OUT) {
   console.error("用法：node scripts/make-cover.mjs --in <png> --out <webp> [--width 1440] [--quality 82]");
@@ -32,7 +35,17 @@ try {
 const dst = resolve(OUT);
 mkdirSync(dirname(dst), { recursive: true });
 const meta = await sharp(IN).metadata();
-await sharp(IN).resize({ width: WIDTH }).webp({ quality: QUALITY, effort: 4 }).toFile(dst);
+let pipe = sharp(IN);
+if (CROP) {
+  const [left, top, width, height] = CROP.split(",").map(Number);
+  if ([left, top, width, height].some(n => !Number.isFinite(n))) {
+    console.error("--crop 需要 x,y,w,h 四个数字");
+    process.exit(1);
+  }
+  pipe = pipe.extract({ left, top, width, height });
+  console.log("裁切 " + width + "×" + height + " @(" + left + "," + top + ")");
+}
+await pipe.resize({ width: WIDTH }).webp({ quality: QUALITY, effort: 4 }).toFile(dst);
 const out = await sharp(dst).metadata();
 console.log(
   "源 " + meta.width + "×" + meta.height + " → 产出 " + out.width + "×" + out.height + " " + statSync(dst).size + " bytes → " + dst

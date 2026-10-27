@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import toolboxShot from "@/assets/covers/toolbox.webp";
+import workbenchShot from "@/assets/covers/workbench.webp";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
@@ -133,6 +134,12 @@ const toolboxTools = [
                 pubDatetime={c.data.pubDatetime}
                 modDatetime={c.data.modDatetime}
                 tags={c.data.tags}
+                image={i === 0 ? workbenchShot : undefined}
+                imageAlt={
+                  i === 0
+                    ? "个人工作台首页截图：左侧模块导航，顶部今日待办/专注/打卡/复盘四张统计卡，下方天气卡与今日热点（含「AI 日报 · 20 条 · 8 个来源」摘要）"
+                    : undefined
+                }
                 cover={{
                   section: "case",
                   kicker: "CASE STUDY",

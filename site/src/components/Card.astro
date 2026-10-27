@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Datetime from "./Datetime.astro";
 import Cover, { type CoverProps } from "./Cover.astro";
 
@@ -16,6 +17,12 @@ type Props = {
   class?: string;
   /** 通栏首卡：sm 起换 1120×420 的 banner 几何，小屏仍用 card 几何（同 EntryHeader 的做法） */
   wide?: boolean;
+  /**
+   * 真实产品截图：给了就顶替生成的 SVG 封面。
+   * sectionLabel 仍从 cover 取（截图本身没有板块信息），所以两者可以同时传。
+   */
+  image?: ImageMetadata;
+  imageAlt?: string;
 };
 
 const {
@@ -30,6 +37,8 @@ const {
   note,
   class: className,
   wide = false,
+  image,
+  imageAlt = "",
 } = Astro.props;
 
 const sectionLabel: Record<string, string> = {
@@ -47,7 +56,21 @@ const sectionLabel: Record<string, string> = {
     class="border-border bg-surface-1 shadow-card group hover:shadow-lift focus-visible:shadow-lift flex h-full flex-col overflow-hidden rounded-xl border transition-[box-shadow,translate] duration-200 ease-out focus-visible:no-underline motion-safe:hover:-translate-y-0.5 motion-safe:focus-visible:-translate-y-0.5"
   >
     {
-      cover &&
+      image && (
+        <Image
+          src={image}
+          alt={imageAlt}
+          widths={[640, 1280]}
+          sizes="(min-width: 640px) 100vw, 92vw"
+          class="h-auto w-full"
+          loading="lazy"
+          decoding="async"
+        />
+      )
+    }
+    {
+      !image &&
+        cover &&
         (wide ? (
           <>
             <div class="sm:hidden">
