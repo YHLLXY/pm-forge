@@ -2,7 +2,7 @@
 
 > AI 连续工作协议核心文件（AGENTS.md 仓库特化规则 4）：每次会话开工先读本文件，收工必更新并 commit+push。
 
-## 2026-10-27/28 · 面试版打磨（第 3 轮，已落地，待推送）
+## 2026-10-27/28 · 面试版打磨（第 3 轮，已上线）
 
 **下一轮开工从这一节接**：
 
@@ -12,6 +12,9 @@
 - 新增资产：`site/public/contact/{wechat,qq}-qr.png`（480px、32 色，`zxing-cpp` 解码校验与原始截图一致）、`site/src/assets/covers/toolbox.webp` 换成 1560×1094 内容区裁切
 - 新增组件：`ContactOrbit.astro`（轨道图 + 4 个 dialog）、`NavProgress.astro`（2px 导航进度线）；新增数据：`src/data/contact.ts`、`src/data/release.ts`（**发版时改这里**）
 - 门禁变化：12 道构建期（新增 `check-typography`）；`check-home-metrics` 改成核对 `data-evidence-updated`；`check-reduce-motion` 扩到断言联系轨道 reduce 下停转且 4 节点不重叠
+- **2026-10-28 用户实测反馈后修的两个交互 bug**（`566e06a`）：① 三个装饰层（`.cring`/`.ccore`/`.corb`）都是 `inset:0` 的透明满幅方框，后出现的 `.corb` 把前三个节点整个盖住，四个圆只有 DOM 里最后一个（GitHub）点得开 → 装饰层 `pointer-events:none`，只给 `.cnode` 放行；② 暂停原写 `.cosys:hover`，鼠标一进 520px 方框整张图就停 → 改 JS 委托事件开关 `data-paused`，只在指针进入节点或键盘聚焦（且 `:focus-visible`）时暂停
+- 回归门禁（`f817a5d`）：`check:reduce` 加「四个节点逐个点开自己的弹层」，并**先复现 bug 验红**——把 `.corb` 改回 `pointer-events:auto` 时如实红 3 条（微信/QQ/邮箱），GitHub 仍绿，与用户描述一致
+- 线上复测（07:35，CDP 真实鼠标事件）：四个节点逐一 hover 后 `driftWhileHovering=0`、分别开出 `dlg-wechat/qq/mail/github`；未触碰时 900ms 转 14.4°；空白处不暂停
 - 线上复测（01:10，`docs/tools/measure-nav.mjs`）：点卡片 click→swap **26–44ms**（改前 366–581ms）；点返回 **36ms**（改前 1166ms 首测）
 - 关键发现：只加预取不够，Vercel 默认 `max-age=0, must-revalidate` 会让预取白做；补了 `site/vercel.json` 的 HTML 缓存规则后才降到 30ms 级
 - 已知边界：`release.ts` 需要发版时手工改；联系区只在首页（页头导航没有加「联系」入口）；toolkit 应用本体 UI 没动（另一个项目）
