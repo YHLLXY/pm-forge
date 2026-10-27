@@ -12,7 +12,10 @@
 - 新增资产：`site/public/contact/{wechat,qq}-qr.png`（480px、32 色，`zxing-cpp` 解码校验与原始截图一致）、`site/src/assets/covers/toolbox.webp` 换成 1560×1094 内容区裁切
 - 新增组件：`ContactOrbit.astro`（轨道图 + 4 个 dialog）、`NavProgress.astro`（2px 导航进度线）；新增数据：`src/data/contact.ts`、`src/data/release.ts`（**发版时改这里**）
 - 门禁变化：12 道构建期（新增 `check-typography`）；`check-home-metrics` 改成核对 `data-evidence-updated`；`check-reduce-motion` 扩到断言联系轨道 reduce 下停转且 4 节点不重叠
-- 已知边界：`release.ts` 需要发版时手工改；联系区只在首页（页头导航没有加"联系"入口）；toolkit 应用本体 UI 没动（另一个项目）
+- 线上复测（01:10，`docs/tools/measure-nav.mjs`）：点卡片 click→swap **26–44ms**（改前 366–581ms）；点返回 **36ms**（改前 1166ms 首测）
+- 关键发现：只加预取不够，Vercel 默认 `max-age=0, must-revalidate` 会让预取白做；补了 `site/vercel.json` 的 HTML 缓存规则后才降到 30ms 级
+- 已知边界：`release.ts` 需要发版时手工改；联系区只在首页（页头导航没有加「联系」入口）；toolkit 应用本体 UI 没动（另一个项目）
+- HTML `max-age=60` 的代价：部署后最坏 60 秒内老访客可能看到旧 HTML（新访客不受影响）
 
 ## 2026-10-27 · 作品集站迭代 v2（P0/P1 已落地，未上线）
 
