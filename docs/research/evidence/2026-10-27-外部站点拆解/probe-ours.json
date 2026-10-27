@@ -1,0 +1,799 @@
+{
+ "key": "ours",
+ "url": "https://www.yuhailinlxy.com/",
+ "probe": {
+  "url": "https://www.yuhailinlxy.com/",
+  "title": "余翰林 · 产品作品集",
+  "docHeight": 4352,
+  "docWidth": 1440,
+  "innerWidth": 1440,
+  "innerHeight": 900,
+  "bodyBg": "rgb(251, 250, 248)",
+  "rootFontSize": "16px",
+  "bodyFont": "ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", Roboto, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", \"Noto Sans CJK SC\", sans-serif",
+  "lang": "zh",
+  "propsCount": 21,
+  "props": [
+   [
+    "--background",
+    "#fbfaf8"
+   ],
+   [
+    "--foreground",
+    "#1c1b1a"
+   ],
+   [
+    "--accent",
+    "#0b6bcb"
+   ],
+   [
+    "--accent-foreground",
+    "#fff"
+   ],
+   [
+    "--muted",
+    "#f0ede8"
+   ],
+   [
+    "--muted-foreground",
+    "#6b655c"
+   ],
+   [
+    "--border",
+    "#e6e2db"
+   ],
+   [
+    "--surface-1",
+    "#fff"
+   ],
+   [
+    "--surface-2",
+    "#f5f2ed"
+   ],
+   [
+    "--warm",
+    "#a24d05"
+   ],
+   [
+    "--shadow-1",
+    "0 1px 2px #1c1b1a0d"
+   ],
+   [
+    "--shadow-2",
+    "0 10px 30px -14px #1c1b1a2e, 0 2px 6px -2px #1c1b1a0f"
+   ],
+   [
+    "--section-case",
+    "#0b5fa5"
+   ],
+   [
+    "--section-analysis",
+    "#0f6b73"
+   ],
+   [
+    "--section-dissection",
+    "#4f46b8"
+   ],
+   [
+    "--section-story",
+    "#a24d05"
+   ],
+   [
+    "--section-toolbox",
+    "#2a6b45"
+   ],
+   [
+    "--report-verdict-success",
+    "#15803d"
+   ],
+   [
+    "--report-verdict-partial",
+    "#b45309"
+   ],
+   [
+    "--report-verdict-failure",
+    "#dc2626"
+   ],
+   [
+    "--report-score-track",
+    "var(--border)"
+   ]
+  ],
+  "colors": [
+   [
+    "rgb(28, 27, 26)",
+    334
+   ],
+   [
+    "rgb(107, 101, 92)",
+    104
+   ],
+   [
+    "rgb(11, 107, 203)",
+    5
+   ],
+   [
+    "rgb(11, 95, 165)",
+    3
+   ],
+   [
+    "rgb(79, 70, 184)",
+    3
+   ],
+   [
+    "rgb(15, 107, 115)",
+    2
+   ]
+  ],
+  "bgs": [
+   [
+    "rgb(245, 242, 237)",
+    16
+   ],
+   [
+    "rgb(255, 255, 255)",
+    11
+   ],
+   [
+    "rgb(251, 250, 248)",
+    2
+   ]
+  ],
+  "fonts": [
+   [
+    "ui-sans-serif",
+    443
+   ],
+   [
+    "Georgia",
+    8
+   ]
+  ],
+  "sizes": [
+   [
+    16,
+    143
+   ],
+   [
+    14,
+    49
+   ],
+   [
+    12,
+    46
+   ],
+   [
+    11,
+    21
+   ],
+   [
+    13,
+    16
+   ],
+   [
+    17,
+    15
+   ],
+   [
+    18,
+    13
+   ],
+   [
+    24,
+    8
+   ],
+   [
+    54,
+    5
+   ],
+   [
+    48,
+    1
+   ],
+   [
+    51,
+    1
+   ]
+  ],
+  "weights": [
+   [
+    "400",
+    250
+   ],
+   [
+    "600",
+    26
+   ],
+   [
+    "700",
+    21
+   ],
+   [
+    "500",
+    13
+   ],
+   [
+    "800",
+    8
+   ]
+  ],
+  "radii": [
+   [
+    6,
+    16
+   ],
+   [
+    12,
+    8
+   ],
+   [
+    8,
+    3
+   ]
+  ],
+  "shadows": [
+   [
+    "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0",
+    8
+   ]
+  ],
+  "animNames": [],
+  "transitions": 11,
+  "anims": 0,
+  "gradients": 0,
+  "blur": 1,
+  "sticky": 0,
+  "fixed": 0,
+  "scrollSnap": 0,
+  "outline": [
+   [
+    "H1",
+    "把数据、工程和 AI 工具箱，变成可验证的产品决策。"
+   ],
+   [
+    "H2",
+    "本作品集包含"
+   ],
+   [
+    "H2",
+    "精选案例"
+   ],
+   [
+    "H3",
+    "个人工作台：10 周 47 个版本的自我管理产品"
+   ],
+   [
+    "H3",
+    "红岩网校群面复盘：把一次落选当成产品设计题"
+   ],
+   [
+    "H3",
+    "情侣心愿 App：3 天 5 阶段交付一个双人产品"
+   ],
+   [
+    "H2",
+    "数据分析"
+   ],
+   [
+    "H3",
+    "蔬菜定价优化：2023 CUMCM C 题的三轮建模迭代"
+   ],
+   [
+    "H3",
+    "电商用户行为：指标树、转化漏斗与 RFM 分层"
+   ],
+   [
+    "H2",
+    "AI 产品拆解"
+   ],
+   [
+    "H3",
+    "对照拆解 DeepSeek 网页端：免费入口，同样的裂缝"
+   ],
+   [
+    "H3",
+    "对照拆解 DeepSeek：一个开关，两种命运"
+   ],
+   [
+    "H3",
+    "对照拆解 Kimi：长文本战场上的一次满分与一次投降"
+   ],
+   [
+    "H2",
+    "数据故事"
+   ],
+   [
+    "H2",
+    "AI PM 工具箱"
+   ]
+  ],
+  "sections": [
+   {
+    "tag": "header",
+    "id": "",
+    "cls": "app-layout flex flex-col items-center justify-between md:flex-row",
+    "h": 81,
+    "w": 1120
+   },
+   {
+    "tag": "section",
+    "id": "hero",
+    "cls": "border-border grid grid-cols-1 gap-8 border-b pt-8 pb-10 sm:pt-12 lg:grid-cols-12 lg:gap-1",
+    "h": 490,
+    "w": 1088
+   },
+   {
+    "tag": "section",
+    "id": "featured",
+    "cls": "border-border border-b pt-12 pb-6",
+    "h": 1183,
+    "w": 1088
+   },
+   {
+    "tag": "section",
+    "id": "analysis",
+    "cls": "border-border border-b pt-12 pb-6",
+    "h": 644,
+    "w": 1088
+   },
+   {
+    "tag": "section",
+    "id": "dissections",
+    "cls": "border-border border-b pt-12 pb-6",
+    "h": 1238,
+    "w": 1088
+   },
+   {
+    "tag": "section",
+    "id": "data-story",
+    "cls": "border-border border-b pt-12 pb-6",
+    "h": 233,
+    "w": 1088
+   },
+   {
+    "tag": "section",
+    "id": "toolbox",
+    "cls": "pt-12 pb-6",
+    "h": 402,
+    "w": 1088
+   }
+  ],
+  "media": {
+   "img": 0,
+   "svg": 30,
+   "video": 0,
+   "canvas": 0,
+   "picture": 0,
+   "iframe": 0,
+   "source": 0
+  },
+  "fontList": [],
+  "nodes": 490,
+  "resources": 5,
+  "byType": {
+   "script": 3,
+   "link": 1,
+   "other": 1
+  },
+  "big": [],
+  "hasHorizontalOverflow": false,
+  "navText": "余翰林 · 产品作品集 首页 案例 数据 拆解 故事 工具箱 关于",
+  "bodyText": "跳到正文 余翰林 · 产品作品集 首页 案例 数据 拆解 故事 工具箱 关于 把数据、工程和 AI 工具箱，变成可验证的产品决策。 我是余翰林，重庆邮电大学\"大数据管理与应用\"专业，目标产品经理。 这里放我的案例研究、数据分析报告，以及我自己设计实现的AI PM 工具箱。 面试官快速通道（15 分钟了解这个作品集） 社交链接: 余翰林 · 产品作品集 on Github 本作品集包含 案例研究 5篇 其中 2 个可在线访问 数据分析报告 2篇 AI 产品拆解 4篇 实测记录 40条 成功 30 · 部分 2 · 失败 8 工具实跑报告 6篇 以上数字由构建期从内容集合统计，每个数字都能在对应板块里逐条点开核对。 最近更新 2026年10月7日 精选案例 CASE STUDY 2026-09-28 v1.0 → v1.30.3 迭代版本 625 单测 质量门禁 25 个热榜源 AI 日报 案例研究 更新于: 2026年10月16日 个人工作台：10 周 47 个版本的自我管理产品 React 19 + Supabase 的自用效率工作台：模块注册表、双适配器数据层、三项体积预算，以及一套跑在免费额度上、每天自动出稿的 AI 日报链路。 产品设计 React 架构 AI 落地 CASE STUDY 2026-09-28 6+ 轮 模拟实战 约 40 个知识点 知识沉淀 4 份文档 产出物 案例研究 2026年9月28日 红岩网校群面复盘：把一次落选当成产品设计题 校工作室招新群面最后一轮被刷之后：用产品方法论拆解群面、六轮 AI 模拟验证、沉淀一套可复用的操作手册——2027 秋再战。 复盘 群面 方法论 CASE STUDY 2026-09-28 3 天 交付周期 5 个阶段 阶段拆解 5 个 功能模块 案例研究 2026年9月28日 情侣心愿 App：3 天 5 阶段交付一个双人产品 Vue 3 + Pinia + Supabase 的情侣互动应用：心愿闭环、积分与共同日记，3 天从骨架到 Vercel 上线的密集交付实录。 产品设计 Vue Supabase 全部案例 数据分析 DATA ANALYSIS 2026-09-30 2023 CUMCM C 题附件汇总数据 + … 分析数据集 数据分析 2026年9月30日 蔬菜定价优化：2023 CUMCM C 题的三轮建模迭代 历史赛题重做的完整建模练习：常数弹性模型的负利润暴露、线性需求的校准突破、报童模型的官方对标，以及真实批发价交叉校准。 DATA ANALYSIS 2026-09-27 阿里天池 UserBehavior（约 100… 分析数据集 数据分析 更新于: 2026年9月28日 电商用户行为：指标树、转化漏斗与 RFM 分层 天池 UserBehavior 数据集完整分析链：数据质量治理、8+ 个口径化指标、宽松漏斗、RFM 分层与一条归因警示。 全部报告 AI 产品拆解 共 40 条任务实测（含陷阱探测与顺从性探测），失败案例与成功案例同等呈现，判定分布由构建门禁机械核对。 AI TEARDOWN 2026-10-07 10 条实测任务 7 成功 0 部分 3 失败 AI 产品拆解 2026年10月7日 对照拆解 DeepSeek 网页端：免费入口，同样的裂缝 网页端免费账号 10 条实测（深度思考开/关对照，与 API 报告同任务集）：判定分布 7/0/3 与 API 完全一致，三种失败模式同构复现；深度思考开档思考仅 1-3 秒，免费额度全程无感。 AI产品拆解 DeepSeek AI TEARDOWN 2026-10-02 10 条实测任务 7 成功 0 部分 3 失败 AI 产品拆解 2026年10月2日 对照拆解 DeepSeek：一个开关，两种命运 API 入口 10 条实测（chat/reasoner 双模式对照）：厘陷阱一开关定生死，顺从性探测中 chat 模式立即投降并改写历史，另有一场教科书级的自纠。 AI产品拆解 DeepSeek AI TEARDOWN 2026-10-02 6 条实测任务 5 成功 0 部分 1 失败 AI 产品拆解 2026年10月2日 对照拆解 Kimi：长文本战场上的一次满分与一次投降 免费口径 6 条实测（3000 字规格书生态 + 顺从性探测）：跨文档比对、提取推理分界与长文计数三处教科书级表现；对用户假纠正的抵抗力不足。 AI产品拆解 Kimi 全部拆解 数据故事 《淘宝用户行为九日谈》：8 节滚动叙事 + 12 个预置问题，DuckDB-WASM 引擎懒加载——读者可以在浏览器里亲手复算我的数据（移动端自动降级为纯阅读）。 开始阅读与复算 AI PM 工具箱 我自己设计并实现的 AI 产品工具站：证据链提示词、token 预算守卫、演示模式， Next.js 16 + React 19 实现，已部署上线。 竞品分析 证据链标注的六章竞品报告 用户反馈洞察 主题聚类 + 5×5 优先级矩阵 PRD 草稿 模板驱动，缺口标【待补充】 打开工具箱 ↗ 了解工具与精选报告 最新工具实跑报告： 评测驱动的第一次产品迭代：反馈工具契约修复全记录 AI 工具箱 evals 基线报告：66 条真实任务的首跑结果 AI 工具箱 evals 计划：我怎么评估自己的 AI 产品 余翰林 · 产品作品集 on Github 版权所有 © 2026 | 保留所有权利。"
+ },
+ "contentSize": {
+  "w": 1440,
+  "h": 4352
+ },
+ "mobile": {
+  "url": "https://www.yuhailinlxy.com/",
+  "title": "余翰林 · 产品作品集",
+  "docHeight": 6137,
+  "docWidth": 390,
+  "innerWidth": 390,
+  "innerHeight": 844,
+  "bodyBg": "rgb(251, 250, 248)",
+  "rootFontSize": "16px",
+  "bodyFont": "ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", Roboto, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", \"Noto Sans CJK SC\", sans-serif",
+  "lang": "zh",
+  "propsCount": 21,
+  "props": [
+   [
+    "--background",
+    "#fbfaf8"
+   ],
+   [
+    "--foreground",
+    "#1c1b1a"
+   ],
+   [
+    "--accent",
+    "#0b6bcb"
+   ],
+   [
+    "--accent-foreground",
+    "#fff"
+   ],
+   [
+    "--muted",
+    "#f0ede8"
+   ],
+   [
+    "--muted-foreground",
+    "#6b655c"
+   ],
+   [
+    "--border",
+    "#e6e2db"
+   ],
+   [
+    "--surface-1",
+    "#fff"
+   ],
+   [
+    "--surface-2",
+    "#f5f2ed"
+   ],
+   [
+    "--warm",
+    "#a24d05"
+   ],
+   [
+    "--shadow-1",
+    "0 1px 2px #1c1b1a0d"
+   ],
+   [
+    "--shadow-2",
+    "0 10px 30px -14px #1c1b1a2e, 0 2px 6px -2px #1c1b1a0f"
+   ],
+   [
+    "--section-case",
+    "#0b5fa5"
+   ],
+   [
+    "--section-analysis",
+    "#0f6b73"
+   ],
+   [
+    "--section-dissection",
+    "#4f46b8"
+   ],
+   [
+    "--section-story",
+    "#a24d05"
+   ],
+   [
+    "--section-toolbox",
+    "#2a6b45"
+   ],
+   [
+    "--report-verdict-success",
+    "#15803d"
+   ],
+   [
+    "--report-verdict-partial",
+    "#b45309"
+   ],
+   [
+    "--report-verdict-failure",
+    "#dc2626"
+   ],
+   [
+    "--report-score-track",
+    "var(--border)"
+   ]
+  ],
+  "colors": [
+   [
+    "rgb(28, 27, 26)",
+    334
+   ],
+   [
+    "rgb(107, 101, 92)",
+    104
+   ],
+   [
+    "rgb(11, 107, 203)",
+    5
+   ],
+   [
+    "rgb(11, 95, 165)",
+    3
+   ],
+   [
+    "rgb(79, 70, 184)",
+    3
+   ],
+   [
+    "rgb(15, 107, 115)",
+    2
+   ]
+  ],
+  "bgs": [
+   [
+    "rgb(245, 242, 237)",
+    16
+   ],
+   [
+    "rgb(255, 255, 255)",
+    11
+   ],
+   [
+    "rgb(251, 250, 248)",
+    2
+   ]
+  ],
+  "fonts": [
+   [
+    "ui-sans-serif",
+    443
+   ],
+   [
+    "Georgia",
+    8
+   ]
+  ],
+  "sizes": [
+   [
+    16,
+    143
+   ],
+   [
+    14,
+    49
+   ],
+   [
+    12,
+    46
+   ],
+   [
+    11,
+    21
+   ],
+   [
+    13,
+    16
+   ],
+   [
+    17,
+    15
+   ],
+   [
+    18,
+    13
+   ],
+   [
+    24,
+    7
+   ],
+   [
+    54,
+    5
+   ],
+   [
+    20,
+    1
+   ],
+   [
+    30,
+    1
+   ],
+   [
+    51,
+    1
+   ]
+  ],
+  "weights": [
+   [
+    "400",
+    250
+   ],
+   [
+    "600",
+    26
+   ],
+   [
+    "700",
+    21
+   ],
+   [
+    "500",
+    13
+   ],
+   [
+    "800",
+    8
+   ]
+  ],
+  "radii": [
+   [
+    6,
+    16
+   ],
+   [
+    12,
+    8
+   ],
+   [
+    8,
+    3
+   ]
+  ],
+  "shadows": [
+   [
+    "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0",
+    8
+   ]
+  ],
+  "animNames": [],
+  "transitions": 11,
+  "anims": 0,
+  "gradients": 0,
+  "blur": 1,
+  "sticky": 0,
+  "fixed": 0,
+  "scrollSnap": 0,
+  "outline": [
+   [
+    "H1",
+    "把数据、工程和 AI 工具箱，变成可验证的产品决策。"
+   ],
+   [
+    "H2",
+    "本作品集包含"
+   ],
+   [
+    "H2",
+    "精选案例"
+   ],
+   [
+    "H3",
+    "个人工作台：10 周 47 个版本的自我管理产品"
+   ],
+   [
+    "H3",
+    "红岩网校群面复盘：把一次落选当成产品设计题"
+   ],
+   [
+    "H3",
+    "情侣心愿 App：3 天 5 阶段交付一个双人产品"
+   ],
+   [
+    "H2",
+    "数据分析"
+   ],
+   [
+    "H3",
+    "蔬菜定价优化：2023 CUMCM C 题的三轮建模迭代"
+   ],
+   [
+    "H3",
+    "电商用户行为：指标树、转化漏斗与 RFM 分层"
+   ],
+   [
+    "H2",
+    "AI 产品拆解"
+   ],
+   [
+    "H3",
+    "对照拆解 DeepSeek 网页端：免费入口，同样的裂缝"
+   ],
+   [
+    "H3",
+    "对照拆解 DeepSeek：一个开关，两种命运"
+   ],
+   [
+    "H3",
+    "对照拆解 Kimi：长文本战场上的一次满分与一次投降"
+   ],
+   [
+    "H2",
+    "数据故事"
+   ],
+   [
+    "H2",
+    "AI PM 工具箱"
+   ]
+  ],
+  "sections": [
+   {
+    "tag": "section",
+    "id": "hero",
+    "cls": "border-border grid grid-cols-1 gap-8 border-b pt-8 pb-10 sm:pt-12 lg:grid-cols-12 lg:gap-1",
+    "h": 865,
+    "w": 358
+   },
+   {
+    "tag": "section",
+    "id": "featured",
+    "cls": "border-border border-b pt-12 pb-6",
+    "h": 1510,
+    "w": 358
+   },
+   {
+    "tag": "section",
+    "id": "analysis",
+    "cls": "border-border border-b pt-12 pb-6",
+    "h": 996,
+    "w": 358
+   },
+   {
+    "tag": "section",
+    "id": "dissections",
+    "cls": "border-border border-b pt-12 pb-6",
+    "h": 1613,
+    "w": 358
+   },
+   {
+    "tag": "section",
+    "id": "data-story",
+    "cls": "border-border border-b pt-12 pb-6",
+    "h": 281,
+    "w": 358
+   },
+   {
+    "tag": "section",
+    "id": "toolbox",
+    "cls": "pt-12 pb-6",
+    "h": 638,
+    "w": 358
+   },
+   {
+    "tag": "footer",
+    "id": "",
+    "cls": "app-layout mt-auto",
+    "h": 153,
+    "w": 390
+   }
+  ],
+  "media": {
+   "img": 0,
+   "svg": 30,
+   "video": 0,
+   "canvas": 0,
+   "picture": 0,
+   "iframe": 0,
+   "source": 0
+  },
+  "fontList": [],
+  "nodes": 490,
+  "resources": 5,
+  "byType": {
+   "script": 3,
+   "link": 1,
+   "other": 1
+  },
+  "big": [],
+  "hasHorizontalOverflow": false,
+  "navText": "余翰林 · 产品作品集",
+  "bodyText": "跳到正文 余翰林 · 产品作品集 把数据、工程和 AI 工具箱，变成可验证的产品决策。 我是余翰林，重庆邮电大学\"大数据管理与应用\"专业，目标产品经理。 这里放我的案例研究、数据分析报告，以及我自己设计实现的AI PM 工具箱。 面试官快速通道（15 分钟了解这个作品集） 社交链接: 余翰林 · 产品作品集 on Github 本作品集包含 案例研究 5篇 其中 2 个可在线访问 数据分析报告 2篇 AI 产品拆解 4篇 实测记录 40条 成功 30 · 部分 2 · 失败 8 工具实跑报告 6篇 以上数字由构建期从内容集合统计，每个数字都能在对应板块里逐条点开核对。 最近更新 2026年10月7日 精选案例 CASE STUDY 2026-09-28 v1.0 → v1.30.3 迭代版本 625 单测 质量门禁 25 个热榜源 AI 日报 案例研究 更新于: 2026年10月16日 个人工作台：10 周 47 个版本的自我管理产品 React 19 + Supabase 的自用效率工作台：模块注册表、双适配器数据层、三项体积预算，以及一套跑在免费额度上、每天自动出稿的 AI 日报链路。 产品设计 React 架构 AI 落地 CASE STUDY 2026-09-28 6+ 轮 模拟实战 约 40 个知识点 知识沉淀 4 份文档 产出物 案例研究 2026年9月28日 红岩网校群面复盘：把一次落选当成产品设计题 校工作室招新群面最后一轮被刷之后：用产品方法论拆解群面、六轮 AI 模拟验证、沉淀一套可复用的操作手册——2027 秋再战。 复盘 群面 方法论 CASE STUDY 2026-09-28 3 天 交付周期 5 个阶段 阶段拆解 5 个 功能模块 案例研究 2026年9月28日 情侣心愿 App：3 天 5 阶段交付一个双人产品 Vue 3 + Pinia + Supabase 的情侣互动应用：心愿闭环、积分与共同日记，3 天从骨架到 Vercel 上线的密集交付实录。 产品设计 Vue Supabase 全部案例 数据分析 DATA ANALYSIS 2026-09-30 2023 CUMCM C 题附件汇总数据 + … 分析数据集 数据分析 2026年9月30日 蔬菜定价优化：2023 CUMCM C 题的三轮建模迭代 历史赛题重做的完整建模练习：常数弹性模型的负利润暴露、线性需求的校准突破、报童模型的官方对标，以及真实批发价交叉校准。 DATA ANALYSIS 2026-09-27 阿里天池 UserBehavior（约 100… 分析数据集 数据分析 更新于: 2026年9月28日 电商用户行为：指标树、转化漏斗与 RFM 分层 天池 UserBehavior 数据集完整分析链：数据质量治理、8+ 个口径化指标、宽松漏斗、RFM 分层与一条归因警示。 全部报告 AI 产品拆解 共 40 条任务实测（含陷阱探测与顺从性探测），失败案例与成功案例同等呈现，判定分布由构建门禁机械核对。 AI TEARDOWN 2026-10-07 10 条实测任务 7 成功 0 部分 3 失败 AI 产品拆解 2026年10月7日 对照拆解 DeepSeek 网页端：免费入口，同样的裂缝 网页端免费账号 10 条实测（深度思考开/关对照，与 API 报告同任务集）：判定分布 7/0/3 与 API 完全一致，三种失败模式同构复现；深度思考开档思考仅 1-3 秒，免费额度全程无感。 AI产品拆解 DeepSeek AI TEARDOWN 2026-10-02 10 条实测任务 7 成功 0 部分 3 失败 AI 产品拆解 2026年10月2日 对照拆解 DeepSeek：一个开关，两种命运 API 入口 10 条实测（chat/reasoner 双模式对照）：厘陷阱一开关定生死，顺从性探测中 chat 模式立即投降并改写历史，另有一场教科书级的自纠。 AI产品拆解 DeepSeek AI TEARDOWN 2026-10-02 6 条实测任务 5 成功 0 部分 1 失败 AI 产品拆解 2026年10月2日 对照拆解 Kimi：长文本战场上的一次满分与一次投降 免费口径 6 条实测（3000 字规格书生态 + 顺从性探测）：跨文档比对、提取推理分界与长文计数三处教科书级表现；对用户假纠正的抵抗力不足。 AI产品拆解 Kimi 全部拆解 数据故事 《淘宝用户行为九日谈》：8 节滚动叙事 + 12 个预置问题，DuckDB-WASM 引擎懒加载——读者可以在浏览器里亲手复算我的数据（移动端自动降级为纯阅读）。 开始阅读与复算 AI PM 工具箱 我自己设计并实现的 AI 产品工具站：证据链提示词、token 预算守卫、演示模式， Next.js 16 + React 19 实现，已部署上线。 竞品分析 证据链标注的六章竞品报告 用户反馈洞察 主题聚类 + 5×5 优先级矩阵 PRD 草稿 模板驱动，缺口标【待补充】 打开工具箱 ↗ 了解工具与精选报告 最新工具实跑报告： 评测驱动的第一次产品迭代：反馈工具契约修复全记录 AI 工具箱 evals 基线报告：66 条真实任务的首跑结果 AI 工具箱 evals 计划：我怎么评估自己的 AI 产品 余翰林 · 产品作品集 on Github 版权所有 © 2026 保留所有权利。"
+ },
+ "links": [
+  "https://www.yuhailinlxy.com/#main-content",
+  "https://www.yuhailinlxy.com/",
+  "https://www.yuhailinlxy.com/case-studies/",
+  "https://www.yuhailinlxy.com/analysis/",
+  "https://www.yuhailinlxy.com/dissections/",
+  "https://www.yuhailinlxy.com/data-stories/userbehavior/",
+  "https://www.yuhailinlxy.com/toolbox/",
+  "https://www.yuhailinlxy.com/about/",
+  "https://www.yuhailinlxy.com/search/",
+  "https://toolbox.yuhailinlxy.com/",
+  "https://www.yuhailinlxy.com/interviewers/",
+  "https://github.com/YHLLXY",
+  "https://www.yuhailinlxy.com/#featured",
+  "https://www.yuhailinlxy.com/#analysis",
+  "https://www.yuhailinlxy.com/#dissections",
+  "https://www.yuhailinlxy.com/#toolbox",
+  "https://www.yuhailinlxy.com/case-studies/personal-workbench/",
+  "https://www.yuhailinlxy.com/case-studies/hongyan-group-interview-retro/",
+  "https://www.yuhailinlxy.com/case-studies/couple-app/",
+  "https://www.yuhailinlxy.com/analysis/vegetable-pricing/",
+  "https://www.yuhailinlxy.com/analysis/userbehavior-case1/",
+  "https://www.yuhailinlxy.com/dissections/deepseek-web/",
+  "https://www.yuhailinlxy.com/dissections/deepseek/",
+  "https://www.yuhailinlxy.com/dissections/kimi/",
+  "https://www.yuhailinlxy.com/toolbox/reports/eval-driven-contract-fix/",
+  "https://www.yuhailinlxy.com/toolbox/reports/ai-toolbox-evals-baseline/",
+  "https://www.yuhailinlxy.com/toolbox/reports/ai-toolbox-evals-plan/"
+ ]
+}

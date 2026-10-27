@@ -1,0 +1,1157 @@
+{
+ "key": "uc",
+ "url": "https://uc.cqupt.edu.cn/",
+ "probe": {
+  "url": "https://uc.cqupt.edu.cn/",
+  "title": "重庆邮电大学 远东联邦大学联合学院",
+  "docHeight": 4475,
+  "docWidth": 1501,
+  "innerWidth": 1440,
+  "innerHeight": 900,
+  "bodyBg": "rgb(249, 249, 249)",
+  "rootFontSize": "16px",
+  "bodyFont": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "lang": "zh-CN",
+  "propsCount": 41,
+  "props": [
+   [
+    "--primary-color",
+    "#0055A4"
+   ],
+   [
+    "--primary-color-light",
+    "#2E97D8"
+   ],
+   [
+    "--primary-color-dark",
+    "#003366"
+   ],
+   [
+    "--secondary-color",
+    "#6c5ce7"
+   ],
+   [
+    "--secondary-color-light",
+    "#a29bfe"
+   ],
+   [
+    "--text-primary",
+    "#333333"
+   ],
+   [
+    "--text-secondary",
+    "#666666"
+   ],
+   [
+    "--text-light",
+    "#999999"
+   ],
+   [
+    "--text-white",
+    "#ffffff"
+   ],
+   [
+    "--bg-primary",
+    "#ffffff"
+   ],
+   [
+    "--bg-secondary",
+    "#f9f9f9"
+   ],
+   [
+    "--bg-tertiary",
+    "#f0f0f0"
+   ],
+   [
+    "--border-color",
+    "#eeeeee"
+   ],
+   [
+    "--divider-color",
+    "#dddddd"
+   ],
+   [
+    "--shadow-sm",
+    "0 2px 4px rgba(0, 0, 0, 0.05)"
+   ],
+   [
+    "--shadow-md",
+    "0 2px 10px rgba(0, 0, 0, 0.1)"
+   ],
+   [
+    "--shadow-lg",
+    "0 5px 20px rgba(0, 0, 0, 0.15)"
+   ],
+   [
+    "--radius-sm",
+    "4px"
+   ],
+   [
+    "--radius-md",
+    "8px"
+   ],
+   [
+    "--radius-lg",
+    "12px"
+   ],
+   [
+    "--transition-fast",
+    "0.2s ease"
+   ],
+   [
+    "--transition-normal",
+    "0.3s ease"
+   ],
+   [
+    "--transition-slow",
+    "0.5s ease"
+   ],
+   [
+    "--font-main",
+    "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif"
+   ],
+   [
+    "--header-height",
+    "80px"
+   ],
+   [
+    "--spacing-xs",
+    "5px"
+   ],
+   [
+    "--spacing-sm",
+    "10px"
+   ],
+   [
+    "--spacing-md",
+    "20px"
+   ],
+   [
+    "--spacing-lg",
+    "30px"
+   ],
+   [
+    "--spacing-xl",
+    "40px"
+   ],
+   [
+    "--spacing-xxl",
+    "60px"
+   ],
+   [
+    "--max-content-width",
+    "1600px"
+   ],
+   [
+    "--color-white",
+    "#ffffff"
+   ],
+   [
+    "--color-text",
+    "#333333"
+   ],
+   [
+    "--color-gray",
+    "#999999"
+   ],
+   [
+    "--color-light-gray",
+    "#f0f0f0"
+   ],
+   [
+    "--color-primary-start",
+    "#0055A4"
+   ],
+   [
+    "--color-primary-end",
+    "#2E97D8"
+   ],
+   [
+    "--box-shadow",
+    "0 2px 10px rgba(0, 0, 0, 0.05)"
+   ],
+   [
+    "--box-shadow-hover",
+    "0 6px 18px rgba(0, 0, 0, 0.1)"
+   ],
+   [
+    "--border-radius",
+    "12px"
+   ]
+  ],
+  "colors": [
+   [
+    "rgb(51, 51, 51)",
+    135
+   ],
+   [
+    "rgb(255, 255, 255)",
+    131
+   ],
+   [
+    "rgb(0, 85, 164)",
+    32
+   ],
+   [
+    "rgb(102, 102, 102)",
+    18
+   ],
+   [
+    "rgb(153, 153, 153)",
+    16
+   ],
+   [
+    "rgba(255, 255, 255, 0.92)",
+    5
+   ],
+   [
+    "rgba(255, 255, 255, 0.9)",
+    4
+   ],
+   [
+    "rgba(255, 255, 255, 0.85)",
+    2
+   ]
+  ],
+  "bgs": [
+   [
+    "rgb(255, 255, 255)",
+    16
+   ],
+   [
+    "rgba(255, 255, 255, 0.2)",
+    2
+   ],
+   [
+    "rgba(255, 255, 255, 0.15)",
+    1
+   ],
+   [
+    "rgba(0, 0, 0, 0.3)",
+    1
+   ],
+   [
+    "rgb(249, 249, 249)",
+    1
+   ]
+  ],
+  "fonts": [
+   [
+    "Microsoft YaHei",
+    341
+   ],
+   [
+    "Arial",
+    6
+   ]
+  ],
+  "sizes": [
+   [
+    16,
+    152
+   ],
+   [
+    14,
+    77
+   ],
+   [
+    12,
+    40
+   ],
+   [
+    18,
+    16
+   ],
+   [
+    20,
+    11
+   ],
+   [
+    15,
+    10
+   ],
+   [
+    10,
+    7
+   ],
+   [
+    34,
+    4
+   ],
+   [
+    24,
+    2
+   ],
+   [
+    22,
+    1
+   ]
+  ],
+  "weights": [
+   [
+    "400",
+    245
+   ],
+   [
+    "500",
+    39
+   ],
+   [
+    "700",
+    21
+   ],
+   [
+    "600",
+    15
+   ]
+  ],
+  "radii": [
+   [
+    6,
+    11
+   ],
+   [
+    8,
+    7
+   ],
+   [
+    4,
+    6
+   ],
+   [
+    50,
+    5
+   ],
+   [
+    12,
+    5
+   ],
+   [
+    3,
+    3
+   ],
+   [
+    20,
+    1
+   ],
+   [
+    5,
+    1
+   ]
+  ],
+  "shadows": [
+   [
+    "rgba(0, 0, 0, 0.2) 0px 2px 8px 0px",
+    11
+   ],
+   [
+    "rgba(0, 0, 0, 0.15) 0px 5px 20px 0px",
+    7
+   ],
+   [
+    "rgba(0, 0, 0, 0.05) 0px 2px 4px 0px",
+    6
+   ],
+   [
+    "rgba(0, 0, 0, 0.05) 0px 2px 10px 0px",
+    5
+   ],
+   [
+    "rgba(0, 0, 0, 0.1) 0px 2px 10px 0px",
+    3
+   ],
+   [
+    "rgba(0, 0, 0, 0.1) 0px 2px 8px 0px",
+    2
+   ]
+  ],
+  "animNames": [],
+  "transitions": 154,
+  "anims": 0,
+  "gradients": 23,
+  "blur": 3,
+  "sticky": 1,
+  "fixed": 0,
+  "scrollSnap": 0,
+  "outline": [
+   [
+    "H1",
+    "重庆邮电大学远东联邦大学联合学院"
+   ],
+   [
+    "H2",
+    "重庆邮电大学远东联邦大学联合学院"
+   ],
+   [
+    "H2",
+    "中外合作教育创新平台"
+   ],
+   [
+    "H2",
+    "国际交流合作"
+   ],
+   [
+    "H2",
+    "卓越人才培养"
+   ],
+   [
+    "H3",
+    "�� 综合新闻"
+   ],
+   [
+    "H4",
+    "苏森校长率团赴俄罗斯访问"
+   ],
+   [
+    "H3",
+    "�� 通知公告"
+   ],
+   [
+    "H3",
+    "�� 信息公开"
+   ],
+   [
+    "H3",
+    "�� 招生资讯"
+   ],
+   [
+    "H4",
+    "招生简章"
+   ],
+   [
+    "H4",
+    "云游校园"
+   ],
+   [
+    "H4",
+    "常见问题"
+   ],
+   [
+    "H3",
+    "�� 学生支持"
+   ],
+   [
+    "H4",
+    "学生发展指导中心"
+   ],
+   [
+    "H4",
+    "师生互动"
+   ],
+   [
+    "H4",
+    "留学指导系统"
+   ],
+   [
+    "H4",
+    "重庆邮电大学远东联邦大学联合学院"
+   ],
+   [
+    "H4",
+    "快速链接"
+   ],
+   [
+    "H4",
+    "联系方式"
+   ]
+  ],
+  "sections": [
+   {
+    "tag": "header",
+    "id": "",
+    "cls": "header",
+    "h": 100,
+    "w": 1440
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "banner",
+    "h": 750,
+    "w": 1440
+   },
+   {
+    "tag": "div",
+    "id": "",
+    "cls": "container",
+    "h": 2924,
+    "w": 1440
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "content-module news-feature",
+    "h": 1059,
+    "w": 693
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "content-module",
+    "h": 1059,
+    "w": 693
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "content-module",
+    "h": 883,
+    "w": 693
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "content-module card-module",
+    "h": 883,
+    "w": 693
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "content-module card-module",
+    "h": 883,
+    "w": 693
+   },
+   {
+    "tag": "footer",
+    "id": "",
+    "cls": "footer",
+    "h": 531,
+    "w": 1440
+   }
+  ],
+  "media": {
+   "img": 18,
+   "svg": 0,
+   "video": 0,
+   "canvas": 0,
+   "picture": 0,
+   "iframe": 0,
+   "source": 0
+  },
+  "fontList": [],
+  "nodes": 375,
+  "resources": 20,
+  "byType": {
+   "link": 3,
+   "script": 5,
+   "img": 12
+  },
+  "big": [
+   [
+    "2104KB",
+    "https://uc.cqupt.edu.cn/resources/images/banner/110A712EB9171EC7208BB14D5B90AD0E.jpg"
+   ],
+   [
+    "71KB",
+    "https://uc.cqupt.edu.cn/CebcrWlDBDtO/6fCbjMX74d5J.ce3512e.js"
+   ]
+  ],
+  "hasHorizontalOverflow": true,
+  "navText": "重庆邮电大学远东联邦大学联合学院 主页 学院概况 ▼ 招生信息 ▼ 教学教务 ▼ 学生事务 ▼ 党建思政 ▼ 师资队伍 ▼ 国际交流 ▼ 校企合作 规章制度",
+  "bodyText": "重庆邮电大学远东联邦大学联合学院 主页 学院概况 ▼ 招生信息 ▼ 教学教务 ▼ 学生事务 ▼ 党建思政 ▼ 师资队伍 ▼ 国际交流 ▼ 校企合作 规章制度 重庆邮电大学远东联邦大学联合学院 培养具有国际视野的高素质创新人才 ‹ › �� 综合新闻 更多 > 苏森校长率团赴俄罗斯访问 8月31日至9月3日，应俄罗斯远东联邦大学邀请，苏森校长率团赴俄罗斯符拉迪沃斯托克，出席第十一届东方经济论坛、第十五届亚太经合组织高等教育合作会议，开展校际交流、项目签约和留学宣介等系列活动。 金秋启航新起点 青春逐梦向世界 | 远东联邦大学联合学院2026级开学典礼 2026-10-16 国际学院、联合学院召开本科学生发展会议暨2025-2026学年春季学期学情分析会议 2026-10-14 苏森校长会见俄罗斯远东联邦大学副校长代表团一行 2026-06-15 联合管理委员会第一届第一次会议召开 2026-06-12 数智赋能未来 青春筑梦中俄——中俄师生交流论坛举行 2026-06-12 �� 通知公告 更多 > 27 08月 2027年重庆邮电大学远东联邦大学联合学院硕士研究生招生报考指南 2027年联合学院面向全国招收硕士研究生，设有信息与通信工程、计算机科学与技术、控制科学与工程三个学术型硕士专业... 2026-08-27 27 08月 重庆邮电大学2027年研究生报考指南 重庆邮电大学2027年研究生报考指南发布，学校17个学院招生，其中联合学院设有3个中外合作办学硕士专业... 2026-08-27 07 07月 2026年联合学院中外合作办学本科专业招生介绍 远东联邦大学联合学院2026年面向全国招收本科生，开设计算机科学与技术、数字媒体技术、物联网工程三个专业... 2026-07-07 25 03月 重庆邮电大学远东联邦大学联合学院研究生调剂招收信息 2026年研究生调剂招收工作现已启动，设有计算机科学与技术、信息与通信工程、控制科学与工程三个硕士专业... 2026-03-25 20 03月 关于开展2025-2026学年第二学期学评教工作的通知 根据学校教学工作安排，现开展2025-2026学年第二学期学生评教工作... 2026-03-20 18 03月 关于开展2026年第二十届\"西门子杯\"中国智能制造挑战赛宣讲会的通知 2026年第二十届\"西门子杯\"中国智能制造挑战赛宣讲会将于近期举行... 2026-03-18 15 03月 重庆邮电大学关于举办2026年中国大学生计算机设计大赛校级选拔赛的通知 2026年中国大学生计算机设计大赛校级选拔赛报名工作已启动... 2026-03-15 �� 信息公开 更多 > 28 09月 联合学院关于2026-2027学年班导师拟聘任名单的公示 根据学校相关规定和选聘工作要求，经学院党政联席会议审核通过，拟聘任黄庆卿等16名老师为联合学院2026-2027学年班导师，公示期为2026年9月28日至29日。 2026-09-28 18 09月 重庆邮电大学远东联邦大学联合学院2027年推免复试考核实施细则 联合学院2027年接收推荐免试攻读硕士研究生复试考核实施细则，涵盖复试内容、考核形式等。 2026-09-18 18 09月 2027年推荐免试攻读重庆邮电大学远东联邦大学联合学院硕士研究生招生章程 重庆邮电大学2027年接收推荐免试攻读硕士研究生章程，含联合学院相关招生专业及申请条件。 2026-09-18 27 08月 2027年重庆邮电大学远东联邦大学联合学院硕士研究生招生报考指南 联合学院2027年面向全国招收学术型硕士研究生，设有信息与通信工程、计算机科学与技术、控制科学与工程三个学术型硕士专业。 2026-08-27 �� 招生资讯 更多 > 招生简章 2026年本科招生政策及专业介绍 查看详情 云游校园 虚拟校园参观，带你全方位了解学院环境 在线参观 常见问题 招生咨询热点问题解答 问题汇总 �� 学生支持 更多 > 学生发展指导中心 提供学业规划、职业发展等全方位指导服务 了解更多 师生互动 搭建师生交流平台，促进教学相长 活动安排 留学指导系统 为赴俄交流学生提供全方位支持服务 指导资源 地址：重庆市南岸区崇文路2号 邮编：400065 技术支持：CQUPTHUB工作室 学院概况 招生信息 教学教务 学生事务 电话：023-62461206 邮箱：cquptfefu@cqupt.edu.cn ©2025 重庆邮电大学远东联邦大学联合学院 版权所有"
+ },
+ "contentSize": {
+  "w": 1501,
+  "h": 4475
+ },
+ "mobile": {
+  "url": "https://uc.cqupt.edu.cn/",
+  "title": "重庆邮电大学 远东联邦大学联合学院",
+  "docHeight": 6856,
+  "docWidth": 441,
+  "innerWidth": 390,
+  "innerHeight": 844,
+  "bodyBg": "rgb(249, 249, 249)",
+  "rootFontSize": "16px",
+  "bodyFont": "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "lang": "zh-CN",
+  "propsCount": 41,
+  "props": [
+   [
+    "--primary-color",
+    "#0055A4"
+   ],
+   [
+    "--primary-color-light",
+    "#2E97D8"
+   ],
+   [
+    "--primary-color-dark",
+    "#003366"
+   ],
+   [
+    "--secondary-color",
+    "#6c5ce7"
+   ],
+   [
+    "--secondary-color-light",
+    "#a29bfe"
+   ],
+   [
+    "--text-primary",
+    "#333333"
+   ],
+   [
+    "--text-secondary",
+    "#666666"
+   ],
+   [
+    "--text-light",
+    "#999999"
+   ],
+   [
+    "--text-white",
+    "#ffffff"
+   ],
+   [
+    "--bg-primary",
+    "#ffffff"
+   ],
+   [
+    "--bg-secondary",
+    "#f9f9f9"
+   ],
+   [
+    "--bg-tertiary",
+    "#f0f0f0"
+   ],
+   [
+    "--border-color",
+    "#eeeeee"
+   ],
+   [
+    "--divider-color",
+    "#dddddd"
+   ],
+   [
+    "--shadow-sm",
+    "0 2px 4px rgba(0, 0, 0, 0.05)"
+   ],
+   [
+    "--shadow-md",
+    "0 2px 10px rgba(0, 0, 0, 0.1)"
+   ],
+   [
+    "--shadow-lg",
+    "0 5px 20px rgba(0, 0, 0, 0.15)"
+   ],
+   [
+    "--radius-sm",
+    "4px"
+   ],
+   [
+    "--radius-md",
+    "8px"
+   ],
+   [
+    "--radius-lg",
+    "12px"
+   ],
+   [
+    "--transition-fast",
+    "0.2s ease"
+   ],
+   [
+    "--transition-normal",
+    "0.3s ease"
+   ],
+   [
+    "--transition-slow",
+    "0.5s ease"
+   ],
+   [
+    "--font-main",
+    "\"Microsoft YaHei\", \"PingFang SC\", \"Helvetica Neue\", Arial, sans-serif"
+   ],
+   [
+    "--header-height",
+    "80px"
+   ],
+   [
+    "--spacing-xs",
+    "5px"
+   ],
+   [
+    "--spacing-sm",
+    "10px"
+   ],
+   [
+    "--spacing-md",
+    "20px"
+   ],
+   [
+    "--spacing-lg",
+    "30px"
+   ],
+   [
+    "--spacing-xl",
+    "40px"
+   ],
+   [
+    "--spacing-xxl",
+    "60px"
+   ],
+   [
+    "--max-content-width",
+    "1600px"
+   ],
+   [
+    "--color-white",
+    "#ffffff"
+   ],
+   [
+    "--color-text",
+    "#333333"
+   ],
+   [
+    "--color-gray",
+    "#999999"
+   ],
+   [
+    "--color-light-gray",
+    "#f0f0f0"
+   ],
+   [
+    "--color-primary-start",
+    "#0055A4"
+   ],
+   [
+    "--color-primary-end",
+    "#2E97D8"
+   ],
+   [
+    "--box-shadow",
+    "0 2px 10px rgba(0, 0, 0, 0.05)"
+   ],
+   [
+    "--box-shadow-hover",
+    "0 6px 18px rgba(0, 0, 0, 0.1)"
+   ],
+   [
+    "--border-radius",
+    "12px"
+   ]
+  ],
+  "colors": [
+   [
+    "rgb(255, 255, 255)",
+    157
+   ],
+   [
+    "rgb(51, 51, 51)",
+    109
+   ],
+   [
+    "rgb(0, 85, 164)",
+    32
+   ],
+   [
+    "rgb(102, 102, 102)",
+    18
+   ],
+   [
+    "rgb(153, 153, 153)",
+    16
+   ],
+   [
+    "rgba(255, 255, 255, 0.92)",
+    5
+   ],
+   [
+    "rgba(255, 255, 255, 0.9)",
+    4
+   ],
+   [
+    "rgba(255, 255, 255, 0.85)",
+    2
+   ]
+  ],
+  "bgs": [
+   [
+    "rgb(255, 255, 255)",
+    9
+   ],
+   [
+    "rgba(255, 255, 255, 0.1)",
+    7
+   ],
+   [
+    "rgba(255, 255, 255, 0.2)",
+    2
+   ],
+   [
+    "rgb(0, 85, 164)",
+    1
+   ],
+   [
+    "rgba(255, 255, 255, 0.15)",
+    1
+   ],
+   [
+    "rgba(0, 0, 0, 0.3)",
+    1
+   ],
+   [
+    "rgb(249, 249, 249)",
+    1
+   ]
+  ],
+  "fonts": [
+   [
+    "Microsoft YaHei",
+    341
+   ],
+   [
+    "Arial",
+    6
+   ]
+  ],
+  "sizes": [
+   [
+    16,
+    158
+   ],
+   [
+    14,
+    91
+   ],
+   [
+    12,
+    40
+   ],
+   [
+    20,
+    15
+   ],
+   [
+    18,
+    9
+   ],
+   [
+    10,
+    7
+   ]
+  ],
+  "weights": [
+   [
+    "400",
+    245
+   ],
+   [
+    "500",
+    39
+   ],
+   [
+    "700",
+    21
+   ],
+   [
+    "600",
+    15
+   ]
+  ],
+  "radii": [
+   [
+    6,
+    11
+   ],
+   [
+    8,
+    7
+   ],
+   [
+    4,
+    6
+   ],
+   [
+    50,
+    5
+   ],
+   [
+    12,
+    5
+   ],
+   [
+    3,
+    3
+   ],
+   [
+    20,
+    1
+   ],
+   [
+    5,
+    1
+   ]
+  ],
+  "shadows": [
+   [
+    "rgba(0, 0, 0, 0.2) 0px 2px 8px 0px",
+    11
+   ],
+   [
+    "rgba(0, 0, 0, 0.15) 0px 5px 20px 0px",
+    7
+   ],
+   [
+    "rgba(0, 0, 0, 0.05) 0px 2px 4px 0px",
+    6
+   ],
+   [
+    "rgba(0, 0, 0, 0.05) 0px 2px 10px 0px",
+    5
+   ],
+   [
+    "rgba(0, 0, 0, 0.1) 0px 2px 10px 0px",
+    3
+   ],
+   [
+    "rgba(0, 0, 0, 0.1) 0px 2px 8px 0px",
+    2
+   ]
+  ],
+  "animNames": [],
+  "transitions": 154,
+  "anims": 0,
+  "gradients": 23,
+  "blur": 3,
+  "sticky": 1,
+  "fixed": 1,
+  "scrollSnap": 0,
+  "outline": [
+   [
+    "H1",
+    "重庆邮电大学远东联邦大学联合学院"
+   ],
+   [
+    "H2",
+    "重庆邮电大学远东联邦大学联合学院"
+   ],
+   [
+    "H2",
+    "中外合作教育创新平台"
+   ],
+   [
+    "H2",
+    "国际交流合作"
+   ],
+   [
+    "H2",
+    "卓越人才培养"
+   ],
+   [
+    "H3",
+    "�� 综合新闻"
+   ],
+   [
+    "H4",
+    "苏森校长率团赴俄罗斯访问"
+   ],
+   [
+    "H3",
+    "�� 通知公告"
+   ],
+   [
+    "H3",
+    "�� 信息公开"
+   ],
+   [
+    "H3",
+    "�� 招生资讯"
+   ],
+   [
+    "H4",
+    "招生简章"
+   ],
+   [
+    "H4",
+    "云游校园"
+   ],
+   [
+    "H4",
+    "常见问题"
+   ],
+   [
+    "H3",
+    "�� 学生支持"
+   ],
+   [
+    "H4",
+    "学生发展指导中心"
+   ],
+   [
+    "H4",
+    "师生互动"
+   ],
+   [
+    "H4",
+    "留学指导系统"
+   ],
+   [
+    "H4",
+    "重庆邮电大学远东联邦大学联合学院"
+   ],
+   [
+    "H4",
+    "快速链接"
+   ],
+   [
+    "H4",
+    "联系方式"
+   ]
+  ],
+  "sections": [
+   {
+    "tag": "header",
+    "id": "",
+    "cls": "header",
+    "h": 100,
+    "w": 390
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "banner",
+    "h": 250,
+    "w": 390
+   },
+   {
+    "tag": "div",
+    "id": "",
+    "cls": "container",
+    "h": 5786,
+    "w": 390
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "content-module news-feature",
+    "h": 879,
+    "w": 365
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "content-module",
+    "h": 1707,
+    "w": 365
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "content-module",
+    "h": 1032,
+    "w": 365
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "content-module card-module",
+    "h": 946,
+    "w": 365
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "content-module card-module",
+    "h": 1062,
+    "w": 365
+   },
+   {
+    "tag": "footer",
+    "id": "",
+    "cls": "footer",
+    "h": 550,
+    "w": 390
+   }
+  ],
+  "media": {
+   "img": 18,
+   "svg": 0,
+   "video": 0,
+   "canvas": 0,
+   "picture": 0,
+   "iframe": 0,
+   "source": 0
+  },
+  "fontList": [],
+  "nodes": 375,
+  "resources": 22,
+  "byType": {
+   "link": 3,
+   "script": 5,
+   "img": 13,
+   "other": 1
+  },
+  "big": [
+   [
+    "17584KB",
+    "https://uc.cqupt.edu.cn/resources/images/banner/632193A4E80F5829917A8E86DE039FF0.jpg"
+   ],
+   [
+    "2104KB",
+    "https://uc.cqupt.edu.cn/resources/images/banner/110A712EB9171EC7208BB14D5B90AD0E.jpg"
+   ],
+   [
+    "71KB",
+    "https://uc.cqupt.edu.cn/CebcrWlDBDtO/6fCbjMX74d5J.ce3512e.js"
+   ]
+  ],
+  "hasHorizontalOverflow": true,
+  "navText": "重庆邮电大学远东联邦大学联合学院 主页 学院概况 ▼ 学院简介 学院领导 组织机构 招生信息 ▼ 本科生招生 研究生招生 常见问题 教学教务 ▼ 专业介绍 教学制度 培养方案 本科教育 研究生教育 学生事务 ▼ 学生风采 社团组织 学生学习与发展指导 心理发展指导 留学指导 党建思政 ▼ 基层组织 理论学习 党建活动 留学报国精神 师资队伍 ▼ 中方教师 俄方教师 研究生导师 国际交流 ▼ 教师国际交流 学生国际交流 信息分享 校企合作 规章制度",
+  "bodyText": "重庆邮电大学远东联邦大学联合学院 主页 学院概况 ▼ 学院简介 学院领导 组织机构 招生信息 ▼ 本科生招生 研究生招生 常见问题 教学教务 ▼ 专业介绍 教学制度 培养方案 本科教育 研究生教育 学生事务 ▼ 学生风采 社团组织 学生学习与发展指导 心理发展指导 留学指导 党建思政 ▼ 基层组织 理论学习 党建活动 留学报国精神 师资队伍 ▼ 中方教师 俄方教师 研究生导师 国际交流 ▼ 教师国际交流 学生国际交流 信息分享 校企合作 规章制度 国际交流合作 促进中外教育文化交流与合作 ‹ › �� 综合新闻 更多 > 苏森校长率团赴俄罗斯访问 8月31日至9月3日，应俄罗斯远东联邦大学邀请，苏森校长率团赴俄罗斯符拉迪沃斯托克，出席第十一届东方经济论坛、第十五届亚太经合组织高等教育合作会议，开展校际交流、项目签约和留学宣介等系列活动。 金秋启航新起点 青春逐梦向世界 | 远东联邦大学联合学院2026级开学典礼 2026-10-16 国际学院、联合学院召开本科学生发展会议暨2025-2026学年春季学期学情分析会议 2026-10-14 苏森校长会见俄罗斯远东联邦大学副校长代表团一行 2026-06-15 联合管理委员会第一届第一次会议召开 2026-06-12 数智赋能未来 青春筑梦中俄——中俄师生交流论坛举行 2026-06-12 �� 通知公告 更多 > 27 08月 2027年重庆邮电大学远东联邦大学联合学院硕士研究生招生报考指南 2027年联合学院面向全国招收硕士研究生，设有信息与通信工程、计算机科学与技术、控制科学与工程三个学术型硕士专业... 2026-08-27 27 08月 重庆邮电大学2027年研究生报考指南 重庆邮电大学2027年研究生报考指南发布，学校17个学院招生，其中联合学院设有3个中外合作办学硕士专业... 2026-08-27 07 07月 2026年联合学院中外合作办学本科专业招生介绍 远东联邦大学联合学院2026年面向全国招收本科生，开设计算机科学与技术、数字媒体技术、物联网工程三个专业... 2026-07-07 25 03月 重庆邮电大学远东联邦大学联合学院研究生调剂招收信息 2026年研究生调剂招收工作现已启动，设有计算机科学与技术、信息与通信工程、控制科学与工程三个硕士专业... 2026-03-25 20 03月 关于开展2025-2026学年第二学期学评教工作的通知 根据学校教学工作安排，现开展2025-2026学年第二学期学生评教工作... 2026-03-20 18 03月 关于开展2026年第二十届\"西门子杯\"中国智能制造挑战赛宣讲会的通知 2026年第二十届\"西门子杯\"中国智能制造挑战赛宣讲会将于近期举行... 2026-03-18 15 03月 重庆邮电大学关于举办2026年中国大学生计算机设计大赛校级选拔赛的通知 2026年中国大学生计算机设计大赛校级选拔赛报名工作已启动... 2026-03-15 �� 信息公开 更多 > 28 09月 联合学院关于2026-2027学年班导师拟聘任名单的公示 根据学校相关规定和选聘工作要求，经学院党政联席会议审核通过，拟聘任黄庆卿等16名老师为联合学院2026-2027学年班导师，公示期为2026年9月28日至29日。 2026-09-28 18 09月 重庆邮电大学远东联邦大学联合学院2027年推免复试考核实施细则 联合学院2027年接收推荐免试攻读硕士研究生复试考核实施细则，涵盖复试内容、考核形式等。 2026-09-18 18 09月 2027年推荐免试攻读重庆邮电大学远东联邦大学联合学院硕士研究生招生章程 重庆邮电大学2027年接收推荐免试攻读硕士研究生章程，含联合学院相关招生专业及申请条件。 2026-09-18 27 08月 2027年重庆邮电大学远东联邦大学联合学院硕士研究生招生报考指南 联合学院2027年面向全国招收学术型硕士研究生，设有信息与通信工程、计算机科学与技术、控制科学与工程三个学术型硕士专业。 2026-08-27 �� 招生资讯 更多 > 招生简章 2026年本科招生政策及专业介绍 查看详情 云游校园 虚拟校园参观，带你全方位了解学院环境 在线参观 常见问题 招生咨询热点问题解答 问题汇总 �� 学生支持 更多 > 学生发展指导中心 提供学业规划、职业发展等全方位指导服务 了解更多 师生互动 搭建师生交流平台，促进教学相长 活动安排 留学指导系统 为赴俄交流学生提供全方位支持服务 指导资源 地址：重庆市南岸区崇文路2号 邮编：400065 技术支持：CQUPTHUB工作室 学院概况 招生信息 教学教务 学生事务 电话：023-62461206 邮箱：cquptfefu@cqupt.edu.cn ©2025 重庆邮电大学远东联邦大学联合学院 版权所有"
+ },
+ "links": [
+  "https://uc.cqupt.edu.cn/index.html",
+  "https://uc.cqupt.edu.cn/college-overview/introduction.html",
+  "https://uc.cqupt.edu.cn/college-overview/leadership.html",
+  "https://uc.cqupt.edu.cn/college-overview/organization.html",
+  "https://uc.cqupt.edu.cn/admission/undergraduate.html",
+  "https://uc.cqupt.edu.cn/admission/graduate-list.html",
+  "https://uc.cqupt.edu.cn/international-exchange/faq.html",
+  "https://uc.cqupt.edu.cn/education/majors.html",
+  "https://uc.cqupt.edu.cn/education/regulations.html",
+  "https://uc.cqupt.edu.cn/education/plans.html",
+  "https://uc.cqupt.edu.cn/education/undergraduate-edu.html",
+  "https://uc.cqupt.edu.cn/education/postgraduate-edu.html",
+  "https://uc.cqupt.edu.cn/student-affairs/student-showcase.html",
+  "https://uc.cqupt.edu.cn/student-affairs/clus.html",
+  "https://uc.cqupt.edu.cn/student-affairs/development.html",
+  "https://uc.cqupt.edu.cn/student-affairs/psychological.html",
+  "https://uc.cqupt.edu.cn/student-affairs/study-abroad.html",
+  "https://uc.cqupt.edu.cn/party-affairs/grassroots.html",
+  "https://uc.cqupt.edu.cn/party-affairs/theory.html",
+  "https://uc.cqupt.edu.cn/party-affairs/activities.html",
+  "https://uc.cqupt.edu.cn/party-affairs/patriotism.html",
+  "https://uc.cqupt.edu.cn/faculty/chinese.html",
+  "https://uc.cqupt.edu.cn/faculty/russian.html",
+  "https://uc.cqupt.edu.cn/faculty/supervisors.html",
+  "https://uc.cqupt.edu.cn/international-exchange/teacher-exchange.html",
+  "https://uc.cqupt.edu.cn/international-exchange/student-exchange.html",
+  "https://uc.cqupt.edu.cn/international-exchange/info-sharing.html",
+  "https://uc.cqupt.edu.cn/industry-cooperation.html",
+  "https://uc.cqupt.edu.cn/regulations.html",
+  "https://uc.cqupt.edu.cn/news-notices/news-list.html",
+  "https://uc.cqupt.edu.cn/news-notices/news-detail-18.html",
+  "https://mp.weixin.qq.com/s/VNrqHWX07ETiEwQfi-FDCA",
+  "https://mp.weixin.qq.com/s/xcZs0mzB4ot_rMbCfLPFPg",
+  "https://uc.cqupt.edu.cn/news-notices/news-detail-17.html",
+  "https://uc.cqupt.edu.cn/news-notices/news-detail-16.html",
+  "https://uc.cqupt.edu.cn/news-notices/news-detail-15.html",
+  "https://uc.cqupt.edu.cn/news-notices/notices-list.html",
+  "https://uc.cqupt.edu.cn/news-notices/notice-detail.html?id=7&title=2027%E5%B9%B4%E9%87%8D%E5%BA%86%E9%82%AE%E7%94%B5%E5%A4%A7%E5%AD%A6%E8%BF%9C%E4%B8%9C%E8%81%94%E9%82%A6%E5%A4%A7%E5%AD%A6%E8%81%94%E5%90%88%E5%AD%A6%E9%99%A2%E7%A1%95%E5%A3%AB%E7%A0%94%E7%A9%B6%E7%94%9F%E6%8B%9B%E7%94%9F%E6%8A%A5%E8%80%83%E6%8C%87%E5%8D%97",
+  "https://uc.cqupt.edu.cn/news-notices/notice-detail.html?id=6&title=%E9%87%8D%E5%BA%86%E9%82%AE%E7%94%B5%E5%A4%A7%E5%AD%A62027%E5%B9%B4%E7%A0%94%E7%A9%B6%E7%94%9F%E6%8A%A5%E8%80%83%E6%8C%87%E5%8D%97",
+  "https://uc.cqupt.edu.cn/news-notices/notice-detail.html?id=5&title=2026%E5%B9%B4%E8%81%94%E5%90%88%E5%AD%A6%E9%99%A2%E4%B8%AD%E5%A4%96%E5%90%88%E4%BD%9C%E5%8A%9E%E5%AD%A6%E6%9C%AC%E7%A7%91%E4%B8%93%E4%B8%9A%E6%8B%9B%E7%94%9F%E4%BB%8B%E7%BB%8D",
+  "https://uc.cqupt.edu.cn/news-notices/notice-detail.html?id=4&title=%E9%87%8D%E5%BA%86%E9%82%AE%E7%94%B5%E5%A4%A7%E5%AD%A6%E8%BF%9C%E4%B8%9C%E8%81%94%E9%82%A6%E5%A4%A7%E5%AD%A6%E8%81%94%E5%90%88%E5%AD%A6%E9%99%A2%E7%A0%94%E7%A9%B6%E7%94%9F%E8%B0%83%E5%89%82%E6%8B%9B%E6%94%B6%E4%BF%A1%E6%81%AF",
+  "https://uc.cqupt.edu.cn/news-notices/notice-detail.html?id=1&title=%E5%85%B3%E4%BA%8E%E5%BC%80%E5%B1%952025-2026%E5%AD%A6%E5%B9%B4%E7%AC%AC%E4%BA%8C%E5%AD%A6%E6%9C%9F%E5%AD%A6%E8%AF%84%E6%95%99%E5%B7%A5%E4%BD%9C%E7%9A%84%E9%80%9A%E7%9F%A5",
+  "https://uc.cqupt.edu.cn/news-notices/notice-detail.html?id=2&title=%E5%85%B3%E4%BA%8E%E5%BC%80%E5%B1%952026%E5%B9%B4%E7%AC%AC%E4%BA%8C%E5%8D%81%E5%B1%8A",
+  "https://uc.cqupt.edu.cn/news-notices/notice-detail.html?id=3&title=%E9%87%8D%E5%BA%86%E9%82%AE%E7%94%B5%E5%A4%A7%E5%AD%A6%E5%85%B3%E4%BA%8E%E4%B8%BE%E5%8A%9E2026%E5%B9%B4%E4%B8%AD%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AE%BE%E8%AE%A1%E5%A4%A7%E8%B5%9B%E6%A0%A1%E7%BA%A7%E9%80%89%E6%8B%94%E8%B5%9B%E7%9A%84%E9%80%9A%E7%9F%A5",
+  "https://uc.cqupt.edu.cn/info-disclosure.html",
+  "https://uc.cqupt.edu.cn/news-notices/notice-detail-8.html",
+  "https://yjs.cqupt.edu.cn/system/_content/download.jsp?urltype=news.DownloadAttachUrl&owner=1605397978&wbfileid=C56304480B4DD8EE46B35EA8C4EE32DF",
+  "https://yjs.cqupt.edu.cn/info/1180/15424.htm",
+  "https://uc.cqupt.edu.cn/admission/graduate-detail.html?id=1",
+  "https://uc.cqupt.edu.cn/student-affairs/campus-tour.html"
+ ]
+}

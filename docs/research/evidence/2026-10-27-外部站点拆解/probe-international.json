@@ -1,0 +1,787 @@
+{
+ "key": "international",
+ "url": "https://international.cqupt.edu.cn/",
+ "probe": {
+  "url": "https://international.cqupt.edu.cn/",
+  "title": "重庆邮电大学国际学院",
+  "docHeight": 1503,
+  "docWidth": 1440,
+  "innerWidth": 1440,
+  "innerHeight": 900,
+  "bodyBg": "rgb(255, 255, 255)",
+  "rootFontSize": "10px",
+  "bodyFont": "微软雅黑",
+  "lang": "",
+  "propsCount": 0,
+  "props": [],
+  "colors": [
+   [
+    "rgb(51, 51, 51)",
+    368
+   ],
+   [
+    "rgb(255, 255, 255)",
+    222
+   ],
+   [
+    "rgb(153, 153, 153)",
+    41
+   ],
+   [
+    "rgb(76, 76, 76)",
+    27
+   ],
+   [
+    "rgb(74, 74, 74)",
+    24
+   ],
+   [
+    "rgb(48, 50, 51)",
+    14
+   ],
+   [
+    "rgb(146, 16, 65)",
+    12
+   ],
+   [
+    "rgb(102, 102, 102)",
+    12
+   ],
+   [
+    "rgb(34, 34, 34)",
+    10
+   ],
+   [
+    "rgba(255, 255, 255, 0.85)",
+    7
+   ],
+   [
+    "rgb(91, 91, 91)",
+    6
+   ],
+   [
+    "rgb(26, 58, 108)",
+    2
+   ],
+   [
+    "rgb(214, 40, 57)",
+    2
+   ]
+  ],
+  "bgs": [
+   [
+    "rgb(26, 58, 108)",
+    18
+   ],
+   [
+    "rgb(143, 0, 11)",
+    8
+   ],
+   [
+    "rgb(239, 239, 239)",
+    6
+   ],
+   [
+    "rgb(255, 255, 255)",
+    2
+   ],
+   [
+    "rgb(17, 17, 17)",
+    1
+   ],
+   [
+    "rgb(245, 245, 245)",
+    1
+   ],
+   [
+    "rgb(244, 162, 97)",
+    1
+   ]
+  ],
+  "fonts": [
+   [
+    "微软雅黑",
+    689
+   ],
+   [
+    "Microsoft YaHei",
+    50
+   ],
+   [
+    "宋体",
+    10
+   ],
+   [
+    "iconfont",
+    4
+   ]
+  ],
+  "sizes": [
+   [
+    15,
+    352
+   ],
+   [
+    16,
+    86
+   ],
+   [
+    13,
+    34
+   ],
+   [
+    14,
+    33
+   ],
+   [
+    20,
+    25
+   ],
+   [
+    17,
+    6
+   ],
+   [
+    12,
+    6
+   ],
+   [
+    18,
+    5
+   ],
+   [
+    24,
+    1
+   ]
+  ],
+  "weights": [
+   [
+    "400",
+    481
+   ],
+   [
+    "300",
+    35
+   ],
+   [
+    "700",
+    31
+   ],
+   [
+    "600",
+    1
+   ]
+  ],
+  "radii": [
+   [
+    4,
+    2
+   ],
+   [
+    5,
+    1
+   ],
+   [
+    6,
+    1
+   ]
+  ],
+  "shadows": [
+   [
+    "rgba(130, 125, 125, 0.6) 2px 2px 3px 0px",
+    6
+   ],
+   [
+    "rgba(26, 58, 108, 0.25) -2px 2px 10px 0px",
+    1
+   ]
+  ],
+  "animNames": [
+   [
+    "magnify",
+    5
+   ]
+  ],
+  "transitions": 30,
+  "anims": 5,
+  "gradients": 0,
+  "blur": 0,
+  "sticky": 0,
+  "fixed": 3,
+  "scrollSnap": 0,
+  "outline": [
+   [
+    "H3",
+    "请升级浏览器版本"
+   ],
+   [
+    "H4",
+    "Chrome"
+   ],
+   [
+    "H4",
+    "Firefox"
+   ],
+   [
+    "H4",
+    "Safari"
+   ],
+   [
+    "H4",
+    "Edge"
+   ],
+   [
+    "H3",
+    "首页"
+   ],
+   [
+    "H3",
+    "学院概况"
+   ],
+   [
+    "H3",
+    "学院动态"
+   ],
+   [
+    "H3",
+    "教育教学"
+   ],
+   [
+    "H3",
+    "师资队伍"
+   ],
+   [
+    "H3",
+    "招生就业"
+   ],
+   [
+    "H3",
+    "学生事务"
+   ],
+   [
+    "H3",
+    "Study＠CQUPT"
+   ],
+   [
+    "H3",
+    "友情链接"
+   ]
+  ],
+  "sections": [
+   {
+    "tag": "div",
+    "id": "",
+    "cls": "head",
+    "h": 192,
+    "w": 1440
+   },
+   {
+    "tag": "div",
+    "id": "",
+    "cls": "container vvb",
+    "h": 389,
+    "w": 1368
+   },
+   {
+    "tag": "div",
+    "id": "",
+    "cls": " container ",
+    "h": 298,
+    "w": 1368
+   },
+   {
+    "tag": "div",
+    "id": "",
+    "cls": " container ",
+    "h": 386,
+    "w": 1368
+   },
+   {
+    "tag": "footer",
+    "id": "",
+    "cls": "footer",
+    "h": 147,
+    "w": 1440
+   },
+   {
+    "tag": "div",
+    "id": "",
+    "cls": "quick-nav",
+    "h": 465,
+    "w": 88
+   }
+  ],
+  "media": {
+   "img": 32,
+   "svg": 6,
+   "video": 0,
+   "canvas": 0,
+   "picture": 0,
+   "iframe": 0,
+   "source": 0
+  },
+  "fontList": [
+   [
+    "Glyphicons Halflings",
+    "normal",
+    "normal",
+    "unloaded"
+   ],
+   [
+    "icomoon",
+    "normal",
+    "normal",
+    "unloaded"
+   ],
+   [
+    "iconfont",
+    "normal",
+    "normal",
+    "unloaded"
+   ]
+  ],
+  "nodes": 778,
+  "resources": 57,
+  "byType": {
+   "link": 12,
+   "script": 32,
+   "img": 10,
+   "css": 1,
+   "other": 2
+  },
+  "big": [
+   [
+    "71KB",
+    "https://international.cqupt.edu.cn/CebcrWlDBDtO/6fCbjMX74d5J.ce3512e.js"
+   ],
+   [
+    "57KB",
+    "https://international.cqupt.edu.cn/images/college_title.png"
+   ]
+  ],
+  "hasHorizontalOverflow": false,
+  "navText": "",
+  "bodyText": "首页 学院概况 学院动态 教育教学 师资队伍 招生就业 学生事务 Study＠CQUPT 新闻动态 more>> 国际学院、联合学院召开中秋慰问座谈会 2026-09-30 国际学院举行2026级新生开学典礼 2026-09-20 国际学院、联合学院召开2026级新生家校沟通会 2026-09-17 国际学生在重庆市重要赛事中斩获佳绩 2026-09-04 国际学生在第五届儒家经典跨语言诵读大会荣获佳绩 2026-09-04 国际学院党委理论学习中心组专题学习习近平党建思想 2026-07-13 国际学院开展2026届毕业生廉洁教育系列活动 2026-07-09 通知公告 more>> 重庆邮电大学2026年中外合作办学项目招生简章 2026-06-24 国际学院、远东联邦大学联合学院关于开展“院长接待日”工作的通知 2026-05-26 重庆邮电大学国际学院2026年春季学期招聘兼职俄语教师的启事 2026-01-08 重庆邮电大学2025年中外合作办学项目招生简章 2025-06-24 重庆邮电大学关于对2025年春季授予博士学位人员的公示（来华留学生） 2025-06-24 重庆邮电大学关于对2025年春季授予博士学位人员的公示（来华留学生） 2025-06-24 重庆邮电大学关于对2024年秋季授予博士学位人员的公示（来华留学生） 2024-12-25 重庆邮电大学2024年中外合作办学项目招生简章 2024-06-12 风采展示 通信工程(中外合作办学) 软件工程(中外合作办学) 来华留学 招生信息 就业信息 下载专区 重庆邮电大学2026年中外合作办学项目招生介绍 more>> 2026-2027学年重庆邮电大学国际本科生招生介绍 2025年11月10日 2025-2026学年重庆邮电大学国际本科生招生介绍 2024年11月20日 2024-2025学年重庆邮电大学国际本科生招生介绍 2023年11月13日 2024-2025学年重庆邮电大学国际博士研究生招生介绍 2023年10月17日 2024年重庆邮电大学汉语进修项目招生介绍(2024年9月入学) 2023年10月16日 2024-2025学年重庆邮电大学国际硕士研究生招生介绍 2023年10月16日 友情链接 重庆邮电大学 重庆邮电大学国际处 重庆市教育委员会 重庆市人民政府外事办公室 重庆公安出入境网上服务大厅 教育部教育涉外监管信息网 地址：重庆市南岸区崇文路2号重庆邮电大学国际学院 联系电话：+86 23-62480019 传真：+86 23-62471951 邮编：400065 一网通办 教务在线 重邮邮箱 Brightspace Wiseflow BUL Email"
+ },
+ "contentSize": {
+  "w": 1440,
+  "h": 1503
+ },
+ "mobile": {
+  "url": "https://international.cqupt.edu.cn/",
+  "title": "重庆邮电大学国际学院",
+  "docHeight": 2421,
+  "docWidth": 390,
+  "innerWidth": 390,
+  "innerHeight": 844,
+  "bodyBg": "rgb(255, 255, 255)",
+  "rootFontSize": "10px",
+  "bodyFont": "微软雅黑",
+  "lang": "",
+  "propsCount": 0,
+  "props": [],
+  "colors": [
+   [
+    "rgb(51, 51, 51)",
+    368
+   ],
+   [
+    "rgb(255, 255, 255)",
+    226
+   ],
+   [
+    "rgb(153, 153, 153)",
+    41
+   ],
+   [
+    "rgb(74, 74, 74)",
+    24
+   ],
+   [
+    "rgb(76, 76, 76)",
+    23
+   ],
+   [
+    "rgb(48, 50, 51)",
+    14
+   ],
+   [
+    "rgb(146, 16, 65)",
+    12
+   ],
+   [
+    "rgb(102, 102, 102)",
+    12
+   ],
+   [
+    "rgb(34, 34, 34)",
+    10
+   ],
+   [
+    "rgba(255, 255, 255, 0.85)",
+    7
+   ],
+   [
+    "rgb(91, 91, 91)",
+    6
+   ],
+   [
+    "rgb(26, 58, 108)",
+    2
+   ],
+   [
+    "rgb(214, 40, 57)",
+    2
+   ]
+  ],
+  "bgs": [
+   [
+    "rgb(26, 58, 108)",
+    18
+   ],
+   [
+    "rgb(143, 0, 11)",
+    8
+   ],
+   [
+    "rgb(239, 239, 239)",
+    6
+   ],
+   [
+    "rgb(255, 255, 255)",
+    2
+   ],
+   [
+    "rgb(17, 17, 17)",
+    1
+   ],
+   [
+    "rgb(245, 245, 245)",
+    1
+   ],
+   [
+    "rgb(244, 162, 97)",
+    1
+   ]
+  ],
+  "fonts": [
+   [
+    "微软雅黑",
+    689
+   ],
+   [
+    "Microsoft YaHei",
+    50
+   ],
+   [
+    "宋体",
+    10
+   ],
+   [
+    "iconfont",
+    4
+   ]
+  ],
+  "sizes": [
+   [
+    15,
+    352
+   ],
+   [
+    14,
+    60
+   ],
+   [
+    16,
+    59
+   ],
+   [
+    13,
+    34
+   ],
+   [
+    20,
+    25
+   ],
+   [
+    17,
+    6
+   ],
+   [
+    12,
+    6
+   ],
+   [
+    18,
+    5
+   ],
+   [
+    24,
+    1
+   ]
+  ],
+  "weights": [
+   [
+    "400",
+    481
+   ],
+   [
+    "300",
+    35
+   ],
+   [
+    "700",
+    31
+   ],
+   [
+    "600",
+    1
+   ]
+  ],
+  "radii": [
+   [
+    4,
+    2
+   ],
+   [
+    5,
+    1
+   ],
+   [
+    6,
+    1
+   ]
+  ],
+  "shadows": [
+   [
+    "rgba(130, 125, 125, 0.6) 2px 2px 3px 0px",
+    6
+   ],
+   [
+    "rgba(26, 58, 108, 0.25) -2px 2px 10px 0px",
+    1
+   ]
+  ],
+  "animNames": [
+   [
+    "magnify",
+    5
+   ]
+  ],
+  "transitions": 30,
+  "anims": 5,
+  "gradients": 0,
+  "blur": 0,
+  "sticky": 0,
+  "fixed": 3,
+  "scrollSnap": 0,
+  "outline": [
+   [
+    "H3",
+    "请升级浏览器版本"
+   ],
+   [
+    "H4",
+    "Chrome"
+   ],
+   [
+    "H4",
+    "Firefox"
+   ],
+   [
+    "H4",
+    "Safari"
+   ],
+   [
+    "H4",
+    "Edge"
+   ],
+   [
+    "H3",
+    "首页"
+   ],
+   [
+    "H3",
+    "学院概况"
+   ],
+   [
+    "H3",
+    "学院动态"
+   ],
+   [
+    "H3",
+    "教育教学"
+   ],
+   [
+    "H3",
+    "师资队伍"
+   ],
+   [
+    "H3",
+    "招生就业"
+   ],
+   [
+    "H3",
+    "学生事务"
+   ],
+   [
+    "H3",
+    "Study＠CQUPT"
+   ],
+   [
+    "H3",
+    "友情链接"
+   ]
+  ],
+  "sections": [
+   {
+    "tag": "div",
+    "id": "",
+    "cls": "container vvb",
+    "h": 1117,
+    "w": 390
+   },
+   {
+    "tag": "div",
+    "id": "",
+    "cls": " container ",
+    "h": 298,
+    "w": 390
+   },
+   {
+    "tag": "div",
+    "id": "",
+    "cls": " container ",
+    "h": 386,
+    "w": 390
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "links-section",
+    "h": 230,
+    "w": 390
+   },
+   {
+    "tag": "footer",
+    "id": "",
+    "cls": "footer",
+    "h": 279,
+    "w": 390
+   }
+  ],
+  "media": {
+   "img": 32,
+   "svg": 6,
+   "video": 0,
+   "canvas": 0,
+   "picture": 0,
+   "iframe": 0,
+   "source": 0
+  },
+  "fontList": [
+   [
+    "Glyphicons Halflings",
+    "normal",
+    "normal",
+    "unloaded"
+   ],
+   [
+    "icomoon",
+    "normal",
+    "normal",
+    "error"
+   ],
+   [
+    "iconfont",
+    "normal",
+    "normal",
+    "unloaded"
+   ]
+  ],
+  "nodes": 778,
+  "resources": 60,
+  "byType": {
+   "link": 12,
+   "script": 32,
+   "img": 10,
+   "css": 4,
+   "other": 2
+  },
+  "big": [
+   [
+    "71KB",
+    "https://international.cqupt.edu.cn/CebcrWlDBDtO/6fCbjMX74d5J.ce3512e.js"
+   ],
+   [
+    "57KB",
+    "https://international.cqupt.edu.cn/images/college_title.png"
+   ]
+  ],
+  "hasHorizontalOverflow": false,
+  "navText": "",
+  "bodyText": "Open Menu 主站 English Email 欢迎访问国际学院！ 首页 学院概况 学院动态 教育教学 师资队伍 招生就业 学生事务 Study＠CQUPT 新闻动态 more>> 国际学院、联合学院召开中秋慰问座谈会 2026-09-30 国际学院举行2026级新生开学典礼 2026-09-20 国际学院、联合学院召开2026级新生家校沟通会 2026-09-17 国际学生在重庆市重要赛事中斩获佳绩 2026-09-04 国际学生在第五届儒家经典跨语言诵读大会荣获佳绩 2026-09-04 国际学院党委理论学习中心组专题学习习近平党建思想 2026-07-13 国际学院开展2026届毕业生廉洁教育系列活动 2026-07-09 通知公告 more>> 重庆邮电大学2026年中外合作办学项目招生简章 2026-06-24 国际学院、远东联邦大学联合学院关于开展“院长接待日”工作的通知 2026-05-26 重庆邮电大学国际学院2026年春季学期招聘兼职俄语教师的启事 2026-01-08 重庆邮电大学2025年中外合作办学项目招生简章 2025-06-24 重庆邮电大学关于对2025年春季授予博士学位人员的公示（来华留学生） 2025-06-24 重庆邮电大学关于对2025年春季授予博士学位人员的公示（来华留学生） 2025-06-24 重庆邮电大学关于对2024年秋季授予博士学位人员的公示（来华留学生） 2024-12-25 重庆邮电大学2024年中外合作办学项目招生简章 2024-06-12 风采展示 通信工程(中外合作办学) 软件工程(中外合作办学) 来华留学 招生信息 就业信息 下载专区 重庆邮电大学2026年中外合作办学项目招生介绍 more>> 2026-2027学年重庆邮电大学国际本科生招生介绍 2025年11月10日 2025-2026学年重庆邮电大学国际本科生招生介绍 2024年11月20日 2024-2025学年重庆邮电大学国际本科生招生介绍 2023年11月13日 2024-2025学年重庆邮电大学国际博士研究生招生介绍 2023年10月17日 2024年重庆邮电大学汉语进修项目招生介绍(2024年9月入学) 2023年10月16日 2024-2025学年重庆邮电大学国际硕士研究生招生介绍 2023年10月16日 友情链接 重庆邮电大学 重庆邮电大学国际处 重庆市教育委员会 重庆市人民政府外事办公室 重庆公安出入境网上服务大厅 教育部教育涉外监管信息网 地址：重庆市南岸区崇文路2号重庆邮电大学国际学院 联系电话：+86 23-62480019 传真：+86 23-62471951 邮编：400065"
+ },
+ "links": [
+  "https://www.google.cn/intl/zh-CN/chrome/",
+  "http://www.firefox.com.cn/",
+  "https://www.apple.com.cn/safari/",
+  "https://www.microsoft.com/zh-cn/edge",
+  "https://international.cqupt.edu.cn/index.htm",
+  "https://international.cqupt.edu.cn/xygk/xyjj.htm",
+  "https://international.cqupt.edu.cn/xygk/xyld.htm",
+  "https://international.cqupt.edu.cn/xygk/jgsz.htm",
+  "https://international.cqupt.edu.cn/xygk/hzyx.htm",
+  "https://international.cqupt.edu.cn/xydt/tzgg.htm",
+  "https://international.cqupt.edu.cn/xydt/xwdt.htm",
+  "https://international.cqupt.edu.cn/xydt/djgz.htm",
+  "https://international.cqupt.edu.cn/jyjx/pyfa.htm",
+  "https://international.cqupt.edu.cn/jyjx/jxzd.htm",
+  "https://international.cqupt.edu.cn/jyjx/xzzx.htm",
+  "https://international.cqupt.edu.cn/shiziduiwu/zwjy.htm",
+  "https://international.cqupt.edu.cn/shiziduiwu/txgc.htm",
+  "https://international.cqupt.edu.cn/shiziduiwu/rjgc.htm",
+  "https://international.cqupt.edu.cn/shiziduiwu/dian_zi_xin_xi_gong_chen.htm",
+  "https://international.cqupt.edu.cn/zsjy/xmjs.htm",
+  "https://international.cqupt.edu.cn/zsjy/zsxx.htm",
+  "https://international.cqupt.edu.cn/zsjy/jyxx.htm",
+  "https://international.cqupt.edu.cn/zsjy/cjwt.htm",
+  "https://international.cqupt.edu.cn/xssw/xshd.htm",
+  "https://international.cqupt.edu.cn/xssw/xsfc.htm",
+  "https://international.cqupt.edu.cn/xssw/gjjl.htm",
+  "https://international.cqupt.edu.cn/Study_CQUPT/guojijieshao.htm",
+  "https://international.cqupt.edu.cn/Study_CQUPT/Get_Started.htm",
+  "https://international.cqupt.edu.cn/Study_CQUPT/Regulations.htm",
+  "https://international.cqupt.edu.cn/Study_CQUPT/Stu__Spotlight.htm",
+  "https://international.cqupt.edu.cn/Study_CQUPT/Stu__Gallery.htm",
+  "https://international.cqupt.edu.cn/Study_CQUPT/Downloads.htm",
+  "https://international.cqupt.edu.cn/#",
+  "https://international.cqupt.edu.cn/xygk.htm",
+  "https://international.cqupt.edu.cn/xydt.htm",
+  "https://international.cqupt.edu.cn/jyjx.htm",
+  "https://international.cqupt.edu.cn/shiziduiwu.htm",
+  "https://international.cqupt.edu.cn/zsjy.htm",
+  "https://international.cqupt.edu.cn/xssw.htm",
+  "https://international.cqupt.edu.cn/Study_CQUPT.htm",
+  "https://international.cqupt.edu.cn/#home",
+  "https://international.cqupt.edu.cn/index/xwdt.htm",
+  "https://news.cqupt.edu.cn/#/xwzx/article/074fda50c44411f184c353ccfb72812f",
+  "https://news.cqupt.edu.cn/#/xwzx/article/8d2e4630bc7d11f198de914181688d7b",
+  "https://news.cqupt.edu.cn/#/xwzx/article/4d0edcb0b4a111f18cb96b1de6870231",
+  "https://news.cqupt.edu.cn/#/xwzx/article/f40df070b49f11f18cb96b1de6870231",
+  "https://news.cqupt.edu.cn/#/xwzx/article/41de26d0a77b11f189c7c17e5715484b",
+  "https://news.cqupt.edu.cn/#/xwzx/article/96711c80a77a11f189c7c17e5715484b",
+  "https://news.cqupt.edu.cn/#/xwzx/article/dc8ecb507d9911f1a76b49e4974aa713",
+  "https://news.cqupt.edu.cn/#/xwzx/article/e273087075eb11f1a1b5b5be1e96a30c",
+  "https://international.cqupt.edu.cn/index/tzgg.htm",
+  "https://international.cqupt.edu.cn/info/1020/9721.htm",
+  "https://international.cqupt.edu.cn/info/1020/8891.htm",
+  "https://international.cqupt.edu.cn/info/1020/3081.htm",
+  "https://international.cqupt.edu.cn/info/1020/10721.htm",
+  "https://international.cqupt.edu.cn/info/1020/8911.htm",
+  "https://international.cqupt.edu.cn/info/1020/3171.htm",
+  "https://international.cqupt.edu.cn/info/1020/3181.htm",
+  "https://international.cqupt.edu.cn/info/1020/3201.htm",
+  "https://international.cqupt.edu.cn/%3Cspan%20style='color:red;font-size:9pt'%3E%E8%BD%AC%E6%8D%A2%E9%93%BE%E6%8E%A5%E9%94%99%E8%AF%AF%3C/span%3E"
+ ]
+}

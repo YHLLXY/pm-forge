@@ -1,0 +1,249 @@
+[
+  {
+    "key": "fadian",
+    "url": "https://fadian.icu/",
+    "status": 200,
+    "htmlBytes": 22589,
+    "ms": 648,
+    "assets": {
+      "scripts": 17,
+      "styles": 1,
+      "imgs": 5,
+      "inlineCssBytes": 0,
+      "inlineJsCount": 7
+    },
+    "scripts": [
+      "https://fadian.icu/_next/static/chunks/09pvcnqtzp0ms.js",
+      "https://fadian.icu/_next/static/chunks/3vxzjluszxg25.js",
+      "https://fadian.icu/_next/static/chunks/1jawhdgls6esy.js",
+      "https://fadian.icu/_next/static/chunks/27jktro2p5rq9.js",
+      "https://fadian.icu/_next/static/chunks/turbopack-14e5oye2cbvc1.js",
+      "https://fadian.icu/_next/static/chunks/3lck_jj8py04l.js",
+      "https://fadian.icu/_next/static/chunks/0th2s0v91ys1f.js",
+      "https://fadian.icu/_next/static/chunks/2chgib1xfsxkp.js",
+      "https://fadian.icu/_next/static/chunks/01yt1o028nims.js",
+      "https://fadian.icu/_next/static/chunks/3a7x9cf_h7_z7.js",
+      "https://fadian.icu/_next/static/chunks/14mrh2-p_w84d.js",
+      "https://fadian.icu/_next/static/chunks/2idl49r9dj29j.js",
+      "https://fadian.icu/_next/static/chunks/1t2i5_t_3it62.js",
+      "https://fadian.icu/_next/static/chunks/37o17l4cb-68d.js",
+      "https://fadian.icu/_next/static/chunks/1kxtkhnh447vb.js",
+      "https://fadian.icu/_next/static/chunks/0cz1d0mv5g_q7.js",
+      "https://fadian.icu/_next/static/chunks/2zjueh7t2vecu.js"
+    ],
+    "styles": [
+      "https://fadian.icu/_next/static/chunks/0za_03hoft_zt.css"
+    ],
+    "title": "法典 - 智能法律助手",
+    "desc": "智能法律文书、合同审查、案例分析平台",
+    "og": false,
+    "fetchedCss": [
+      {
+        "url": "https://fadian.icu/_next/static/chunks/0za_03hoft_zt.css",
+        "bytes": 147370,
+        "file": "fadian-0.css"
+      }
+    ]
+  },
+  {
+    "key": "codeghub",
+    "url": "https://webapp.codeghub.com/release/app/admin/home/index.html",
+    "status": 200,
+    "htmlBytes": 1897,
+    "ms": 313,
+    "assets": {
+      "scripts": 1,
+      "styles": 1,
+      "imgs": 0,
+      "inlineCssBytes": 0,
+      "inlineJsCount": 0
+    },
+    "scripts": [
+      "https://webapp.codeghub.com/release/app/admin/home/assets/index-0INRc6FR.js"
+    ],
+    "styles": [
+      "https://webapp.codeghub.com/release/app/admin/home/assets/index-Ng6pyW4X.css"
+    ],
+    "title": "cqupt-hub · 重庆邮电大学",
+    "desc": "cqupt-hub 是重庆邮电大学的校园平台，包含关于我们、项目展示、成长体系、成员去向与联系我们。",
+    "og": false,
+    "fetchedCss": [
+      {
+        "url": "https://webapp.codeghub.com/release/app/admin/home/assets/index-Ng6pyW4X.css",
+        "bytes": 59452,
+        "file": "codeghub-0.css"
+      }
+    ]
+  },
+  {
+    "key": "international",
+    "url": "https://international.cqupt.edu.cn/",
+    "status": 200,
+    "htmlBytes": 87498,
+    "ms": 284,
+    "assets": {
+      "scripts": 32,
+      "styles": 12,
+      "imgs": 32,
+      "inlineCssBytes": 4080,
+      "inlineJsCount": 22
+    },
+    "scripts": [
+      "https://international.cqupt.edu.cn/CebcrWlDBDtO/6fCbjMX74d5J.ce3512e.js",
+      "https://international.cqupt.edu.cn/_sitegray/_sitegray.js",
+      "https://international.cqupt.edu.cn/system/resource/js/counter.js",
+      "https://international.cqupt.edu.cn/system/resource/js/base64.js",
+      "https://international.cqupt.edu.cn/system/resource/js/jquery/jquery-latest.min.js",
+      "https://international.cqupt.edu.cn/system/resource/vue/vue.js",
+      "https://international.cqupt.edu.cn/system/resource/vue/bluebird.min.js",
+      "https://international.cqupt.edu.cn/system/resource/vue/axios.js",
+      "https://international.cqupt.edu.cn/system/resource/vue/polyfill.js",
+      "https://international.cqupt.edu.cn/system/resource/vue/token.js",
+      "https://international.cqupt.edu.cn/system/resource/vue/static/element/index.js",
+      "https://international.cqupt.edu.cn/system/resource/vue/static/public.js",
+      "https://international.cqupt.edu.cn/system/resource/openapp/search/js/containsHtmlTags.js",
+      "https://international.cqupt.edu.cn/system/resource/openapp/search/layui/layui.js",
+      "https://international.cqupt.edu.cn/system/resource/js/dynclicks.js",
+      "https://international.cqupt.edu.cn/system/resource/js/openlink.js",
+      "https://international.cqupt.edu.cn/system/resource/js/centerCutImg.js",
+      "https://international.cqupt.edu.cn/system/resource/js/ajax.js",
+      "https://international.cqupt.edu.cn/system/resource/js/vsbpreloadimg.js",
+      "https://international.cqupt.edu.cn/js/aos.js"
+    ],
+    "styles": [
+      "https://international.cqupt.edu.cn/css/bootstrap.css",
+      "https://international.cqupt.edu.cn/css/component.css",
+      "https://international.cqupt.edu.cn/css/style.css",
+      "https://international.cqupt.edu.cn/css/slick.css",
+      "https://international.cqupt.edu.cn/css/aos.css",
+      "https://international.cqupt.edu.cn/css/research.css",
+      "https://international.cqupt.edu.cn/css/linkAndCopyright.css",
+      "https://international.cqupt.edu.cn/css/bootstrap-touch-slider.css",
+      "https://international.cqupt.edu.cn/_sitegray/_sitegray_d.css",
+      "https://international.cqupt.edu.cn/index.vsb.css",
+      "https://at.alicdn.com/t/font_2197487_yolo2xf16eg.css",
+      "https://international.cqupt.edu.cn/system/resource/vue/static/element/index.css"
+    ],
+    "title": "重庆邮电大学国际学院",
+    "desc": "",
+    "og": false,
+    "fetchedCss": [
+      {
+        "url": "https://international.cqupt.edu.cn/css/bootstrap.css",
+        "bytes": 153122,
+        "file": "international-0.css"
+      },
+      {
+        "url": "https://international.cqupt.edu.cn/css/component.css",
+        "bytes": 17813,
+        "file": "international-1.css"
+      },
+      {
+        "url": "https://international.cqupt.edu.cn/css/style.css",
+        "bytes": 52356,
+        "file": "international-2.css"
+      },
+      {
+        "url": "https://international.cqupt.edu.cn/css/slick.css",
+        "bytes": 3993,
+        "file": "international-3.css"
+      },
+      {
+        "url": "https://international.cqupt.edu.cn/css/aos.css",
+        "bytes": 31567,
+        "file": "international-4.css"
+      },
+      {
+        "url": "https://international.cqupt.edu.cn/css/research.css",
+        "bytes": 5342,
+        "file": "international-5.css"
+      },
+      {
+        "url": "https://international.cqupt.edu.cn/css/linkAndCopyright.css",
+        "bytes": 3201,
+        "file": "international-6.css"
+      },
+      {
+        "url": "https://international.cqupt.edu.cn/css/bootstrap-touch-slider.css",
+        "bytes": 8217,
+        "file": "international-7.css"
+      }
+    ]
+  },
+  {
+    "key": "uc",
+    "url": "https://uc.cqupt.edu.cn/",
+    "status": 200,
+    "htmlBytes": 52074,
+    "ms": 270,
+    "assets": {
+      "scripts": 4,
+      "styles": 3,
+      "imgs": 20,
+      "inlineCssBytes": 1134,
+      "inlineJsCount": 6
+    },
+    "scripts": [
+      "https://uc.cqupt.edu.cn/CebcrWlDBDtO/6fCbjMX74d5J.ce3512e.js",
+      "https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js",
+      "https://uc.cqupt.edu.cn/_sitegray/_sitegray.js",
+      "https://uc.cqupt.edu.cn/system/resource/js/counter.js"
+    ],
+    "styles": [
+      "https://uc.cqupt.edu.cn/css/style.css",
+      "https://uc.cqupt.edu.cn/_sitegray/_sitegray_d.css",
+      "https://uc.cqupt.edu.cn/index.vsb.css"
+    ],
+    "title": "重庆邮电大学 远东联邦大学联合学院",
+    "desc": "重庆邮电大学远东联邦大学联合学院官方网站，提供学院简介、师资力量、招生信息、教育教学、国际交流、学生工作等内容。",
+    "og": false,
+    "fetchedCss": [
+      {
+        "url": "https://uc.cqupt.edu.cn/css/style.css",
+        "bytes": 49733,
+        "file": "uc-0.css"
+      },
+      {
+        "url": "https://uc.cqupt.edu.cn/_sitegray/_sitegray_d.css",
+        "bytes": 20,
+        "file": "uc-1.css"
+      },
+      {
+        "url": "https://uc.cqupt.edu.cn/index.vsb.css",
+        "bytes": 11,
+        "file": "uc-2.css"
+      }
+    ]
+  },
+  {
+    "key": "ours",
+    "url": "https://www.yuhailinlxy.com/",
+    "status": 200,
+    "htmlBytes": 49715,
+    "ms": 400,
+    "assets": {
+      "scripts": 2,
+      "styles": 1,
+      "imgs": 0,
+      "inlineCssBytes": 0,
+      "inlineJsCount": 6
+    },
+    "scripts": [
+      "https://www.yuhailinlxy.com/_astro/ClientRouter.astro_astro_type_script_index_0_lang.Bwsu7jgA.js",
+      "https://www.yuhailinlxy.com/_astro/page.9pYLC08D.js"
+    ],
+    "styles": [
+      "https://www.yuhailinlxy.com/_astro/Footer.CVD6C5iY.css"
+    ],
+    "title": "余翰林 · 产品作品集",
+    "desc": "数据驱动的产品候选人余翰林：产品案例研究、数据分析报告与自研 AI PM 工具箱，每个结论都有证据链。",
+    "og": true,
+    "fetchedCss": [
+      {
+        "url": "https://www.yuhailinlxy.com/_astro/Footer.CVD6C5iY.css",
+        "bytes": 64062,
+        "file": "ours-0.css"
+      }
+    ]
+  }
+]

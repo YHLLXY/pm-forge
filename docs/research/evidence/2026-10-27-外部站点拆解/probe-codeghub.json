@@ -1,0 +1,651 @@
+{
+ "key": "codeghub",
+ "url": "https://webapp.codeghub.com/release/app/admin/home/index.html",
+ "probe": {
+  "url": "https://webapp.codeghub.com/release/app/admin/home/index.html#/",
+  "title": "cqupt-hub · 重庆邮电大学",
+  "docHeight": 900,
+  "docWidth": 1440,
+  "innerWidth": 1440,
+  "innerHeight": 900,
+  "bodyBg": "rgba(0, 0, 0, 0)",
+  "rootFontSize": "16px",
+  "bodyFont": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+  "lang": "zh-CN",
+  "propsCount": 0,
+  "props": [],
+  "colors": [
+   [
+    "rgb(3, 59, 55)",
+    6
+   ]
+  ],
+  "bgs": [
+   [
+    "rgb(228, 243, 236)",
+    1
+   ],
+   [
+    "rgb(255, 255, 255)",
+    1
+   ],
+   [
+    "rgb(0, 0, 0)",
+    1
+   ]
+  ],
+  "fonts": [
+   [
+    "-apple-system",
+    26
+   ]
+  ],
+  "sizes": [
+   [
+    15,
+    6
+   ],
+   [
+    16,
+    5
+   ]
+  ],
+  "weights": [
+   [
+    "500",
+    6
+   ],
+   [
+    "400",
+    5
+   ]
+  ],
+  "radii": [],
+  "shadows": [
+   [
+    "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0",
+    1
+   ]
+  ],
+  "animNames": [],
+  "transitions": 5,
+  "anims": 0,
+  "gradients": 0,
+  "blur": 0,
+  "sticky": 0,
+  "fixed": 2,
+  "scrollSnap": 0,
+  "outline": [],
+  "sections": [
+   {
+    "tag": "div",
+    "id": "app",
+    "cls": "",
+    "h": 900,
+    "w": 1440
+   }
+  ],
+  "media": {
+   "img": 10,
+   "svg": 0,
+   "video": 0,
+   "canvas": 0,
+   "picture": 0,
+   "iframe": 0,
+   "source": 0
+  },
+  "fontList": [],
+  "nodes": 38,
+  "resources": 12,
+  "byType": {
+   "script": 1,
+   "link": 1,
+   "img": 9,
+   "other": 1
+  },
+  "big": [
+   [
+    "420KB",
+    "https://webapp.codeghub.com/release/app/admin/home/index/bg.webp"
+   ],
+   [
+    "221KB",
+    "https://webapp.codeghub.com/release/app/admin/home/index/girl.webp"
+   ],
+   [
+    "138KB",
+    "https://webapp.codeghub.com/release/app/admin/home/assets/index-0INRc6FR.js"
+   ],
+   [
+    "109KB",
+    "https://webapp.codeghub.com/release/app/admin/home/index/title.webp"
+   ],
+   [
+    "100KB",
+    "https://webapp.codeghub.com/release/app/admin/home/index/star.webp"
+   ],
+   [
+    "71KB",
+    "https://webapp.codeghub.com/release/app/admin/home/index/dropdown.webp"
+   ]
+  ],
+  "hasHorizontalOverflow": false,
+  "navText": "关于我们 项目展示 成长体系 成员去向 联系我们",
+  "bodyText": "关于我们 项目展示 成长体系 成员去向 联系我们"
+ },
+ "contentSize": {
+  "w": 1440,
+  "h": 900
+ },
+ "mobile": {
+  "url": "https://webapp.codeghub.com/release/app/admin/home/index.html#/",
+  "title": "cqupt-hub · 重庆邮电大学",
+  "docHeight": 9587,
+  "docWidth": 390,
+  "innerWidth": 390,
+  "innerHeight": 844,
+  "bodyBg": "rgba(0, 0, 0, 0)",
+  "rootFontSize": "16px",
+  "bodyFont": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+  "lang": "zh-CN",
+  "propsCount": 0,
+  "props": [],
+  "colors": [
+   [
+    "rgb(3, 59, 55)",
+    110
+   ],
+   [
+    "rgb(255, 255, 255)",
+    62
+   ],
+   [
+    "rgb(145, 113, 9)",
+    41
+   ],
+   [
+    "rgb(10, 102, 95)",
+    28
+   ],
+   [
+    "rgb(107, 114, 128)",
+    12
+   ],
+   [
+    "rgb(47, 138, 132)",
+    6
+   ],
+   [
+    "rgb(23, 81, 75)",
+    6
+   ]
+  ],
+  "bgs": [
+   [
+    "rgb(255, 255, 255)",
+    59
+   ],
+   [
+    "rgb(10, 102, 95)",
+    15
+   ],
+   [
+    "oklab(0.460589 -0.0774646 -0.00876394 / 0.3)",
+    6
+   ],
+   [
+    "rgb(255, 248, 224)",
+    5
+   ],
+   [
+    "rgb(235, 245, 240)",
+    5
+   ],
+   [
+    "oklab(0.999994 0.0000455678 0.0000200868 / 0.85)",
+    4
+   ],
+   [
+    "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+    4
+   ],
+   [
+    "rgb(47, 138, 132)",
+    4
+   ],
+   [
+    "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+    4
+   ],
+   [
+    "rgb(247, 212, 96)",
+    4
+   ],
+   [
+    "rgb(244, 249, 247)",
+    4
+   ],
+   [
+    "oklab(0.460589 -0.0774646 -0.00876394 / 0.1)",
+    3
+   ],
+   [
+    "oklab(0.961261 -0.0120285 0.00326812 / 0.8)",
+    2
+   ],
+   [
+    "rgba(255, 255, 255, 0.9)",
+    2
+   ],
+   [
+    "oklab(0.967267 0.0000535548 0.0110734 / 0.95)",
+    1
+   ],
+   [
+    "oklab(0.978269 -0.0019758 0.0321855 / 0.8)",
+    1
+   ],
+   [
+    "oklab(0.999994 0.0000455677 0.0000200868 / 0.7)",
+    1
+   ],
+   [
+    "rgb(82, 196, 26)",
+    1
+   ],
+   [
+    "oklab(0.999994 0.0000455678 0.0000200868 / 0.95)",
+    1
+   ],
+   [
+    "rgb(234, 245, 240)",
+    1
+   ]
+  ],
+  "fonts": [
+   [
+    "-apple-system",
+    552
+   ]
+  ],
+  "sizes": [
+   [
+    16,
+    161
+   ],
+   [
+    11,
+    121
+   ],
+   [
+    13,
+    53
+   ],
+   [
+    12,
+    24
+   ],
+   [
+    14,
+    23
+   ],
+   [
+    18,
+    11
+   ],
+   [
+    15,
+    10
+   ],
+   [
+    10,
+    8
+   ],
+   [
+    26,
+    5
+   ],
+   [
+    22,
+    2
+   ],
+   [
+    9,
+    1
+   ]
+  ],
+  "weights": [
+   [
+    "400",
+    289
+   ],
+   [
+    "600",
+    65
+   ],
+   [
+    "700",
+    43
+   ],
+   [
+    "500",
+    22
+   ]
+  ],
+  "radii": [
+   [
+    33554400,
+    61
+   ],
+   [
+    14,
+    52
+   ],
+   [
+    16,
+    20
+   ],
+   [
+    12,
+    4
+   ],
+   [
+    50,
+    2
+   ]
+  ],
+  "shadows": [
+   [
+    "rgba(3, 59, 55, 0.18) 0px 4px 12px 0px",
+    52
+   ],
+   [
+    "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0",
+    30
+   ],
+   [
+    "rgb(10, 102, 95) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.2) 2px 5px 8px 0px",
+    3
+   ],
+   [
+    "rgb(247, 212, 96) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.2) 2px 5px 8px 0px",
+    2
+   ]
+  ],
+  "animNames": [
+   [
+    "marqueeLeft-29fa6480",
+    1
+   ],
+   [
+    "marqueeRight-29fa6480",
+    1
+   ]
+  ],
+  "transitions": 27,
+  "anims": 2,
+  "gradients": 64,
+  "blur": 5,
+  "sticky": 1,
+  "fixed": 0,
+  "scrollSnap": 0,
+  "outline": [
+   [
+    "H2",
+    "关于我们"
+   ],
+   [
+    "H3",
+    "工作室简介"
+   ],
+   [
+    "H3",
+    "工作室历史"
+   ],
+   [
+    "H3",
+    "工作室现状"
+   ],
+   [
+    "H2",
+    "项目展示"
+   ],
+   [
+    "H3",
+    "数字教材研发"
+   ],
+   [
+    "H3",
+    "互联网产品研发"
+   ],
+   [
+    "H3",
+    "AI创新应用"
+   ],
+   [
+    "H3",
+    "校企合作项目"
+   ],
+   [
+    "H2",
+    "成长体系"
+   ],
+   [
+    "H3",
+    "成长路径"
+   ],
+   [
+    "H4",
+    "1. 学习成长"
+   ],
+   [
+    "H4",
+    "2. 项目实践"
+   ],
+   [
+    "H4",
+    "3. 能力提升"
+   ],
+   [
+    "H4",
+    "4. 核心培养"
+   ],
+   [
+    "H3",
+    "HUB实战成长社区"
+   ],
+   [
+    "H4",
+    "项目制成长"
+   ],
+   [
+    "H4",
+    "成员能获得什么"
+   ],
+   [
+    "H4",
+    "为什么成立社区"
+   ],
+   [
+    "H4",
+    "HUB 培养特色"
+   ],
+   [
+    "H3",
+    "求职增值服务"
+   ],
+   [
+    "H4",
+    "职业方向规划"
+   ],
+   [
+    "H4",
+    "秋招陪跑"
+   ],
+   [
+    "H4",
+    "面试复盘"
+   ],
+   [
+    "H4",
+    "简历精修"
+   ],
+   [
+    "H4",
+    "模拟面试"
+   ],
+   [
+    "H2",
+    "成员去向"
+   ],
+   [
+    "H3",
+    "林子"
+   ],
+   [
+    "H2",
+    "联系我们"
+   ]
+  ],
+  "sections": [
+   {
+    "tag": "div",
+    "id": "app",
+    "cls": "",
+    "h": 9587,
+    "w": 390
+   },
+   {
+    "tag": "section",
+    "id": "home",
+    "cls": "relative min-h-[100svh] overflow-hidden",
+    "h": 844,
+    "w": 390
+   },
+   {
+    "tag": "section",
+    "id": "about",
+    "cls": "px-5 py-14 box-border",
+    "h": 2528,
+    "w": 390
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "reveal rounded-2xl bg-white/80 p-5 shadow-sm border border-[#0A665F]/15",
+    "h": 387,
+    "w": 350
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "rounded-2xl bg-white/80 p-5 shadow-sm border border-[#0A665F]/15",
+    "h": 153,
+    "w": 350
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "cls": "rounded-2xl bg-white/80 p-5 shadow-sm border border-[#0A665F]/15",
+    "h": 191,
+    "w": 350
+   },
+   {
+    "tag": "section",
+    "id": "projects",
+    "cls": "px-0 py-14 box-border overflow-hidden",
+    "h": 1198,
+    "w": 390
+   },
+   {
+    "tag": "section",
+    "id": "grow",
+    "cls": "px-5 py-14 box-border",
+    "h": 3565,
+    "w": 390
+   },
+   {
+    "tag": "section",
+    "id": "destinations",
+    "cls": "px-0 py-14 box-border overflow-hidden",
+    "h": 803,
+    "w": 390
+   },
+   {
+    "tag": "section",
+    "id": "contact",
+    "cls": "px-5 py-14 box-border overflow-hidden",
+    "h": 531,
+    "w": 390
+   }
+  ],
+  "media": {
+   "img": 78,
+   "svg": 5,
+   "video": 0,
+   "canvas": 0,
+   "picture": 0,
+   "iframe": 0,
+   "source": 0
+  },
+  "fontList": [],
+  "nodes": 564,
+  "resources": 36,
+  "byType": {
+   "script": 1,
+   "link": 1,
+   "img": 33,
+   "other": 1
+  },
+  "big": [
+   [
+    "420KB",
+    "https://webapp.codeghub.com/release/app/admin/home/index/bg.webp"
+   ],
+   [
+    "221KB",
+    "https://webapp.codeghub.com/release/app/admin/home/index/girl.webp"
+   ],
+   [
+    "152KB",
+    "https://webapp.codeghub.com/release/app/admin/home/destination/earth.webp"
+   ],
+   [
+    "138KB",
+    "https://webapp.codeghub.com/release/app/admin/home/assets/index-0INRc6FR.js"
+   ],
+   [
+    "137KB",
+    "https://webapp.codeghub.com/release/app/admin/home/aboutus2/bg-girl.webp"
+   ],
+   [
+    "109KB",
+    "https://webapp.codeghub.com/release/app/admin/home/index/title.webp"
+   ],
+   [
+    "104KB",
+    "4%B5%E5%A4%A7%E5%AD%A6%E5%9B%BD%E9%99%85%E5%AD%A6%E9%99%A2%E5%AE%98%E7%BD%91-BZ7kPkDs.webp"
+   ],
+   [
+    "100KB",
+    "https://webapp.codeghub.com/release/app/admin/home/index/star.webp"
+   ],
+   [
+    "77KB",
+    "https://webapp.codeghub.com/release/app/admin/home/destination/rocket.webp"
+   ],
+   [
+    "71KB",
+    "https://webapp.codeghub.com/release/app/admin/home/index/dropdown.webp"
+   ],
+   [
+    "61KB",
+    "https://webapp.codeghub.com/release/app/admin/home/grow-community/memberType.webp"
+   ]
+  ],
+  "hasHorizontalOverflow": false,
+  "navText": "CQUPTHUB 首页 关于我们 项目展示 成长体系 成员去向 联系我们",
+  "bodyText": "CQUPTHUB 首页 关于我们 项目展示 成长体系 成员去向 联系我们 探索技术边界，创造互联网价值；技术连接教育，实践创造未来 产品探索 技术实践 AI创新 数字教育 进入官网 关于我们 ABOUT US “探索技术边界，创造互联网价值；技术连接教育，实践创造未来” 工作室简介 CQUPTHUB 是重庆邮电大学学生自发组织的互联网产品实践团队。我们长期专注于数字教材前端可视化开发、教育类互动产品研发、互联网产品设计以及 AI 应用探索。通过真实项目实践，将产品设计、UI 设计、前端开发、后端开发等能力结合，探索互联网技术与教育场景融合的新模式。 我们的团队由一群充满热爱、激情，富有创造力和专业技术的伙伴组成，对数字教材和小游戏开发有深厚的理解和丰富的经验。我们紧跟行业发展趋势，不断探索创新，力求将最新的前端技术融入到我们的作品中，为用户带来卓越的视觉和交互体验。 工作室历史 我们的前身是 2016 年前的实验室，经过多年发展逐步成型，疫情期间暂停招新后，现由学长张政余重启并持续运营，目前已进入全新发展阶段。 工作室现状 前端开发需求快速增长 项目数量稳步增加 多项目并行协作需求提升 技术梯队建设需求明显 产品探索 技术实践 AI创新 数字教育 项目展示 WHAT WE DO 从教育数字化到互联网产品，我们持续探索技术应用的新可能。 仓储物流实训交互项目 超级采煤侠 · 电流大冒险项目 重庆邮电大学国际学院官网项目 重庆邮电大学远东联邦大学联合学院官网项目 川渝麻辣小吃直播间项目 嘟嘟空压机 · PLC 守护大作战项目 法典项目 规程小卫士项目 看门狗汪汪 · 继电器唤醒大冒险项目 煤宝快跑项目 煤流不堆栈项目 美食直播策划流程图项目 泡泡潜水艇排水站项目 仓储物流实训交互项目 超级采煤侠 · 电流大冒险项目 重庆邮电大学国际学院官网项目 重庆邮电大学远东联邦大学联合学院官网项目 川渝麻辣小吃直播间项目 嘟嘟空压机 · PLC 守护大作战项目 法典项目 规程小卫士项目 看门狗汪汪 · 继电器唤醒大冒险项目 煤宝快跑项目 煤流不堆栈项目 美食直播策划流程图项目 泡泡潜水艇排水站项目 情景选择 · 旅游套餐匹配项目 刷题神器Alevel版项目 双斗提升大冒险项目 贴纸日记 · JNA 过载守护战项目 小金提升机大冒险项目 小矿师的 PLC 接线物语项目 压宝小卫士项目 运输系统启动&停机流程训练项目 直播间灯光搭建项目 直播数据分析项目 直播危机处理模拟器项目 chuangxin项目 JNA 小盒守护战项目 情景选择 · 旅游套餐匹配项目 刷题神器Alevel版项目 双斗提升大冒险项目 贴纸日记 · JNA 过载守护战项目 小金提升机大冒险项目 小矿师的 PLC 接线物语项目 压宝小卫士项目 运输系统启动&停机流程训练项目 直播间灯光搭建项目 直播数据分析项目 直播危机处理模拟器项目 chuangxin项目 JNA 小盒守护战项目 数字教材研发 工作室核心业务方向 聚焦数字教材前端可视化开发，将传统教材内容转化为具有互动体验的数字学习产品。 展开详情 ▼ 互联网产品研发 展示工作室产品开发能力 参与网站、小程序及互联网产品开发，覆盖需求分析、产品设计、开发实现全过程。 展开详情 ▼ AI创新应用 体现工作室拥抱 AI 趋势 探索 AI 技术在产品设计、内容生产和软件开发中的应用，提高产品创新效率。 展开详情 ▼ 校企合作项目 体现真实项目来源 工作室积极参与学校、企业合作项目，将技术能力应用于真实业务场景。 展开详情 ▼ 成长体系 GROWTH 成长路径 1. 学习成长 了解互联网产品研发流程，掌握岗位基础能力。 • 产品设计 • UI设计 • 前端开发 • AI工具应用 2. 项目实践 参与真实项目，在实践中提升能力。 • 数字教材项目 • 校园互联网项目 • 企业合作项目 • 完整流程：需求分析、产品设计、开发实现、项目交付 3. 能力提升 从项目参与者成长为独立贡献者。 • 项目经验 • 作品成果 • 团队协作能力 4. 核心培养 优秀成员可进一步参与： • 项目负责人工作 • 团队协作管理 • 新人成长指导 HUB实战成长社区 我们拥有真实的项目资源 项目制成长 流程： 1 加入社区 2 能力匹配 3 进入项目组 4 负责人带教 5 完成真实项目 6 获得项目履历 成员能获得什么 「真实产品开发经历」 「完整项目流程体验」 「团队协作经验」 「简历资产」 「产品思维 / 技术能力」 「求职竞争力」 为什么成立社区 学生： 不知道行业需要哪些技术，没有项目经历，简历缺少亮点，不知道如何进入互联网行业。 HUB提供： 真实项目 + 团队指导 + 完整流程 + 职业辅导。 HUB 培养特色 社区成员类型 HUB 培养特色 CQUPTHUB 帮助成员从技术兴趣出发，通过真实项目实践，逐步成长为具备互联网竞争力的青年人才 项目负责人工作 团队协作管理 新人成长指导 面向校内外同学的互联网项目实践成长社区 · 真实项目 × 专业带教 × 职业成长 求职增值服务 职业方向规划 帮助： • 分析个人能力 • 规划发展路线 • 匹配岗位方向 秋招陪跑 内容： • 岗位分析 • 投递规划 • 进度跟踪 面试复盘 帮助： • 分析问题 • 优化表达 • 提升通过率 简历精修 服务： • 项目经历优化 • 简历结构调整 • 岗位匹配优化 模拟面试 包含： • 技术面模拟 • 产品面模拟 面向互联网求职者的职业成长服务 · HUB Career 成员去向 DESTINATIONS 林子 26届 · 产品经理 陈* 26届 · 前端开发 已转正 龙*羽 26届 · 前端开发 熊*怡 26届 · 前端开发 钟*廷 26届 · 后端开发 秦* 26届 · 保研 莫* 26届 · 招商 ‹ › 林子 26届 · 工作室负责人&产品组长 去向 Tencent腾讯 岗位 产品经理 Base 地 深圳 工作室职位 工作室负责人&产品组长 联系我们 CONTACT US CQUPTHUB CONNECT © 2026 CQUPTHUB · 重庆邮电大学工作室"
+ },
+ "links": []
+}

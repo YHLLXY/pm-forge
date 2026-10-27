@@ -37,8 +37,20 @@
 | [`建议与路线图-初步.md`](%E5%BB%BA%E8%AE%AE%E4%B8%8E%E8%B7%AF%E7%BA%BF%E5%9B%BE-%E5%88%9D%E6%AD%A5.md) | pm-forge 视觉美化 · 设计方向与落地路线图（初步提案） |
 | [`现状诊断-本地实测.md`](%E7%8E%B0%E7%8A%B6%E8%AF%8A%E6%96%AD-%E6%9C%AC%E5%9C%B0%E5%AE%9E%E6%B5%8B.md) | pm-forge 作品集站 · 视觉现状诊断（本地实测） |
 
+## 外部站点拆解（2026-10-27）
+
+对四个参照站点做逐站拆解，产出四份文档 + 一份迭代计划（计划在 `../plans/2026-10-27-作品集站迭代计划.md`）。
+
+| 文档 | 对象 | 核心结论 |
+|---|---|---|
+| [`2026-10-27-拆解-01-法典fadian.md`](2026-10-27-%E6%8B%86%E8%A7%A3-01-%E6%B3%95%E5%85%B8fadian.md) | fadian.icu（法律 AI 落地页） | 一屏讲完一个工具：5 级字号、1 个主色、3 张入口卡 |
+| [`2026-10-27-拆解-02-CQUPTHUB官网.md`](2026-10-27-%E6%8B%86%E8%A7%A3-02-CQUPTHUB%E5%AE%98%E7%BD%91.md) | webapp.codeghub.com（重点） | 一张插画底 + 按屏替换的前景层；可迁移的是双语标题、徽章、数字区、项目墙、主从结构 |
+| [`2026-10-27-拆解-03-国际学院官网.md`](2026-10-27-%E6%8B%86%E8%A7%A3-03-%E5%9B%BD%E9%99%85%E5%AD%A6%E9%99%A2%E5%AE%98%E7%BD%91.md) | international.cqupt.edu.cn | 按"读者是谁"分栏 + 日期列表；视觉与工程是反面教材 |
+| [`2026-10-27-拆解-04-联合学院官网.md`](2026-10-27-%E6%8B%86%E8%A7%A3-04-%E8%81%94%E5%90%88%E5%AD%A6%E9%99%A2%E5%AE%98%E7%BD%91.md) | uc.cqupt.edu.cn | 模块组件化做得最好；token 台账没对齐（5 个死引用）、banner 2.1 MB、横向溢出 |
+
 ## 原始证据
 
+- `evidence/2026-10-27-外部站点拆解/` —— 四站拆解的**可复现采集脚本**（`probe.js` 注入的 DOM/样式探针、`shoot.mjs` 主采集、`navwalk.mjs` / `final.mjs` 逐屏翻页、`fetch-assets.mjs` 静态抓取）与原始输出 JSON（`probe-{fadian,codeghub,international,uc,ours}.json`、`summary.json`、`steps-codeghub.json`，合计 135 KB）
 - `evidence/2026-10-12-右栏调研-W3原始证据/` —— 右栏调研的**可复现测量脚本**（`measure*.mjs`、`probe*.mjs`、`design.mjs`、`serve.mjs`）与原始输出 JSON（`out2/3/4.json`、`summary2.json`、`design.json`、`project*.json`）
 - `mockup/` —— 设计稿 HTML（`redesign-preview.html`、`phase2-preview.html`）
 - 截图清单见 [`_MANIFEST.md`](_MANIFEST.md)（图片本体未入库）

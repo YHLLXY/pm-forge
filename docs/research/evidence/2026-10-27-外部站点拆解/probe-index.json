@@ -1,0 +1,23 @@
+[
+ {
+  "key": "international",
+  "contentSize": {
+   "w": 1440,
+   "h": 1503
+  }
+ },
+ {
+  "key": "uc",
+  "contentSize": {
+   "w": 1501,
+   "h": 4475
+  }
+ },
+ {
+  "key": "ours",
+  "contentSize": {
+   "w": 1440,
+   "h": 4352
+  }
+ }
+]
