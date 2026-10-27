@@ -2,7 +2,7 @@
 
 > AI 连续工作协议核心文件（AGENTS.md 仓库特化规则 4）：每次会话开工先读本文件，收工必更新并 commit+push。
 
-## 2026-10-27 · 作品集站迭代 v2（已定稿，待开工）
+## 2026-10-27 · 作品集站迭代 v2（P0/P1 已落地，未上线）
 
 **下一轮开工直接从这里接**：
 
@@ -10,8 +10,8 @@
 - 依据：`docs/research/2026-10-27-拆解-01..04`（对外四站拆解）+ 本站同批实机复测
 - 范围：P0 四项 6h（Section 组件化 / 证据面板战果带 / 案例真图 1 张 / `check-tokens` 门禁）+ P1 五项 11h
 - 开工第一步：计划 §1 基线 —— `npm run build` + `npm run lh` + `git status --short`，结果回填本节；**基线不过不开工**
-- 状态：**代码零改动**。计划 §4 已给定 5 项默认决策（视觉方向 A / 英文 eyebrow 不进导航 / 证据明细不折叠 / 真图只做 1 张 / 根域枢纽本轮不做）
-- 进场已知脏文件：`site/public/duckdb/duckdb-browser-eh.worker.js`（**非本轮改动**，勿计入）
+- 状态：**P0/P1 已落地并本地提交，未 push**（推送即触发 Vercel 上线）。计划 §4 的五项默认决策全部照做
+- 进场那个「脏文件」真相：`site/public/duckdb/duckdb-browser-eh.worker.js` 是 `scripts/copy-duckdb-assets.mjs` 在**每次 build 开头**从 `node_modules` 覆盖的产物，不是手改；本轮 build 后它与 HEAD 一致，`git status` 自己变干净了（隐患见实测记录 §7.4）
 
 ### 本轮基线（2026-10-27 09:42 实测，计划 §1 / D0）
 
@@ -25,7 +25,8 @@
 ### 本轮进展（2026-10-27 10:20）
 
 - **9 项里完成 8 项**：P0-1 `Section.astro` / P0-2 证据面板 6 格数字 / P0-3 **部分**（PM Forge 真图已接，个人工作台封面等素材）/ P0-4 `check-tokens` 第 11 道门禁 / P1-0 文案与 README / P1-1 hero 三条路径 / P1-2 首卡通栏 / P1-3 证据图 webp / P1-4 四段式速览
-- **门禁**：11 道全绿 + pagefind 29 页；**Lighthouse 13 页零回退**（首页仍 100/100/100/100）
+- **门禁**：11 道全绿 + pagefind 29 页；**Lighthouse 13 页零回退**（首页仍 100/100/100/100；最低是 `/data-stories/userbehavior/` 的 a11y 95，属既有短板）
+- 提交：`983f4f1` 四站拆解 + 计划 → `3ed98a6` 站迭代 + 门禁 → 实测记录（**均未 push**）
 - **硬数字**：证据图 5.87 MB → **1.26 MB（省 79%）**；首页 HTML 49,715 → 54,376 B；主 CSS 64,062 → 64,836 B
 - 实测记录：`docs/reviews/2026-10-27-迭代-实测记录.md`（含 5 处与计划的偏离及原因、踩坑、复跑命令）
 - 新增工具：`docs/tools/shots.mjs`（静态产物截图，1440/390、首屏/整页、`--eval`）、`docs/tools/shoot-url.mjs`（远程页，`--click` 跳过启动页）
