@@ -32,7 +32,13 @@
 - 新增工具：`docs/tools/shots.mjs`（静态产物截图，1440/390、首屏/整页、`--eval`）、`docs/tools/shoot-url.mjs`（远程页，`--click` 跳过启动页）
 - 截图：`E:\homework\“余粮”项目\docs\research\shots\2026-10-27-迭代\`（00-基线 … final，含深色两张）
 - **未推送**：本地提交后停下，推送即触发 Vercel 上线，等用户点头
-- 下一轮从这里接：**P2 三项**（`/case-studies/` 速览表 / `/interviewers/` 打印版 / 根域枢纽页）——前两项纯前端，第三项要动阿里云 DNS + Vercel 域名，单独走变更流程
+### P2 追加（2026-10-27 11:00）
+
+- **P2-1 已完成**：`/case-studies/` 顶部加「At a glance · 一页速览」5 行（标题可点 + `月.日` + `metrics[0]`），纯 HTML 零 JS，数字全部取自 frontmatter
+- **P2-2 已完成**：`/interviewers/` 打印版，实测 **PDF 2 页 A4**；`@media print` 只挂这一页；新增 `docs/tools/print-check.mjs`（出真 PDF 数页数 + print 媒体整页图）
+- 门禁 11 道全绿（新门禁当场拦下打印 CSS 里 4 处裸 hex → 改成 `--print-paper/--print-ink/--print-ink-muted` 三个 token）；Lighthouse 13 页零回退，`/interviewers/` 四类 100
+- **P2-3 根域枢纽页仍未做**：要改阿里云 DNS + Vercel 域名配置，按计划须单独走变更流程（DNS 快照 → 改 → 回滚预案），等用户点头
+- 下一轮从这里接：P2-3（需批准）或用户对新版的反馈
 
 ## 当前任务卡
 

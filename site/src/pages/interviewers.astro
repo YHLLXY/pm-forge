@@ -30,3 +30,90 @@ const { Content } = await render(page);
 
   <Footer />
 </Layout>
+
+<!--
+  打印版（Ctrl/Cmd+P 出 1–2 页 A4）。
+  为什么用 is:global：要隐藏的 header/footer/nav 不在本页组件树里（由 Header/Footer 渲染），
+  页面级 scoped 样式够不着；写在页面里而不是 global.css，是为了不给其他 28 页带上这套规则。
+  口径：只留标题、正文与链接；外链把 URL 打出来（纸上点不了），站内链接不打。
+-->
+<style is:global>
+  @media print {
+    @page {
+      margin: 14mm 16mm;
+    }
+
+    /* 纸面固定黑字白纸：不跟随暗色主题（打印时暗底会吃掉墨且看不出层级） */
+    html,
+    body {
+      background: var(--print-paper) !important;
+      color: var(--print-ink) !important;
+    }
+
+    body {
+      font-size: 10.5pt;
+      line-height: 1.55;
+    }
+
+    /* 站点外壳在纸上没有意义，且会把内容顶到第二页 */
+    header,
+    footer,
+    nav,
+    [data-print-hide],
+    [aria-label="返回"] {
+      display: none !important;
+    }
+
+    #main-content {
+      max-width: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: auto !important;
+    }
+
+    .app-prose {
+      max-width: none !important;
+    }
+
+    h1,
+    h2,
+    h3 {
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    p,
+    li,
+    tr,
+    pre,
+    blockquote {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    a {
+      color: var(--print-ink) !important;
+      text-decoration: none !important;
+    }
+
+    /* 外链才打 URL：站内锚点写成 (../case-studies/) 只是噪音 */
+    a[href^="http"]::after {
+      content: " (" attr(href) ")";
+      font-size: 8.5pt;
+      color: var(--print-ink-muted);
+      word-break: break-all;
+    }
+
+    /* 阴影与识别色在纸上会糊成灰块，压平成纯黑边框 */
+    * {
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    table,
+    figure,
+    img {
+      break-inside: avoid;
+    }
+  }
+</style>

@@ -8,6 +8,17 @@ import { sortEntries } from "@/utils/sortEntries";
 import { entryUrl } from "@/utils/entryUrl";
 
 const cases = sortEntries(await getCollection("caseStudies"));
+
+// 速览层用的月.日：必须按站点时区取，不能用本地 getMonth（跨月边界会错一个月）。
+// 只用 "MM.DD" 而不是 "YYYY.MM"：现有 5 篇全在同两个月，写年月的每一行都一样，没有区分度。
+const monthDay = (d: Date) =>
+  new Intl.DateTimeFormat("en-CA", {
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: "Asia/Shanghai",
+  })
+    .format(d)
+    .replace("-", ".");
 ---
 
 <Layout title="案例研究 | 余翰林的作品集" description="把做过的项目写成产品视角的案例：背景与问题、我的角色、关键取舍、量化结果，外加可选复盘。">
@@ -18,6 +29,46 @@ const cases = sortEntries(await getCollection("caseStudies"));
       把做过的项目写成产品视角的案例。每篇固定四段：背景与问题 → 我的角色 →
       过程与关键取舍 → 结果与量化，第五段「复盘与反思」可选；数字标注口径，没验证过的如实说“没验证”。
     </p>
+    {
+      /* 速览层：给"只想扫一眼"的读者一条 5 行的捷径，放在卡片之前是有意的 ——
+         卡片是"读"，这里是"扫"。纯 HTML 零 JS；数字全部取自 frontmatter 的 metrics[0]，
+         不新写任何数字（否则就会多出一份可能与正文不一致的"事实"）。 */
+    }
+    <section
+      aria-labelledby="glance-heading"
+      class="border-border bg-surface-2 mt-7 rounded-xl border p-4 sm:p-5"
+    >
+      <h2
+        id="glance-heading"
+        class="text-muted-foreground font-mono text-[11px] tracking-[0.12em] uppercase"
+      >
+        At a glance · 一页速览
+      </h2>
+      <ul class="mt-2">
+        {
+          cases.map(c => (
+            <li class="border-border flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-t py-2 text-sm first:border-t-0">
+              <a
+                href={entryUrl("case-studies", c.id)}
+                class="hover:text-accent underline-offset-4 hover:underline"
+              >
+                {c.data.title}
+              </a>
+              <span class="text-muted-foreground shrink-0 text-xs tabular-nums">
+                {monthDay(c.data.pubDatetime)}
+                {c.data.metrics[0] && (
+                  <span class="ms-2">
+                    {c.data.metrics[0].value}
+                    <span class="ms-1">{c.data.metrics[0].label}</span>
+                  </span>
+                )}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
     <ul class="mt-6 grid gap-5 sm:grid-cols-2">
       {
         cases.map(c => (

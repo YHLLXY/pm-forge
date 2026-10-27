@@ -52,6 +52,15 @@
   --section-toolbox: #2a6b45;
 }
 
+/* 打印专用固定色（2026-10-27 加）：纸上不跟随主题 —— 暗色模式打印也该是黑字白纸，
+   所以这里不能用 --background/--foreground（它们会被 [data-theme=dark] 改掉）。
+   但色值仍然只能出现在本文件：组件层写死 hex 会被 scripts/check-tokens.mjs 拦下。 */
+:root {
+  --print-paper: #ffffff;
+  --print-ink: #000000;
+  --print-ink-muted: #444444;
+}
+
 /* Dark theme values —— 保持原深蓝基调，补表面分层与识别色亮档 */
 [data-theme="dark"] {
   --background: #212737;
