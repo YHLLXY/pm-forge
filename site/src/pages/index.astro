@@ -17,6 +17,8 @@ import { entryUrl } from "@/utils/entryUrl";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
 import { buildEvidence } from "@/utils/evidence";
+import ContactOrbit from "@/components/ContactOrbit.astro";
+import { contact } from "@/data/contact";
 
 const t = useTranslations(Astro.currentLocale ?? config.site.lang);
 const evidence = await buildEvidence();
@@ -83,6 +85,7 @@ const toolboxTools = [
         <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
           <LinkButton
             href="/interviewers/"
+            data-astro-prefetch="viewport"
             class="border-border bg-surface-1 shadow-card hover:shadow-lift rounded-lg border px-3.5 py-2 text-sm font-semibold"
           >
             面试官快速通道（15 分钟了解这个作品集）
@@ -268,10 +271,30 @@ const toolboxTools = [
       divider={false}
     >
       <p class="mt-3 max-w-deck">
-        我自己设计并实现的 AI 产品工具站：证据链提示词、token
-        预算守卫、演示模式， Next.js 16 + React 19 实现，已部署上线。
+        它的初衷不是"再做一个聊天框"：把「先取证、再下结论」固化成一条能跑的流水线 ——
+        输入材料，输出带证据标注的报告。查不到的信息标【待补充】，不让模型编一段填空。
       </p>
-      <div class="not-prose mt-5 grid gap-5 sm:grid-cols-12">
+
+      {
+        /* 证据分层是这一节唯一不可替代的东西：三个标签来自线上产品真实的注脚
+           （"输出中的标注（【依据输入】/【行业常识】/【推断】）用于区分证据强度"），
+           不是设计稿里的装饰。用户 2026-10-27 说"忘了当初为什么做它"——
+           这一条就是那个"为什么"，所以放在截图之前。 */
+      }
+      <div class="border-border bg-surface-2 mt-5 rounded-lg border border-dashed p-4">
+        <p class="text-muted-foreground font-mono text-[11px] tracking-[0.08em] uppercase">
+          Evidence labels
+        </p>
+        <p class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-2 text-sm leading-relaxed">
+          <span class="border-border bg-surface-1 rounded-md border px-2 py-0.5 font-mono text-xs">【依据输入】</span>
+          <span class="border-border bg-surface-1 rounded-md border px-2 py-0.5 font-mono text-xs">【行业常识】</span>
+          <span class="border-border bg-surface-1 rounded-md border px-2 py-0.5 font-mono text-xs">【推断】</span>
+          <span class="text-muted-foreground"
+            >—— 每条结论都要能回到这三者之一；三者都靠不住时，宁可留一个【待补充】。</span
+          >
+        </p>
+      </div>
+      <div class="not-prose mt-5 grid gap-5 sm:grid-cols-12 sm:items-start">
         {
           /* 全站第一张真实产品画面：PM Forge 首页（公开可访问，抓于 2026-10-27）。
              个人工作台封面仍缺——它的线上站要登录，这一格等用户提供登录后截图再补，
@@ -281,11 +304,28 @@ const toolboxTools = [
           href="https://toolbox.yuhailinlxy.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="border-border shadow-card hover:shadow-lift block overflow-hidden rounded-xl border sm:col-span-7"
+          class="border-border shadow-card hover:shadow-lift block overflow-hidden rounded-xl border transition-[box-shadow] duration-200 sm:col-span-7"
         >
+          {
+            /* 浏览器框：上一版直接把 1440×810 整页截图贴上去，内容只占中间 740×480，
+               四周全是空白 —— 用户的原话是"有点简陋"。现在裁到内容区（1560×1094，
+               由 docs/tools/shoot-url.mjs 2× 重抓后裁切），再用一条假地址栏把它标成
+               "这是个真跑起来的站"，而不是一张漂浮的截图。 */
+          }
+          <span class="border-border bg-surface-2 flex items-center gap-2 border-b px-3 py-2">
+            <span class="flex gap-1.5" aria-hidden="true">
+              <span class="bg-border size-2.5 rounded-full"></span>
+              <span class="bg-border size-2.5 rounded-full"></span>
+              <span class="bg-border size-2.5 rounded-full"></span>
+            </span>
+            <span
+              class="border-border bg-surface-1 text-muted-foreground truncate rounded-md border px-2 py-0.5 font-mono text-[10px]"
+              >toolbox.yuhailinlxy.com</span
+            >
+          </span>
           <Image
             src={toolboxShot}
-            alt="PM Forge 首页：三个工具入口（竞品分析 / 用户反馈洞察 / PRD 草稿）与「已连接 · deepseek-chat」状态条"
+            alt="PM Forge 首页：三个工具入口（竞品分析 / 用户反馈洞察 / PRD 草稿）、「已连接 · deepseek-chat」状态条，以及「数据不出浏览器、输出带证据标注」的说明"
             widths={[640, 1280]}
             sizes="(min-width: 640px) 58vw, 92vw"
             class="h-auto w-full"
@@ -293,26 +333,41 @@ const toolboxTools = [
             decoding="async"
           />
         </a>
-        <ul class="grid gap-3 sm:col-span-5">
+        <div class="sm:col-span-5">
+          <ul class="grid gap-3">
+            {
+              toolboxTools.map(tool => (
+                <li class="border-border bg-surface-1 rounded-lg border p-4">
+                  <p class="font-semibold">{tool.name}</p>
+                  <p class="text-muted-foreground mt-1 text-sm">{tool.desc}</p>
+                </li>
+              ))
+            }
+          </ul>
           {
-            toolboxTools.map(tool => (
-              <li class="border-border bg-surface-1 rounded-lg border p-4">
-                <p class="font-semibold">{tool.name}</p>
-                <p class="text-muted-foreground mt-1 text-sm">{tool.desc}</p>
-              </li>
-            ))
+            /* 三张卡下面补一句"共用底盘"：上一版这里是被拉高的空盒子（grid 默认 stretch），
+               既不好看也没信息。现在卡片按内容高度排，空出来的位置讲真实共性。 */
           }
-        </ul>
+          <p class="text-muted-foreground mt-4 text-[13px] leading-relaxed">
+            三个工具共用同一套底盘：提示词版本化、token 预算守卫、演示模式；
+            输入的原始材料只留在本机浏览器里，不落服务端。
+          </p>
+        </div>
       </div>
       <div class="my-6 flex flex-wrap gap-4">
         <LinkButton
           href="https://toolbox.yuhailinlxy.com"
           target="_blank"
           rel="noopener noreferrer"
+          class="border-border bg-surface-1 shadow-card hover:shadow-lift rounded-lg border px-3.5 py-2 text-sm font-semibold"
         >
           打开工具箱 ↗
         </LinkButton>
-        <LinkButton href="/toolbox/">
+        <LinkButton
+          href="/toolbox/"
+          data-astro-prefetch="viewport"
+          class="text-accent self-center text-sm hover:underline"
+        >
           了解工具与精选报告
           <IconArrowRight class="inline-block" />
         </LinkButton>
@@ -336,6 +391,60 @@ const toolboxTools = [
           </div>
         )
       }
+    </Section>
+    <Section
+      id="contact"
+      index="06"
+      zh="联系方式"
+      en="CONTACT"
+      accent="contact"
+      divider={false}
+    >
+      {
+        /* 顶部对齐而不是垂直居中：轨道图有 520px 高，文字只有 ~200px，
+           居中会让「联系方式」标题下面空出一大块（第一版就是这个毛病）。 */
+      }
+      <div class="mt-4 grid gap-10 lg:grid-cols-12 lg:items-start">
+        <div class="lg:col-span-5">
+          <p class="max-w-deck">
+            我在找产品经理的岗位：能写数据分析报告，也能把方法论做成工具。
+            微信 / QQ 扫码，或者直接发邮件 —— 面试、内推、项目合作都欢迎。
+          </p>
+          <div class="mt-5 flex flex-wrap items-center gap-3">
+            <LinkButton
+              href={"mailto:" + contact.email}
+              class="border-border bg-surface-1 shadow-card hover:shadow-lift rounded-lg border px-3.5 py-2 text-sm font-semibold"
+            >
+              发邮件
+            </LinkButton>
+            <LinkButton
+              href={contact.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-accent text-sm hover:underline"
+            >
+              GitHub ↗
+            </LinkButton>
+          </div>
+          <p class="text-muted-foreground mt-4 font-mono text-[11px]">
+            {contact.email} · QQ {contact.qq}
+          </p>
+
+          {/* 名片式三条：全部取自首屏已有的自我介绍，不新增任何事实。
+              放在这里是为了让左栏不至于"上半截有字、下半截空"。 */}
+          <dl class="border-border mt-7 grid grid-cols-[4.5em_1fr] gap-y-2 border-t pt-5 text-sm">
+            <dt class="text-muted-foreground">学校</dt>
+            <dd>重庆邮电大学</dd>
+            <dt class="text-muted-foreground">专业</dt>
+            <dd>大数据管理与应用</dd>
+            <dt class="text-muted-foreground">方向</dt>
+            <dd>产品经理 · 数据 / AI 工具</dd>
+          </dl>
+        </div>
+        <div class="lg:col-span-7">
+          <ContactOrbit />
+        </div>
+      </div>
     </Section>
   </main>
   <Footer />

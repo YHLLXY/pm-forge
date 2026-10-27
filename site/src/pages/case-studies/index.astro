@@ -6,19 +6,12 @@ import Footer from "@/components/Footer.astro";
 import Card from "@/components/Card.astro";
 import { sortEntries } from "@/utils/sortEntries";
 import { entryUrl } from "@/utils/entryUrl";
+import { monthDay } from "@/utils/monthDay";
 
 const cases = sortEntries(await getCollection("caseStudies"));
 
-// 速览层用的月.日：必须按站点时区取，不能用本地 getMonth（跨月边界会错一个月）。
-// 只用 "MM.DD" 而不是 "YYYY.MM"：现有 5 篇全在同两个月，写年月的每一行都一样，没有区分度。
-const monthDay = (d: Date) =>
-  new Intl.DateTimeFormat("en-CA", {
-    month: "2-digit",
-    day: "2-digit",
-    timeZone: "Asia/Shanghai",
-  })
-    .format(d)
-    .replace("-", ".");
+// 速览层用的 "MM.DD" 统一走 @/utils/monthDay（首页证据面板第 6 格也用同一份）。
+// 只用月.日 而不是年月：现有 5 篇全在同两个月，写年月的每一行都一样，没有区分度。
 ---
 
 <Layout title="案例研究 | 余翰林的作品集" description="把做过的项目写成产品视角的案例：背景与问题、我的角色、关键取舍、量化结果，外加可选复盘。">

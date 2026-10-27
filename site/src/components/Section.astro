@@ -13,7 +13,7 @@ type Props = {
   /** 板块级出口：统一放标题行右侧，替代原先沉在板块底部的各说各话的链接 */
   more?: { href: string; label: string };
   /** 板块识别色，取 --section-* 的 5 个键之一；只染 § 编号这一处，不做大面积铺色 */
-  accent?: "case" | "analysis" | "dissection" | "story" | "toolbox";
+  accent?: "case" | "analysis" | "dissection" | "story" | "toolbox" | "contact";
   /** 最后一个板块关掉底部横线（页面收口交给 Footer 自己的 border-t） */
   divider?: boolean;
 };
@@ -52,6 +52,7 @@ const headingId = `section-${id}-heading`;
       more && (
         <a
           href={more.href}
+          data-astro-prefetch="viewport"
           class="text-accent shrink-0 text-sm whitespace-nowrap hover:underline"
         >
           {more.label} <span aria-hidden="true">→</span>

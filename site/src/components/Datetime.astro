@@ -11,8 +11,7 @@ dayjs.extend(timezone);
 
 type Props = {
   class?: string;
-  /** xs 供证据面板的 6 格网格用：135px 宽的格子里放不下 size-6 图标 + 14px 日期 */
-  size?: "xs" | "sm" | "lg";
+  size?: "sm" | "lg";
   pubDatetime: string | Date;
   timezone?: string;
   modDatetime?: string | Date | null;
@@ -45,28 +44,19 @@ const date = (locale ?? "").startsWith("zh")
 >
   <IconCalendar
     class:list={[
-      "inline-block",
-      size === "xs" ? "size-4 min-w-4" : "size-6 min-w-5.5",
+      "inline-block size-6 min-w-5.5",
       { "scale-90": size === "sm" },
     ]}
   />
   {
     isModified && (
-      <span
-        class:list={[
-          size === "xs" ? "text-[11px]" : "text-sm",
-          { "sm:text-base": size === "lg" },
-        ]}
-      >
+      <span class:list={["text-sm", { "sm:text-base": size === "lg" }]}>
         {t.post.updatedAt}:
       </span>
     )
   }
   <time
-    class:list={[
-      size === "xs" ? "text-[11px]" : "text-sm",
-      { "sm:text-base": size === "lg" },
-    ]}
+    class:list={["text-sm", { "sm:text-base": size === "lg" }]}
     datetime={datetime.toISOString()}
   >
     {date}

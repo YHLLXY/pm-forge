@@ -12,11 +12,25 @@
 // （实测 dd.top：5篇 181 / 2篇 196 / 4篇 196）。现在：
 //   ① 每个格子 justify-end（反转轴上的 end = 视觉顶部），内容一律贴顶；
 //   ② 所有 dd 共用同一个高度变量 --num-size，标签因此从同一条线开始。
-import Datetime from "./Datetime.astro";
+//
+// 2026-10-27 第二轮用户指出：前 5 格是 38px 大数，第 6 格却是 11px 小字日期 —— 不是一套。
+// 改法：第 6 格也渲染成同一个 --num-size 的大数（"10.27"），年份退到标签下的小字。
+// 为什么不是整串 2026-10-27：38px 字号下 10 个字符约 210px，而这一格只有 130px，
+// 会顶穿到下一列（实测）。"MM.DD" 也是 /case-studies/ 速览表在用的写法，两处统一。
 import type { EvidenceRow } from "@/utils/evidence";
+import { monthDay, isoDay } from "@/utils/monthDay";
+import config from "@/config";
 
-type Props = { rows: EvidenceRow[]; latest: Date };
-const { rows, latest } = Astro.props;
+type Props = {
+  rows: EvidenceRow[];
+  latest: Date;
+  latestSource: "content" | "release";
+};
+const { rows, latest, latestSource } = Astro.props;
+const latestYear = new Intl.DateTimeFormat("en-CA", {
+  year: "numeric",
+  timeZone: config.site.timezone,
+}).format(latest);
 ---
 
 <aside id="evidence" class="lg:col-span-5" aria-labelledby="evidence-heading">
@@ -63,9 +77,21 @@ const { rows, latest } = Astro.props;
       ))
     }
     <div class="flex flex-col-reverse justify-end">
-      <dt class="text-muted-foreground mt-1 text-[11px] leading-tight">最近更新</dt>
-      <dd class="flex items-center" style="height: var(--num-size)">
-        <Datetime pubDatetime={latest} size="xs" class="whitespace-nowrap" />
+      <dt class="text-muted-foreground mt-1 text-[11px] leading-tight">
+        最近更新
+        <span class="text-muted-foreground mt-0.5 block text-[10px] leading-tight">
+          {latestYear} · {latestSource === "release" ? "站点改版" : "内容更新"}
+        </span>
+      </dt>
+      <dd
+        class="flex items-center"
+        style="height: var(--num-size)"
+        data-evidence-updated={isoDay(latest)}
+        data-evidence-updated-source={latestSource}
+      >
+        <span class="text-[length:var(--num-size)] leading-none font-bold tabular-nums">
+          {monthDay(latest)}
+        </span>
       </dd>
     </div>
   </dl>

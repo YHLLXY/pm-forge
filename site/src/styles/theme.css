@@ -15,6 +15,7 @@
   --color-section-dissection: var(--section-dissection);
   --color-section-story: var(--section-story);
   --color-section-toolbox: var(--section-toolbox);
+  --color-section-contact: var(--section-contact);
   /* 表面阴影：v0.14 只在 :root 定义了 --shadow-1/2，没注册进 Tailwind 的 --shadow-* 命名空间，
      于是 Card 上的 shadow-1 / hover:shadow-2 全是空类（构建产物里 .shadow-1 / .shadow-2 命中 0）。
      这里用不同名字映射，避免 --shadow-1: var(--shadow-1) 的自我引用 */
@@ -50,6 +51,7 @@
   --section-dissection: #4f46b8;
   --section-story: #a24d05;
   --section-toolbox: #2a6b45;
+  --section-contact: #9b3d5b; /* 2026-10-27 加：§06 联系区，暗玫瑰，与五个板块区分开 */
 }
 
 /* 打印专用固定色（2026-10-27 加）：纸上不跟随主题 —— 暗色模式打印也该是黑字白纸，
@@ -80,4 +82,5 @@
   --section-dissection: #a99cf5;
   --section-story: #f0b470;
   --section-toolbox: #6fcf97;
+  --section-contact: #e9a2b5;
 }

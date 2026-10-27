@@ -2,6 +2,18 @@
 
 > AI 连续工作协议核心文件（AGENTS.md 仓库特化规则 4）：每次会话开工先读本文件，收工必更新并 commit+push。
 
+## 2026-10-27/28 · 面试版打磨（第 3 轮，已落地，待推送）
+
+**下一轮开工从这一节接**：
+
+- 计划：`docs/plans/2026-10-27-面试版打磨.md`（含 §5 自审记录：初稿 6 处被自己推翻，理由都写在表里）
+- 实测记录：`docs/reviews/2026-10-28-面试版打磨-实测.md`（五件事的改前/改后数字 + 被工具抓出的 4 个问题）
+- 用户提的 5 件事全部落地：① 证据面板第 6 格改成 `10.27` 大数并把「最近更新」口径改成 max(内容, 发版日) ② 卡片挂 `viewport` 预取 + 顶部进度条 ③ 四处 `~` 范围号改写 + 新增第 12 道门禁 `check-typography` ④ 工具箱节重排（初衷 + 证据标签带 + 浏览器框截图 + 工具卡）⑤ 新增 §06 联系区（三环点阵 + 4 通道 + 原生 dialog 二维码）
+- 新增资产：`site/public/contact/{wechat,qq}-qr.png`（480px、32 色，`zxing-cpp` 解码校验与原始截图一致）、`site/src/assets/covers/toolbox.webp` 换成 1560×1094 内容区裁切
+- 新增组件：`ContactOrbit.astro`（轨道图 + 4 个 dialog）、`NavProgress.astro`（2px 导航进度线）；新增数据：`src/data/contact.ts`、`src/data/release.ts`（**发版时改这里**）
+- 门禁变化：12 道构建期（新增 `check-typography`）；`check-home-metrics` 改成核对 `data-evidence-updated`；`check-reduce-motion` 扩到断言联系轨道 reduce 下停转且 4 节点不重叠
+- 已知边界：`release.ts` 需要发版时手工改；联系区只在首页（页头导航没有加"联系"入口）；toolkit 应用本体 UI 没动（另一个项目）
+
 ## 2026-10-27 · 作品集站迭代 v2（P0/P1 已落地，未上线）
 
 **下一轮开工直接从这里接**：

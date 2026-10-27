@@ -9,7 +9,9 @@ node_modules/
 .next/
 dist/
 # 数据与密钥（spec 4.4：永不入库）
-data/
+# 必须锚到仓库根：写成裸 "data/" 会连带忽略 site/src/data/，
+# 新模块不进 git，本地能 build、Vercel 上直接找不到文件（2026-10-27 踩过）。
+/data/
 .env
 .env.*
 !.env.example
@@ -27,3 +29,6 @@ Thumbs.db
 # quarto 渲染产物（可由 run_case1.sh 重建）
 analysis/reports/*.html
 analysis/reports/*_files/
+# 改锚定后需显式写出：4 个文件 4.6GB 的原始数据，永不入库
+analysis/data/
+

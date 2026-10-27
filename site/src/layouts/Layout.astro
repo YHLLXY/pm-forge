@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import NavProgress from "@/components/NavProgress.astro";
 import { resolveDefaultOgImagePath } from "@/utils/resolveDefaultOgImagePath";
 import { getAssetPath } from "@/utils/withBase";
 import config from "@/config";
@@ -158,6 +159,7 @@ const personLd = {
   <body
     class="bg-background font-app text-foreground selection:bg-accent/75 selection:text-accent-foreground flex min-h-svh flex-col"
   >
+    <NavProgress />
     <slot />
     <script>
       import "@/scripts/theme";

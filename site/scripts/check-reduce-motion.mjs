@@ -53,6 +53,31 @@ async function probe(mode) {
     const s = getComputedStyle(a);
     return { prop: s.transitionProperty, dur: s.transitionDuration };
   });
+  // 2026-10-27 新增联系轨道图：新动效必须复测 reduce（本文件的立项纪律）
+  await page.goto(BASE + "/", { waitUntil: "networkidle" });
+  const orbit = await page.evaluate(() => {
+    const rotor = document.querySelector("#contact .crotor");
+    const ring = document.querySelector("#contact .cring-a");
+    const nodes = Array.from(document.querySelectorAll("#contact .cnode")).map(n => {
+      const r = n.getBoundingClientRect();
+      return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+    });
+    const dists = [];
+    for (let i = 0; i < nodes.length; i++)
+      for (let j = i + 1; j < nodes.length; j++)
+        dists.push(Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y));
+    return {
+      rotorAnim: rotor ? getComputedStyle(rotor).animationName : "MISSING",
+      ringAnim: ring ? getComputedStyle(ring).animationName : "MISSING",
+      count: nodes.length,
+      minGap: dists.length ? Math.round(Math.min.apply(null, dists)) : 0,
+    };
+  });
+  console.log("  联系轨道 rotor animation-name: " + orbit.rotorAnim);
+  console.log("  联系轨道 外环 animation-name: " + orbit.ringAnim);
+  console.log("  联系节点 " + orbit.count + " 个，两两最小间距 " + orbit.minGap + "px");
+  if (orbit.count !== 4) { console.log("  ✗ 首页联系区节点数不是 4（选择器或结构变了？）"); bad++; }
+
   console.log("--- prefers-reduced-motion: " + mode + " ---");
   console.log("  卡片 translate   : " + before.translate + "  ->  " + after.translate);
   console.log("  卡片 box-shadow  : " + (before.shadow === after.shadow ? "未变" : "有变化（阴影加深）"));
@@ -72,6 +97,14 @@ async function probe(mode) {
     if (!toc) { console.log("  ✗ reduce 下在详情页找不到目录项（选择器或接线变了？）"); bad++; }
     else if (toc.prop !== "none") { console.log("  ✗ reduce 下目录项过渡没关掉（transition-property = " + toc.prop + "）"); bad++; }
     else console.log("  ✓ reduce 下目录项 transition: none");
+    if (orbit.rotorAnim !== "none" || orbit.ringAnim !== "none") {
+      console.log("  ✗ reduce 下联系轨道仍在转（rotor=" + orbit.rotorAnim + " / ring=" + orbit.ringAnim + "）");
+      bad++;
+    } else console.log("  ✓ reduce 下联系轨道动画关闭");
+    if (orbit.minGap < 80) {
+      console.log("  ✗ reduce 下联系区四个节点挤在一起（最小间距 " + orbit.minGap + "px）—— --phase 的静态角度没生效?");
+      bad++;
+    } else console.log("  ✓ reduce 下四个节点仍分居四方（最小间距 " + orbit.minGap + "px）");
   } else {
     if (!/^-?\d/.test(after.translate) || after.translate === before.translate) { console.log("  ✗ 正常模式下卡片没有上浮"); bad++; }
     else console.log("  ✓ 正常模式下卡片上浮到 " + after.translate);
@@ -81,6 +114,8 @@ async function probe(mode) {
     else if (toc.prop === "none" || /^0s(, 0s)*$/.test(toc.dur)) {
       console.log("  ✗ 正常模式下目录项过渡被误关（transition-property = " + toc.prop + " / " + toc.dur + "）"); bad++;
     } else console.log("  ✓ 正常模式下目录项有过渡（" + toc.prop + " / " + toc.dur + "）");
+    if (orbit.rotorAnim === "none") { console.log("  ✗ 正常模式下联系轨道不动"); bad++; }
+    else console.log("  ✓ 正常模式下联系轨道在转（" + orbit.rotorAnim + "）");
   }
   await ctx.close();
 }

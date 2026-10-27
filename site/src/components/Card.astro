@@ -51,8 +51,13 @@ const sectionLabel: Record<string, string> = {
 ---
 
 <li class:list={["my-0", className]}>
+  {/* data-astro-prefetch="viewport"：进入视口就预取这一页的 HTML。
+      2026-10-27 实测：只挂全局 hover 预取时，线上点卡片的点击→换页是 366–581ms，
+      而这 400ms 里页面没有任何反馈，读起来就是"点了没反应"。viewport 让触摸设备
+      （面试官用手机看）也能提前拿到，代价是每张卡一个 HTML 请求，不拉图。 */}
   <a
     href={href}
+    data-astro-prefetch="viewport"
     class="border-border bg-surface-1 shadow-card group hover:shadow-lift focus-visible:shadow-lift flex h-full flex-col overflow-hidden rounded-xl border transition-[box-shadow,translate] duration-200 ease-out focus-visible:no-underline motion-safe:hover:-translate-y-0.5 motion-safe:focus-visible:-translate-y-0.5"
   >
     {

@@ -1,0 +1,480 @@
+---
+// ContactOrbit.astro —— 首页 §06 的"联系方式轨道图"
+//
+// 设计来源：用户 2026-10-27 指定参考图（同心圆点阵 + 中心字 + 环绕的渠道节点）。
+// 照抄的是**结构**（同心点阵 + 环上节点 + 中心字），不是像素：节点做成文字徽标，
+// 一是不去复刻微信/QQ 的商标图形，二是纸面编辑风格里文字比彩色 logo 更协调。
+//
+// 动效为什么这么写：
+//   · 不用 offset-path: circle() —— Safari 16 对基本形状的支持面不稳，面试官可能用 Mac；
+//   · 用"外层自转 + 内层反向自转"：兼容所有浏览器，且节点文字永远正立；
+//   · 相位差用负 animation-delay，不写四份 keyframes；
+//   · reduce 下关掉动画，但用 --phase 把节点钉在四个方位（否则四个节点会叠在 12 点）。
+import { contact } from "@/data/contact";
+---
+
+<div class="cosys" data-cosys>
+  {
+    /* 三条环各自一个 <div>：早期版本把三个 <circle> 放在同一个 SVG 里直接转，
+       SVG 元素的 transform-origin 默认是 viewBox 左上角而不是圆心，转起来整条环
+       会绕着角落飘（实测三个环心分别偏了 33/23/22px）。改成"每个环一个 HTML 容器"，
+       转的永远是容器的中心，不需要依赖 transform-box。 */
+  }
+  <div class="cring cring-a" aria-hidden="true">
+    <svg viewBox="0 0 400 400" class="size-full">
+      <circle class="ring" cx="200" cy="200" r="168"></circle>
+    </svg>
+  </div>
+  <div class="cring cring-b" aria-hidden="true">
+    <svg viewBox="0 0 400 400" class="size-full">
+      <circle class="ring" cx="200" cy="200" r="128"></circle>
+    </svg>
+  </div>
+  <div class="cring cring-c" aria-hidden="true">
+    <svg viewBox="0 0 400 400" class="size-full">
+      <circle class="ring" cx="200" cy="200" r="96"></circle>
+    </svg>
+  </div>
+
+  <div class="ccore" aria-hidden="true">
+    <span class="cmark">余</span>
+    <span class="cdot" title="目前开放机会"></span>
+  </div>
+
+  <div class="corb" style="--r: 42%; --dur: 72s; --phase: 0; --rotor: turn-cw; --node: turn-ccw">
+    <div class="crotor">
+      <div class="cslot">
+        <button type="button" class="cnode" data-dialog="dlg-wechat" aria-label="微信：打开二维码" title="微信">
+          <span class="cnode-text">微信</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="corb" style="--r: 42%; --dur: 72s; --phase: 0.5; --rotor: turn-cw; --node: turn-ccw">
+    <div class="crotor">
+      <div class="cslot">
+        <button type="button" class="cnode" data-dialog="dlg-qq" aria-label="QQ：打开二维码" title="QQ">
+          <span class="cnode-text">QQ</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="corb" style="--r: 32%; --dur: 54s; --phase: 0.25; --rotor: turn-ccw; --node: turn-cw">
+    <div class="crotor">
+      <div class="cslot">
+        <button type="button" class="cnode" data-dialog="dlg-mail" aria-label="邮箱：查看与复制地址" title="邮箱">
+          <span class="cnode-text">邮箱</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="corb" style="--r: 24%; --dur: 40s; --phase: 0.75; --rotor: turn-ccw; --node: turn-cw">
+    <div class="crotor">
+      <div class="cslot">
+        <button type="button" class="cnode" data-dialog="dlg-github" aria-label="GitHub：查看主页" title="GitHub">
+          <span class="cnode-text">GitHub</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="text-muted-foreground mt-1 text-center text-[11px]">
+  点圆点开二维码或地址<span class="max-sm:hidden">；鼠标移上去会暂停，方便你点</span>
+</p>
+
+<dialog id="dlg-wechat" class="cdlg" aria-labelledby="dlg-wechat-t">
+  <div class="cdlg-body">
+    <p id="dlg-wechat-t" class="cdlg-title">微信</p>
+    <img
+      src={contact.wechatQr}
+      alt="余翰林的微信二维码"
+      width="480"
+      height="480"
+      class="cdlg-qr"
+      loading="lazy"
+      decoding="async"
+    />
+    <p class="cdlg-note">微信扫一扫。备注「面试」，我会优先回。</p>
+    <form method="dialog">
+      <button class="cdlg-close">关闭</button>
+    </form>
+  </div>
+</dialog>
+
+<dialog id="dlg-qq" class="cdlg" aria-labelledby="dlg-qq-t">
+  <div class="cdlg-body">
+    <p id="dlg-qq-t" class="cdlg-title">QQ</p>
+    <img
+      src={contact.qqQr}
+      alt="余翰林的 QQ 二维码"
+      width="480"
+      height="480"
+      class="cdlg-qr"
+      loading="lazy"
+      decoding="async"
+    />
+    <p class="cdlg-value">{contact.qq}</p>
+    <div class="cdlg-actions">
+      <button type="button" class="cdlg-copy" data-copy={contact.qq}>复制 QQ 号</button>
+      <form method="dialog"><button class="cdlg-close">关闭</button></form>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="dlg-mail" class="cdlg" aria-labelledby="dlg-mail-t">
+  <div class="cdlg-body">
+    <p id="dlg-mail-t" class="cdlg-title">邮箱</p>
+    <p class="cdlg-value">{contact.email}</p>
+    <div class="cdlg-actions">
+      <button type="button" class="cdlg-copy" data-copy={contact.email}>复制地址</button>
+      <a class="cdlg-primary" href={"mailto:" + contact.email}>用邮件客户端打开</a>
+    </div>
+    <form method="dialog"><button class="cdlg-close cdlg-close--full">关闭</button></form>
+  </div>
+</dialog>
+
+<dialog id="dlg-github" class="cdlg" aria-labelledby="dlg-github-t">
+  <div class="cdlg-body">
+    <p id="dlg-github-t" class="cdlg-title">GitHub</p>
+    <p class="cdlg-value">github.com/{contact.githubName}</p>
+    <div class="cdlg-actions">
+      <button type="button" class="cdlg-copy" data-copy={contact.github}>复制链接</button>
+      <a class="cdlg-primary" href={contact.github} target="_blank" rel="noopener noreferrer">打开主页 ↗</a>
+    </div>
+    <form method="dialog"><button class="cdlg-close cdlg-close--full">关闭</button></form>
+  </div>
+</dialog>
+
+<style>
+  .cosys {
+    --node-size: clamp(44px, 12vw, 52px);
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin-inline: auto;
+    aspect-ratio: 1;
+    touch-action: manipulation;
+    /* 旋转的 .crotor 是 inset:0 的方框，一转起来四个角就超出容器，
+       移动端因此多出 27px 横向滚动（实测 docScrollWidth 417 > 390）。裁掉即可。 */
+    overflow: hidden;
+  }
+
+  .cring {
+    position: absolute;
+    inset: 0;
+  }
+  /* 点阵颜色：用 muted-foreground + stroke-opacity，而不是 border 色 —— 第一版直接用
+     border token，在米白底上几乎看不见，整张图读起来像"几个孤零零的圆"。 */
+  .ring {
+    fill: none;
+    stroke: var(--muted-foreground);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-dasharray: 0.1 8;
+  }
+  .cring-a {
+    animation: ring-turn 150s linear infinite;
+  }
+  .cring-b {
+    animation: ring-turn 190s linear infinite reverse;
+  }
+  .cring-c {
+    animation: ring-turn 230s linear infinite;
+  }
+  .cring-a .ring {
+    stroke-opacity: 0.4;
+  }
+  .cring-b .ring {
+    stroke-opacity: 0.3;
+  }
+  .cring-c .ring {
+    stroke-opacity: 0.22;
+  }
+
+  .ccore {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+  }
+  .cmark {
+    display: grid;
+    place-content: center;
+    width: clamp(64px, 15vw, 88px);
+    aspect-ratio: 1;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    box-shadow: var(--shadow-1);
+    font-size: clamp(24px, 6vw, 30px);
+    font-weight: 700;
+    line-height: 1;
+  }
+  /* 状态点：贴在中心圆的左上边缘，像一个"在线"徽标；外面一圈 surface 色做镂空 */
+  .cdot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    transform: translate(clamp(14px, 4vw, 20px), clamp(-56px, -15vw, -46px));
+    border-radius: 999px;
+    background: var(--section-toolbox);
+    box-shadow: 0 0 0 3px var(--background);
+    animation: cdot-pulse 2.8s ease-out infinite;
+  }
+
+  .corb {
+    position: absolute;
+    inset: 0;
+  }
+  .crotor {
+    position: absolute;
+    inset: 0;
+    animation: var(--rotor) var(--dur) linear infinite;
+    animation-delay: calc(var(--dur) * -1 * var(--phase));
+  }
+  .cslot {
+    position: absolute;
+    left: 50%;
+    top: calc(50% - var(--r));
+    transform: translate(-50%, -50%);
+  }
+  .cnode {
+    display: grid;
+    place-content: center;
+    width: var(--node-size);
+    height: var(--node-size);
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    box-shadow: var(--shadow-1);
+    color: var(--foreground);
+    cursor: pointer;
+    animation: var(--node) var(--dur) linear infinite;
+    animation-delay: calc(var(--dur) * -1 * var(--phase));
+    transition:
+      box-shadow 180ms ease-out,
+      border-color 180ms ease-out,
+      scale 180ms ease-out;
+  }
+  .cnode-text {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+  .cnode:hover,
+  .cnode:focus-visible {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-2);
+    scale: 1.1;
+  }
+  .cnode:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  /* 悬停/聚焦时整套暂停：节点一直在跑，不暂停根本点不准 */
+  .cosys:hover .crotor,
+  .cosys:hover .cnode,
+  .cosys:focus-within .crotor,
+  .cosys:focus-within .cnode {
+    animation-play-state: paused;
+  }
+
+  @keyframes turn-cw {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes turn-ccw {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+  @keyframes ring-turn {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes cdot-pulse {
+    0% {
+      box-shadow: 0 0 0 0 var(--section-toolbox);
+    }
+    70% {
+      box-shadow: 0 0 0 7px rgb(0 0 0 / 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgb(0 0 0 / 0);
+    }
+  }
+
+  .cdlg {
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface-1);
+    color: var(--foreground);
+    width: min(92vw, 360px);
+    box-shadow: var(--shadow-2);
+  }
+  .cdlg::backdrop {
+    background: rgb(0 0 0 / 0.42);
+  }
+  .cdlg-body {
+    padding: 18px;
+    text-align: center;
+  }
+  .cdlg-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+  .cdlg-qr {
+    display: block;
+    width: 200px;
+    height: 200px;
+    margin: 14px auto 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .cdlg-value {
+    margin-top: 14px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 15px;
+    word-break: break-all;
+  }
+  .cdlg-note {
+    margin-top: 12px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+  }
+  .cdlg-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  .cdlg-copy,
+  .cdlg-primary,
+  .cdlg-close {
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    padding: 7px 12px;
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    background: var(--surface-2);
+    color: var(--foreground);
+  }
+  .cdlg-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-foreground);
+    text-decoration: none;
+  }
+  .cdlg-close {
+    margin-top: 16px;
+    width: 100%;
+    background: transparent;
+  }
+  .cdlg-close--full {
+    margin-top: 10px;
+  }
+  .cdlg-copy[data-copied="1"] {
+    border-color: var(--section-toolbox);
+    color: var(--section-toolbox);
+  }
+  .cdlg-copy:hover,
+  .cdlg-close:hover {
+    border-color: var(--accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cring-a,
+    .cring-b,
+    .cring-c,
+    .cdot {
+      animation: none;
+    }
+    .crotor {
+      animation: none;
+      transform: rotate(calc(var(--phase) * 360deg));
+    }
+    .cnode {
+      animation: none;
+      transition: none;
+      transform: rotate(calc(var(--phase) * -360deg));
+    }
+    .cnode:hover,
+    .cnode:focus-visible {
+      scale: 1;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .cnode-text {
+      font-size: 10px;
+    }
+  }
+</style>
+
+<script>
+  // 弹层：原生 <dialog> 自带焦点陷阱与 Esc，这里只补"点遮罩关闭""复制"。
+  document.addEventListener("click", event => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    const opener = target.closest("[data-dialog]");
+    if (opener) {
+      const id = opener.getAttribute("data-dialog");
+      const dlg = id ? document.getElementById(id) : null;
+      if (dlg instanceof HTMLDialogElement && !dlg.open) dlg.showModal();
+      return;
+    }
+
+    const copyBtn = target.closest("[data-copy]");
+    if (copyBtn) {
+      const text = copyBtn.getAttribute("data-copy") || "";
+      const original = copyBtn.textContent;
+      const done = () => {
+        copyBtn.setAttribute("data-copied", "1");
+        copyBtn.textContent = "已复制";
+        window.setTimeout(() => {
+          copyBtn.setAttribute("data-copied", "0");
+          copyBtn.textContent = original;
+        }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, done);
+      } else {
+        done();
+      }
+      return;
+    }
+
+    if (target instanceof HTMLDialogElement && target.classList.contains("cdlg")) {
+      target.close();
+    }
+  });
+</script>

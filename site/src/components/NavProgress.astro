@@ -1,0 +1,111 @@
+---
+// NavProgress.astro —— 顶部 2px 导航进度线（"点了"这件事必须立刻可见）
+//
+// 为什么需要：2026-10-27 实测线上点大卡片，click→换页 366–581ms，这 400ms 里
+// 页面零变化，用户的原话是"第一次没反应，等一会才有反应"。预取能把中位数压到
+// 100ms 以内，但触摸设备、首次访问、慢网下仍会出现空窗 —— 这条线就是那段时间的反馈。
+//
+// 三条纪律：
+//   ① 150ms 内换完的导航**不许**闪一下（宁可不显示，也不要让人看到进度条闪）；
+//   ② transition:persist —— 新页面的 DOM 会顶掉旧 DOM，不持久化的话收尾帧永远画不出来；
+//   ③ reduced-motion 下只显隐、不做宽度动画；打印时不出现。
+---
+
+<div id="nav-progress" data-state="idle" aria-hidden="true" transition:persist="nav-progress">
+  <span></span>
+</div>
+
+<style>
+  #nav-progress {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    height: 2px;
+    z-index: 70;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 160ms linear;
+  }
+  #nav-progress span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--accent);
+  }
+  #nav-progress[data-state="pending"] {
+    opacity: 1;
+  }
+  #nav-progress[data-state="pending"] span {
+    width: 84%;
+    transition: width 2.4s cubic-bezier(0.16, 0.84, 0.24, 1);
+  }
+  #nav-progress[data-state="done"] {
+    opacity: 0;
+    transition: opacity 220ms linear 120ms;
+  }
+  #nav-progress[data-state="done"] span {
+    width: 100%;
+    transition: width 160ms linear;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #nav-progress,
+    #nav-progress span,
+    #nav-progress[data-state="pending"] span,
+    #nav-progress[data-state="done"] span {
+      transition: none;
+    }
+  }
+  @media print {
+    #nav-progress {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // 只在真的等超过 150ms 时才亮；命中预取的快导航不闪。
+  const DELAY = 150;
+  let showTimer: number | undefined;
+  let resetTimer: number | undefined;
+  let armed = false;
+
+  const bar = () => document.getElementById("nav-progress");
+
+  const arm = () => {
+    window.clearTimeout(showTimer);
+    window.clearTimeout(resetTimer);
+    showTimer = window.setTimeout(() => {
+      const el = bar();
+      if (el) el.dataset.state = "pending";
+    }, DELAY);
+    // 兜底：拿不到 after-swap 时不要永久挂着一条线
+    resetTimer = window.setTimeout(() => {
+      const el = bar();
+      if (el) el.dataset.state = "idle";
+    }, 8000);
+  };
+
+  const finish = () => {
+    window.clearTimeout(showTimer);
+    window.clearTimeout(resetTimer);
+    const el = bar();
+    if (!el || el.dataset.state !== "pending") return;
+    el.dataset.state = "done";
+    window.setTimeout(() => {
+      const cur = bar();
+      if (cur) cur.dataset.state = "idle";
+    }, 340);
+  };
+
+  if (!armed) {
+    armed = true;
+    document.addEventListener("astro:before-preparation", arm);
+    document.addEventListener("astro:after-swap", finish);
+    document.addEventListener("astro:page-load", () => {
+      const el = bar();
+      if (el && el.dataset.state !== "pending") el.dataset.state = "idle";
+    });
+    // 浏览器原生前进/后退（不经过 ClientRouter 的情况）也算一次等待
+    window.addEventListener("pagehide", finish);
+  }
+</script>

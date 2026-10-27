@@ -1,4 +1,5 @@
 import { getCollection } from "astro:content";
+import { SITE_RELEASE } from "@/data/release";
 
 export type EvidenceRow = {
   key: string; // 稳定标识，供 check-home-metrics.mjs 比对
@@ -9,7 +10,12 @@ export type EvidenceRow = {
   note?: string; // 小字补充，只在有真实口径可写时给
 };
 
-export type Evidence = { rows: EvidenceRow[]; latest: Date };
+export type Evidence = {
+  rows: EvidenceRow[];
+  latest: Date;
+  /** latest 是被"站点发版日"顶上去的，还是内容自己更新到的那天 */
+  latestSource: "content" | "release";
+};
 
 /**
  * 首页证据面板的**唯一**取数来源：全部来自内容集合的真实统计，不手写任何数字。
@@ -31,10 +37,22 @@ export async function buildEvidence(): Promise<Evidence> {
   const liveCases = cases.filter(c => Boolean(c.data.links?.live)).length;
 
   // 最近更新 = 构建期常量。不要在客户端算"距今几天"：那必然引起文本变化，是白送的 CLS 风险。
+  //
+  // 2026-10-27 用户指出：面板上写着「最近更新 10-07」，可站点这一周改了三轮。
+  // 根因是这里只取**内容**的 pubDatetime —— 站点改版这件事根本不在内容里。
+  // 所以引入 SITE_RELEASE：发版时改这一行，latest 取两者较晚的那个。
+  // 不改的做法：用构建时间（每次 build 都变，等于每天都是"今天更新"，是假的）。
+  // 发版日放在 src/data/release.ts（门禁会用正则独立读那一行）
+  const releaseAt = new Date(SITE_RELEASE + "T10:00:00+08:00");
   const dates = [...cases, ...analysis, ...dissections, ...reports]
     .map(e => e.data.pubDatetime)
     .filter((d): d is Date => d instanceof Date);
-  const latest = dates.length ? new Date(Math.max(...dates.map(d => d.valueOf()))) : new Date();
+  const contentLatest = dates.length
+    ? new Date(Math.max(...dates.map(d => d.valueOf())))
+    : releaseAt;
+  const latestSource: "content" | "release" =
+    contentLatest.valueOf() >= releaseAt.valueOf() ? "content" : "release";
+  const latest = latestSource === "content" ? contentLatest : releaseAt;
 
   const rows: EvidenceRow[] = [
     {
@@ -59,5 +77,5 @@ export async function buildEvidence(): Promise<Evidence> {
     { key: "reports", label: "工具实跑报告", value: reports.length, unit: "篇", href: "#toolbox" },
   ];
 
-  return { rows, latest };
+  return { rows, latest, latestSource };
 }
