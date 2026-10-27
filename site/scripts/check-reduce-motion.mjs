@@ -78,6 +78,47 @@ async function probe(mode) {
   console.log("  联系节点 " + orbit.count + " 个，两两最小间距 " + orbit.minGap + "px");
   if (orbit.count !== 4) { console.log("  ✗ 首页联系区节点数不是 4（选择器或结构变了？）"); bad++; }
 
+  // 2026-10-28 事故回归：三条环/中心字/轨道容器都是 inset:0 的透明满幅方框，后出现的会把
+  // 前面三个节点整个盖住 —— 当时四个圆里只有最后一个（GitHub）点得开，其余三个点了没反应。
+  // 这里逐个节点：先把鼠标移上去（会暂停，节点停住），再用**暂停后的即时坐标**点击，
+  // 断言开出来的是节点的那个弹层。不这么做的话，这毛病只有人肉点才知道。
+  if (mode === "no-preference") {
+    // 先把联系区滚进视口：boundingBox 给的是视口坐标，页面没滚下去时 y 是四位数，
+    // page.mouse 在视口外点了个寂寞（第一版就是这么假红的，四条全挂）。
+    await page.evaluate(() => {
+      document.documentElement.style.scrollBehavior = "auto";
+      document.querySelector("#contact").scrollIntoView({ block: "center" });
+    });
+    await page.waitForTimeout(600);
+    const boxes = await page.evaluate(() =>
+      Array.from(document.querySelectorAll("#contact .cnode")).map(b => {
+        const r = b.getBoundingClientRect();
+        return { label: b.textContent.trim(), dlg: b.dataset.dialog, x: r.x + r.width / 2, y: r.y + r.height / 2 };
+      })
+    );
+    for (const b of boxes) {
+      await page.mouse.move(b.x, b.y);
+      await page.waitForTimeout(250);
+      const now = await page.evaluate(l => {
+        const el = Array.from(document.querySelectorAll("#contact .cnode")).find(x => x.textContent.trim() === l);
+        const r = el.getBoundingClientRect();
+        return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+      }, b.label);
+      await page.mouse.move(now.x, now.y);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForTimeout(260);
+      const opened = await page.evaluate(() => Array.from(document.querySelectorAll("dialog[open]")).map(d => d.id).join(","));
+      if (opened !== b.dlg) {
+        console.log("  ✗ 点「" + b.label + "」没有打开 " + b.dlg + "（实际：" + (opened || "无") + "）——节点被透明满幅方框盖住了？");
+        bad++;
+      } else console.log("  ✓ 点「" + b.label + "」打开 " + b.dlg);
+      await page.keyboard.press("Escape");
+      await page.waitForTimeout(160);
+    }
+    await page.mouse.move(2, 2);
+  }
+
   console.log("--- prefers-reduced-motion: " + mode + " ---");
   console.log("  卡片 translate   : " + before.translate + "  ->  " + after.translate);
   console.log("  卡片 box-shadow  : " + (before.shadow === after.shadow ? "未变" : "有变化（阴影加深）"));
