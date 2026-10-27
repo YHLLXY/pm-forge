@@ -83,7 +83,7 @@ import { contact } from "@/data/contact";
 </div>
 
 <p class="text-muted-foreground mt-1 text-center text-[11px]">
-  点圆点开二维码或地址<span class="max-sm:hidden">；鼠标移上去会暂停，方便你点</span>
+  点圆点开二维码或地址<span class="max-sm:hidden">；鼠标移到圆点上会暂停，方便你点</span>
 </p>
 
 <dialog id="dlg-wechat" class="cdlg" aria-labelledby="dlg-wechat-t">
@@ -166,6 +166,19 @@ import { contact } from "@/data/contact";
   .cring {
     position: absolute;
     inset: 0;
+  }
+
+  /* 命中测试：.cring / .ccore / .corb / .crotor 都是 inset:0 的满幅方框，透明但**能接收点击**。
+     后出现的 .corb 会把前面几个节点整个盖住 —— 实测（2026-10-28）四个节点里只有 DOM 里
+     最后一个（GitHub）能点到，其余三个点下去落在别人的 .crotor 上，什么也不会发生。
+     所以只让节点本身接收指针，装饰层一律放行。 */
+  .cring,
+  .ccore,
+  .corb {
+    pointer-events: none;
+  }
+  .cnode {
+    pointer-events: auto;
   }
   /* 点阵颜色：用 muted-foreground + stroke-opacity，而不是 border 色 —— 第一版直接用
      border token，在米白底上几乎看不见，整张图读起来像"几个孤零零的圆"。 */
@@ -280,11 +293,11 @@ import { contact } from "@/data/contact";
     outline-offset: 3px;
   }
 
-  /* 悬停/聚焦时整套暂停：节点一直在跑，不暂停根本点不准 */
-  .cosys:hover .crotor,
-  .cosys:hover .cnode,
-  .cosys:focus-within .crotor,
-  .cosys:focus-within .cnode {
+  /* 只在指针落进某个节点、或键盘聚焦某个节点时暂停整套。
+     不要写成 .cosys:hover —— 容器是 520px 的方框，鼠标一进这块区域动画就停，
+     会让人以为"这块区域是静止的"（用户 2026-10-28 反馈）。 */
+  .cosys[data-paused] .crotor,
+  .cosys[data-paused] .cnode {
     animation-play-state: paused;
   }
 
@@ -440,6 +453,37 @@ import { contact } from "@/data/contact";
 </style>
 
 <script>
+  // 暂停：只有指针进入某个节点（或键盘聚焦）才停，停的是整套 —— 停在节点上才好点。
+  // 难点是 CSS 里没有"只命中节点"的选择器：.corb / .crotor 都是 inset:0 的满幅方框，
+  // 写 .corb:hover 等于整块区域悬停。:has 在旧 Safari 上不可靠，所以用委托事件开关属性。
+  // 必须走 document 级委托：ClientRouter 换页后节点是新 DOM，模块脚本不会重新执行。
+  const setOrbitPaused = (el: Element | null, on: boolean) => {
+    const sys = el instanceof Element ? el.closest("[data-cosys]") : null;
+    if (!sys) return;
+    if (on) sys.setAttribute("data-paused", "");
+    else sys.removeAttribute("data-paused");
+  };
+  const orbitNode = (target: EventTarget | null) =>
+    target instanceof Element ? target.closest(".cnode") : null;
+
+  document.addEventListener("pointerover", event => {
+    const node = orbitNode(event.target);
+    if (node) setOrbitPaused(node, true);
+  });
+  document.addEventListener("pointerout", event => {
+    const node = orbitNode(event.target);
+    if (node) setOrbitPaused(node, false);
+  });
+  document.addEventListener("focusin", event => {
+    const node = orbitNode(event.target);
+    // 只有键盘聚焦才停：点开对话框再关闭时焦点会回到按钮，不该让整套一直停着。
+    if (node && node.matches(":focus-visible")) setOrbitPaused(node, true);
+  });
+  document.addEventListener("focusout", event => {
+    const node = orbitNode(event.target);
+    if (node) setOrbitPaused(node, false);
+  });
+
   // 弹层：原生 <dialog> 自带焦点陷阱与 Esc，这里只补"点遮罩关闭""复制"。
   document.addEventListener("click", event => {
     const target = event.target;
