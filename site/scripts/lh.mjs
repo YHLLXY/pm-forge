@@ -166,6 +166,20 @@ try {
     process.exit(1);
   }
   console.log("Lighthouse 验收通过 ✓");
+
+  // 布局类门禁跟在 lh 后面跑：它同样需要浏览器，而"看首屏能不能看到"这种断言
+  // 光看分数看不出来（2026-10-27 数字错位 15px 时，四类分数全是 100）。
+  // 单独成文件，便于单跑：node scripts/check-evidence-align.mjs
+  console.log("");
+  const align = spawnSync("node", ["scripts/check-evidence-align.mjs"], {
+    cwd: SITE_DIR,
+    stdio: "inherit",
+    shell: false,
+  });
+  if (align.status !== 0) {
+    console.error("布局门禁未过，先修再部署");
+    process.exit(1);
+  }
 } finally {
   preview.kill();
   await stopPreviewDaemon();

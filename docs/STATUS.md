@@ -38,6 +38,13 @@
 - **P2-2 已完成**：`/interviewers/` 打印版，实测 **PDF 2 页 A4**；`@media print` 只挂这一页；新增 `docs/tools/print-check.mjs`（出真 PDF 数页数 + print 媒体整页图）
 - 门禁 11 道全绿（新门禁当场拦下打印 CSS 里 4 处裸 hex → 改成 `--print-paper/--print-ink/--print-ink-muted` 三个 token）；Lighthouse 13 页零回退，`/interviewers/` 四类 100
 - **P2-3 根域枢纽页仍未做**：要改阿里云 DNS + Vercel 域名配置，按计划须单独走变更流程（DNS 快照 → 改 → 回滚预案），等用户点头
+### 布局门禁（2026-10-27 11:25，用户批准）
+
+- 新增 `site/scripts/check-evidence-align.mjs`：浏览器级门禁，量首页证据面板 6 格的 `dd.top / dt.top / dd.height` 是否行内一致（容差 1.5px，1440 与 390 各一次）
+- **不进 build**（Vercel 无浏览器），挂在 `npm run lh` 末尾；单独跑用 `npm run check:align`，加 `--verbose` 打印每格坐标
+- 负向测试已做：去掉 `justify-end` 重建后红 8 项（报 `1440px 第 1 行：数字顶差 14.5px（cases=181 / analysis=195.5 / dissections=195.5）`），恢复后绿
+- `npm run lh` 全流程实测：13 页分数全过 → 对齐门禁 ✓
+
 - 下一轮从这里接：P2-3（需批准）或用户对新版的反馈
 
 ## 当前任务卡

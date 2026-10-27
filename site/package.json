@@ -15,6 +15,7 @@
     "check:dissections": "node scripts/check-dissections.mjs",
     "check:links": "node scripts/check-links.mjs",
     "check:tokens": "node scripts/check-tokens.mjs",
+    "check:align": "node scripts/check-evidence-align.mjs",
     "check:rss": "node scripts/validate-rss.mjs",
     "check:ld": "node scripts/check-ld.mjs",
     "preview": "astro preview",

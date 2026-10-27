@@ -41,6 +41,17 @@ npm run lh         # Lighthouse 移动端四类 ≥90（13 页 × 2 次取高分
 | `check-og` | OG 五类失败模式（陈旧/缺文件/尺寸/404/缺 alt） |
 | `check-story-budget` | 体积预算（duckdb 40MB、数据故事 3MB） |
 
+## 浏览器级验收（不在 `build` 里，需要本机有 Edge/Chrome）
+
+| 脚本 | 守什么 |
+|---|---|
+| `npm run lh` | 13 页 Lighthouse 四类 ≥90；**跑完会接着跑下面那条对齐门禁** |
+| `npm run check:align` | 首页证据面板 6 格列对齐：行内数字顶 / 标签顶 / 数字块高度一致（1440 与 390 各量一次） |
+
+为什么不进 `build`：对齐是 CSS 布局结果，HTML 里没有坐标，必须在浏览器里量 `getBoundingClientRect`，
+而 Vercel 构建环境没有浏览器。代价是这类问题构建期拦不住 —— 2026-10-27 数字错位 15px 时，
+11 道门禁全绿、四类 Lighthouse 分数全是 100，最后是用户看出来的。所以它挂在 `npm run lh` 里：跑验收就一定跑到它。
+
 ## 写一篇案例
 
 在 `src/content/case-studies/` 新建 `.md`：frontmatter 含 title/description/pubDatetime/projectRole/stack/metrics（或 resultsNote），正文按四段式 H2（背景与问题 / 我的角色 / 过程与关键取舍 / 结果与量化），第五段「复盘与反思」可选。`npm run build` 会自动校验结构，缺四段式或无量化结果直接构建失败。
