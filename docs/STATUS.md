@@ -15,6 +15,7 @@
 - **2026-10-28 用户实测反馈后修的两个交互 bug**（`566e06a`）：① 三个装饰层（`.cring`/`.ccore`/`.corb`）都是 `inset:0` 的透明满幅方框，后出现的 `.corb` 把前三个节点整个盖住，四个圆只有 DOM 里最后一个（GitHub）点得开 → 装饰层 `pointer-events:none`，只给 `.cnode` 放行；② 暂停原写 `.cosys:hover`，鼠标一进 520px 方框整张图就停 → 改 JS 委托事件开关 `data-paused`，只在指针进入节点或键盘聚焦（且 `:focus-visible`）时暂停
 - 回归门禁（`f817a5d`）：`check:reduce` 加「四个节点逐个点开自己的弹层」，并**先复现 bug 验红**——把 `.corb` 改回 `pointer-events:auto` 时如实红 3 条（微信/QQ/邮箱），GitHub 仍绿，与用户描述一致
 - 线上复测（07:35，CDP 真实鼠标事件）：四个节点逐一 hover 后 `driftWhileHovering=0`、分别开出 `dlg-wechat/qq/mail/github`；未触碰时 900ms 转 14.4°；空白处不暂停
+- **2026-10-28 下午：联系节点从文字换成品牌图标**（用户要求「QQ 是企鹅、微信是绿泡泡」）。微信/GitHub 用 Simple Icons（CC0 1.0）；**QQ 换过一次**——Simple Icons 的纯剪影缩到 27px 眼睛和肚子全糊掉，改用 IconPark（Apache-2.0）那版 evenodd 挖出眼睛白肚的，27px 仍认得出；邮箱自绘。微信用 `--brand-wechat`（浅 #07c160 / 深 #2ee07f），其余走 `currentColor` 自动反白；图标宽度按各家留白分别调（微 60% / QQ 50% / 邮 52% / GH 54%）。`check:reduce` 的节点查找随之从 `textContent` 改成 `data-dialog`
 - 线上复测（01:10，`docs/tools/measure-nav.mjs`）：点卡片 click→swap **26–44ms**（改前 366–581ms）；点返回 **36ms**（改前 1166ms 首测）
 - 关键发现：只加预取不够，Vercel 默认 `max-age=0, must-revalidate` 会让预取白做；补了 `site/vercel.json` 的 HTML 缓存规则后才降到 30ms 级
 - 已知边界：`release.ts` 需要发版时手工改；联系区只在首页（页头导航没有加「联系」入口）；toolkit 应用本体 UI 没动（另一个项目）

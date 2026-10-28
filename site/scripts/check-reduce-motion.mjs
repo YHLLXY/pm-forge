@@ -93,17 +93,18 @@ async function probe(mode) {
     const boxes = await page.evaluate(() =>
       Array.from(document.querySelectorAll("#contact .cnode")).map(b => {
         const r = b.getBoundingClientRect();
-        return { label: b.textContent.trim(), dlg: b.dataset.dialog, x: r.x + r.width / 2, y: r.y + r.height / 2 };
+        return { label: b.getAttribute("aria-label") || b.dataset.dialog, dlg: b.dataset.dialog, x: r.x + r.width / 2, y: r.y + r.height / 2 };
       })
     );
     for (const b of boxes) {
       await page.mouse.move(b.x, b.y);
       await page.waitForTimeout(250);
-      const now = await page.evaluate(l => {
-        const el = Array.from(document.querySelectorAll("#contact .cnode")).find(x => x.textContent.trim() === l);
+      // 按 data-dialog 找节点：2026-10-28 起节点里是 SVG 图标，textContent 已经不可靠
+      const now = await page.evaluate(d => {
+        const el = Array.from(document.querySelectorAll("#contact .cnode")).find(x => x.dataset.dialog === d);
         const r = el.getBoundingClientRect();
         return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
-      }, b.label);
+      }, b.dlg);
       await page.mouse.move(now.x, now.y);
       await page.mouse.down();
       await page.mouse.up();

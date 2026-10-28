@@ -52,6 +52,10 @@
   --section-story: #a24d05;
   --section-toolbox: #2a6b45;
   --section-contact: #9b3d5b; /* 2026-10-27 加：§06 联系区，暗玫瑰，与五个板块区分开 */
+  /* 2026-10-28 加：联系区渠道图标。只有微信用它自己的绿，其余走前景色（暗色主题自动反白）。
+     图形取自 Simple Icons（CC0 1.0）；WeChat / QQ / GitHub 是各自权利人的商标，
+     这里仅用于指认本人联系渠道。 */
+  --brand-wechat: #07c160;
 }
 
 /* 打印专用固定色（2026-10-27 加）：纸上不跟随主题 —— 暗色模式打印也该是黑字白纸，
@@ -83,4 +87,5 @@
   --section-story: #f0b470;
   --section-toolbox: #6fcf97;
   --section-contact: #e9a2b5;
+  --brand-wechat: #2ee07f; /* 深底上 #07c160 偏暗，提亮一档 */
 }
