@@ -31,6 +31,14 @@ const caseStudies = defineCollection({
       .default([]),
     resultsNote: z.string().optional(),
     ogImage: z.string().optional(),
+    /** 成熟度标注（2026-10-28 加）：不是所有"项目"都是同一种完成度。
+        早期探索类的作品必须在卡片和详情页如实标出来，避免读者按"已上线产品"的预期去读。 */
+    maturity: z
+      .object({
+        label: z.string(),
+        note: z.string(),
+      })
+      .optional(),
   }),
 });
 

@@ -46,6 +46,11 @@ const cases = sortEntries(await getCollection("caseStudies"));
                 class="hover:text-accent underline-offset-4 hover:underline"
               >
                 {c.data.title}
+                {c.data.maturity && (
+                  <span class="text-warm ms-1.5 text-[11px] font-semibold">
+                    {c.data.maturity.label.split(" · ")[0]}
+                  </span>
+                )}
               </a>
               <span class="text-muted-foreground shrink-0 text-xs tabular-nums">
                 {monthDay(c.data.pubDatetime)}
@@ -73,6 +78,7 @@ const cases = sortEntries(await getCollection("caseStudies"));
             pubDatetime={c.data.pubDatetime}
             modDatetime={c.data.modDatetime}
             tags={c.data.tags}
+            maturity={c.data.maturity}
             cover={{
               section: "case",
               kicker: "CASE STUDY",

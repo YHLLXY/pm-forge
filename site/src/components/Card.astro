@@ -23,6 +23,8 @@ type Props = {
    */
   image?: ImageMetadata;
   imageAlt?: string;
+  /** 成熟度标注：早期探索的作品要在卡片上就标出来，不能等点进详情页才说 */
+  maturity?: { label: string; note?: string } | null;
 };
 
 const {
@@ -39,6 +41,7 @@ const {
   wide = false,
   image,
   imageAlt = "",
+  maturity = null,
 } = Astro.props;
 
 const sectionLabel: Record<string, string> = {
@@ -105,6 +108,18 @@ const sectionLabel: Record<string, string> = {
         }
         <Datetime {pubDatetime} {modDatetime} />
       </div>
+      {
+        maturity && (
+          <p class="mb-1.5">
+            <span
+              class="inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-semibold tracking-wide"
+              style="color: var(--warm); border-color: color-mix(in oklab, var(--warm) 38%, transparent); background: color-mix(in oklab, var(--warm) 8%, transparent);"
+            >
+              {maturity.label}
+            </span>
+          </p>
+        )
+      }
       <Heading
         class="group-hover:text-accent group-focus-visible:text-accent text-lg leading-snug font-semibold tracking-tight"
       >

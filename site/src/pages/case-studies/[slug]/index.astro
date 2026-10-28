@@ -35,6 +35,7 @@ const {
   links,
   metrics,
   resultsNote,
+  maturity,
 } = entry.data;
 const { Content, headings } = await render(entry);
 ---
@@ -112,6 +113,20 @@ const { Content, headings } = await render(entry);
 
         <MetricCards {metrics} {resultsNote} />
       </Fragment>
+
+      {
+        /* 成熟度声明放在正文之前：读者第一眼要知道"这篇该按什么标准读"，
+           而不是读完三段技术细节才发现是个半成品。 */
+        maturity && (
+          <aside
+            class="not-prose border-border bg-surface-2 mt-5 rounded-xl border p-4"
+            aria-label="作品状态说明"
+          >
+            <p class="text-warm text-xs font-semibold tracking-wide">{maturity.label}</p>
+            <p class="text-muted-foreground mt-1.5 text-sm leading-relaxed">{maturity.note}</p>
+          </aside>
+        )
+      }
 
       <article
         id="article"

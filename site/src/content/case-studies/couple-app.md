@@ -1,12 +1,15 @@
 ---
-title: "情侣心愿 App：3 天 5 阶段交付一个双人产品"
-description: "Vue 3 + Pinia + Supabase 的情侣互动应用：心愿闭环、积分与共同日记，3 天从骨架到 Vercel 上线的密集交付实录。"
+title: "情侣心愿 App：我的第一次 vibe coding，3 天从骨架到上线"
+description: "早期探索作品，功能不完善：Vue 3 + Pinia + Supabase 的情侣互动应用，心愿闭环、积分与共同日记，3 天从骨架到 Vercel 上线。"
 pubDatetime: 2026-09-28T12:30:00+08:00
 modDatetime: 2026-09-28T12:30:00+08:00
 featured: true
 tags: ["产品设计", "Vue", "Supabase"]
 projectRole: "独立开发者：需求定义、五阶段拆解、全部前后端实现与部署"
 stack: ["Vue 3", "Pinia", "Vue Router", "Vite", "Supabase", "Vercel"]
+maturity:
+  label: "早期探索 · 功能不完善"
+  note: "这是我在 2026 年 7 月第一次尝试 vibe coding（用 AI 边聊边写代码）的作品。三天里从零搭到上线，但功能并不完善，也没有经过真实用户验证——它更像一个想法的验证，不是一个成品。放在这里，是因为它记录了我从「想」到「做出来」的第一步；读的时候请按「实验」的标准看，不要按「上线产品」的标准看。"
 metrics:
   - label: "交付周期"
     value: "3 天"
