@@ -4,28 +4,28 @@
   "images": {
     "case-studies/agriagent": {
       "file": "case-agriagent.png",
-      "hash": "3d85867815a66efc",
-      "bytes": 61134
+      "hash": "e339b44458cc7cbb",
+      "bytes": 59750
     },
     "case-studies/couple-app": {
       "file": "case-couple-app.png",
-      "hash": "cd666f0ca5190b2f",
-      "bytes": 56126
+      "hash": "25afdcbcffcd150b",
+      "bytes": 51419
     },
     "case-studies/hongyan-group-interview-retro": {
       "file": "case-hongyan-group-interview-retro.png",
-      "hash": "928b1d66c788317d",
-      "bytes": 59267
+      "hash": "f364c309b0f867cd",
+      "bytes": 58198
     },
     "case-studies/personal-workbench": {
       "file": "case-personal-workbench.png",
-      "hash": "e5361c499dcf58e4",
-      "bytes": 61791
+      "hash": "a4a64ada51d7ce6f",
+      "bytes": 55912
     },
     "case-studies/student-union-platform": {
       "file": "case-student-union-platform.png",
-      "hash": "8eb32becda152f98",
-      "bytes": 63352
+      "hash": "33ac14258205326d",
+      "bytes": 59156
     },
     "analysis/userbehavior-case1": {
       "file": "analysis-userbehavior-case1.png",

@@ -11,14 +11,14 @@ Astro 7 作品集站，基座为 [AstroPaper](https://github.com/satnaing/astro-
 - 搜索：**pagefind**（构建末尾 `pagefind --site dist` 建索引，`src/pages/search.astro` 懒加载，dev 无索引时优雅降级）
 - OG：**逐页静态图** 1200×630，`npm run og` 生成 + `public/og/manifest.json` 登记指纹，`features.dynamicOgImage` 关闭
 - UI 文案中文：`src/i18n/lang/zh.ts`
-- 构建：`astro check && astro build` + **12 道构建期门禁** + pagefind 索引（下表）
+- 构建：`astro check && astro build` + **13 道构建期门禁** + pagefind 索引（下表）
 
 ## 命令
 
 ```bash
 npm install        # npmmirror 源
 npm run dev        # 本地开发 http://localhost:4321
-npm run build      # astro check + 构建 + 12 道门禁 + pagefind 索引
+npm run build      # astro check + 构建 + 13 道门禁 + pagefind 索引
 npm run og         # 重生成逐页 OG 图（改了内容必须跑，否则 check-og 红）
 npm run lh         # Lighthouse 移动端四类 ≥90（13 页 × 2 次取高分）
 ```
@@ -34,6 +34,7 @@ npm run lh         # Lighthouse 移动端四类 ≥90（13 页 × 2 次取高分
 | `check-links` | dist 全产物死链 / `*.vercel.app` 残留 |
 | `check-tokens` | `src/pages`、`src/components` 内 0 处颜色字面量（只许 token） |
 | `check-typography` | 正文里不许用 `~` 做范围号（`26~102%` 会被读成 `26102%`） |
+| `check-levels` | 案例详情页每节第一段必须是导读（20–80 字、无术语、数字与正文一致）——简明档只显示它 |
 | `validate-rss` | RSS 全文 + 非绝对链接 |
 | `check-ld` | JSON-LD WebSite/Person/BlogPosting 合规 |
 | `check-headings` | 每页恰好 1 个 h1、标题不跳级 |

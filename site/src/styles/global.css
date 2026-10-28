@@ -96,3 +96,34 @@
     scroll-behavior: smooth;
   }
 }
+
+/* ---------- 阅读档位（2026-10-28） ----------
+   约定：案例详情页里，每个 <h2> 后的第一段就是「导读」（scripts/check-levels.mjs 把关）。
+   简明档只留小节标题 + 导读；完整档全部显示。DOM 不增不减，所以打印、搜索、分享
+   都不会出现"另一份内容"，也不存在两套事实。
+
+   为什么写在全局而不是组件里：Astro 的 scoped style 会给选择器加 data-astro-cid 前缀，
+   而 <article class="levelled"> 是详情页渲染的，组件里的样式匹配不到它。 */
+.levelled > h2 + p {
+  margin-block: 0.55em 1em;
+  padding-inline-start: 0.85em;
+  border-inline-start: 2px solid var(--section-case);
+  color: var(--foreground);
+  font-size: 1.02em;
+  line-height: 1.8;
+}
+
+[data-level="plain"] .levelled > * {
+  display: none;
+}
+[data-level="plain"] .levelled > h2,
+[data-level="plain"] .levelled > h2 + p {
+  display: block;
+}
+
+@media print {
+  /* 打印永远给完整版：面试官打出来看，不该丢细节 */
+  [data-level="plain"] .levelled > * {
+    display: revert;
+  }
+}

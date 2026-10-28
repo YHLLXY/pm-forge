@@ -2,6 +2,18 @@
 
 > AI 连续工作协议核心文件（AGENTS.md 仓库特化规则 4）：每次会话开工先读本文件，收工必更新并 commit+push。
 
+## 2026-10-28 · 双阅读档位（简明 / 完整）—— 已落地
+
+**下一轮从这个节接**：
+
+- 调研：`docs/research/2026-10-28-双阅读档位调研.md`（GitHub 上无广泛采用的现成方案；机制借 Docusaurus Tabs 的 groupId/queryString，模型借 mkdocs-audience-toggle 的"隐藏块"）
+- 计划 + 落地记录：`docs/plans/2026-10-28-双阅读档位计划.md` §8
+- 做法：**一份正文**，每个 `<h2>` 后第一段是导读（`check-levels.mjs` 把关）；简明档只留标题 + 导读，完整档全给。状态在 `<html data-level>`，localStorage + `?level=full` 可分享，首帧由 `Layout.astro` 的内联脚本写，不闪
+- 组件：`src/components/ReadingLevel.astro`（只挂在案例详情页）；样式在 `src/styles/global.css` 的「阅读档位」段（必须全局，scoped 样式加 data-astro-cid 匹配不到详情页的 article）
+- 5 篇案例各补 5 段导读 + 5 条卡片描述重写；AgriAgent 那条「待补充：小挑二等」已按证书核实改成**院赛二等奖**（2026.03，团队 11 人，张智强）
+- 实测：简明档 1870px vs 完整档 4658px（降 60%）；HTML +6.2%–7.6%；13 道门禁全绿
+- 已知遗留：导读与正文个别处语义重叠；数据分析/AI 拆解/工具箱三个板块还没接
+
 ## 2026-10-27/28 · 面试版打磨（第 3 轮，已上线）
 
 **下一轮开工从这一节接**：

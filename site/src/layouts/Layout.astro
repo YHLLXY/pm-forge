@@ -151,6 +151,17 @@ const personLd = {
         root?.classList.toggle("dark", theme === "dark");
         // Expose value so theme.ts can skip re-detection.
         window.__theme = { value: theme };
+
+        // 阅读档位（2026-10-28）：和主题在同一处设置，首帧就不会先闪一下全文。
+        // 只有带 .levelled 的正文会响应；其它页面即使 data-level=plain 也没有可藏的东西。
+        var levelParam = new URLSearchParams(location.search).get("level");
+        var level = levelParam || localStorage.getItem("pm-level") || "plain";
+        level = level === "full" ? "full" : "plain";
+        root?.setAttribute("data-level", level);
+        if (levelParam) {
+          try { localStorage.setItem("pm-level", level); } catch (e) {}
+        }
+        window.__level = { value: level };
       })();
     </script>
 

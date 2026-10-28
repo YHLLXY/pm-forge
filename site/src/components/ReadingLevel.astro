@@ -1,0 +1,100 @@
+---
+// ReadingLevel.astro —— 案例详情页的「读法」开关（2026-10-28）
+//
+// 为什么只放在案例页：其它板块没有「每节第一段是导读」的约定，切到简明档会把正文整段藏掉。
+// 状态写 <html data-level>，由 Layout.astro 的内联脚本在首帧前设好（避免先闪全文再收起来）；
+// 选择存 localStorage，?level=full 可以分享「打开就是完整版」的链接。
+---
+
+<div class="not-prose flex flex-wrap items-center gap-x-2 gap-y-1 text-xs" data-reading-level>
+  <span class="text-muted-foreground font-medium">读法</span>
+  <div
+    class="border-border bg-surface-2 inline-flex rounded-full border p-0.5"
+    role="group"
+    aria-label="阅读档位"
+  >
+    <button
+      type="button"
+      class="rl-btn rounded-full px-2.5 py-1 font-semibold"
+      data-level-btn="plain"
+      aria-pressed="false">简明</button
+    >
+    <button
+      type="button"
+      class="rl-btn rounded-full px-2.5 py-1 font-semibold"
+      data-level-btn="full"
+      aria-pressed="false">完整</button
+    >
+  </div>
+  <span class="text-muted-foreground" data-level-note>只留每节结论</span>
+  {/* 切换后正文大段收起，屏幕阅读器用户需要一句播报，否则不知道发生了什么 */}
+  <span class="sr-only" role="status" aria-live="polite" data-level-live></span>
+</div>
+
+<style>
+  .rl-btn {
+    color: var(--muted-foreground);
+    transition:
+      background-color 160ms ease-out,
+      color 160ms ease-out;
+  }
+  .rl-btn:hover {
+    color: var(--foreground);
+  }
+  .rl-btn[aria-pressed="true"] {
+    background: var(--foreground);
+    color: var(--background);
+  }
+  .rl-btn[aria-pressed="true"]:hover {
+    color: var(--background);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rl-btn {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const syncLevelUI = () => {
+    const level =
+      document.documentElement.dataset.level === "full" ? "full" : "plain";
+    document
+      .querySelectorAll<HTMLElement>("[data-level-btn]")
+      .forEach(btn =>
+        btn.setAttribute(
+          "aria-pressed",
+          String(btn.dataset.levelBtn === level)
+        )
+      );
+    document.querySelectorAll<HTMLElement>("[data-level-note]").forEach(note => {
+      note.textContent = level === "full" ? "全部细节" : "只留每节结论";
+    });
+  };
+
+  // 委托到 document：ClientRouter 换页后按钮是新 DOM，模块脚本不会重新执行
+  document.addEventListener("click", event => {
+    const btn =
+      event.target instanceof Element
+        ? event.target.closest<HTMLElement>("[data-level-btn]")
+        : null;
+    if (!btn) return;
+    const level = btn.dataset.levelBtn === "full" ? "full" : "plain";
+    document.documentElement.dataset.level = level;
+    try {
+      localStorage.setItem("pm-level", level);
+    } catch {
+      /* 隐私模式下写不进去，不影响本次切换 */
+    }
+    syncLevelUI();
+    // 只在用户主动切换时播报一次；首帧的 sync 不播报
+    const live = document.querySelector("[data-level-live]");
+    if (live) {
+      live.textContent =
+        level === "full" ? "已切换到完整版，显示全部细节" : "已切换到简明版，只显示每节结论";
+    }
+  });
+
+  document.addEventListener("astro:page-load", syncLevelUI);
+  syncLevelUI();
+</script>

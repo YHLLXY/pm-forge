@@ -11,6 +11,7 @@ import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
 import DetailColumns from "@/components/DetailColumns.astro";
 import ArticleToc from "@/components/ArticleToc.astro";
+import ReadingLevel from "@/components/ReadingLevel.astro";
 import { sortEntries } from "@/utils/sortEntries";
 import { entryUrl } from "@/utils/entryUrl";
 
@@ -128,10 +129,14 @@ const { Content, headings } = await render(entry);
         )
       }
 
+      <div class="not-prose mt-5">
+        <ReadingLevel />
+      </div>
+
       <article
         id="article"
         class:list={[
-          "mt-8 w-full",
+          "levelled mt-6 w-full",
           "app-prose max-w-readable",
           "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
         ]}
