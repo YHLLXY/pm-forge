@@ -70,6 +70,13 @@ npm run smoke:real     # 真实 LLM 冒烟：三工具各产 1 份报告到 tool
 - **已上线**：https://toolbox.yuhailinlxy.com （Vercel 部署，Root Directory = toolkit；环境变量 LLM_API_KEY）。国内直连要点：CNAME 会被随机解析到被 GFW 封锁的 Vercel IP，故解析层用**两条 A 记录**钉死可用 IP（76.76.21.21 + 64.29.17.65）；若这批 IP 也被封，后手是 Cloudflare 代理。Vercel 面板可能因非 CNAME 接法显示 Invalid Configuration，功能无影响。
 - 浏览器安装（仅 e2e 首次）：`PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright/ npx playwright install chromium`
 
+## 许可
+
+- **代码**：MIT，见 [LICENSE](./LICENSE)。
+- **内容**：`site/src/content/` 下的案例、拆解、分析与工具箱报告正文及其配图**不适用 MIT**，版权归作者；转载或商用请先联系。
+
+> 分开的原因：代码随便看、随便用；但文章是我自己的作品，被整篇搬走就失去意义了。
+
 ## 更新日志
 - 2026-10-16 v0.21: **作品站「个人工作台」案例同步到 v1.30.3**——案例停在 v1.22（9 月初），项目已走到 v1.30.3：新增 AI 日报（每天凌晨自动抓 25 个热榜源 → 模型摘要 → 事件聚簇 → 出稿）、三通道提醒（Web Push / Server酱 / Telegram）、体积门禁从一个数字拆成三个。同步不只是改数字，是把这两段新过程写成取舍。
 ①**案例页**：标题 `4 周迭代 22 个版本` → `10 周 47 个版本`；正文新增「取舍 5：让 AI 进产品，但把不确定性关进三样东西（状态机+幂等 / 时间预算按剩余切 / 空闲计费 + 关思考模式）」与「取舍 6：平台不保证准时，产品就不该承诺时刻」（GitHub 计划任务实测漂移 → 日报提前到 04:00、提醒改每 20 分钟扫、删掉 UI 里「每天 06:00 自动生成」的承诺）。数字**全部现跑**：625 单测 / 69 文件、12 条 E2E、三项体积预算（首屏 790 / 总量 1150 / 单 chunk 340 KB）、47 版 = 23 + 6 + 18 的三段节奏。
